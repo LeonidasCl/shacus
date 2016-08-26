@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/huodong_avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="10dip"
+            android:scaleType="fitCenter"
+            android:src="@drawable/personal_default_photo"
+            android:contentDescription="@string/app_name"/>
+
+        <TextView
+            android:id="@+id/huodong_username"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:text="@string/huodong_usrname"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/huodong_avatar"/>
+
+        <TextView
+            android:id="@+id/huodong_settime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingEnd="10dp"
+            android:maxLines="1"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:text="@string/huodong_settime"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="start">
+        <TextView
+            android:id="@+id/huodong_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="20dp"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:text="@string/huodong_time"/>
+
+        <TextView
+            android:id="@+id/huodong_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:text="@string/huodong_price"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="start">
+    <TextView
+        android:id="@+id/huodong_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:text="@string/huodong_location"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:gravity="start">
+        <TextView
+            android:id="@+id/huodong_describe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:text="@string/huodong_describe"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/huodong_mainimg"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:src="@drawable/huodong_loading"
+        android:scaleType="fitStart"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/huodong_praise"
+                android:layout_width="48dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_height="48dp"
+                android:src="@drawable/praise"
+                android:scaleType="centerInside"
+                />
+
+            <TextView
+                android:id="@+id/huodong_praise_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:text="@string/yuepai_piarse_num"
+                android:layout_gravity="right|center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/huodong_praise"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        <TextView
+            android:id="@+id/huodong_join"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/join_num"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/huodong_join_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/gray_color_99999a"
+                android:text="@string/yuepai_join_num"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/huodong_join"
+                android:layout_marginStart="5dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
+

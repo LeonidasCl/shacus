@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:windowTranslucentStatus="true"
+                android:windowTranslucentNavigation="true"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <android.support.percent.PercentFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66333333">
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="100%"
+        app:layout_widthPercent="75%"
+        android:layout_gravity="end"
+        android:background="#00000000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/btn_previouscard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="100%"
+            android:layout_gravity="top"
+            android:src="@drawable/uparrow"
+            android:background="#00000000"
+            android:scaleType="centerInside"/>
+
+        <com.example.pc.shacus.View.Custom.CardView
+            android:id="@+id/yuepai_cards_a"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="80%"
+            app:layout_widthPercent="95%"
+            android:layout_gravity="center_horizontal"
+            app:layout_marginTopPercent="6%"
+
+            android:clipChildren="false"
+            >
+        </com.example.pc.shacus.View.Custom.CardView>
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/btn_nextcard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="100%"
+            app:layout_marginTopPercent="90%"
+            android:src="@drawable/downarrow"
+            android:background="#00000000"
+            android:scaleType="centerInside"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/yuepai_avatars_a"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="90%"
+            app:layout_widthPercent="30%"
+            android:layout_gravity="top">
+
+            <ListView
+                android:id="@+id/yuepai_headerlist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="none"
+                android:fadingEdge="none"
+                android:cacheColorHint="#00000000"
+                android:paddingRight="20dp"
+                android:paddingLeft="0dp"
+                android:divider="@null"
+                android:dividerHeight="0px" />
+
+        </RelativeLayout>
+    </android.support.percent.PercentFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    </LinearLayout>
+
+    <com.example.pc.shacus.View.FloatMenu.FilterMenuLayout
+        android:id="@+id/filter_menu1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"
+        app:fm_expandedRadius="72dp"
+        app:fm_collapsedRadius="28dp"
+        app:fm_centerHorizontal="true"
+        app:fm_centerRight="130dp"
+        app:fm_centerTop="88dp"
+        app:fm_primaryColor="#50636363"
+        app:fm_primaryDarkColor="#af292929">
+    </com.example.pc.shacus.View.FloatMenu.FilterMenuLayout>
+
+</FrameLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/button_yaopai"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="我要约模特"
+        android:layout_gravity="left"
+        app:layout_heightPercent="80%"
+        app:layout_widthPercent="30%"
+        app:layout_marginTopPercent = "10%"
+        app:layout_marginLeftPercent = "3%"
+        app:layout_marginRightPercent = "1%"/>
+
+    <Button
+        android:id="@+id/button_beipai"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="我要约摄影"
+        android:layout_gravity="center_horizontal"
+        app:layout_heightPercent="80%"
+        app:layout_widthPercent="30%"
+        app:layout_marginTopPercent = "10%"
+        app:layout_marginRightPercent = "1%"
+        app:layout_marginLeftPercent = "1%"/>
+
+
+    <Button
+        android:id="@+id/button_activity"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="发起活动"
+        android:layout_gravity="right"
+        app:layout_heightPercent="80%"
+        app:layout_widthPercent="30%"
+        app:layout_marginTopPercent = "10%"
+        app:layout_marginRightPercent = "3%"
+        app:layout_marginLeftPercent = "1%"/>
+
+</android.support.percent.PercentFrameLayout>

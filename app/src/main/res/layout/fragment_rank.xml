@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".Rank.YuePaiFragmentD"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:layout_height="match_parent"></LinearLayout>
+
+        <ImageButton
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/button_grapher"
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_grapher_down"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="15"
+            android:layout_height="match_parent"></LinearLayout>
+
+        <ImageButton
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/button_model"
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_model_up"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:layout_height="match_parent"></LinearLayout>
+
+    </LinearLayout>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="84">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:id="@+id/rank_list"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

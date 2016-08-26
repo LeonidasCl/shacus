@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="action_showuser" type="id" />
+    <item name="action_regist" type="id">注册</item>
+    <item name="action_logout" type="id" />
+    <item name="action_login" type="id" />
+</resources>

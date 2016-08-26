@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 所有自定义VIEW的属性集合 -->
+<resources>
+    <declare-styleable name="MoveHideView"><!-- 模仿UC浏览器界面的约拍view -->
+        <attr name="pageHeadViewHeight" format="dimension"/><!-- 页面头部搜索框的高度 -->
+        <attr name="isPageHeadViewFixed" format="boolean"/><!-- 搜索框是否固定，此属性为true的话PageHeadView则会固定在界面顶部不会滑动,此属性为false的话PageHeadView会首先隐藏再慢慢滑出 -->
+        <attr name="pageHeadViewLayoutId" format="reference"/><!-- UC页面头部内容的布局资源ID -->
+        <attr name="pageNavigationViewHeight" format="dimension"/><!-- 按钮（约拍+活动） -->
+        <attr name="pageNavigationViewLayoutId" format="reference"/><!-- 按钮布局资源ID -->
+        <attr name="isContentHeadViewEnable" format="boolean"/><!-- 约拍活动列表头是否开启 -->
+        <attr name="contentHeadViewHeight" format="dimension"/><!-- 约拍活动列表头高度 -->
+        <attr name="contentHeadViewLayoutId" format="reference"/><!-- 约拍活动列表头布局资源ID -->
+        <attr name="contentViewLayoutId" format="reference"/><!-- 约拍活动列表布局资源ID -->
+        <attr name="autoSlipDistanceStep" format="dimension"/><!-- 手指放开后，视图自动滑动时的每次滑动距离间隔，默认每次滑动20px -->
+        <attr name="autoSlipTimeStep" format="integer"/><!-- 手指放开后，视图自动滑动时的时间间隔，默认每间隔5毫秒滑动一次 -->
+        <attr name="isPullRestoreEnable" format="boolean"/><!-- 是否允许下拉时恢复初始化状态 -->
+    </declare-styleable>
+    <declare-styleable name="AndroidTagView">
+        <attr name="vertical_interval" format="dimension" />
+        <attr name="horizontal_interval" format="dimension" />
+
+        <attr name="container_border_width" format="dimension" />
+        <attr name="container_border_radius" format="dimension" />
+        <attr name="container_border_color" format="color" />
+        <attr name="container_background_color" format="color" />
+        <attr name="container_enable_drag" format="boolean" />
+        <attr name="container_drag_sensitivity" format="float" />
+        <attr name="container_max_lines" format="integer" />
+        <attr name="container_gravity" format="enum">
+            <enum name="left" value="3" />
+            <enum name="center" value="17" />
+            <enum name="right" value="5" />
+        </attr>
+
+        <attr name="tag_border_width" format="dimension" />
+        <attr name="tag_corner_radius" format="dimension" />
+        <attr name="tag_horizontal_padding" format="dimension" />
+        <attr name="tag_vertical_padding" format="dimension" />
+        <attr name="tag_text_size" format="dimension" />
+        <attr name="tag_bd_distance" format="dimension" />
+        <attr name="tag_text_color" format="color" />
+        <attr name="tag_border_color" format="color" />
+        <attr name="tag_background_color" format="color" />
+        <attr name="tag_max_length" format="integer" />
+        <attr name="tag_clickable" format="boolean" />
+        <attr name="tag_theme" format="enum">
+            <enum name="none" value="-1" />
+            <enum name="random" value="0" />
+            <enum name="pure_cyan" value="1" />
+            <enum name="pure_teal" value="2" />
+        </attr>
+        <attr name="tag_text_direction" format="enum" >
+            <enum name="ltr" value="3" />
+            <enum name="rtl" value="4" />
+        </attr>
+    </declare-styleable>
+<declare-styleable name="FilterMenuLayout">
+    <attr name="fm_primaryColor" format="color|reference"/>
+    <attr name="fm_primaryDarkColor" format="color|reference"/>
+    <attr name="fm_expandedRadius" format="dimension"/>
+    <attr name="fm_collapsedRadius" format="dimension"/>
+    <attr name="fm_centerLeft" format="dimension"/>
+    <attr name="fm_centerRight" format="dimension"/>
+    <attr name="fm_centerTop" format="dimension"/>
+    <attr name="fm_centerHorizontal" format="boolean"/>
+    <attr name="fm_centerVertical" format="boolean"/>
+    <attr name="fm_centerBottom" format="dimension"/>
+    <attr name="fm_sweepAngle" format="integer"/>
+</declare-styleable>
+</resources>

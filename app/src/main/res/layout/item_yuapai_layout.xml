@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 以下是卡片内布局，此文件的顶级布局的父视图为卡片的白色区域 -->
+<android.support.percent.PercentFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+     >
+
+    <ImageView
+        android:id="@+id/yuepai_card_pic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="80%"
+        app:layout_widthPercent="95%"
+        android:scaleType="centerInside"
+        android:layout_gravity="center_horizontal"
+        app:layout_marginBottomPercent="15%"
+        app:layout_marginTopPercent="5%"
+        android:src="@drawable/yuepailoading"/>
+
+    <TextView
+        android:id="@+id/yuepai_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:singleLine="true"
+        app:layout_marginLeftPercent="10%"
+        app:layout_marginBottomPercent="5%"
+        android:text="@string/inloading"
+        android:textSize="14sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+       	 />
+
+    <TextView
+        android:id="@+id/yuepai_time"
+        android:singleLine="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_marginLeftPercent="10%"
+        app:layout_marginBottomPercent="10%"
+        android:text="@string/inloading"
+        android:textSize="14sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+
+    <TextView
+        android:id="@+id/yuepai_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_marginLeftPercent="10%"
+        app:layout_marginBottomPercent="23%"
+        android:text="@string/inloading"
+        android:singleLine="true"
+        android:textColor="@color/gold"
+        android:textSize="30sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+
+    <TextView
+        android:id="@+id/yuepai_introduce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_marginLeftPercent="8%"
+        app:layout_marginBottomPercent="16%"
+        android:maxLines="2"
+        android:text="@string/inloading"
+        android:textSize="14sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+
+
+
+</android.support.percent.PercentFrameLayout>

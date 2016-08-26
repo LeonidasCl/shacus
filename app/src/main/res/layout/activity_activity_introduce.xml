@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@android:style/TextAppearance">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="5%"
+        app:layout_marginLeftPercent="5%"
+        android:text="活动名称"/>
+
+    <EditText
+        android:id="@+id/edit_activity_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="11%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_marginRightPercent="5%"
+        android:singleLine="true"
+        style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="17%"
+        app:layout_marginLeftPercent="5%"
+        android:text="活动地点"/>
+
+    <EditText
+        android:id="@+id/edit_activity_address"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="23%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_marginRightPercent="5%"
+        android:singleLine="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="29%"
+        app:layout_marginLeftPercent="5%"
+        android:text="时间"/>
+
+    <EditText
+        android:id="@+id/edit_activity_date"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="35%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_marginRightPercent="5%"
+        android:singleLine="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="41%"
+        app:layout_marginLeftPercent="5%"
+        android:text="活动详情"/>
+
+    <EditText
+        android:id="@+id/edit_activity_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="18%"
+        app:layout_marginTopPercent="47%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_marginRightPercent="5%"
+        android:singleLine="true"/>
+
+    <ImageView
+        android:id="@+id/edit_activity_main_pic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="18%"
+        app:layout_widthPercent="30%"
+        app:layout_marginTopPercent="70%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_marginRightPercent="5%" />
+
+    <ImageButton
+        android:id="@+id/button_save"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="30%"
+        app:layout_marginTopPercent="90%"/>
+
+    <ImageButton
+        android:id="@+id/button_submit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="70%"
+        app:layout_marginTopPercent="90%"
+        app:layout_marginLeftPercent="30%"/>
+
+
+</android.support.percent.PercentFrameLayout>

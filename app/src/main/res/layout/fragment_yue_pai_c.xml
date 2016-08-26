@@ -1,0 +1,36 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.YuePaiFragmentC"
+    android:windowTranslucentStatus="true"
+    android:windowTranslucentNavigation="true">
+
+    <android.support.percent.PercentFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00ffff00">
+
+        <com.example.pc.shacus.View.MoveHideView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:indexview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ucindexview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            indexview:pageHeadViewHeight="@dimen/dp_60"
+            indexview:isPageHeadViewFixed="false"
+            indexview:isContentHeadViewEnable="false"
+            indexview:isPullRestoreEnable="true"
+            indexview:contentHeadViewHeight="@dimen/dp_60"
+            indexview:pageNavigationViewHeight="@dimen/dp_120"
+            indexview:pageHeadViewLayoutId="@layout/page_head_view_layout"
+            indexview:pageNavigationViewLayoutId="@layout/page_navigation_view_layout"
+            indexview:contentHeadViewLayoutId="@layout/content_head_view_layout"
+            indexview:contentViewLayoutId="@layout/content_view_layout">
+
+        </com.example.pc.shacus.View.MoveHideView>
+
+    </android.support.percent.PercentFrameLayout>
+
+</FrameLayout>

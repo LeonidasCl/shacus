@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:context=".Activity.MainActivity"
+    tools:showIn="@layout/activity_main"
+    xmlns:navilayout="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        navilayout:layout_heightPercent="100%"
+        navilayout:layout_widthPercent="100%">
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        navilayout:layout_heightPercent="10%"
+        navilayout:layout_widthPercent="100%"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:background="#60000000">
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/button_main"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_main_selector"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+        />
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/button_yuepai"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_yuepai_selector"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+        />
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/button_find"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_find_selector"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+         />
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/button_user"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_user_selector"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+         />
+
+    </LinearLayout>
+
+
+
+</android.support.percent.PercentFrameLayout>
