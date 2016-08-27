@@ -8,6 +8,7 @@ import com.example.pc.shacus.R;
 
 //TODO：我是崔颖华
 //李嘉文
+//LQ
 //用户消息界面（二级）
 public class ChatActivity extends AppCompatActivity {
 
