@@ -11,7 +11,7 @@ import com.example.pc.shacus.R;
 //LQ
 //这是一次伟大的尝试
 //孙启凡222
-//用户消息界面（二级）
+//用户消息界面（三级）
 public class ChatActivity extends AppCompatActivity {
 
     @Override
