@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.pc.shacus.R;
-//TODO：把这一行换成作者名
+//TODO：我是崔颖华
 //用户消息界面（二级）
 public class ChatActivity extends AppCompatActivity {
 
