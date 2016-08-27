@@ -7,7 +7,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
 
 import java.io.IOException;
-
+//收藏界面（二级）
 public class FavoritemActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
 
     @Override
