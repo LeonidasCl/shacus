@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.example.pc.shacus.R;
 //LQ
-
 //用户消息界面（二级）
 public class ChatActivity extends AppCompatActivity {
 
