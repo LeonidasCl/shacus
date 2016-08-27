@@ -5,6 +5,13 @@ import android.os.Bundle;
 
 import com.example.pc.shacus.R;
 //LQ
+
+//TODO：我是崔颖华
+
+//孙启凡
+//李嘉文
+//LQ
+//孙启凡222
 //用户消息界面（二级）
 public class ChatActivity extends AppCompatActivity {
 
