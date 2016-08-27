@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.pc.shacus.R;
-//LQ
 
 //TODO：我是崔颖华
 //李嘉文
