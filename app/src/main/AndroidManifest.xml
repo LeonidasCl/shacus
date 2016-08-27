@@ -83,7 +83,6 @@
         <activity android:name=".Activity.OrdersActivity"></activity>
         <activity android:name=".Activity.ShareActivity"></activity>
         <activity android:name=".Activity.SettingsActivity"></activity>
-        <activity android:name=".Activity.TestActivity"></activity>
     </application>
 
 </manifest>
