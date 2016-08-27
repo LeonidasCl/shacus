@@ -313,9 +313,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         return null;
     }
 
-    public RelativeLayout getEdit_big_photo_layout(){
-        return display_big_image_layout;
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -763,6 +761,10 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
 
     public void setYUEPAI_TYPE(int YUEPAI_TYPE) {
         this.YUEPAI_TYPE = YUEPAI_TYPE;
+    }
+
+    public RelativeLayout getEdit_big_photo_layout(){
+        return display_big_image_layout;
     }
 
 }
