@@ -9,6 +9,7 @@ import com.example.pc.shacus.R;
 //孙启凡
 //李嘉文
 //LQ
+//这是一次伟大的尝试
 //用户消息界面（二级）
 public class ChatActivity extends AppCompatActivity {
 
