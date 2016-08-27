@@ -309,9 +309,7 @@ public static String getPath_above19(final Context context,final Uri uri){
             return null;
             }
 
-    public RelativeLayout getEdit_big_photo_layout(){
-        return display_big_image_layout;
-    }
+
 
 @Override
 public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -753,6 +751,10 @@ private void hideDisplayBigImageLayout(){
 public void exception(IOException e,String requestUrl){
             Log.d("发生错误", "--------------------------" + e.getMessage());
             }
+
+    public RelativeLayout getEdit_big_photo_layout(){
+        return display_big_image_layout;
+    }
 
     public void hideBigPhotoLayout(){
         display_big_image_layout.setVisibility(View.GONE);

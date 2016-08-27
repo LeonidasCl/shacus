@@ -33,7 +33,7 @@
     <string name="input_theme_comment_title">请输入标题</string>
     <string name="input_theme_comment_desc">请输入内容</string>
     <string name="yuepai_create">发起约拍/活动</string>
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content_title">条目头部</string>
     <string name="content">条目列表内容</string>

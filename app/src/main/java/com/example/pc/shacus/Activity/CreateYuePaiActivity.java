@@ -52,19 +52,19 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         switch (position){
             case 0:
                 FragmentCreateYuePaiA fraga=(FragmentCreateYuePaiA)fragment;
-                /*state=fraga.getEdit_big_photo_layout().getVisibility();
+                state=fraga.getEdit_big_photo_layout().getVisibility();
                 if (state== View.GONE)
                     finish();
                 else
-                    fraga.hideBigPhotoLayout();*/
+                    fraga.hideBigPhotoLayout();
                 break;
             case 1:
-                FragmentCreateYuePaiB fragb=(FragmentCreateYuePaiB)fragment;
-                state=fragb.getEdit_big_photo_layout().getVisibility();
+                FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
+                state=frag.getEdit_big_photo_layout().getVisibility();
                 if (state== View.GONE)
                     finish();
                 else
-                    fragb.hideBigPhotoLayout();
+                    frag.hideBigPhotoLayout();
                 break;
             case 2:
                 FragmentCreateYuePaiB fragc=(FragmentCreateYuePaiB)fragment;
