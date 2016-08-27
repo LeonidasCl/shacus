@@ -12,7 +12,9 @@ import android.widget.Button;
 
 import com.example.pc.shacus.Activity.CreateYuePaiActivity;
 import com.example.pc.shacus.R;
-
+/**
+ * 活动列表界面(二级)
+ */
 public class YuePaiFragmentC extends Fragment {
 
     private Activity yuepai;

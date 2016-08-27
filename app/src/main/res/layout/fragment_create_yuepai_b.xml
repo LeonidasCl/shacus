@@ -224,6 +224,39 @@
             android:scrollbars="none" />
     </LinearLayout>
 
+
+
+    <!-- 已添加的图片的小图 -->
+    <RelativeLayout
+        android:id="@+id/show_upload_pic_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cc_white"
+        android:visibility="gone"
+        >
+        <ListView
+            android:id="@+id/theme_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="@color/item_selected_gray"
+            android:dividerHeight="10dp"
+            android:fadingEdge="none"
+            android:listSelector="#00000000" />
+    </RelativeLayout>
+
+    <!-- 上传进度 -->
+    <include
+        android:id="@+id/uploading_photo_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/progress_layout"
+        android:clickable="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
+</ScrollView>
+
     <!-- 点开已添加的图片查看大图 -->
     <RelativeLayout
         android:id="@+id/display_big_image_layout"
@@ -267,38 +300,9 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <!-- 已添加的图片的小图 -->
-    <RelativeLayout
-        android:id="@+id/show_upload_pic_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/cc_white"
-        android:visibility="gone"
-        >
-        <ListView
-            android:id="@+id/theme_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:cacheColorHint="#00000000"
-            android:divider="@color/item_selected_gray"
-            android:dividerHeight="10dp"
-            android:fadingEdge="none"
-            android:listSelector="#00000000" />
-    </RelativeLayout>
-
-    <!-- 上传进度 -->
-    <include
-        android:id="@+id/uploading_photo_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/progress_layout"
-        android:clickable="true"
-        android:visibility="gone" />
-
-</RelativeLayout>
-</ScrollView>
     <!-- 发表按钮 -->
     <FrameLayout
+        android:id="@+id/layout_upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

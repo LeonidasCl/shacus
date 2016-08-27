@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -134,6 +135,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
         @Override
         public void onDateTimeCancel() {}
     };
+
 
     private Handler handler=new Handler(){
 
@@ -307,8 +309,8 @@ public static String getPath_above19(final Context context,final Uri uri){
             return null;
             }
 
-    public FrameLayout getEdit_photo_fullscreen_layout(){
-        return edit_photo_fullscreen_layout;
+    public RelativeLayout getEdit_big_photo_layout(){
+        return display_big_image_layout;
     }
 
 @Override
@@ -386,8 +388,8 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String str=(String)lv.getItemAtPosition(position);
-            search.setQuery(str,false);
+            String str = (String) lv.getItemAtPosition(position);
+            search.setQuery(str, false);
             //暂时用这种办法让listview不占用空间
             adapter.getFilter().filter("clear");
         }
@@ -405,7 +407,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     edit_photo_fullscreen_layout.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            hideEditPhotoLayout();
+            hideBigPhotoLayout();
         }
     });
     edit_photo_outer_layout=(RelativeLayout)root.findViewById(R.id.edit_photo_outer_layout);
@@ -413,7 +415,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     cancelEditPhoto.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            hideEditPhotoLayout();
+            hideBigPhotoLayout();
         }
     });
     uploading_photo_progress=(RelativeLayout)root.findViewById(R.id.uploading_photo_progress);
@@ -507,9 +509,27 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     take_picture.setOnClickListener(this);
     select_local_picture.setOnClickListener(this);
 
+
     return root;
 
 }
+    //加监听，等到view完全显示了再去做调整
+    public void onViewCreated(final View view, Bundle saved) {
+        super.onViewCreated(view, saved);
+        final ViewTreeObserver observer = view.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+                ViewGroup.MarginLayoutParams big_picLayoutParam = (ViewGroup.MarginLayoutParams) display_big_image_layout.getLayoutParams();
+                big_picLayoutParam.bottomMargin=upload.getHeight();
+                display_big_image_layout.setLayoutParams(big_picLayoutParam);
+            }
+        });
+    }
 
 public void showImageViewPager(int position,
     final List<String>pictureUrlList,final List<String>localUrlList,
@@ -525,28 +545,28 @@ public void showImageViewPager(int position,
             image_viewpager.setAdapter(imagePagerAdapter);
             imagePagerAdapter.notifyDataSetChanged();
             image_viewpager.setOffscreenPageLimit(imagePagerAdapter.getCount());
-            image_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
-@Override
-public void onPageScrollStateChanged(int state){
+            image_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrollStateChanged(int state) {
 
-            }
+                }
 
-@Override
-public void onPageSelected(int position){
+                @Override
+                public void onPageSelected(int position) {
 
-            viewpagerPosition=position;
-            if(flag.equals("net")){
-            position_in_total.setText((position+1)+"/"+pictureUrlList.size());
-            }else{
-            position_in_total.setText((position+1)+"/"+localUrlList.size());
-            }
+                    viewpagerPosition = position;
+                    if (flag.equals("net")) {
+                        position_in_total.setText((position + 1) + "/" + pictureUrlList.size());
+                    } else {
+                        position_in_total.setText((position + 1) + "/" + localUrlList.size());
+                    }
 
-            }
+                }
 
-@Override
-public void onPageScrolled(int arg0,float arg1,int arg2){
+                @Override
+                public void onPageScrolled(int arg0, float arg1, int arg2) {
 
-            }
+                }
             });
             if(str.equals("display")){
             image_viewpager.setCurrentItem(position);
@@ -566,7 +586,7 @@ public void onPageScrolled(int arg0,float arg1,int arg2){
 
 // 下面函数是选中了要上传图片或者拍照打完钩后运行的
 public void onActivityResult(int requestCode,int resultCode,Intent intent){
-            super.onActivityResult(requestCode,resultCode,intent);
+            super.onActivityResult(requestCode, resultCode, intent);
             if(resultCode==NONE)
             return;
             //为什么不在这处理图片呢？因为处理图片比较耗时，如果在这里处理图片，从图库或者拍照Activity时会不流畅，很卡卡卡，试试就知道了
@@ -734,8 +754,8 @@ public void exception(IOException e,String requestUrl){
             Log.d("发生错误", "--------------------------" + e.getMessage());
             }
 
-    public void hideEditPhotoLayout(){
-        edit_photo_fullscreen_layout.setVisibility(View.GONE);
+    public void hideBigPhotoLayout(){
+        display_big_image_layout.setVisibility(View.GONE);
     }
 
 }

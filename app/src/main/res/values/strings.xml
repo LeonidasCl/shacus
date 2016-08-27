@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vita</string>
+    <string name="app_name">追影</string>
     <string name="action_login">登录</string>
     <string name="action_logout">注销</string>
     <string name="action_about">关于本软件</string>
