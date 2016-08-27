@@ -12,8 +12,8 @@ import com.example.pc.shacus.Fragment.FragmentCreateYuePaiB;
 import com.example.pc.shacus.R;
 
 /**
- *
- * Created by pc on 2016/6/28.
+ * 创建约拍和活动的界面
+ * Created by pc on 2016/8/28.
  */
 public class CreateYuePaiActivity extends AppCompatActivity implements
         ActionBar.TabListener {
@@ -52,27 +52,27 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         switch (position){
             case 0:
                 FragmentCreateYuePaiA fraga=(FragmentCreateYuePaiA)fragment;
-                /*state=fraga.getEdit_photo_fullscreen_layout().getVisibility();
+                /*state=fraga.getEdit_big_photo_layout().getVisibility();
                 if (state== View.GONE)
                     finish();
                 else
-                    fraga.hideEditPhotoLayout();*/
+                    fraga.hideBigPhotoLayout();*/
                 break;
             case 1:
                 FragmentCreateYuePaiB fragb=(FragmentCreateYuePaiB)fragment;
-                state=fragb.getEdit_photo_fullscreen_layout().getVisibility();
+                state=fragb.getEdit_big_photo_layout().getVisibility();
                 if (state== View.GONE)
                     finish();
                 else
-                    fragb.hideEditPhotoLayout();
+                    fragb.hideBigPhotoLayout();
                 break;
             case 2:
                 FragmentCreateYuePaiB fragc=(FragmentCreateYuePaiB)fragment;
-                state=fragc.getEdit_photo_fullscreen_layout().getVisibility();
+                state=fragc.getEdit_big_photo_layout().getVisibility();
                 if (state== View.GONE)
                     finish();
                 else
-                    fragc.hideEditPhotoLayout();
+                    fragc.hideBigPhotoLayout();
                 break;
         }
 
@@ -93,9 +93,13 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         switch (position){
             case 0:
                 fragment = new FragmentCreateYuePaiA();
+                FragmentCreateYuePaiA yuepeifrag1=(FragmentCreateYuePaiA)fragment;
+                yuepeifrag1.setYUEPAI_TYPE(1);
                 break;
             case 1:
-                fragment=new FragmentCreateYuePaiB();
+                fragment=new FragmentCreateYuePaiA();
+                FragmentCreateYuePaiA yuepeifrag2=(FragmentCreateYuePaiA)fragment;
+                yuepeifrag2.setYUEPAI_TYPE(2);
                 break;
             case 2:
                 fragment=new FragmentCreateYuePaiB();
