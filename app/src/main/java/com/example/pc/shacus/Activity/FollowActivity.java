@@ -8,7 +8,7 @@ import com.example.pc.shacus.R;
 
 import java.io.IOException;
 //TODO：把这一行换成作者名
-//收藏界面（二级）
+//粉丝与关注界面（二级）
 public class FollowActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
 
     @Override
