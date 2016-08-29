@@ -710,7 +710,7 @@ public void saveThemeInfo(){
             Map<String, Object>map=new HashMap<String, Object>();
             map.put("themeTitle",theme_title_edit.getText().toString());
             map.put("themeDescr",theme_desc_edit.getText().toString());
-            requestFragment.httpRequest(map, CommonUrl.saveThemeInfo);
+            requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
             }
 
 //
@@ -728,7 +728,7 @@ public void requestFinish(final String result,String requestUrl){
             e.printStackTrace();
             }
             }
-            if(requestUrl.equals(CommonUrl.saveThemeInfo)){//发表主题完成的回调
+            if(requestUrl.equals(CommonUrl.createYuePaiInfo)){//发表主题完成的回调
                     getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -777,6 +777,10 @@ public void exception(IOException e,String requestUrl){
 
     public void hideBigPhotoLayout(){
         display_big_image_layout.setVisibility(View.GONE);
+        edit_photo_fullscreen_layout.setVisibility(View.GONE);
     }
 
+    public FrameLayout getdisplay_big_img(){
+        return edit_photo_fullscreen_layout;
+    }
 }

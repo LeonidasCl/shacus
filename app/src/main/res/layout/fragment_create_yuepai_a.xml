@@ -392,7 +392,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/cancel"
+                    android:id="@+id/cancel_upload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/video_order_layout_round_corner_bg"
@@ -400,7 +400,6 @@
                     android:padding="8dp"
                     android:text="@string/cancel"
                     android:textColor="@color/chocolate"
-                    android:clickable="true"
                     android:textSize="20sp" />
             </LinearLayout>
         </RelativeLayout>

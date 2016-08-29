@@ -23,10 +23,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,17 +50,21 @@ import com.example.pc.shacus.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
 import com.example.pc.shacus.Adapter.PhotoViewAttacher;
 import com.example.pc.shacus.Adapter.UploadViewPager;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.UploadPhotoUtil;
-import com.example.pc.shacus.Util.UserInfoUtil;
 import com.example.pc.shacus.View.DateTimePicker.SlideDateTimeListener;
 import com.example.pc.shacus.View.DateTimePicker.SlideDateTimePicker;
 import com.example.pc.shacus.View.TagView.TagContainerLayout;
 import com.example.pc.shacus.View.TagView.TagView;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -153,11 +155,12 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         public void handleMessage(Message msg){
             switch(msg.what){
 
-                case SAVE_THEME_IMAGE://响应第二次msg，发送第二次请求：上传图片
+                case SAVE_THEME_IMAGE://响应第二次msg，将上传图片结果与真约拍信息反馈给业务服务器
                     Map<String, Object> map=(Map<String, Object>)msg.obj;
-                    requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
+
+                    //requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
                     break;
-                case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，准备发送图片
+                case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
 
                     if(uploadImgUrlList.size()>0){
                         for(int i=0;i<uploadImgUrlList.size();i++){
@@ -187,19 +190,25 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     break;
                 //在图库选中了本地的图
                 case SHOW_LOCAL_PICTURE:
+                    //获取到资源位置
+                    Uri uri=intent.getData();
+                    String photo_local_file_path=getPath_above19(getActivity().getApplicationContext(), uri);
+                    //程序员啊不要见得风就是雨，要有自己的判断，用户选出来的文件要判断它是不是真的图片
+                    //如果不是，这个错的东西你再帮他传一遍，等于你也有责任吧
+                    if (!(photo_local_file_path.toString().toLowerCase().endsWith("jpg")||photo_local_file_path.toString().toLowerCase().endsWith("png")
+                            ||photo_local_file_path.toString().toLowerCase().endsWith("jpeg")||photo_local_file_path.toString().toLowerCase().endsWith("gif"))){
+                        CommonUtils.getUtilInstance().showToast(getActivity(),"不支持此格式的上传");
+                        break;
+                    }
                     addPic=true;
                     if(clearFormerUploadUrlList){
                         if(uploadImgUrlList.size()>0){
                             uploadImgUrlList.clear();
                         }
                         clearFormerUploadUrlList=false;
-                    }//获取到资源位置
-                    Uri uri=intent.getData();
-                    String photo_local_file_path=getPath_above19(getActivity().getApplicationContext(),uri);
-                    Bitmap bitmap2=UploadPhotoUtil.getInstance()
-                            .trasformToZoomBitmapAndLessMemory(photo_local_file_path);
-                    addPictureList.add(new BitmapDrawable(getResources(),
-                            bitmap2));
+                    }
+                    Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(photo_local_file_path);
+                    addPictureList.add(new BitmapDrawable(getResources(), bitmap2));
                     uploadImgUrlList.add(photo_local_file_path);
                     imageAddGridViewAdapter.changeList(addPictureList);
                     imageAddGridViewAdapter.notifyDataSetChanged();
@@ -418,7 +427,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         });
         edit_photo_outer_layout=(RelativeLayout)root.findViewById(R.id.edit_photo_outer_layout);
-        TextView cancelEditPhoto=(TextView)edit_photo_outer_layout.findViewById(R.id.cancel);
+        TextView cancelEditPhoto=(TextView)edit_photo_outer_layout.findViewById(R.id.cancel_upload);
         cancelEditPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -473,7 +482,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         });
         endTime=(TextView)root.findViewById(R.id.text_end_time);
-        endTime.setOnClickListener(new View.OnClickListener() {
+        endTime.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if (!timeFlag)
@@ -662,13 +671,20 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         "image/*");
                 startActivityForResult(intent,LOCAL_PICTURE);
                 break;
+            /*case R.id.cancel_upload:
+                edit_photo_fullscreen_layout.setVisibility(View.GONE);*/
             case R.id.upload://第一次握手：按发表键后
                 //检查用户是否登录
-                if(UserInfoUtil.getInstance().getAuthKey()==null){
+                ACache cache= ACache.get(getActivity());
+                String auth_key=cache.getAsString("auth_key");
+                if(auth_key.equals("")){
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.publish_theme_after_login));
                     return;
                 }
-                if(theme_title_edit.getText().toString().length()==0){
+                UserModel user=(UserModel)cache.getAsObject("user_model");
+                String usename=user.getPhone();
+                String title=theme_title_edit.getText().toString();
+                if(title.equals("")){
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.input_theme_comment_title));
                     return;
                 }
@@ -683,7 +699,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         }
                     }
                 }
-                saveThemeInfo();//发第一次请求
+                saveThemeInfo(usename,auth_key,title);//发第一次请求
 
 
                 if(!clearFormerUploadUrlList){
@@ -710,36 +726,76 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         }
     }
 
-    //保存要上传的图片(每一张调用一次这个函数)
+    //上传图片(每一张调用一次这个函数)
     public void saveThemeImgNew(final String themeId,final String picUrl){
-        new Thread(){
-            public void run(){
-                Map<String, Object>map=new HashMap<>();
-                map.put("themeId",themeId);
+        UploadManager uploadmgr=new UploadManager();
+        File data=new File(picUrl);
+        String key="TheElder";
+        String token="yzAza_Cm87nXkh9IyFfpg7LL7qKJ097VK5IOpLj0:JDjafOXq5FrsvaGkX9OMGMk4uv0=:eyJzY29wZSI6InNoYWN1czoyMDE2MDgyOS5qcGciLCJkZWFkbGluZSI6MTQ3MjQ1NzUxOH0=";
+        uploadmgr.put(data, key, token, new UpCompletionHandler() {
+            @Override
+            public void complete(String key, ResponseInfo info, JSONObject response) {
+                //完成，发信息给业务服务器
+                new Thread(){
+                    public void run(){
+                        Map<String, Object>map=new HashMap<>();
+               /* map.put("themeId",themeId);
                 map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
                 map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
-                map.put("type",1);
-                Message msg=handler.obtainMessage();
-                msg.obj=map;
-                msg.what=SAVE_THEME_IMAGE;
-                handler.sendMessage(msg);//要上传的图片包装在msg后变成了消息发到handler
+                map.put("type",1);*/
+                        Message msg=handler.obtainMessage();
+                        msg.obj=map;
+                        msg.what=SAVE_THEME_IMAGE;
+                        handler.sendMessage(msg);//要上传的图片包装在msg后变成了消息发到handler
+                    }
+                }.start();
             }
-        }.start();
+        },null);
     }
 
 
-    public void saveThemeInfo(){
+    public void saveThemeInfo(String usrname,String auth_key,String title){//发第一次请求，仅请求约拍立项
         Map<String, Object>map=new HashMap<String, Object>();
-        map.put("themeTitle",theme_title_edit.getText().toString());
-        map.put("themeDescr",theme_desc_edit.getText().toString());
-        requestFragment.httpRequest(map, CommonUrl.saveThemeInfo);
+        List<String> list=new ArrayList<>();
+        for (int i=0;i<uploadImgUrlList.size();i++){
+            String[] ext=uploadImgUrlList.get(i).split(".");
+            String extention="."+ext[ext.length-1];
+            list.add(String.valueOf(uploadImgUrlList.get(i).hashCode())+extention);
+        }
+        map.put("username",usrname);
+        map.put("auth_key",auth_key);
+        map.put("title",title);
+        map.put("type",YUEPAI_TYPE==1?"10201":"10202");
+        map.put("imgNum",list);
+        requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
+
+        /*UploadManager uploadmgr=new UploadManager();
+        File data=new File(uploadImgUrlList.get(0));
+        String key="20160829.jpg";
+        String token="yzAza_Cm87nXkh9IyFfpg7LL7qKJ097VK5IOpLj0:JDjafOXq5FrsvaGkX9OMGMk4uv0=:eyJzY29wZSI6InNoYWN1czoyMDE2MDgyOS5qcGciLCJkZWFkbGluZSI6MTQ3MjQ1NzUxOH0=";
+        uploadmgr.put(data, key, token, new UpCompletionHandler() {
+            @Override
+            public void complete(String key, ResponseInfo info, JSONObject response) {
+
+                new Thread() {
+                    public void run() {
+                        Map<String, Object> map = new HashMap<>();
+               // map.put("themeId",themeId);
+                        Message msg = handler.obtainMessage();
+                        msg.obj = map;
+                        msg.what = SAVE_THEME_IMAGE;
+                        handler.sendMessage(msg);//上传结果包装在msg后变成了消息发到handler
+                    }
+                }.start();
+            }
+        }, null);*/
     }
 
     //
     @Override
     public void requestFinish(final String result,String requestUrl){
 
-        if(requestUrl.equals(CommonUrl.saveThemeImgNew)){//上传图片完成的回调
+        if(requestUrl.equals(CommonUrl.saveThemeImgNew)){//上传图片完成并且传回信息给业务服务器完成的回调（最终回调）
             try{
                 JSONObject object=new JSONObject(result);
 
@@ -750,7 +806,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 e.printStackTrace();
             }
         }
-        if(requestUrl.equals(CommonUrl.saveThemeInfo)){//发表主题完成的回调
+        if(requestUrl.equals(CommonUrl.createYuePaiInfo)){//约拍立项（第一次请求）完成的回调
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -789,11 +845,12 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
 
     @Override
     public void exception(IOException e,String requestUrl){
-        Log.d("发生错误", "--------------------------" + e.getMessage());
+        Log.d("logout", "--------------------------" + e.getMessage());
     }
 
     public void hideBigPhotoLayout(){
         display_big_image_layout.setVisibility(View.GONE);
+        edit_photo_fullscreen_layout.setVisibility(View.GONE);
     }
 
     public void setYUEPAI_TYPE(int YUEPAI_TYPE) {
@@ -802,6 +859,10 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
 
     public RelativeLayout getEdit_big_photo_layout(){
         return display_big_image_layout;
+    }
+
+    public FrameLayout getdisplay_big_img(){
+        return edit_photo_fullscreen_layout;
     }
 
 }
