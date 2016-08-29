@@ -369,6 +369,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         search = (SearchView) root.findViewById(R.id.search_tag);
         search.setIconifiedByDefault(false);
         search.setSubmitButtonEnabled(false);
+        search.setVisibility(View.VISIBLE);
         search.setQueryHint("查找或输入标签");
         final ArrayAdapter adapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, mStrings);
         lv.setAdapter(adapter);
