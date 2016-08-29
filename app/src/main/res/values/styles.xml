@@ -11,7 +11,7 @@
     <style name="AppTheme.CreateActivity" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/gold</item>
         <item name="colorPrimaryDark">@color/lightgold</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <style name="Vita.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">

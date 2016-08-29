@@ -79,4 +79,5 @@
     <string name="tv_yuepai_b">模特入口</string>
     <string name="tv_yuepai_c">约活动</string>
     <string name="tv_create_yuepai">发起约拍/活动</string>
+    <string name="join_time">请选择报名截止时间</string>
 </resources>

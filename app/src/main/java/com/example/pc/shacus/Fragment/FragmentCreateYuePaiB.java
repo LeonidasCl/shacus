@@ -33,6 +33,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -200,6 +202,9 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
             }
             }
             };
+    private CheckBox checkbox_free;
+    private EditText price_edit;
+
     //是否为外置存储器
 public static boolean isExternalStorageDocument(Uri uri){
             return"com.android.externalstorage.documents".equals(uri.getAuthority());
@@ -396,9 +401,9 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     btnAddTag.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String txt=search.getQuery().toString();
+            String txt = search.getQuery().toString();
             if (!txt.equals(""))
-            mTagContainerLayout.addTag(txt);
+                mTagContainerLayout.addTag(txt);
         }
     });
     edit_photo_fullscreen_layout=(FrameLayout)root.findViewById(R.id.edit_photo_fullscreen_layout);
@@ -455,7 +460,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
         public void onClick(View v) {
             if (!timeFlag)
             {
-                Toast.makeText(getContext(),"请先选择开始时间", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "请先选择开始时间", Toast.LENGTH_SHORT).show();
                 return;
             }
             new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
@@ -505,6 +510,20 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle sav
     });
 
     take_picture.setOnClickListener(this);
+    price_edit=(EditText)root.findViewById(R.id.theme_price_edit);
+    checkbox_free=(CheckBox)root.findViewById(R.id.checkbox_free);
+    checkbox_free.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (b) {
+                price_edit.setVisibility(View.GONE);
+            } else {
+                price_edit.setVisibility(View.VISIBLE);
+                //price_edit.setEnabled(false);
+                //price_edit.setEditableFactory();
+            }
+        }
+    });
     select_local_picture.setOnClickListener(this);
 
 

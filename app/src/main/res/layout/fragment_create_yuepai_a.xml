@@ -131,6 +131,20 @@
                     android:textSize="14sp"
                     android:text="@string/end_time"/>
 
+                <com.example.pc.shacus.View.Custom.IconTxtView
+                    android:id="@+id/text_join_time"
+                    iconview:iconSrc="@drawable/login_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/aa_black"
+                    android:background="@drawable/shape_round_small_corner"
+                    android:textSize="14sp"
+                    android:text="@string/join_time"/>
+
                 <EditText
                     android:id="@+id/theme_location_edit"
                     android:layout_width="match_parent"
@@ -162,9 +176,10 @@
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:text="@string/yuepai_free"
+                              android:textColor="@color/aa_black"
                               android:layout_gravity="start"
                               android:checked="true"
-                              android:onClick="onCheckboxClicked"/>
+                              android:shadowColor="#EE000000"/>
 
                     <EditText
                         android:id="@+id/theme_price_edit"
@@ -177,6 +192,7 @@
                         android:textColorHint="@color/item_selected_gray"
                         android:layout_marginStart="10dp"
                         android:layout_gravity="end"
+                        android:visibility="gone"
                         android:background="@drawable/comment_edittext_round_corner_bg"
                         android:padding="5dp"
                         android:textSize="14sp">

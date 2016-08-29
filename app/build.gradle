@@ -10,6 +10,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -33,6 +35,7 @@ dependencies {
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support:percent:24.2.0'
     compile 'com.chanven.lib:cptr:1.0.0'
+    compile 'com.qiniu:qiniu-android-sdk:7.2.+'
     compile files('src/main/java/libs/universal-image-loader-1.9.5.jar')
     compile files('src/main/java/libs/gson-2.3.1.jar')
 

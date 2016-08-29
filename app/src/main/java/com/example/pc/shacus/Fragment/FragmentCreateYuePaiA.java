@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,6 +36,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -96,7 +99,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private boolean timeFlag=false;
     private Date startdate=new Date();
     private Date enddate=new Date();
-    private TextView endTime;
+    private TextView endTime,joinEndTime;
     private String takePictureUrl,newThemeId;
     private Intent intent;
     private ListView lv;
@@ -104,6 +107,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private NetRequest requestFragment;
     private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
     private GridView add_image_gridview;
+    private CheckBox checkbox_free;
+    private EditText price_edit;
     private int addPicCount=1,addTakePicCount=1,viewpagerPosition;
     private List<String> uploadImgUrlList=new ArrayList<>();
     private List<Drawable>addPictureList=new ArrayList<>();
@@ -400,7 +405,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         btnAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txt=search.getQuery().toString();
+                String txt = search.getQuery().toString();
                 if (!txt.equals(""))
                     mTagContainerLayout.addTag(txt);
             }
@@ -424,6 +429,20 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         display_big_image_layout=(RelativeLayout)root.findViewById(R.id.display_big_image_layout);
         show_upload_pic_layout=(RelativeLayout)root.findViewById(R.id.show_upload_pic_layout);
         take_picture=(TextView)root.findViewById(R.id.take_picture);
+        price_edit=(EditText)root.findViewById(R.id.theme_price_edit);
+        checkbox_free=(CheckBox)root.findViewById(R.id.checkbox_free);
+        checkbox_free.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                     price_edit.setVisibility(View.GONE);
+                }else {
+                    price_edit.setVisibility(View.VISIBLE);
+                    //price_edit.setEnabled(false);
+                    //price_edit.setEditableFactory();
+                }
+            }
+        });
         startTime=(TextView)root.findViewById(R.id.text_start_time);
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,6 +481,24 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     Toast.makeText(getContext(), "请先选择开始时间", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+                        .setListener(endlistener)
+                        .setInitialDate(startdate)
+                        .setMinDate(startdate)
+                        .build()
+                        .show();
+            }
+        });
+        joinEndTime=(TextView)root.findViewById(R.id.text_join_time);
+        joinEndTime.setOnClickListener(new View.OnClickListener() {
+          @Override
+            public void onClick(View view) {
+              if (!timeFlag)
+              {
+                  Toast.makeText(getContext(), "请先选择开始时间", Toast.LENGTH_SHORT).show();
+                  return;
+              }
+
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(endlistener)
                         .setInitialDate(startdate)
@@ -591,7 +628,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, intent);
         if(resultCode==NONE)
             return;
-        //为什么不在这处理图片呢？因为处理图片比较耗时，如果在这里处理图片，从图库或者拍照Activity时会不流畅，很卡卡卡，试试就知道了
+        //耗时操作传到handler里去处理
         if(requestCode==TAKE_PICTURE){
             handler.sendEmptyMessage(SHOW_TAKE_PICTURE);
             return;
