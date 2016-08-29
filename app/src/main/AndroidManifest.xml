@@ -74,15 +74,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignInActivity"></activity>
-        <activity android:name=".Activity.ChatActivity"></activity>
-        <activity android:name=".Activity.FollowActivity"></activity>
-        <activity android:name=".Activity.FavoritemActivity"></activity>
-        <activity android:name=".Activity.CoursesActivity"></activity>
-        <activity android:name=".Activity.WorksActiviy"></activity>
-        <activity android:name=".Activity.OrdersActivity"></activity>
-        <activity android:name=".Activity.ShareActivity"></activity>
-        <activity android:name=".Activity.SettingsActivity"></activity>
+        <activity android:name=".Activity.SignInActivity" />
+        <activity android:name=".Activity.ChatActivity" />
+        <activity android:name=".Activity.FollowActivity" />
+        <activity android:name=".Activity.FavoritemActivity" />
+        <activity android:name=".Activity.CoursesActivity" />
+        <activity android:name=".Activity.WorksActiviy" />
+        <activity android:name=".Activity.OrdersActivity" />
+        <activity android:name=".Activity.ShareActivity" />
+        <activity android:name=".Activity.SettingsActivity" />
+        <activity android:name=".Activity.CoursesActivity_item" />
+        <activity android:name=".Activity.OrdersItemActivity"></activity>
     </application>
 
 </manifest>
