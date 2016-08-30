@@ -51,6 +51,7 @@ import com.example.pc.shacus.Adapter.ImagePagerAdapter;
 import com.example.pc.shacus.Adapter.PhotoViewAttacher;
 import com.example.pc.shacus.Adapter.UploadViewPager;
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -62,6 +63,7 @@ import com.example.pc.shacus.View.DateTimePicker.SlideDateTimeListener;
 import com.example.pc.shacus.View.DateTimePicker.SlideDateTimePicker;
 import com.example.pc.shacus.View.TagView.TagContainerLayout;
 import com.example.pc.shacus.View.TagView.TagView;
+import com.google.gson.Gson;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -111,6 +113,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private GridView add_image_gridview;
     private CheckBox checkbox_free;
     private EditText price_edit;
+    private int picToAdd=-1;
     private int addPicCount=1,addTakePicCount=1,viewpagerPosition;
     private List<String> uploadImgUrlList=new ArrayList<>();
     private List<Drawable>addPictureList=new ArrayList<>();
@@ -161,10 +164,10 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     //requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
                     break;
                 case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
-
+                    picToAdd=uploadImgUrlList.size();
                     if(uploadImgUrlList.size()>0){
-                        for(int i=0;i<uploadImgUrlList.size();i++){
-                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(i));//逐张保存要上传的图片并发消息到发送的handle
+                        for(;picToAdd>0;picToAdd--){
+                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(picToAdd-1));//逐张保存要上传的图片并发消息到发送的handle
                         }
                     }
                     show_upload_pic_layout.setVisibility(View.VISIBLE);
@@ -218,6 +221,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         }
     };
+    private UserModel user;
+
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){
         return"com.android.externalstorage.documents".equals(uri.getAuthority());
@@ -539,7 +544,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //这里是添加图片的按钮的回调
                 if (position == 0) {
-                    if (addPicCount == 9) {
+                    if (addPicCount == 10) {
                         CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.no_more_than_9));
                     } else {
                         //点击添加图片
@@ -676,14 +681,17 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 edit_photo_fullscreen_layout.setVisibility(View.GONE);*/
             case R.id.upload://第一次握手：按发表键后
                 //检查用户是否登录
+                Gson gson=new Gson();
                 ACache cache= ACache.get(getActivity());
-                String auth_key=cache.getAsString("auth_key");
-                if(auth_key.equals("")){
+                JSONObject userStr=cache.getAsJSONObject("loginModel");
+                user=gson.fromJson(userStr.toString(),LoginDataModel.class).getUserModel();
+                String usename=user.getPhone();
+                String authKey=user.getAuth_key();
+                if(authKey!=null&&authKey.equals("")){
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.publish_theme_after_login));
                     return;
                 }
-                UserModel user=(UserModel)cache.getAsObject("user_model");
-                String usename=user.getPhone();
+
                 String title=theme_title_edit.getText().toString();
                 if(title.equals("")){
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.input_theme_comment_title));
@@ -700,7 +708,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         }
                     }
                 }
-                saveThemeInfo(usename,auth_key,title);//发第一次请求
+                saveThemeInfo(usename,authKey,title);//发第一次请求
 
 
                 if(!clearFormerUploadUrlList){
@@ -740,14 +748,16 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 new Thread(){
                     public void run(){
                         Map<String, Object>map=new HashMap<>();
-               /* map.put("themeId",themeId);
-                map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
-                map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
-                map.put("type",1);*/
+                        /* map.put("themeId",themeId);
+                        map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
+                        map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
+                        map.put("type",1);*/
+                        if (picToAdd==1){
                         Message msg=handler.obtainMessage();
                         msg.obj=map;
                         msg.what=SAVE_THEME_IMAGE;
-                        handler.sendMessage(msg);//要上传的图片包装在msg后变成了消息发到handler
+                        handler.sendMessage(msg);
+                        }//要上传的图片包装在msg后变成了消息发到handler
                     }
                 }.start();
             }
@@ -759,15 +769,15 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         Map<String, Object>map=new HashMap<String, Object>();
         List<String> list=new ArrayList<>();
         for (int i=0;i<uploadImgUrlList.size();i++){
-            String[] ext=uploadImgUrlList.get(i).split(".");
+            String[] ext=uploadImgUrlList.get(i).split("\\.");
             String extention="."+ext[ext.length-1];
             list.add(String.valueOf(uploadImgUrlList.get(i).hashCode())+extention);
         }
-        map.put("username",usrname);
+        map.put("phone",usrname);
         map.put("auth_key",auth_key);
         map.put("title",title);
         map.put("type",YUEPAI_TYPE==1?"10201":"10202");
-        map.put("imgNum",list);
+        map.put("imgs",list);
         requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
 
         /*UploadManager uploadmgr=new UploadManager();
