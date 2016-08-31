@@ -3,10 +3,12 @@ package com.example.pc.shacus.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,9 +28,12 @@ import com.example.pc.shacus.Util.SystemBarTintManager;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+    private static final String TAG = "TAG";
     private boolean isLogin=false;
     private UserModel user;
 
@@ -273,7 +278,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //重新创建来刷新UI
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
+
+
         }
+
+
     }
 
     @Override
