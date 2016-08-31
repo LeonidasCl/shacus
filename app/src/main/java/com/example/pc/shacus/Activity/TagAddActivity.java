@@ -69,14 +69,13 @@ public class TagAddActivity extends Activity {
         selected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tag=search.getQuery().toString();
-                Intent intent=new Intent(getApplicationContext(),CreateYuePaiActivity.class);
-                intent.putExtra("tag",tag);
-                intent.putExtra("type","tagAdd1");
+                String tag = search.getQuery().toString();
+                Intent intent = new Intent(getApplicationContext(), CreateYuePaiActivity.class);
+                intent.putExtra("tag", tag);
+                intent.putExtra("type", "tagAdd1");
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
-        search.requestFocus();
     }
 }
