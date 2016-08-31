@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pc.shacus.Fragment.SetAdviceFragment"
+    android:orientation="vertical"
+    android:gravity="top"
+    android:background="#d6d4d4">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:background="#ffffff"
+        android:layout_marginTop="2dp">
+        <Button
+            android:id="@+id/btn_back"
+            android:background="@drawable/downarrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="意见反馈"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/btn_sendMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="发送"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:gravity="start">
+        <EditText
+            android:id="@+id/advice_connectType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:textSize="20sp"
+            android:hint="联系方式"
+            android:textColorHint="#c4c4c4"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:maxLines="1"
+            android:gravity="start"
+            android:textAlignment="textStart"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#afafaf"
+            android:paddingTop="5dp"
+            android:layout_below="@+id/advice_connectType"
+            />
+        <EditText
+            android:id="@+id/advice_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:background="#ffffff"
+            android:textSize="20sp"
+            android:hint="内容"
+            android:textColorHint="#c4c4c4"
+            android:layout_margin="5dp"
+            android:layout_below="@+id/advice_connectType"
+            android:gravity="start"
+            android:textAlignment="textStart"
+            />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -16,6 +16,9 @@ import com.example.pc.shacus.R;
  */
 //Author:LQ
 //Time:8.29
+    //change1:继续完成
+    //worker:LQ
+    //time:8.29
 public class SetBaseFragment extends Fragment implements View.OnClickListener{
 
     private View userManage;
@@ -67,19 +70,43 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.layout_UserManage:
                 SetUserManageFragment userManageFragment=new SetUserManageFragment();
-                FragmentManager fm=getFragmentManager();
-                FragmentTransaction tx=fm.beginTransaction();
-                tx.replace(R.id.frameLayout,userManageFragment,"UserManage");
-                tx.addToBackStack(null);
-                tx.commit();
+                FragmentManager fm1=getFragmentManager();
+                FragmentTransaction tx1=fm1.beginTransaction();
+                tx1.replace(R.id.frameLayout,userManageFragment,"UserManage");
+                tx1.addToBackStack(null);
+                tx1.commit();
                 break;
             case R.id.layout_private:
+                SetPrivateFragment privateFragment=new SetPrivateFragment();
+                FragmentManager fm2=getFragmentManager();
+                FragmentTransaction tx2=fm2.beginTransaction();
+                tx2.replace(R.id.frameLayout,privateFragment,"UserManage");
+                tx2.addToBackStack(null);
+                tx2.commit();
                 break;
             case R.id.layout_general:
+                SetGeneralFragment generalFragment=new SetGeneralFragment();
+                FragmentManager fm3=getFragmentManager();
+                FragmentTransaction tx3=fm3.beginTransaction();
+                tx3.replace(R.id.frameLayout,generalFragment,"UserManage");
+                tx3.addToBackStack(null);
+                tx3.commit();
                 break;
             case R.id.layout_about:
+                SetAboutFragment aboutFragment =new SetAboutFragment();
+                FragmentManager fm4=getFragmentManager();
+                FragmentTransaction tx4=fm4.beginTransaction();
+                tx4.replace(R.id.frameLayout,aboutFragment,"UserManage");
+                tx4.addToBackStack(null);
+                tx4.commit();
                 break;
             case R.id.layout_advice:
+                SetAdviceFragment adviceFragment=new SetAdviceFragment();
+                FragmentManager fm5=getFragmentManager();
+                FragmentTransaction tx5=fm5.beginTransaction();
+                tx5.replace(R.id.frameLayout,adviceFragment,"UserManage");
+                tx5.addToBackStack(null);
+                tx5.commit();
                 break;
             case R.id.layout_clearCache:
                 break;

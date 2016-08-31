@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     tools:context="com.example.pc.shacus.Activity.CoursesActivity_item"
     android:gravity="top"
-    android:background="@drawable/btn_focus_bg">
+    android:background="@drawable/btn_focus_bg"
+    android:descendantFocusability="blocksDescendants"
+    >
 
 
     <ImageView
@@ -30,9 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_margin="5sp"
-        android:background="@null"
+        android:background="#000000"
         android:text="待学习"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff" />
     <TextView
         android:id="@+id/ItemViewNum"
         android:layout_width="wrap_content"

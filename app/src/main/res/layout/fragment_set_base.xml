@@ -1,15 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.shacus.Fragment.SetBaseFragment">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="top"
-        android:background="#d6d4d4">
-
+    tools:context="com.example.pc.shacus.Fragment.SetBaseFragment"
+    android:orientation="vertical"
+    android:gravity="top"
+    android:background="#d6d4d4">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -216,5 +212,4 @@
             android:layout_margin="5dp"
             />
     </RelativeLayout>
-    </LinearLayout>
-</FrameLayout>
+</LinearLayout>

@@ -20,18 +20,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by LQ on 2016/8/29.
+ * Created by LQ on 2016/8/31.
  */
 @RunWith(AndroidJUnit4.class)
-public class SettingsActivityTest {
+public class ShareActivityTest {
 
     //测试规则
     @Rule
-    public ActivityTestRule<SettingsActivity> activityRule = new ActivityTestRule<>(SettingsActivity.class);
+    public ActivityTestRule<ShareActivity> activityRule = new ActivityTestRule<>(ShareActivity.class);
     @Test
     public void testOnCreate() throws Exception {
-
-        Thread.sleep(100000);
-
+        Thread.sleep(10000);
     }
 }

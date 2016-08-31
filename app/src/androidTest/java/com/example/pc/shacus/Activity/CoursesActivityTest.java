@@ -37,6 +37,6 @@ public class CoursesActivityTest {
 
 
         onView(withId(R.id.listView_course)).perform(click());
-        Thread.sleep(5000);
+        Thread.sleep(25000);
     }
 }

@@ -2,9 +2,11 @@ package com.example.pc.shacus.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -25,7 +27,9 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
     //课程列表
     private ListView coursesListView;
     //存储每一列的Item
-    ArrayList<HashMap<String,Object>> coursesViewItem;
+    private ArrayList<HashMap<String,Object>> coursesViewItem;
+    //界面组件
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,8 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         coursesListView = (ListView) findViewById(R.id.listView_course);
         coursesViewItem =new ArrayList<HashMap<String, Object>>();
 
+        progressBar= (ProgressBar) findViewById(R.id.progressbar);
+
         //存入数据//TODO:连接服务器后修改
         for (int i = 0; i < 10; i++) {
             HashMap<String,Object> map=new HashMap<String,Object>();
@@ -48,18 +54,24 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
             map.put("ItemViewNum",(i*1000)+"人看过");//观看人数
             coursesViewItem.add(map);
         }
-        //使用SimpleAdapter绑定数据Item
-        SimpleAdapter adapter=new SimpleAdapter(CoursesActivity.this, coursesViewItem,R.layout.activity_courses_activity_item
-                ,new String[]{"ItemImage","ItemName","ItemStatus","ItemViewNum"},new int[]{R.id.ItemImage,R.id.ItemName,R.id.btn_ItemStatus,R.id.ItemViewNum});
-        coursesListView.setAdapter(adapter);
 
         //TODO:DELETE
         coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.d("111111111111111111111111", "onItemClick: ");
                 Toast.makeText(CoursesActivity.this, "你点击了第" + position + "条视频", Toast.LENGTH_SHORT).show();
+                progressBar.setProgress(progressBar.getProgress()+10);
             }
         });
+
+
+        //使用SimpleAdapter绑定数据Item
+        SimpleAdapter adapter=new SimpleAdapter(CoursesActivity.this, coursesViewItem,R.layout.activity_courses_activity_item
+                ,new String[]{"ItemImage","ItemName","ItemStatus","ItemViewNum"},new int[]{R.id.ItemImage,R.id.ItemName,R.id.btn_ItemStatus,R.id.ItemViewNum});
+        coursesListView.setAdapter(adapter);
+
+
     }
 
     @Override
