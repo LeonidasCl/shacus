@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -48,28 +49,28 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
     //监听返回键，有弹出层时关闭弹出层，否则停止activity
     @Override
     public void onBackPressed() {
-        int state;
+        boolean state;
         switch (position){
             case 0:
                 FragmentCreateYuePaiA fraga=(FragmentCreateYuePaiA)fragment;
-                state=fraga.getEdit_big_photo_layout().getVisibility();
-                if (state== View.GONE)
+                state=fraga.getEdit_big_photo_layout().getVisibility()==View.GONE&&fraga.getdisplay_big_img().getVisibility()==View.GONE;
+                if (state)
                     finish();
                 else
                     fraga.hideBigPhotoLayout();
                 break;
             case 1:
                 FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
-                state=frag.getEdit_big_photo_layout().getVisibility();
-                if (state== View.GONE)
+                state=frag.getEdit_big_photo_layout().getVisibility()==View.GONE&&frag.getdisplay_big_img().getVisibility()==View.GONE;
+                if (state)
                     finish();
                 else
                     frag.hideBigPhotoLayout();
                 break;
             case 2:
                 FragmentCreateYuePaiB fragc=(FragmentCreateYuePaiB)fragment;
-                state=fragc.getEdit_big_photo_layout().getVisibility();
-                if (state== View.GONE)
+                state=fragc.getEdit_big_photo_layout().getVisibility()==View.GONE&&fragc.getdisplay_big_img().getVisibility()==View.GONE;
+                if (state)
                     finish();
                 else
                     fragc.hideBigPhotoLayout();
@@ -123,5 +124,22 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
     }
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String type=intent.getStringExtra("type");
+        if (type.equals("tagAdd1")){
+            String tag=intent.getStringExtra("tag");
+            FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
+            frag.addTag(tag);
+        }
+        if (type.equals("tagAdd2")){
+            String tag=intent.getStringExtra("tag");
+            FragmentCreateYuePaiB frag=(FragmentCreateYuePaiB)fragment;
+            //frag.addTag(tag);
+        }
     }
 }

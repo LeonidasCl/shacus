@@ -237,56 +237,9 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
             }
         });
 
-        /*rankFrag.getListView().setOnTouchListener(new View.OnTouchListener() {
-
-            private static final float OVERSCROLL_THRESHOLD_IN_PIXELS = 30;
-
-            private float downY;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int firstVisibleItem = rankFrag.getListView().getFirstVisiblePosition();
-                int totalItemCount = rankFrag.getListView().getCount();
-                int visibleItemCount = rankFrag.getListView().getChildCount();
-                boolean onTop = firstVisibleItem == 0 &&rankFrag.getListView().getChildAt(0) != null && rankFrag.getListView().getChildAt(0).getTop() == 0;
-                boolean onBottom = firstVisibleItem + visibleItemCount == totalItemCount && rankFrag.getListView().getChildAt(visibleItemCount - 1).getBottom() == rankFrag.getListView().getHeight();
-
-                if (onTop || onBottom) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            downY = event.getY();
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            float deltaY = event.getY() - downY;
-                            if (onTop) {
-                                Log.e("onScroll","ttttttttttttttttttttttttttttttop   "+deltaY);
-                                // Top overscroll
-                            }
-                            if (onBottom && -deltaY > OVERSCROLL_THRESHOLD_IN_PIXELS) {
-                                Log.e("onScroll","bbbbbbbbbbbbbbbbbbbbbtom");
-                                // Bottom overscroll
-                            }
-                            break;
-                    }
-                }
-
-                return false;
-            }
-        });*/
-
         super.onStart();
     }
 
-    private void slip(float step) {
-        //step=mSideZoomBanner.getHeight()/2;
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
-        if (-layoutParams.topMargin<layoutParams.height)
-        {
-                layoutParams.topMargin -= layoutParams.height/20;
-                mSideZoomBanner.setLayoutParams(layoutParams);
-                mSideZoomBanner.invalidate();
-            }
-        }
 
 
     private void loadData() {
