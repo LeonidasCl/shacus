@@ -77,6 +77,5 @@ public class TagAddActivity extends Activity {
                 startActivity(intent);
             }
         });
-        search.requestFocus();
     }
 }
