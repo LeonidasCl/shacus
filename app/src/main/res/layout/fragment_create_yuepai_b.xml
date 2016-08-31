@@ -163,9 +163,9 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/yuepai_free"
+                  android:textColor="@color/aa_black"
                   android:layout_gravity="start"
-                  android:checked="true"
-                  android:onClick="onCheckboxClicked"/>
+                  android:checked="true"/>
 
         <EditText
             android:id="@+id/theme_price_edit"

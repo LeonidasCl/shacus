@@ -8,6 +8,8 @@ import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
 
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -70,8 +72,12 @@ public class NetRequest {
 					Log.d("shacus", "onResponse----------------------" + result);
                     //Toast.makeText(context, result,Toast.LENGTH_LONG).show();
                     //CommonUtils.getUtilInstance().showToast(APP.context,result);
-                    netRequestIterface.requestFinish(result, requestUrl);
-                }
+					try {
+						netRequestIterface.requestFinish(result, requestUrl);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
 
 			});
 		}catch (Exception e){

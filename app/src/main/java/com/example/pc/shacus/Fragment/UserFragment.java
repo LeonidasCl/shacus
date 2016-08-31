@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -33,6 +34,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.ChatActivity;
@@ -80,6 +85,17 @@ public class UserFragment extends android.support.v4.app.ListFragment implements
     float scaleWidth;
     float scaleHeight;
 
+    @Override@Deprecated
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        SearchView search=(SearchView)view.findViewById(R.id.test_search_tag);
+        search.setIconifiedByDefault(false);
+        search.setSubmitButtonEnabled(false);
+        search.setQueryHint("查找或输入标签");
+        return view;
+    }
+
     ContextMenu menu;
     String[] data = {"我的学习", "订单", "我的地图", "优惠券", "分享给好友得积分", "设置"};
     int[] image1 = {R.drawable.a, R.drawable.a, R.drawable.a, R.drawable.a, R.drawable.a, R.drawable.a,};
@@ -122,6 +138,8 @@ public class UserFragment extends android.support.v4.app.ListFragment implements
         button6 = (ImageView) view.findViewById(R.id.button6);
         text1 = (TextView) view.findViewById(R.id.text1);
         text2 = (TextView) view.findViewById(R.id.text2);
+        
+        
         image3 = (com.example.pc.shacus.View.TagView.CircleImageView) view.findViewById(R.id.image3);
         Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");
         if (bt != null) {
@@ -427,10 +445,3 @@ public class UserFragment extends android.support.v4.app.ListFragment implements
         }
     }
 }
-
-
-
-
-
-
-

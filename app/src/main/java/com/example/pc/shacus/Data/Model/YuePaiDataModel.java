@@ -1,6 +1,7 @@
 package com.example.pc.shacus.Data.Model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pc on 2016/7/13.
@@ -18,6 +19,7 @@ public class YuePaiDataModel {
     private String introduce;
     private boolean isFree;
     private double price;
+    private List<String> picURLs;
 
 
     public int getIndexInView() {
@@ -106,5 +108,13 @@ public class YuePaiDataModel {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public List<String> getPicURLs() {
+        return picURLs;
+    }
+
+    public void setPicURLs(List<String> picURLs) {
+        this.picURLs = picURLs;
     }
 }

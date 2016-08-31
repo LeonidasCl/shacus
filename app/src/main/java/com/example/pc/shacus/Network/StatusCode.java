@@ -4,8 +4,6 @@ package com.example.pc.shacus.Network;
  * Created by pc on 2016/3/6.
  */
 public interface StatusCode {
-    int HTTP_GET=1;
-    int HTTP_POST=2;
 
     int STATUS_ERROR= 0;
     int STATUS_LOGIN=10100;
@@ -19,9 +17,14 @@ public interface StatusCode {
     int REQUEST_REGISTER=10003;
     //注册请求类别的成功返回码
     int RECIEVE_REGISTER_SUCCESS=10004;
-
-    //注册请求类别的成功返回码
+    //请求登录的请求码
     int REQUEST_LOGIN=10106;
-
+    //登录请求类别成功的返回码
     int REQUEST_LOGIN_SUCCESS =10101 ;
+
+    int REQUEST_YUEPAI_SUCCESS=10200;
+    int REQUEST_CREATE_YUEPAIA=10201;
+    int REQUEST_CREATE_YUEPAIB=10202;
+    int REQUEST_CREATE_HUODONG=10203;
+    int REQUEST_SEND_YUEPAI=10205;
 }
