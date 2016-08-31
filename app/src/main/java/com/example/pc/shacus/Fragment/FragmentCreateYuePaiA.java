@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -46,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.TagAddActivity;
 import com.example.pc.shacus.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
 import com.example.pc.shacus.Adapter.PhotoViewAttacher;
@@ -55,6 +57,7 @@ import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
@@ -66,8 +69,11 @@ import com.example.pc.shacus.View.TagView.TagView;
 import com.google.gson.Gson;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -106,8 +112,6 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private TextView endTime,joinEndTime;
     private String takePictureUrl,newThemeId;
     private Intent intent;
-    private ListView lv;
-    private SearchView search;
     private NetRequest requestFragment;
     private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
     private GridView add_image_gridview;
@@ -164,10 +168,11 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     //requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
                     break;
                 case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
+                    Map<String, String> map2=(HashMap<String, String>)msg.obj;
                     picToAdd=uploadImgUrlList.size();
                     if(uploadImgUrlList.size()>0){
-                        for(;picToAdd>0;picToAdd--){
-                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(picToAdd-1));//逐张保存要上传的图片并发消息到发送的handle
+                        for(int i=0;picToAdd>0;picToAdd--,i++){
+                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(picToAdd-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
                         }
                     }
                     show_upload_pic_layout.setVisibility(View.VISIBLE);
@@ -222,6 +227,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         }
     };
     private UserModel user;
+    private int apId;
+    private ArrayList<String> imgList;
 
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){
@@ -369,62 +376,16 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         });
         mTagContainerLayout.setTags(list1);
-        lv = (ListView) root.findViewById(R.id.search_list);
-        String[] mStrings = {"ad","dffa","uyiu","rqer","qwgt","afrgb","rtyr"};
-        search = (SearchView) root.findViewById(R.id.search_tag);
-        search.setIconifiedByDefault(false);
-        search.setSubmitButtonEnabled(false);
-        search.setVisibility(View.VISIBLE);
-        search.setQueryHint("查找或输入标签");
-        final ArrayAdapter adapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, mStrings);
-        lv.setAdapter(adapter);
-        lv.setTextFilterEnabled(true);
-        //暂时用这种办法让listview不占用空间
-        adapter.getFilter().filter("clear");
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // 用户输入字符时激发该方法
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText)) {
-                    lv.clearTextFilter();
-                } else {
-                    adapter.getFilter().filter(newText);
-                    //lv.setFilterText(newText);
-                }
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
-        });
-    /*search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            //if (!hasFocus)
-                //暂时用这种办法让listview不占用空间
-                adapter.getFilter().filter("clear");
-        }
-    });*/
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = (String) lv.getItemAtPosition(position);
-                search.setQuery(str, false);
-                //暂时用这种办法让listview不占用空间
-                adapter.getFilter().filter("clear");
-            }
-        });
         Button btnAddTag = (Button) root.findViewById(R.id.btn_tag_add);
         btnAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txt = search.getQuery().toString();
-                if (!txt.equals(""))
-                    mTagContainerLayout.addTag(txt);
+                Intent intent=new Intent(getActivity(), TagAddActivity.class);
+                startActivity(intent);
             }
         });
+
         edit_photo_fullscreen_layout=(FrameLayout)root.findViewById(R.id.edit_photo_fullscreen_layout);
         edit_photo_fullscreen_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -736,11 +697,11 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     }
 
     //上传图片(每一张调用一次这个函数)
-    public void saveThemeImgNew(final String themeId,final String picUrl){
+    public void saveThemeImgNew(final String themeId,final String picUrl,String tk,int num){
         UploadManager uploadmgr=new UploadManager();
         File data=new File(picUrl);
-        String key="TheElder";
-        String token="yzAza_Cm87nXkh9IyFfpg7LL7qKJ097VK5IOpLj0:JDjafOXq5FrsvaGkX9OMGMk4uv0=:eyJzY29wZSI6InNoYWN1czoyMDE2MDgyOS5qcGciLCJkZWFkbGluZSI6MTQ3MjQ1NzUxOH0=";
+        String key=imgList.get(num);
+        String token=tk;
         uploadmgr.put(data, key, token, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
@@ -761,17 +722,25 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     }
                 }.start();
             }
-        },null);
+        },new UploadOptions(null, null, false,
+                new UpProgressHandler(){
+                    public void progress(String key, double percent){
+                        Log.i("qiniu", key + ": " + percent);
+                    }
+                },null));
     }
 
 
     public void saveThemeInfo(String usrname,String auth_key,String title){//发第一次请求，仅请求约拍立项
         Map<String, Object>map=new HashMap<String, Object>();
         List<String> list=new ArrayList<>();
+        imgList=new ArrayList<>();
         for (int i=0;i<uploadImgUrlList.size();i++){
             String[] ext=uploadImgUrlList.get(i).split("\\.");
             String extention="."+ext[ext.length-1];
-            list.add(String.valueOf(uploadImgUrlList.get(i).hashCode())+extention);
+            String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+extention;
+            imgList.add(filename);
+            list.add(String.valueOf("\""+filename+"\""));
         }
         map.put("phone",usrname);
         map.put("auth_key",auth_key);
@@ -779,32 +748,11 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         map.put("type",YUEPAI_TYPE==1?"10201":"10202");
         map.put("imgs",list);
         requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
-
-        /*UploadManager uploadmgr=new UploadManager();
-        File data=new File(uploadImgUrlList.get(0));
-        String key="20160829.jpg";
-        String token="yzAza_Cm87nXkh9IyFfpg7LL7qKJ097VK5IOpLj0:JDjafOXq5FrsvaGkX9OMGMk4uv0=:eyJzY29wZSI6InNoYWN1czoyMDE2MDgyOS5qcGciLCJkZWFkbGluZSI6MTQ3MjQ1NzUxOH0=";
-        uploadmgr.put(data, key, token, new UpCompletionHandler() {
-            @Override
-            public void complete(String key, ResponseInfo info, JSONObject response) {
-
-                new Thread() {
-                    public void run() {
-                        Map<String, Object> map = new HashMap<>();
-               // map.put("themeId",themeId);
-                        Message msg = handler.obtainMessage();
-                        msg.obj = map;
-                        msg.what = SAVE_THEME_IMAGE;
-                        handler.sendMessage(msg);//上传结果包装在msg后变成了消息发到handler
-                    }
-                }.start();
-            }
-        }, null);*/
     }
 
     //
     @Override
-    public void requestFinish(final String result,String requestUrl){
+    public void requestFinish(final String result,String requestUrl) throws JSONException {
 
         if(requestUrl.equals(CommonUrl.saveThemeImgNew)){//上传图片完成并且传回信息给业务服务器完成的回调（最终回调）
             try{
@@ -818,29 +766,35 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         }
         if(requestUrl.equals(CommonUrl.createYuePaiInfo)){//约拍立项（第一次请求）完成的回调
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        JSONObject gamesInfoObject = new JSONObject(result);
-                        int errorCode = gamesInfoObject.getInt("errorCode");
-
-                        if (errorCode == 0) {
-                            CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_theme_sucess));
-                            newThemeId = gamesInfoObject.getString("themeId");
-                               /* UserInfoUtil.getInstance().setThemeNum(
-                                        UserInfoUtil.getInstance().getThemeNum() + 1);*/
-                            handler.sendEmptyMessageDelayed(UPLOAD_TAKE_PICTURE, 100);
-                        } else {
-                               /* CommonUtils.getUtilInstance().showToast(UploadPicActivity.this,
-                                        getString(R.string.publish_theme_failure));*/
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            final JSONObject content=object.getJSONObject("contents");
+            if (code == StatusCode.REQUEST_YUEPAI_SUCCESS) {
+                //new Thread(){
+                   // public void run() {
+                        //JSONObject apid = null;
+                        try {
+                            //apid = content.getJSONObject("apId");
+                            apId = content.getInt("apId");
+                            JSONArray auth_key_arr = content.getJSONArray("auth_key");
+                            for (int i = 0; i < auth_key_arr.length(); i++) {
+                                Message msg = handler.obtainMessage();
+                                Map<String, String> map = new HashMap<>();
+                                map.put("auth_key", auth_key_arr.getString(i));
+                                msg.obj = map;
+                                msg.what = UPLOAD_TAKE_PICTURE;
+                                handler.sendMessageDelayed(msg, 100);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
+                    //}
+                //}.start();
+                Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_yuepai_sucess));Looper.loop();
+        }else {
+
+            }
+    }
 
     }
 
@@ -876,4 +830,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         return edit_photo_fullscreen_layout;
     }
 
+    public void addTag(String tag) {
+        if (!tag.equals(""))
+        mTagContainerLayout.addTag(tag);
+    }
 }

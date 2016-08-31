@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -123,5 +124,22 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
     }
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String type=intent.getStringExtra("type");
+        if (type.equals("tagAdd1")){
+            String tag=intent.getStringExtra("tag");
+            FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
+            frag.addTag(tag);
+        }
+        if (type.equals("tagAdd2")){
+            String tag=intent.getStringExtra("tag");
+            FragmentCreateYuePaiB frag=(FragmentCreateYuePaiB)fragment;
+            //frag.addTag(tag);
+        }
     }
 }

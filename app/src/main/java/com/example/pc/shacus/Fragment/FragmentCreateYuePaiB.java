@@ -737,7 +737,7 @@ public void requestFinish(final String result,String requestUrl){
                                             int errorCode = gamesInfoObject.getInt("errorCode");
 
                                             if (errorCode == 0) {
-                                                    CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_theme_sucess));
+                                                    CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_yuepai_sucess));
                                                     newThemeId = gamesInfoObject.getString("themeId");
                                /* UserInfoUtil.getInstance().setThemeNum(
                                         UserInfoUtil.getInstance().getThemeNum() + 1);*/
