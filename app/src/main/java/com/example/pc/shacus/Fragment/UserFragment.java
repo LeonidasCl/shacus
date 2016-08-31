@@ -85,16 +85,6 @@ public class UserFragment extends android.support.v4.app.ListFragment implements
     float scaleWidth;
     float scaleHeight;
 
-    @Override@Deprecated
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_user, container, false);
-        SearchView search=(SearchView)view.findViewById(R.id.test_search_tag);
-        search.setIconifiedByDefault(false);
-        search.setSubmitButtonEnabled(false);
-        search.setQueryHint("查找或输入标签");
-        return view;
-    }
 
     ContextMenu menu;
     String[] data = {"我的学习", "订单", "我的地图", "优惠券", "分享给好友得积分", "设置"};
@@ -142,6 +132,11 @@ public class UserFragment extends android.support.v4.app.ListFragment implements
         
         image3 = (com.example.pc.shacus.View.TagView.CircleImageView) view.findViewById(R.id.image3);
         Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");
+
+        SearchView search=(SearchView)view.findViewById(R.id.test_search_tag);
+        search.setIconifiedByDefault(false);
+        search.setSubmitButtonEnabled(false);
+        search.setQueryHint("查找或输入标签");
         if (bt != null) {
             @SuppressWarnings("deprecation")
             Drawable drawable = new BitmapDrawable(bt);//转换成drawable
