@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -141,18 +142,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         initView();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //这个是父布局，也就是这个Activity的根布局
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        //找到侧边栏
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //为侧边栏设置监听，由于此Activity已实现OnNavigationItemSelectedListener接口，可以传this
+        navigationView.setNavigationItemSelectedListener(this);
+        //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
         btnAvartar=(ImageButton)findViewById(R.id.toolbar_btn_avatar);
         btnAvartar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (isLogin){
+                        //如果用户已经登录，打开侧滑菜单
                         mDrawerLayout.openDrawer(navigationView);
                     }else {
+                        //如果没有登录，跳转到注册
                         Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
-                        intent.putExtra("method", StatusCode.STATUS_LOGIN);/////////////
+                        intent.putExtra("method", StatusCode.STATUS_LOGIN);
                         startActivity(intent);
                     }
 
@@ -334,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //这里是导航侧边栏的回调
-    @Override
+   @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
