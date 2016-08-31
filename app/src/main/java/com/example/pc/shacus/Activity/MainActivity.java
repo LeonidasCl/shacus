@@ -3,9 +3,12 @@ package com.example.pc.shacus.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,7 +39,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
 
 
     private static final String TAG = "TAG";
@@ -63,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ACache cache;
     private ImageButton btnAvartar;
     private TextView textName;
+
+    private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,12 +141,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         initView();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         btnAvartar=(ImageButton)findViewById(R.id.toolbar_btn_avatar);
         btnAvartar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (isLogin){
-
+                        mDrawerLayout.openDrawer(navigationView);
                     }else {
                         Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
                         intent.putExtra("method", StatusCode.STATUS_LOGIN);/////////////
@@ -324,4 +333,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
