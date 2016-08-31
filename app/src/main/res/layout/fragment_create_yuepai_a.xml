@@ -241,15 +241,6 @@
                     android:listSelector="#00000000" />
             </RelativeLayout>
 
-            <!-- 上传进度 -->
-            <include
-                android:id="@+id/uploading_photo_progress"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                layout="@layout/progress_layout"
-                android:clickable="true"
-                android:visibility="gone" />
-
         </RelativeLayout>
     </ScrollView>
 
@@ -385,4 +376,15 @@
             </LinearLayout>
         </RelativeLayout>
     </FrameLayout>
+
+    <!-- 上传进度
+    <ProgressBar
+        android:id="@+id/uploading_photo_progress"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:layout_marginRight="5dp"
+        android:visibility="gone"/>-->
+
 </FrameLayout>

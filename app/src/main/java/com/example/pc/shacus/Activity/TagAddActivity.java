@@ -30,7 +30,7 @@ public class TagAddActivity extends Activity {
         lv = (ListView) findViewById(R.id.a_search_list);
         String[] mStrings = {"ad","dffa","uyiu","rqer","qwgt","afrgb","rtyr"};
         search = (SearchView) findViewById(R.id.a_search_tag);
-        //search.setIconifiedByDefault(false);
+        search.setIconifiedByDefault(false);
         search.setSubmitButtonEnabled(false);
         final ArrayAdapter adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, mStrings);
         lv.setAdapter(adapter);

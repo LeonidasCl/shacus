@@ -81,4 +81,8 @@
     <string name="tv_create_yuepai">发起约拍/活动</string>
     <string name="join_time">请选择报名截止时间</string>
     <string name="hint_search">查找或输入标签</string>
+    <string name="title_activity_navigation_test">NavigationTestActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
