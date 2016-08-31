@@ -48,12 +48,7 @@ public class UploadPhotoUtil<MultipartEntity> {
             bitmap.compress(CompressFormat.PNG, 100, bos);
             byte[] result = bos.toByteArray();
             fileString = new String(result, "ISO-8859-1");
-            Log.d("gaolei",
-                    "UploadPhotoZoom--------end---------"
-                            + new Date(System.currentTimeMillis()));
-            Log.d("gaolei",
-                    "file.length()-----------ZoomedToStr----------"
-                            + fileString.length());
+
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -62,32 +57,7 @@ public class UploadPhotoUtil<MultipartEntity> {
 
     }
 
-    //把图片转化为字符串上传
-    public String getUploadPhotoZoomString(String filePath) {
-        Log.d("gaolei",
-                "file.length()------------------------"
-                        + new Date(System.currentTimeMillis()));
-        String fileString = "";
-        try {
 
-            Bitmap bitmap = trasformToZoomPhotoAndLessMemory(filePath);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(CompressFormat.PNG, 100, bos);
-            byte[] result = bos.toByteArray();
-            fileString = new String(result, "ISO-8859-1");
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        Log.d("gaolei",
-                "UploadPhotoZoom--------end---------"
-                        + new Date(System.currentTimeMillis()));
-        Log.d("gaolei",
-                "file.length()-----------ZoomedToStr----------"
-                        + fileString.length());
-        return fileString;
-
-    }
 
     public static byte[] InputStreamTOByteArray(InputStream in)
             throws IOException {
@@ -139,7 +109,7 @@ public class UploadPhotoUtil<MultipartEntity> {
 
     public Bitmap trasformToZoomBitmapAndLessMemory(String url) {
         File file = new File(url);
-        Log.d("gaolei", "file.length()---------------------" + file.length());
+        Log.d("logout", "file.length()---------------------" + file.length());
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         int inSampleSize = 1;

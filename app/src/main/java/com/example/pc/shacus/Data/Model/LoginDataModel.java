@@ -1,38 +1,50 @@
 package com.example.pc.shacus.Data.Model;
 
 public class LoginDataModel {
-	private String authKey = null;
-    private String content;
-	private UserModel user;
-	private String errorCode;
 
-	public String getAuthKey() {
-		return authKey;
+	private UserModel userModel;
+	private Object modelList;
+	private Object daohanglan;
+	private String code;
+	private Object photoList;
+
+	public Object getPhotoList() {
+		return photoList;
 	}
 
-	public void setAuthKey(String authKey) {
-		this.authKey = authKey;
+	public void setPhotoList(Object photoList) {
+		this.photoList = photoList;
 	}
 
-
-	public UserModel getUser() {
-		return user;
+	public String getCode() {
+		return code;
 	}
 
-	public void setUser(UserModel user) {
-		this.user = user;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	public String getErrorCode() {
-		return errorCode;
+	public Object getDaohanglan() {
+		return daohanglan;
 	}
 
-	public void setErrorCode(String errorCode) {
-		this.errorCode = errorCode;
+	public void setDaohanglan(Object daohanglan) {
+		this.daohanglan = daohanglan;
 	}
 
+	public Object getModelList() {
+		return modelList;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public void setModelList(Object modelList) {
+		this.modelList = modelList;
+	}
+
+	public UserModel getUserModel() {
+		return userModel;
+	}
+
+	public void setUserModel(UserModel userModel) {
+		this.userModel = userModel;
+	}
 }

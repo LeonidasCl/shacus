@@ -3,8 +3,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.pc.shacus.Fragment.UserFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <android.support.v7.widget.SearchView
+        android:id="@+id/test_search_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp">
+    </android.support.v7.widget.SearchView>
 
 </FrameLayout>

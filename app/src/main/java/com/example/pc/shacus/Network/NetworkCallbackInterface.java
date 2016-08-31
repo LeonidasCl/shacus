@@ -1,5 +1,7 @@
 package com.example.pc.shacus.Network;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 
 /**
@@ -11,7 +13,7 @@ public class NetworkCallbackInterface {
      * 网络请求回调接口
      */
     public interface NetRequestIterface {
-        void requestFinish(String result, String requestUrl);
+        void requestFinish(String result, String requestUrl) throws JSONException;
         void exception(IOException e, String requestUrl);
     }
     /**

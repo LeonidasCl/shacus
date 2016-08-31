@@ -26,8 +26,8 @@
     <string name="choose_upload">选择上传图片类型</string>
     <string name="no_more_than_9">对不起，最多只能上传9张图片</string>
     <string name="upload">发表</string>
-    <string name="publish_theme_sucess">创建主题成功</string>
-    <string name="publish_theme_failure">创建主题失败</string>
+    <string name="publish_yuepai_sucess">创建约拍成功，上传图片中</string>
+    <string name="publish_theme_failure">创建约拍失败</string>
     <string name="playing">正在玩</string>
     <string name="detail">详情</string>
     <string name="input_theme_comment_title">请输入标题</string>
@@ -74,9 +74,11 @@
     <string name="yuepai_free">免费</string>
     <string name="yuepai_price">请说明报酬</string>
     <string name="create_yuepai_describe">请输入详细介绍及要求</string>
-    <string name="addtag">添加标签</string>
+    <string name="addtag">点击选择或添加一个标签</string>
     <string name="tv_yuepai_a">摄影师入口</string>
     <string name="tv_yuepai_b">模特入口</string>
     <string name="tv_yuepai_c">约活动</string>
     <string name="tv_create_yuepai">发起约拍/活动</string>
+    <string name="join_time">请选择报名截止时间</string>
+    <string name="hint_search">查找或输入标签</string>
 </resources>

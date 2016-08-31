@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -25,7 +26,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +35,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -45,22 +47,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.TagAddActivity;
 import com.example.pc.shacus.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
 import com.example.pc.shacus.Adapter.PhotoViewAttacher;
 import com.example.pc.shacus.Adapter.UploadViewPager;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.UploadPhotoUtil;
-import com.example.pc.shacus.Util.UserInfoUtil;
 import com.example.pc.shacus.View.DateTimePicker.SlideDateTimeListener;
 import com.example.pc.shacus.View.DateTimePicker.SlideDateTimePicker;
 import com.example.pc.shacus.View.TagView.TagContainerLayout;
 import com.example.pc.shacus.View.TagView.TagView;
+import com.google.gson.Gson;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -96,14 +109,15 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private boolean timeFlag=false;
     private Date startdate=new Date();
     private Date enddate=new Date();
-    private TextView endTime;
+    private TextView endTime,joinEndTime;
     private String takePictureUrl,newThemeId;
     private Intent intent;
-    private ListView lv;
-    private SearchView search;
     private NetRequest requestFragment;
     private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
     private GridView add_image_gridview;
+    private CheckBox checkbox_free;
+    private EditText price_edit;
+    private int picToAdd=-1;
     private int addPicCount=1,addTakePicCount=1,viewpagerPosition;
     private List<String> uploadImgUrlList=new ArrayList<>();
     private List<Drawable>addPictureList=new ArrayList<>();
@@ -148,15 +162,17 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         public void handleMessage(Message msg){
             switch(msg.what){
 
-                case SAVE_THEME_IMAGE://响应第二次msg，发送第二次请求：上传图片
+                case SAVE_THEME_IMAGE://响应第二次msg，将上传图片结果与真约拍信息反馈给业务服务器
                     Map<String, Object> map=(Map<String, Object>)msg.obj;
-                    requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
-                    break;
-                case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，准备发送图片
 
+                    //requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
+                    break;
+                case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
+                    Map<String, String> map2=(HashMap<String, String>)msg.obj;
+                    picToAdd=uploadImgUrlList.size();
                     if(uploadImgUrlList.size()>0){
-                        for(int i=0;i<uploadImgUrlList.size();i++){
-                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(i));//逐张保存要上传的图片并发消息到发送的handle
+                        for(int i=0;picToAdd>0;picToAdd--,i++){
+                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(picToAdd-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
                         }
                     }
                     show_upload_pic_layout.setVisibility(View.VISIBLE);
@@ -182,19 +198,25 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     break;
                 //在图库选中了本地的图
                 case SHOW_LOCAL_PICTURE:
+                    //获取到资源位置
+                    Uri uri=intent.getData();
+                    String photo_local_file_path=getPath_above19(getActivity().getApplicationContext(), uri);
+                    //程序员啊不要见得风就是雨，要有自己的判断，用户选出来的文件要判断它是不是真的图片
+                    //如果不是，这个错的东西你再帮他传一遍，等于你也有责任吧
+                    if (!(photo_local_file_path.toString().toLowerCase().endsWith("jpg")||photo_local_file_path.toString().toLowerCase().endsWith("png")
+                            ||photo_local_file_path.toString().toLowerCase().endsWith("jpeg")||photo_local_file_path.toString().toLowerCase().endsWith("gif"))){
+                        CommonUtils.getUtilInstance().showToast(getActivity(),"不支持此格式的上传");
+                        break;
+                    }
                     addPic=true;
                     if(clearFormerUploadUrlList){
                         if(uploadImgUrlList.size()>0){
                             uploadImgUrlList.clear();
                         }
                         clearFormerUploadUrlList=false;
-                    }//获取到资源位置
-                    Uri uri=intent.getData();
-                    String photo_local_file_path=getPath_above19(getActivity().getApplicationContext(),uri);
-                    Bitmap bitmap2=UploadPhotoUtil.getInstance()
-                            .trasformToZoomBitmapAndLessMemory(photo_local_file_path);
-                    addPictureList.add(new BitmapDrawable(getResources(),
-                            bitmap2));
+                    }
+                    Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(photo_local_file_path);
+                    addPictureList.add(new BitmapDrawable(getResources(), bitmap2));
                     uploadImgUrlList.add(photo_local_file_path);
                     imageAddGridViewAdapter.changeList(addPictureList);
                     imageAddGridViewAdapter.notifyDataSetChanged();
@@ -204,6 +226,10 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         }
     };
+    private UserModel user;
+    private int apId;
+    private ArrayList<String> imgList;
+
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){
         return"com.android.externalstorage.documents".equals(uri.getAuthority());
@@ -350,61 +376,16 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         });
         mTagContainerLayout.setTags(list1);
-        lv = (ListView) root.findViewById(R.id.search_list);
-        String[] mStrings = {"ad","dffa","uyiu","rqer","qwgt","afrgb","rtyr"};
-        search = (SearchView) root.findViewById(R.id.search_tag);
-        search.setIconifiedByDefault(false);
-        search.setSubmitButtonEnabled(false);
-        search.setQueryHint("查找或输入标签");
-        final ArrayAdapter adapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, mStrings);
-        lv.setAdapter(adapter);
-        lv.setTextFilterEnabled(true);
-        //暂时用这种办法让listview不占用空间
-        adapter.getFilter().filter("clear");
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // 用户输入字符时激发该方法
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText)) {
-                    lv.clearTextFilter();
-                } else {
-                    adapter.getFilter().filter(newText);
-                    //lv.setFilterText(newText);
-                }
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
-        });
-    /*search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            //if (!hasFocus)
-                //暂时用这种办法让listview不占用空间
-                adapter.getFilter().filter("clear");
-        }
-    });*/
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = (String) lv.getItemAtPosition(position);
-                search.setQuery(str, false);
-                //暂时用这种办法让listview不占用空间
-                adapter.getFilter().filter("clear");
-            }
-        });
         Button btnAddTag = (Button) root.findViewById(R.id.btn_tag_add);
         btnAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txt=search.getQuery().toString();
-                if (!txt.equals(""))
-                    mTagContainerLayout.addTag(txt);
+                Intent intent=new Intent(getActivity(), TagAddActivity.class);
+                startActivity(intent);
             }
         });
+
         edit_photo_fullscreen_layout=(FrameLayout)root.findViewById(R.id.edit_photo_fullscreen_layout);
         edit_photo_fullscreen_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -413,7 +394,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         });
         edit_photo_outer_layout=(RelativeLayout)root.findViewById(R.id.edit_photo_outer_layout);
-        TextView cancelEditPhoto=(TextView)edit_photo_outer_layout.findViewById(R.id.cancel);
+        TextView cancelEditPhoto=(TextView)edit_photo_outer_layout.findViewById(R.id.cancel_upload);
         cancelEditPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -424,6 +405,20 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         display_big_image_layout=(RelativeLayout)root.findViewById(R.id.display_big_image_layout);
         show_upload_pic_layout=(RelativeLayout)root.findViewById(R.id.show_upload_pic_layout);
         take_picture=(TextView)root.findViewById(R.id.take_picture);
+        price_edit=(EditText)root.findViewById(R.id.theme_price_edit);
+        checkbox_free=(CheckBox)root.findViewById(R.id.checkbox_free);
+        checkbox_free.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                     price_edit.setVisibility(View.GONE);
+                }else {
+                    price_edit.setVisibility(View.VISIBLE);
+                    //price_edit.setEnabled(false);
+                    //price_edit.setEditableFactory();
+                }
+            }
+        });
         startTime=(TextView)root.findViewById(R.id.text_start_time);
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -454,7 +449,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         });
         endTime=(TextView)root.findViewById(R.id.text_end_time);
-        endTime.setOnClickListener(new View.OnClickListener() {
+        endTime.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if (!timeFlag)
@@ -462,6 +457,24 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     Toast.makeText(getContext(), "请先选择开始时间", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+                        .setListener(endlistener)
+                        .setInitialDate(startdate)
+                        .setMinDate(startdate)
+                        .build()
+                        .show();
+            }
+        });
+        joinEndTime=(TextView)root.findViewById(R.id.text_join_time);
+        joinEndTime.setOnClickListener(new View.OnClickListener() {
+          @Override
+            public void onClick(View view) {
+              if (!timeFlag)
+              {
+                  Toast.makeText(getContext(), "请先选择开始时间", Toast.LENGTH_SHORT).show();
+                  return;
+              }
+
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(endlistener)
                         .setInitialDate(startdate)
@@ -492,7 +505,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //这里是添加图片的按钮的回调
                 if (position == 0) {
-                    if (addPicCount == 9) {
+                    if (addPicCount == 10) {
                         CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.no_more_than_9));
                     } else {
                         //点击添加图片
@@ -591,7 +604,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, intent);
         if(resultCode==NONE)
             return;
-        //为什么不在这处理图片呢？因为处理图片比较耗时，如果在这里处理图片，从图库或者拍照Activity时会不流畅，很卡卡卡，试试就知道了
+        //耗时操作传到handler里去处理
         if(requestCode==TAKE_PICTURE){
             handler.sendEmptyMessage(SHOW_TAKE_PICTURE);
             return;
@@ -625,13 +638,23 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         "image/*");
                 startActivityForResult(intent,LOCAL_PICTURE);
                 break;
+            /*case R.id.cancel_upload:
+                edit_photo_fullscreen_layout.setVisibility(View.GONE);*/
             case R.id.upload://第一次握手：按发表键后
                 //检查用户是否登录
-                if(UserInfoUtil.getInstance().getAuthKey()==null){
+                Gson gson=new Gson();
+                ACache cache= ACache.get(getActivity());
+                JSONObject userStr=cache.getAsJSONObject("loginModel");
+                user=gson.fromJson(userStr.toString(),LoginDataModel.class).getUserModel();
+                String usename=user.getPhone();
+                String authKey=user.getAuth_key();
+                if(authKey!=null&&authKey.equals("")){
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.publish_theme_after_login));
                     return;
                 }
-                if(theme_title_edit.getText().toString().length()==0){
+
+                String title=theme_title_edit.getText().toString();
+                if(title.equals("")){
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.input_theme_comment_title));
                     return;
                 }
@@ -646,7 +669,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         }
                     }
                 }
-                saveThemeInfo();//发第一次请求
+                saveThemeInfo(usename,authKey,title);//发第一次请求
 
 
                 if(!clearFormerUploadUrlList){
@@ -673,36 +696,65 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         }
     }
 
-    //保存要上传的图片(每一张调用一次这个函数)
-    public void saveThemeImgNew(final String themeId,final String picUrl){
-        new Thread(){
-            public void run(){
-                Map<String, Object>map=new HashMap<>();
-                map.put("themeId",themeId);
-                map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
-                map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
-                map.put("type",1);
-                Message msg=handler.obtainMessage();
-                msg.obj=map;
-                msg.what=SAVE_THEME_IMAGE;
-                handler.sendMessage(msg);//要上传的图片包装在msg后变成了消息发到handler
+    //上传图片(每一张调用一次这个函数)
+    public void saveThemeImgNew(final String themeId,final String picUrl,String tk,int num){
+        UploadManager uploadmgr=new UploadManager();
+        File data=new File(picUrl);
+        String key=imgList.get(num);
+        String token=tk;
+        uploadmgr.put(data, key, token, new UpCompletionHandler() {
+            @Override
+            public void complete(String key, ResponseInfo info, JSONObject response) {
+                //完成，发信息给业务服务器
+                new Thread(){
+                    public void run(){
+                        Map<String, Object>map=new HashMap<>();
+                        /* map.put("themeId",themeId);
+                        map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
+                        map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
+                        map.put("type",1);*/
+                        if (picToAdd==1){
+                        Message msg=handler.obtainMessage();
+                        msg.obj=map;
+                        msg.what=SAVE_THEME_IMAGE;
+                        handler.sendMessage(msg);
+                        }//要上传的图片包装在msg后变成了消息发到handler
+                    }
+                }.start();
             }
-        }.start();
+        },new UploadOptions(null, null, false,
+                new UpProgressHandler(){
+                    public void progress(String key, double percent){
+                        Log.i("qiniu", key + ": " + percent);
+                    }
+                },null));
     }
 
 
-    public void saveThemeInfo(){
+    public void saveThemeInfo(String usrname,String auth_key,String title){//发第一次请求，仅请求约拍立项
         Map<String, Object>map=new HashMap<String, Object>();
-        map.put("themeTitle",theme_title_edit.getText().toString());
-        map.put("themeDescr",theme_desc_edit.getText().toString());
-        requestFragment.httpRequest(map, CommonUrl.saveThemeInfo);
+        List<String> list=new ArrayList<>();
+        imgList=new ArrayList<>();
+        for (int i=0;i<uploadImgUrlList.size();i++){
+            String[] ext=uploadImgUrlList.get(i).split("\\.");
+            String extention="."+ext[ext.length-1];
+            String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+extention;
+            imgList.add(filename);
+            list.add(String.valueOf("\""+filename+"\""));
+        }
+        map.put("phone",usrname);
+        map.put("auth_key",auth_key);
+        map.put("title",title);
+        map.put("type",YUEPAI_TYPE==1?"10201":"10202");
+        map.put("imgs",list);
+        requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
     }
 
     //
     @Override
-    public void requestFinish(final String result,String requestUrl){
+    public void requestFinish(final String result,String requestUrl) throws JSONException {
 
-        if(requestUrl.equals(CommonUrl.saveThemeImgNew)){//上传图片完成的回调
+        if(requestUrl.equals(CommonUrl.saveThemeImgNew)){//上传图片完成并且传回信息给业务服务器完成的回调（最终回调）
             try{
                 JSONObject object=new JSONObject(result);
 
@@ -713,30 +765,36 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 e.printStackTrace();
             }
         }
-        if(requestUrl.equals(CommonUrl.saveThemeInfo)){//发表主题完成的回调
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        JSONObject gamesInfoObject = new JSONObject(result);
-                        int errorCode = gamesInfoObject.getInt("errorCode");
-
-                        if (errorCode == 0) {
-                            CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_theme_sucess));
-                            newThemeId = gamesInfoObject.getString("themeId");
-                               /* UserInfoUtil.getInstance().setThemeNum(
-                                        UserInfoUtil.getInstance().getThemeNum() + 1);*/
-                            handler.sendEmptyMessageDelayed(UPLOAD_TAKE_PICTURE, 100);
-                        } else {
-                               /* CommonUtils.getUtilInstance().showToast(UploadPicActivity.this,
-                                        getString(R.string.publish_theme_failure));*/
+        if(requestUrl.equals(CommonUrl.createYuePaiInfo)){//约拍立项（第一次请求）完成的回调
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            final JSONObject content=object.getJSONObject("contents");
+            if (code == StatusCode.REQUEST_YUEPAI_SUCCESS) {
+                //new Thread(){
+                   // public void run() {
+                        //JSONObject apid = null;
+                        try {
+                            //apid = content.getJSONObject("apId");
+                            apId = content.getInt("apId");
+                            JSONArray auth_key_arr = content.getJSONArray("auth_key");
+                            for (int i = 0; i < auth_key_arr.length(); i++) {
+                                Message msg = handler.obtainMessage();
+                                Map<String, String> map = new HashMap<>();
+                                map.put("auth_key", auth_key_arr.getString(i));
+                                msg.obj = map;
+                                msg.what = UPLOAD_TAKE_PICTURE;
+                                handler.sendMessageDelayed(msg, 100);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
+                    //}
+                //}.start();
+                Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_yuepai_sucess));Looper.loop();
+        }else {
+
+            }
+    }
 
     }
 
@@ -752,11 +810,12 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
 
     @Override
     public void exception(IOException e,String requestUrl){
-        Log.d("发生错误", "--------------------------" + e.getMessage());
+        Log.d("logout", "--------------------------" + e.getMessage());
     }
 
     public void hideBigPhotoLayout(){
         display_big_image_layout.setVisibility(View.GONE);
+        edit_photo_fullscreen_layout.setVisibility(View.GONE);
     }
 
     public void setYUEPAI_TYPE(int YUEPAI_TYPE) {
@@ -767,4 +826,12 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         return display_big_image_layout;
     }
 
+    public FrameLayout getdisplay_big_img(){
+        return edit_photo_fullscreen_layout;
+    }
+
+    public void addTag(String tag) {
+        if (!tag.equals(""))
+        mTagContainerLayout.addTag(tag);
+    }
 }

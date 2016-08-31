@@ -81,39 +81,7 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
 
             Gson gson = new Gson();
             LoginDataModel loginStatusInfoObject = gson.fromJson(result, LoginDataModel.class);
-            String errorCode = loginStatusInfoObject.getErrorCode();
-            if (errorCode.equals("0")) {
-
-                UserInfoUtil.getInstance().setAuthKey(
-                        loginStatusInfoObject.getAuthKey());
-                UserInfoUtil.getInstance().setUserId(
-                        loginStatusInfoObject.getUser()
-                                .getUserId());
-
-                UserInfoUtil.getInstance().setPhotoUrl(
-                        loginStatusInfoObject.getUser()
-                                .getAvatar());
-                UserInfoUtil.getInstance().setNickName(
-                        loginStatusInfoObject.getUser()
-                                .getNickName());
-                UserInfoUtil.getInstance().setSignature(
-                        loginStatusInfoObject.getUser()
-                                .getSignature());
-                UserInfoUtil.getInstance().setSex(
-                        loginStatusInfoObject.getUser()
-                                .getSex());
-                UserInfoUtil.getInstance().setFollowNum(
-                        loginStatusInfoObject.getUser()
-                                .getFollowNum());
-                UserInfoUtil.getInstance().setFansNum(
-                        loginStatusInfoObject.getUser()
-                                .getFansNum());
-                APP.getInstance().setMyName(
-                        loginStatusInfoObject.getUser().getNickName());
-                APP.getInstance().setMyPhoto(
-                        loginStatusInfoObject.getUser().getUserId());
-
-            }}
+}
     }
 
     @Override

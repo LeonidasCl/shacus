@@ -27,6 +27,7 @@ import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -114,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 String pwd=password.getText().toString();
                 map.put("phone",usrnm);
                 map.put("password",pwd);
-                map.put("askcode",StatusCode.REQUEST_LOGIN);
+                map.put("askCode",StatusCode.REQUEST_LOGIN);
                 loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
                 requestFragment.httpRequest(map, CommonUrl.loginAccount);
                 }
@@ -285,29 +286,59 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     }
 
     @Override
-    public void requestFinish(String result, String requestUrl) {
+    public void requestFinish(String result, String requestUrl) throws JSONException {
         if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
+                JSONObject object = new JSONObject(result);
+                int code = Integer.valueOf(object.getString("code"));
+                JSONArray content=object.getJSONArray("contents");
+                //还有其它的JSONArray比如榜单、广告栏等初始化数据未接
+                String userJSON=content.getJSONObject(0).toString();
                 Gson gson=new Gson();
-                LoginDataModel loginStatusInfoObject = gson.fromJson(result, LoginDataModel.class);
-                int code = Integer.valueOf(loginStatusInfoObject.getErrorCode());
-                String content=loginStatusInfoObject.getContent();
+                LoginDataModel loginDataModel=gson.fromJson(userJSON,LoginDataModel.class);
+
+                UserModel user = loginDataModel.getUserModel();
+
             if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
-                String authKey=loginStatusInfoObject.getAuthKey();
-                UserModel user=loginStatusInfoObject.getUser();
                 ACache cache=ACache.get(LoginActivity.this);
-                cache.put("auth_key",authKey,ACache.TIME_WEEK);
-                cache.put("user_model",user,ACache.TIME_WEEK);
+                cache.put("loginModel",content.getJSONObject(0),ACache.TIME_WEEK*2);
             }else {
-                Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content);Looper.loop();
-            }
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content.toString());Looper.loop();
                 loginProgressDlg.cancel();//进度条取消
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("result","登录失败");
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                return;
+            }
+
+                loginProgressDlg.cancel();//进度条取消
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("result", "登录成功");
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
 
         }
         if (requestUrl.equals(CommonUrl.registerAccount)) {//返回了注册请求
             try {
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
-                String content = object.getString("contents");
+                JSONArray content=null;
+                String contentstr=null;
+                UserModel user=null;
+                LoginDataModel loginModel;
+                String userJSON=null;
+
+                //还有其它的JSONArray比如榜单、广告栏等初始化数据未接
+                Gson gson=new Gson();
+                if (eventFlag==5)
+                {
+                    content = object.getJSONArray("contents");
+                    userJSON=content.getJSONObject(0).toString();
+                    loginModel = gson.fromJson(userJSON.toString(), LoginDataModel.class);
+                    user = loginModel.getUserModel();
+                }else
+                    contentstr=object.getString("contents");
+
                 if (code==StatusCode.RECIEVE_REGISTER_SUCCESS)//注册的三次请求
                 {
                     if (eventFlag==3){
@@ -333,19 +364,29 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     if (eventFlag==5) {
                         loginProgressDlg.cancel();//进度条取消
                         //解析并缓存用户信息、登录首信息//
-                        finish();
+                        ACache cache=ACache.get(LoginActivity.this);
+                        cache.put("loginModel", content.getJSONObject(0), ACache.TIME_WEEK * 2);
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("result","注册成功");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+                        /*finish();
+
                         Looper.prepare();
                         CommonUtils.getUtilInstance().showToast(APP.context, "注册成功");
-                        Looper.loop();
+                        Looper.loop();*/
                         return;
                     }
+
+                    loginProgressDlg.dismiss();//进度条取消
                 }else{
                     if (eventFlag!=5)
                         eventFlag=3;
                     else
                         eventFlag=4;
                     loginProgressDlg.cancel();//进度条取消
-                    Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content);Looper.loop();
+                    Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "请求失败");Looper.loop();
                     return;
                 }
             } catch (JSONException e) {
