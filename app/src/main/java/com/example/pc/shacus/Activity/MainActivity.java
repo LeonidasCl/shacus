@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //这里是导航侧边栏的回调
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
