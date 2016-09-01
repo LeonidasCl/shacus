@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.pc.shacus.Activity.CoursesActivity_item"
+    android:gravity="top"
+    android:background="@drawable/btn_focus_bg"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+
+    <ImageView
+        android:id="@+id/ItemImage"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <TextView
+        android:id="@+id/ItemName"
+        android:text="xxxx(视频教程)"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <Button
+        android:id="@+id/btn_ItemStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5sp"
+        android:background="#000000"
+        android:text="待学习"
+        android:textColor="#ffffff" />
+    <TextView
+        android:id="@+id/ItemViewNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="111111人已观看"
+        android:textColor="#ffffff"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5sp"
+        android:layout_alignBottom="@+id/ItemImage"/>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.pc.shacus.Fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +44,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +88,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 创建约拍界面
@@ -94,7 +98,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     private final int UPLOAD_TAKE_PICTURE=5;
-
+    //private ProgressBar mProgress;
+    private ProgressDialog progressDlg;
     private final int NONE=0,TAKE_PICTURE=1,LOCAL_PICTURE=2;
     private final int SAVE_THEME_IMAGE=8;
     private final int SHOW_TAKE_PICTURE=9;
@@ -126,7 +131,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private ImagePagerAdapter imagePagerAdapter;
     private UploadViewPager image_viewpager;
     private boolean isBigImageShow=false,isShowUploadPic=false,addPic=false,clearFormerUploadUrlList=true;
-    private EditText theme_title_edit,theme_desc_edit;
+    private EditText theme_title_edit,theme_desc_edit,location_edit;
     private ListView theme_listview;
     private TagContainerLayout mTagContainerLayout;
     private int YUEPAI_TYPE=1;//约拍的种类，1为约模特，2为约摄影师
@@ -154,6 +159,18 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         public void onDateTimeCancel() {}
     };
 
+    private Date joinenddate;
+    private SlideDateTimeListener joinlistener = new SlideDateTimeListener() {
+        @Override
+        public void onDateTimeSet(Date date)
+        {
+            joinenddate=date;
+            joinEndTime.setText(mFormatter.format(date));
+        }
+        @Override
+        public void onDateTimeCancel() {}
+    };
+
 
     private Handler handler=new Handler(){
 
@@ -163,9 +180,36 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             switch(msg.what){
 
                 case SAVE_THEME_IMAGE://响应第二次msg，将上传图片结果与真约拍信息反馈给业务服务器
-                    Map<String, Object> map=(Map<String, Object>)msg.obj;
-
-                    //requestFragment.httpRequest(map, CommonUrl.saveThemeImgNew);//最后将图片在这里传出去
+                    //Map<String, Object> map=(Map<String, Object>)msg.obj;
+                    progressDlg.dismiss();
+                    Map map=new HashMap<>();
+                    map.put("ap_type",YUEPAI_TYPE==1?"1":"2");
+                    map.put("auth_key",user.getAuth_key());
+                    map.put("title",theme_title_edit.getText().toString());
+                    map.put("type", StatusCode.REQUEST_SEND_YUEPAI);
+                    map.put("apid",apId);
+                    List<String> list=mTagContainerLayout.getTags();
+                    map.put("tags",list.toString());
+                    String[] start=startTime.getText().toString().split(" ");
+                    map.put("start_time",start[0].replaceAll("/","-")+" "+start[2]+":00");
+                    String[] end=endTime.getText().toString().split(" ");
+                    map.put("end_time",end[0].replaceAll("/","-")+" "+end[2]+":00");
+                    String[] join=joinEndTime.getText().toString().split(" ");
+                    map.put("join_time",join[0].replaceAll("/","-")+" "+join[2]+":00");
+                    map.put("location",location_edit.getText().toString());
+                    map.put("free",checkbox_free.isChecked()?1:0);
+                    Editable price=price_edit.getText();
+                    map.put("price",price.equals("")?"free":"none");
+                    map.put("contents",theme_desc_edit.getText().toString());
+                    map.put("ap_allowed", "0");
+                    progressDlg=ProgressDialog.show(getActivity(), "发布约拍", "正在创建约拍", true, true, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            //上传完图片后取消了约拍
+                        }
+                    });
+                   // mProgress.setVisibility(View.GONE);
+                    requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);//最后将图片在这里传出去
                     break;
                 case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
                     Map<String, String> map2=(HashMap<String, String>)msg.obj;
@@ -348,7 +392,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         requestFragment=new NetRequest(this,getActivity());
         mTagContainerLayout = (TagContainerLayout) root.findViewById(R.id.tag_layout_yuepai);
         List<String> list1 = new ArrayList<String>();
-        list1.add("Java");list1.add("C++");list1.add("C#");list1.add("PHP");
+        list1.add("Java");list1.add("C++");
+        list1.add("C#");list1.add("PHP");
         mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
             public void onTagClick(final int position, String text) {
@@ -401,7 +446,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 hideBigPhotoLayout();
             }
         });
-        uploading_photo_progress=(RelativeLayout)root.findViewById(R.id.uploading_photo_progress);
+        //uploading_photo_progress=(RelativeLayout)root.findViewById(R.id.uploading_photo_progress);
         display_big_image_layout=(RelativeLayout)root.findViewById(R.id.display_big_image_layout);
         show_upload_pic_layout=(RelativeLayout)root.findViewById(R.id.show_upload_pic_layout);
         take_picture=(TextView)root.findViewById(R.id.take_picture);
@@ -471,12 +516,12 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             public void onClick(View view) {
               if (!timeFlag)
               {
-                  Toast.makeText(getContext(), "请先选择开始时间", Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getContext(), "请先选择开始时间!", Toast.LENGTH_SHORT).show();
                   return;
               }
 
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
-                        .setListener(endlistener)
+                        .setListener(joinlistener)
                         .setInitialDate(startdate)
                         .setMinDate(startdate)
                         .build()
@@ -495,11 +540,12 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         theme_listview=(ListView)root.findViewById(R.id.theme_listview);
         upload.setOnClickListener(this);
         delete_image.setOnClickListener(this);
-
+        location_edit=(EditText)root.findViewById(R.id.theme_location_edit);
         ImageDisplayFragment.showNetImg=false;
         addPictureList.add(getResources().getDrawable(R.mipmap.theme_add_picture_icon));
         imageAddGridViewAdapter=new ImageAddGridViewAdapter(getActivity(), addPictureList);
         add_image_gridview.setAdapter(imageAddGridViewAdapter);
+        //mProgress = (ProgressBar) root.findViewById(R.id.uploading_photo_progress);
         add_image_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -702,10 +748,18 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         File data=new File(picUrl);
         String key=imgList.get(num);
         String token=tk;
+        //mProgress.setVisibility(View.VISIBLE);
+        progressDlg=ProgressDialog.show(getActivity(), "发布约拍", "正在上传图片", true, true, new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                //取消了上传
+            }
+        });
+        progressDlg.setMax(101);
         uploadmgr.put(data, key, token, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
-                //完成，发信息给业务服务器
+                //完成，发信息给OSS服务器
                 new Thread(){
                     public void run(){
                         Map<String, Object>map=new HashMap<>();
@@ -713,7 +767,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
                         map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
                         map.put("type",1);*/
-                        if (picToAdd==1){
+                        if (picToAdd==0){
                         Message msg=handler.obtainMessage();
                         msg.obj=map;
                         msg.what=SAVE_THEME_IMAGE;
@@ -725,7 +779,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         },new UploadOptions(null, null, false,
                 new UpProgressHandler(){
                     public void progress(String key, double percent){
-                        Log.i("qiniu", key + ": " + percent);
+                        //mProgress.setProgress((int)percent*100);
+                        progressDlg.setProgress((int)percent*100);
                     }
                 },null));
     }
@@ -754,17 +809,6 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     @Override
     public void requestFinish(final String result,String requestUrl) throws JSONException {
 
-        if(requestUrl.equals(CommonUrl.saveThemeImgNew)){//上传图片完成并且传回信息给业务服务器完成的回调（最终回调）
-            try{
-                JSONObject object=new JSONObject(result);
-
-                edit_photo_fullscreen_layout.setVisibility(View.GONE);
-                addPic=false;
-                getActivity().finish();
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
-        }
         if(requestUrl.equals(CommonUrl.createYuePaiInfo)){//约拍立项（第一次请求）完成的回调
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
