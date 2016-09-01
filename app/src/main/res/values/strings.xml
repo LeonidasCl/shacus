@@ -4,7 +4,7 @@
     <string name="action_logout">注销</string>
     <string name="action_about">关于本软件</string>
     <string name="huodong_time">YYYY-MM-DD HH:MM-HH:MM</string>
-    <string name="huodong_price">消费情况</string>
+    <string name="huodong_price">请说明参加活动可能发生的消费</string>
     <string name="title_activity_login">登录</string>
     <string name="forget_password">忘记密码了</string>
     <!-- Strings related to login -->
@@ -27,6 +27,7 @@
     <string name="no_more_than_9">对不起，最多只能上传9张图片</string>
     <string name="upload">发表</string>
     <string name="publish_yuepai_sucess">创建约拍成功，上传图片中</string>
+    <string name="publish_huodong_sucess">创建活动成功，上传图片中</string>
     <string name="publish_theme_failure">创建约拍失败</string>
     <string name="playing">正在玩</string>
     <string name="detail">详情</string>
@@ -85,4 +86,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="huodong_minp">请输入最小参加人数</string>
+    <string name="huodong_maxp">请选择最大参加人数</string>
+    <string name="huodong_check_maxp">不限制最大参加人数</string>
+    <string name="huodong_free">无花费</string>
 </resources>

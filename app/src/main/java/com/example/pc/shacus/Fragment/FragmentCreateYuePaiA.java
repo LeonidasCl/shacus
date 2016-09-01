@@ -65,6 +65,7 @@ import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.UploadPhotoUtil;
+import com.example.pc.shacus.View.Custom.ImgAddGridView;
 import com.example.pc.shacus.View.DateTimePicker.SlideDateTimeListener;
 import com.example.pc.shacus.View.DateTimePicker.SlideDateTimePicker;
 import com.example.pc.shacus.View.TagView.TagContainerLayout;
@@ -119,7 +120,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private Intent intent;
     private NetRequest requestFragment;
     private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
-    private GridView add_image_gridview;
+    private ImgAddGridView add_image_gridview;
     private CheckBox checkbox_free;
     private EditText price_edit;
     private int picToAdd=-1;
@@ -426,7 +427,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         btnAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), TagAddActivity.class);
+                Intent intent = new Intent(getActivity(), TagAddActivity.class);
+                intent.putExtra("type",1);
                 startActivity(intent);
             }
         });
@@ -468,8 +470,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timeFlag)
-                {
+                if (timeFlag) {
                     new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                             .setListener(startlistener)
                             .setInitialDate(new Date())
@@ -535,7 +536,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         theme_title_edit=(EditText)root.findViewById(R.id.theme_title_edit);
         theme_desc_edit=(EditText)root.findViewById(R.id.theme_desc_edit);
         delete_image=(ImageView)root.findViewById(R.id.delete_image);
-        add_image_gridview=(GridView)root.findViewById(R.id.add_image_gridview);
+        add_image_gridview=(ImgAddGridView)root.findViewById(R.id.add_image_gridview);
+        add_image_gridview.setExpanded(true);
         image_viewpager=(UploadViewPager)root.findViewById(R.id.image_viewpager);
         theme_listview=(ListView)root.findViewById(R.id.theme_listview);
         upload.setOnClickListener(this);
@@ -800,7 +802,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         map.put("phone",usrname);
         map.put("auth_key",auth_key);
         map.put("title",title);
-        map.put("type",YUEPAI_TYPE==1?"10201":"10202");
+        map.put("type",YUEPAI_TYPE==1?StatusCode.REQUEST_CREATE_YUEPAIA:StatusCode.REQUEST_CREATE_YUEPAIB);
         map.put("imgs",list);
         requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
     }

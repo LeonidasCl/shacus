@@ -205,16 +205,18 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
 
-                <GridView
+                <com.example.pc.shacus.View.Custom.ImgAddGridView
                     android:id="@+id/add_image_gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
+                    android:isScrollContainer="false"
                     android:layout_marginBottom="100dp"
                     android:cacheColorHint="#00000000"
                     android:fadingEdge="none"
+                    android:stretchMode="columnWidth"
                     android:listSelector="#00000000"
                     android:numColumns="4"
                     android:scrollbars="none" />
@@ -376,15 +378,5 @@
             </LinearLayout>
         </RelativeLayout>
     </FrameLayout>
-
-    <!-- 上传进度
-    <ProgressBar
-        android:id="@+id/uploading_photo_progress"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal|center_vertical"
-        style="@android:style/Widget.ProgressBar.Large"
-        android:layout_marginRight="5dp"
-        android:visibility="gone"/>-->
 
 </FrameLayout>

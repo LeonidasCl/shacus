@@ -139,7 +139,7 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         if (type.equals("tagAdd2")){
             String tag=intent.getStringExtra("tag");
             FragmentCreateYuePaiB frag=(FragmentCreateYuePaiB)fragment;
-            //frag.addTag(tag);
+            frag.addTag(tag);
         }
     }
 }
