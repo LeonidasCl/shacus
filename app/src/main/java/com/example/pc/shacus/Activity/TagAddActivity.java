@@ -20,7 +20,6 @@ public class TagAddActivity extends Activity {
 
     private ListView lv;
     private SearchView search;
-    private Button selected;
     private int type;//父活动的种类，1为约拍，2为活动
 
     @Override
@@ -66,14 +65,14 @@ public class TagAddActivity extends Activity {
             }
         });
 
-        selected=(Button)findViewById(R.id.a_btn_selected_tag);
+        Button selected = (Button) findViewById(R.id.a_btn_selected_tag);
         selected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String tag = search.getQuery().toString();
                 Intent intent = new Intent(getApplicationContext(), CreateYuePaiActivity.class);
                 intent.putExtra("tag", tag);
-                intent.putExtra("type", type==1?"tagAdd1":"tagAdd2");
+                intent.putExtra("type", type == 1 ? "tagAdd1" : "tagAdd2");
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 finish();

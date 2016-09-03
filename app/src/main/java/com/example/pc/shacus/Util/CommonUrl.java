@@ -12,7 +12,7 @@ public class CommonUrl {
 
 	public static final String createYuePaiInfo = url + "appointment/create";//发布约拍路径
 	public static final String createActivityInfo    = url + "activity/create";//发布活动路径
-
+	public static final String getYuePaiInfo    = url + "/appointment/ask";//获得约拍详情
 	public static final String settingChangeNetUrl=url+"PaswChange";
 
 	public static final String getHuodongList=url+"Activity/ask";

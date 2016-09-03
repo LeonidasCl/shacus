@@ -8,113 +8,189 @@ import java.util.List;
  */
 public class YuePaiDataModel {
 
-    private int indexInView;
-    private String username;
-    private String useravatar;
-    private String userid;
-    private String mainPicUrl;
-    private Date startTime;
-    private Date endTime;
-    private String location;
-    private String introduce;
-    private boolean isFree;
-    private double price;
-    private List<String> picURLs;
+    private String APtitle;
+    private String APlocation;
+    private String APendT;
+    private int APid;
+    private String APcontent;
+    private int APlikeN;
+    private int APfree;
+    private int APtype;
+    private String APjoinT;
+    private int APvalid;
+    private int APsponsorid;
+    private String Userimg;
+    private int APprice;
+    private int APtag;
+    private List<String> APimgurl;
+    private String APcreateT;
+    private String APstartT;
+    private int APregistN;
+    private int APclosed;
+    private int APaddallowed;
 
-
-    public int getIndexInView() {
-        return indexInView;
+    public String getAPtitle() {
+        return APtitle;
     }
 
-    public void setIndexInView(int indexInView) {
-        this.indexInView = indexInView;
+    public void setAPtitle(String APtitle) {
+        this.APtitle = APtitle;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAPlocation() {
+        return APlocation;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAPlocation(String APlocation) {
+        this.APlocation = APlocation;
     }
 
-    public String getUseravatar() {
-        return useravatar;
+    public String getAPendT() {
+        return APendT;
     }
 
-    public void setUseravatar(String useravatar) {
-        this.useravatar = useravatar;
+    public void setAPendT(String APendT) {
+        this.APendT = APendT;
     }
 
-    public String getUserid() {
-        return userid;
+
+    public String getAPcontent() {
+        return APcontent;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setAPcontent(String APcontent) {
+        this.APcontent = APcontent;
     }
 
-    public String getMainPicUrl() {
-        return mainPicUrl;
+
+    public String getAPjoinT() {
+        return APjoinT;
     }
 
-    public void setMainPicUrl(String mainPicUrl) {
-        this.mainPicUrl = mainPicUrl;
+    public void setAPjoinT(String APjoinT) {
+        this.APjoinT = APjoinT;
     }
 
-    public Date getStartTime() {
-        return startTime;
+
+
+    public String getUserimg() {
+        return Userimg;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setUserimg(String userimg) {
+        Userimg = userimg;
     }
 
-    public Date getEndTime() {
-        return endTime;
+
+    public List<String> getAPimgurl() {
+        return APimgurl;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setAPimgurl(List<String> APimgurl) {
+        this.APimgurl = APimgurl;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAPcreateT() {
+        return APcreateT;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAPcreateT(String APcreateT) {
+        this.APcreateT = APcreateT;
     }
 
-    public String getIntroduce() {
-        return introduce;
+    public String getAPstartT() {
+        return APstartT;
     }
 
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
+    public void setAPstartT(String APstartT) {
+        this.APstartT = APstartT;
     }
 
-    public boolean isFree() {
-        return isFree;
+    public int getAPid() {
+        return APid;
     }
 
-    public void setIsFree(boolean isFree) {
-        this.isFree = isFree;
+    public void setAPid(int APid) {
+        this.APid = APid;
     }
 
-    public double getPrice() {
-        return price;
+    public int getAPlikeN() {
+        return APlikeN;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setAPlikeN(int APlikeN) {
+        this.APlikeN = APlikeN;
     }
 
-    public List<String> getPicURLs() {
-        return picURLs;
+    public int getAPfree() {
+        return APfree;
     }
 
-    public void setPicURLs(List<String> picURLs) {
-        this.picURLs = picURLs;
+    public void setAPfree(int APfree) {
+        this.APfree = APfree;
+    }
+
+    public int getAPtype() {
+        return APtype;
+    }
+
+    public void setAPtype(int APtype) {
+        this.APtype = APtype;
+    }
+
+    public int getAPvalid() {
+        return APvalid;
+    }
+
+    public void setAPvalid(int APvalid) {
+        this.APvalid = APvalid;
+    }
+
+    public int getAPsponsorid() {
+        return APsponsorid;
+    }
+
+    public void setAPsponsorid(int APsponsorid) {
+        this.APsponsorid = APsponsorid;
+    }
+
+    public int getAPprice() {
+        return APprice;
+    }
+
+    public void setAPprice(int APprice) {
+        this.APprice = APprice;
+    }
+
+    public int getAPtag() {
+        return APtag;
+    }
+
+    public void setAPtag(int APtag) {
+        this.APtag = APtag;
+    }
+
+    public int getAPregistN() {
+        return APregistN;
+    }
+
+    public void setAPregistN(int APregistN) {
+        this.APregistN = APregistN;
+    }
+
+    public int getAPclosed() {
+        return APclosed;
+    }
+
+    public void setAPclosed(int APclosed) {
+        this.APclosed = APclosed;
+    }
+
+    public int getAPaddallowed() {
+        return APaddallowed;
+    }
+
+    public void setAPaddallowed(int APaddallowed) {
+        this.APaddallowed = APaddallowed;
     }
 }

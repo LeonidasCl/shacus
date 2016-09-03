@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -12,16 +13,33 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.pc.shacus.Adapter.JoinUserGridAdapter;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Data.Model.YuePaiDataModel;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.View.FloatMenu.FilterMenu;
 import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.bingoogolapple.bgabanner.BGABannerUtil;
 
-public class YuePaiDetailActivity extends AppCompatActivity {
+public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface{
 
     HorizontalScrollView horizontalScrollView;
     GridView gridView;
@@ -31,6 +49,8 @@ public class YuePaiDetailActivity extends AppCompatActivity {
     private int width;//每列宽度
     //private int total = 10;//列数
     private BGABanner mSideZoomBanner;
+    private NetRequest request;
+
     FilterMenu.OnMenuChangeListener listener = new FilterMenu.OnMenuChangeListener() {
         @Override
         public void onMenuItemClick(View view, int position) {
@@ -83,7 +103,6 @@ public class YuePaiDetailActivity extends AppCompatActivity {
 
         textName=(TextView)findViewById(R.id.detail_toolbar_title);
         textName.setText("标题标题标题标题标题标题标题");
-
     }
 
     private FilterMenu attachMenu(FilterMenuLayout filterMenu) {
@@ -94,6 +113,27 @@ public class YuePaiDetailActivity extends AppCompatActivity {
                 .attach(filterMenu)
                 .withListener(listener)
                 .build();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        request=new NetRequest(this,this);
+        String apid=intent.getStringExtra("detail");
+        ACache cache=ACache.get(this);
+        Gson gson=new Gson();
+        JSONObject userStr=cache.getAsJSONObject("loginModel");
+        LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
+        UserModel userModel=model.getUserModel();
+        String authKey=userModel.getAuth_key();
+        String uid=userModel.getId();
+        int type= StatusCode.REQUEST_YUEPAI_DETAIL;
+        Map map=new HashMap();
+        map.put("authKey",authKey);
+        map.put("uid",uid);
+        map.put("type",type);
+        map.put("apid",apid);
+        request.httpRequest(map, CommonUrl.getYuePaiInfo);
     }
 
     public float getScreenDen() {
@@ -138,5 +178,25 @@ public class YuePaiDetailActivity extends AppCompatActivity {
             views.add(BGABannerUtil.getItemImageView(this, R.drawable.holder));
         }
         return views;
+    }
+
+    @Override
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+        if (requestUrl.equals(CommonUrl.getYuePaiInfo)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code==StatusCode.REQUEST_DETAIL_SUCCESS){
+                JSONObject content=object.getJSONObject("contents");
+                Gson hson=new Gson();
+                YuePaiDataModel data=hson.fromJson(content.toString(),YuePaiDataModel.class);
+            }else {
+                //
+            }
+        }
+    }
+
+    @Override
+    public void exception(IOException e, String requestUrl) {
+
     }
 }
