@@ -72,7 +72,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     //private List<Drawable> userAvatarList=new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yue_pai_detail);
 
