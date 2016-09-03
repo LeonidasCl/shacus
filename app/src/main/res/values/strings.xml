@@ -27,6 +27,7 @@
     <string name="no_more_than_9">对不起，最多只能上传9张图片</string>
     <string name="upload">发表</string>
     <string name="publish_yuepai_sucess">创建约拍成功，上传图片中</string>
+    <string name="publish_yuepai_succeed">发布约拍成功</string>
     <string name="publish_huodong_sucess">创建活动成功，上传图片中</string>
     <string name="publish_theme_failure">创建约拍失败</string>
     <string name="playing">正在玩</string>
@@ -34,7 +35,6 @@
     <string name="input_theme_comment_title">请输入标题</string>
     <string name="input_theme_comment_desc">请输入内容</string>
     <string name="yuepai_create">发起约拍/活动</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content_title">条目头部</string>
     <string name="content">条目列表内容</string>
@@ -64,8 +64,8 @@
     <string name="favor">喜欢</string>
     <string name="release_to_refresh">松开刷新</string>
     <string name="refreshing">正在获取数据</string>
-    <string name="rank_piarse_num">喜欢</string>
-    <string name="rank_comment_num">评论</string>
+    <string name="rank_piarse_num">点赞</string>
+    <string name="rank_join">报名</string>
     <string name="text_verify_code">获取</string>
     <string name="yuepai_create_theme">请输入标题</string>
     <string name="yuepai_create_label">添加标签</string>
@@ -90,4 +90,13 @@
     <string name="huodong_maxp">请选择最大参加人数</string>
     <string name="huodong_check_maxp">不限制最大参加人数</string>
     <string name="huodong_free">无花费</string>
+    <string name="publish_huodong_succeed">发布活动成功</string>
+    <string name="publish_publish_succeed">发布成功</string>
+    <string name="detail_text_holder">详细介绍详细介绍详详细介绍详详细介绍详详细介绍详细介</string>
+    <string name="detail_text_location_holder">地点信息地点信息地点信息地点信息地点信息</string>
+    <string name="detail_text_time_holder">2000-00-00 00:00</string>
+    <string name="btn_join_manage">报名用户管理</string>
+    <string name="contentDescribe">app</string>
+    <string name="title_holder">标题标题标题</string>
+    <string name="time_holder">时间时间时间</string>
 </resources>

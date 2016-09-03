@@ -90,10 +90,9 @@
             android:name=".Activity.TagAddActivity"
             android:theme="@android:style/Theme.Holo.Dialog">
         </activity>
-        <activity
-            android:name=".Activity.NavigationTestActivity"
-            android:label="@string/title_activity_navigation_test"
-            android:theme="@style/Vita.ActionBar">
+
+        <activity android:name=".Activity.YuePaiDetailActivity"
+                  android:theme="@style/AppTheme.YuePaiDetailActivity">
         </activity>
     </application>
 

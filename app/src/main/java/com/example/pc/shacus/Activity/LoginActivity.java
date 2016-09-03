@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.NetRequest;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -293,10 +295,17 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
                 JSONArray content=object.getJSONArray("contents");
                 //还有其它的JSONArray比如榜单、广告栏等初始化数据未接
-                String userJSON=content.getJSONObject(0).toString();
-                //Gson gson=new Gson();
+                //String userJSON=content.getJSONObject(0).toString();
+                // Gson gson=new Gson();
                 //LoginDataModel loginDataModel=gson.fromJson(userJSON,LoginDataModel.class);
                 //UserModel user = loginDataModel.getUserModel();
+
+                //JSONArray photoList=content.getJSONObject(0).getJSONArray("photoList");
+                //List<PhotographerModel>
+                //for (int i=0;i<photoList.length();i++){
+
+//                }
+
                 ACache cache=ACache.get(LoginActivity.this);
                 cache.put("loginModel",content.getJSONObject(0),ACache.TIME_WEEK*2);
             }else {
@@ -334,7 +343,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     content = object.getJSONArray("contents");
                     userJSON=content.getJSONObject(0).toString();
                     loginModel = gson.fromJson(userJSON.toString(), LoginDataModel.class);
-                    user = loginModel.getUserModel();
+                    //user = loginModel.getUserModel();
                 }else
                     contentstr=object.getString("contents");
 

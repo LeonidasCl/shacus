@@ -57,9 +57,10 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@android:color/transparent"
             android:dividerHeight="5dp"
             android:id="@+id/rank_list"
+            android:divider="#ffffff"
+
             />
     </android.support.v4.widget.SwipeRefreshLayout>
 

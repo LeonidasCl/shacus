@@ -50,6 +50,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.CreateYuePaiActivity;
+import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Activity.TagAddActivity;
 import com.example.pc.shacus.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
@@ -99,16 +101,14 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     private final int UPLOAD_TAKE_PICTURE=5;
-    //private ProgressBar mProgress;
     private ProgressDialog progressDlg;
     private final int NONE=0,TAKE_PICTURE=1,LOCAL_PICTURE=2;
     private final int SAVE_THEME_IMAGE=8;
     private final int SHOW_TAKE_PICTURE=9;
     private final int SHOW_LOCAL_PICTURE=10;
     private FrameLayout edit_photo_fullscreen_layout;
-    private RelativeLayout edit_photo_outer_layout,
-            uploading_photo_progress,display_big_image_layout,show_upload_pic_layout;
-    private Animation get_photo_layout_out_from_up,get_photo_layout_in_from_down;
+    private RelativeLayout edit_photo_outer_layout,display_big_image_layout,show_upload_pic_layout;
+    private Animation get_photo_layout_in_from_down;
     private TextView take_picture,select_local_picture,position_in_total,upload;
     private ImageView delete_image;
     private TextView startTime;
@@ -135,7 +135,11 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     private EditText theme_title_edit,theme_desc_edit,location_edit;
     private ListView theme_listview;
     private TagContainerLayout mTagContainerLayout;
+    private Date joinenddate;
     private int YUEPAI_TYPE=1;//约拍的种类，1为约模特，2为约摄影师
+    private UserModel user;
+    private int apId;
+    private ArrayList<String> imgList;
 
     private SlideDateTimeListener startlistener = new SlideDateTimeListener() {
         @Override
@@ -159,8 +163,6 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         @Override
         public void onDateTimeCancel() {}
     };
-
-    private Date joinenddate;
     private SlideDateTimeListener joinlistener = new SlideDateTimeListener() {
         @Override
         public void onDateTimeSet(Date date)
@@ -171,7 +173,6 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         @Override
         public void onDateTimeCancel() {}
     };
-
 
     private Handler handler=new Handler(){
 
@@ -271,9 +272,6 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         }
     };
-    private UserModel user;
-    private int apId;
-    private ArrayList<String> imgList;
 
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){
@@ -761,7 +759,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         uploadmgr.put(data, key, token, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
-                //完成，发信息给OSS服务器
+                //完成，发信息给业务服务器
                 new Thread(){
                     public void run(){
                         Map<String, Object>map=new HashMap<>();
@@ -803,7 +801,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         map.put("auth_key",auth_key);
         map.put("title",title);
         map.put("type",YUEPAI_TYPE==1?StatusCode.REQUEST_CREATE_YUEPAIA:StatusCode.REQUEST_CREATE_YUEPAIB);
-        map.put("imgs",list);
+        map.put("imgs", list);
         requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
     }
 
@@ -814,13 +812,9 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         if(requestUrl.equals(CommonUrl.createYuePaiInfo)){//约拍立项（第一次请求）完成的回调
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            final JSONObject content=object.getJSONObject("contents");
             if (code == StatusCode.REQUEST_YUEPAI_SUCCESS) {
-                //new Thread(){
-                   // public void run() {
-                        //JSONObject apid = null;
+            final JSONObject content=object.getJSONObject("contents");
                         try {
-                            //apid = content.getJSONObject("apId");
                             apId = content.getInt("apId");
                             JSONArray auth_key_arr = content.getJSONArray("auth_key");
                             for (int i = 0; i < auth_key_arr.length(); i++) {
@@ -834,12 +828,22 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    //}
-                //}.start();
                 Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_yuepai_sucess));Looper.loop();
+                return;
+        }
+        if (code==StatusCode.REQUEST_YUEPAI_SUCCEED){
+                progressDlg.dismiss();
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_yuepai_succeed));Looper.loop();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("result", "发布约拍成功");
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                getActivity().finish();
+                return;
         }else {
-
-            }
+            progressDlg.dismiss();
+            Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(),object.getString("contents"));Looper.loop();
+        }
     }
 
     }

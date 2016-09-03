@@ -11,6 +11,7 @@ import android.view.View;
 import com.example.pc.shacus.Fragment.FragmentCreateYuePaiA;
 import com.example.pc.shacus.Fragment.FragmentCreateYuePaiB;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUtils;
 
 /**
  * 创建约拍和活动的界面
@@ -120,10 +121,10 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft){
     }
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft){
     }
 
 
@@ -141,5 +142,9 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
             FragmentCreateYuePaiB frag=(FragmentCreateYuePaiB)fragment;
             frag.addTag(tag);
         }
+    }
+
+    public void toFinish(){
+        finish();
     }
 }

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pc.shacus.Activity.YuePaiDetailActivity"
+    xmlns:detail="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/detail_toolbar_layout"
+        android:id="@+id/detail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center"/>
+
+    <cn.bingoogolapple.bgabanner.BGABanner
+        android:layout_below="@id/detail_toolbar"
+        android:windowTranslucentStatus="true"
+        android:windowTranslucentNavigation="true"
+        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/banner_detail_zoom"
+        style="@style/BannerDetailStyle"
+        android:layout_gravity="top"
+        detail:banner_transitionEffect="zoomFade" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/banner_detail_zoom"
+        android:id="@+id/detail_buttons"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/detail_praise"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/btn_find_selector"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_praise_num"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical"
+            android:text="22"/>
+
+        <LinearLayout
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:background="#00000000"></LinearLayout>
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/detail_comment"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/btn_find_selector"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_comment_num"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical"
+            android:text="33"/>
+
+        <LinearLayout
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:background="#00000000"></LinearLayout>
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/detail_join_num"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/btn_find_selector"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_join_num"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical"
+            android:text="65"/>
+
+    </LinearLayout>
+
+    <!--<TextView
+        android:id="@+id/yuepai_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:text="标题"
+        android:layout_marginStart="5dp"
+        android:layout_below="@+id/detail_buttons"
+        android:layout_alignParentStart="true"/>-->
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/clipline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ee_black"
+        android:layout_below="@id/detail_buttons"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="15dp">
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/detail_describtion"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_below="@id/clipline">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="详情"
+                android:paddingRight="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/detail_text_holder"/>
+        </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="地点"
+                android:paddingRight="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/detail_text_location_holder"/>
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="报名截止时间"
+                    android:paddingRight="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/detail_text_time_holder"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="开始时间"
+                    android:paddingRight="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/detail_text_time_holder"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="结束时间"
+                    android:paddingRight="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/detail_text_time_holder"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="收费情况"
+                    android:paddingRight="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/detail_text_time_holder"/>
+            </LinearLayout>
+
+            </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detail_describtion"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape"
+            android:text="@string/btn_join_manage"
+            android:textSize="14sp"
+            android:visibility="visible"
+            android:textColor="#ffffff"/>
+
+    <HorizontalScrollView
+        android:layout_marginTop="10dp"
+        android:id="@+id/join_user_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" >
+
+        <LinearLayout
+            android:id="@+id/linear_join_user_scroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <GridView
+                android:id="@+id/grid_join_user_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </GridView>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>
+
+    <com.example.pc.shacus.View.FloatMenu.FilterMenuLayout
+        android:id="@+id/detail_filter_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"
+        app:fm_expandedRadius="75dp"
+        app:fm_collapsedRadius="28dp"
+        app:fm_centerHorizontal="true"
+        app:fm_centerLeft="140dp"
+        app:fm_centerTop="305dp"
+        app:fm_primaryColor="#636363"
+        app:fm_primaryDarkColor="#292929">
+    </com.example.pc.shacus.View.FloatMenu.FilterMenuLayout>
+
+</RelativeLayout>

@@ -98,12 +98,12 @@ public class FollowItemAdapter extends BaseAdapter {
 /*        public ViewHolder(View view){
             if(type.equals("following")){
                 userImageSrc = (ImageButton) view.findViewById(R.id.following_user_image);
-                userNameText = (TextView) view.findViewById(R.id.following_user_name);
+                APTitle = (TextView) view.findViewById(R.id.following_user_name);
                 usersignatureText = (TextView) view.findViewById(R.id.following_user_signature);
                 follow = (ImageButton) view.findViewById(R.id.followedbtn);
             }else if(type.equals("follower")){
                 userImageSrc = (ImageButton) view.findViewById(R.id.follower_user_image);
-                userNameText = (TextView) view.findViewById(R.id.follower_user_name);
+                APTitle = (TextView) view.findViewById(R.id.follower_user_name);
                 follow = (ImageButton) view.findViewById(R.id.followingbtn);
             }
         }
@@ -113,7 +113,7 @@ public class FollowItemAdapter extends BaseAdapter {
             Drawable usrimg=res.getDrawable(R.drawable.user_image);
             userImageSrc.setImageDrawable(usrimg);
 
-            userNameText.setText(item.getNickName());
+            APTitle.setText(item.getNickName());
             if (type.equals("following"))
                 usersignatureText.setText(item.getNickName());
         }*/

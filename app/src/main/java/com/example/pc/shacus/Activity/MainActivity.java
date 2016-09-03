@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         String hint=intent.getStringExtra("result");
         CommonUtils.getUtilInstance().showToast(APP.context, hint);
+        yuePaiFragment.getRankFrag().doRefresh();
     }
 
     @Override//不要忘记渲染APP动作条的overflow菜单
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    private void initNetworkData() {
+    private void initNetworkData(){
     }
 
 
@@ -209,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else return false;
     }
 
-    private void initView() {
+    private void initView(){
 
         btn_main=(ImageButton)findViewById(R.id.button_main);
         btn_find=(ImageButton)findViewById(R.id.button_find);
@@ -315,8 +316,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //重新创建来刷新UI
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
-
-
         }
 
 

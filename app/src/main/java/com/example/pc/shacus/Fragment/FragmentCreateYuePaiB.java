@@ -48,6 +48,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.CreateYuePaiActivity;
+import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Activity.TagAddActivity;
 import com.example.pc.shacus.Adapter.ImageAddGridViewAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
@@ -102,8 +104,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
     private final int SHOW_TAKE_PICTURE=9;
     private final int SHOW_LOCAL_PICTURE=10;
     private FrameLayout edit_photo_fullscreen_layout;
-    private RelativeLayout edit_photo_outer_layout,
-            uploading_photo_progress,display_big_image_layout,show_upload_pic_layout;
+    private RelativeLayout edit_photo_outer_layout,display_big_image_layout,show_upload_pic_layout;
     private Animation get_photo_layout_out_from_up,get_photo_layout_in_from_down;
     private TextView take_picture,select_local_picture,position_in_total,upload;
     private ImageView delete_image;
@@ -181,7 +182,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                     Map map=new HashMap<>();
                     map.put("auth_key",user.getAuth_key());
                     map.put("actitle",theme_title_edit.getText().toString());
-                    map.put("type", StatusCode.REQUEST_SEND_YUEPAI);
+                    map.put("type", StatusCode.REQUEST_SEND_HUODONG);
                     map.put("acid",apId);
                     List<String> list=mTagContainerLayout.getTags();
                     map.put("tags",list.toString());
@@ -196,8 +197,8 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                     Editable price=price_edit.getText();
                     map.put("price",price.equals("")?"free":"none");
                     map.put("content",theme_desc_edit.getText().toString());
-                    map.put("maxp", "");
-                    map.put("minp", "");
+                    map.put("maxp", "0");
+                    map.put("minp", "1");
                     progressDlg=ProgressDialog.show(getActivity(), "发布活动", "正在创建活动", true, true, new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialogInterface) {
@@ -205,7 +206,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                         }
                     });
                     // mProgress.setVisibility(View.GONE);
-                    requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);//最后将图片在这里传出去
+                    requestFragment.httpRequest(map, CommonUrl.createActivityInfo);//最后将图片在这里传出去
                     break;
                 case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
                     Map<String, String> map2=(HashMap<String, String>)msg.obj;
@@ -443,7 +444,6 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 hideBigPhotoLayout();
             }
         });
-        //uploading_photo_progress=(RelativeLayout)root.findViewById(R.id.uploading_photo_progress);
         display_big_image_layout=(RelativeLayout)root.findViewById(R.id.display_big_image_layout);
         show_upload_pic_layout=(RelativeLayout)root.findViewById(R.id.show_upload_pic_layout);
         take_picture=(TextView)root.findViewById(R.id.take_picture);
@@ -691,7 +691,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 user=gson.fromJson(userStr.toString(),LoginDataModel.class).getUserModel();
                 String usename=user.getPhone();
                 String authKey=user.getAuth_key();
-                if(authKey!=null&&authKey.equals("")){
+                if(!(authKey!=null&&!authKey.equals(""))){
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.publish_theme_after_login));
                     return;
                 }
@@ -794,29 +794,26 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
             imgList.add(filename);
             list.add(String.valueOf("\""+filename+"\""));
         }
-        map.put("phone",usrname);
+        map.put("username",usrname);
         map.put("auth_key",auth_key);
         map.put("title",title);
         map.put("type",StatusCode.REQUEST_CREATE_HUODONG);
-        map.put("imgs",list);
-        requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
+        map.put("images", list);
+        requestFragment.httpRequest(map, CommonUrl.createActivityInfo);
     }
 
     //
     @Override
     public void requestFinish(final String result,String requestUrl) throws JSONException {
 
-        if(requestUrl.equals(CommonUrl.createYuePaiInfo)){//活动立项（第一次请求）完成的回调
+        if(requestUrl.equals(CommonUrl.createActivityInfo)){//活动立项（第一次请求）完成的回调
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            final JSONObject content=object.getJSONObject("contents");
-            if (code == StatusCode.REQUEST_YUEPAI_SUCCESS) {
-                //new Thread(){
-                // public void run() {
-
+            if (code == StatusCode.REQUEST_HUODONG_SUCCESS) {
+                final JSONObject content=object.getJSONObject("contents");
                 try {
-                    apId = content.getInt("acId");
-                    JSONArray auth_key_arr = content.getJSONArray("auth_key");
+                    apId = content.getInt("acID");
+                    JSONArray auth_key_arr = content.getJSONArray("image_token");
                     for (int i = 0; i < auth_key_arr.length(); i++) {
                         Message msg = handler.obtainMessage();
                         Map<String, String> map = new HashMap<>();
@@ -828,11 +825,22 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //}
-                //}.start();
                 Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_huodong_sucess));Looper.loop();
+                return;
+            }
+            if (code== StatusCode.REQUEST_HUODONG_SUCCEED){
+                progressDlg.dismiss();
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_huodong_succeed));Looper.loop();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("result","发布活动成功");
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                getActivity().finish();
+                return;
             }else {
-
+                progressDlg.dismiss();
+                Looper.prepare();
+                CommonUtils.getUtilInstance().showToast(getActivity(),object.getString("contents"));Looper.loop();
             }
         }
 

@@ -76,6 +76,8 @@ public class TagAddActivity extends Activity {
                 intent.putExtra("type", type==1?"tagAdd1":"tagAdd2");
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
+                finish();
+                return;
             }
         });
 
