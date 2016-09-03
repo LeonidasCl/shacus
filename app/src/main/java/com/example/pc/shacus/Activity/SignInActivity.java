@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -15,10 +16,18 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 //孙启凡 2016.08.30
 //用户签到界面（二级）
@@ -52,6 +61,12 @@ public class SignInActivity extends AppCompatActivity implements  NetworkCallbac
             @Override
             public void onClick(View v) {
 
+                NetRequest newRequst=new NetRequest(SignInActivity.this,SignInActivity.this);
+                Map map = new HashMap();
+                map.put("phone","17751030037");
+                map.put("password","123456");
+                map.put("askCode", StatusCode.REQUEST_LOGIN);
+                newRequst.httpRequest(map, CommonUrl.loginAccount);
             }
         });
         signInText.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +80,26 @@ public class SignInActivity extends AppCompatActivity implements  NetworkCallbac
     }
 
     @Override
-    public void requestFinish(String result, String requestUrl) {
+    public void requestFinish(String result, String requestUrl) throws JSONException {
         //在这里接收所有网络请求
+
+        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+
+
+
+            if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
+
+                Log.d("login", "成功");
+            }else {
+
+                Log.d("login","失败");
+
+
+            }
+
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.example.pc.shacus.Data.Model;
 /**
  * Created by pc on 2016/3/7.
  */
-public class UserModel extends BaseDataModel {
+public class UserModel {
     private String headImage;
     private String realName;
     private String sex;

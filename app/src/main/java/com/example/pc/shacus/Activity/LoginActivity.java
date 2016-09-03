@@ -106,9 +106,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
         verifycode=(TextView)findViewById(R.id.register_verifycode);
         btn_login=(Button)findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map map = new HashMap();
+                    @Override
+                    public void onClick(View v) {
+                        Map map = new HashMap();
                 if (eventFlag==1){
                 //检查输入格式，发弹窗请求到handler，并发网络请求
                 String usrnm=username.getText().toString();

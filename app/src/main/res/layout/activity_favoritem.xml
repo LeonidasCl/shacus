@@ -1,44 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost
+<LinearLayout
     android:id="@android:id/tabhost"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.pc.shacus.Activity.FavoritemActivity"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="10"></TabWidget>
 
-        <FrameLayout
-            android:id="@android:id/tabcontent"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"/>
+        </LinearLayout>
+
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/discover_tab_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </android.support.v4.view.ViewPager>
-            <TextView
-                android:id="@+id/favoritem_yuepai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/favoritem_huodong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/favoritem_works"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-    </LinearLayout>
+                android:id="@+id/discover_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
-</TabHost>
+
+
+</LinearLayout>
