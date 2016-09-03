@@ -90,7 +90,7 @@ public class RankItemAdapter extends BaseAdapter{
         TextView praiseNum;
         TextView commentNum;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view){
             //name = (TextView) view.findViewById(R.id.text_view_name);
             userIamgeSrc=(ImageView)view.findViewById(R.id.user_image);
             APTitle =(TextView)view.findViewById(R.id.APtitle);
@@ -118,6 +118,7 @@ public class RankItemAdapter extends BaseAdapter{
             String mainimg=item.getAPimgurl();
             Glide.with(activity)
                     .load(mainimg)
+                    .centerCrop()
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.p1)
                     .into(mainPicture);
