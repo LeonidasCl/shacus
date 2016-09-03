@@ -1,25 +1,39 @@
 package com.example.pc.shacus.View;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Adapter.HuodongItemAdapter;
 import com.example.pc.shacus.Data.Model.HuoDongItemModel;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * 内容视图
  */
-public class ContentView extends TouchMoveView {
+public class ContentView extends TouchMoveView implements NetworkCallbackInterface.NetRequestIterface{
 
     Context context;
     View parent;
@@ -37,6 +51,37 @@ public class ContentView extends TouchMoveView {
     private ListView listView;
     private int bootCounter=0;
     private int maxRecords = 400;
+    private boolean getHuodongFlag=false;
+
+    private NetRequest netRequest;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case StatusCode.REQUEST_HUODONG_GET_HUODONG:
+//                    List<HuoDongItemModel> persons = new ArrayList<>();
+//                    for(int i=bootCounter;i<bootCounter+10;i++){
+//                        HuoDongItemModel huodong = new HuoDongItemModel();
+//                        huodong.setDescribe("活动描述信息加载中...不得少于十五字不得多于一百五十字");
+//                        huodong.setSetTime(new Date());
+//                        huodong.setJoinNum((int) (Math.random() * 100) + 1);
+//                        huodong.setPraiseNum((int) (Math.random() * 100) + 1);
+//                        huodong.setUsrName("用户" + i);
+//                        persons.add(huodong);
+//                        Log.d("LQQQQQQQQ", "bootData"+i);
+//                    }
+//                    bootCounter+=10;
+                    personAdapter.notifyDataSetChanged();
+                    getHuodongFlag=false;
+                    break;
+                case StatusCode.REQUEST_HUODONG_MORE_HUODONG:
+                    personAdapter.notifyDataSetChanged();
+                    getHuodongFlag=false;
+                    break;
+            }
+        }
+    };
 
 
 	public ContentView(Context context) {
@@ -113,11 +158,13 @@ public class ContentView extends TouchMoveView {
         });*/
 
 
-
-        personAdapter = new HuodongItemAdapter(context,bootData(0));
+        List<HuoDongItemModel> list=new ArrayList<>();
+        personAdapter = new HuodongItemAdapter(context,list);
         listView = (ListView) view.findViewById(R.id.huodong_list);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_huodong);
         listView.setAdapter(personAdapter);
+
+        netRequest=new NetRequest(this,this.getContext());
 
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -127,10 +174,17 @@ public class ContentView extends TouchMoveView {
             }
         });
 
+        onInitHuodong();
         onScrollListener();
         onRefreshListener();
 
 	}
+
+    private void onInitHuodong() {
+        HashMap map=new HashMap();
+        map.put("type",10303);
+        netRequest.httpRequest(map, CommonUrl.getHuodongList);
+    }
 
     private void onRefreshListener() {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -138,9 +192,12 @@ public class ContentView extends TouchMoveView {
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 bootCounter = 0;
-                personAdapter.refresh(bootData(0));
+                List<HuoDongItemModel> list=new ArrayList<>();
+                personAdapter.refresh(list);
                 personAdapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
+                onInitHuodong();
+                Log.d("LQQQQQQQQ", "onRefresh: ");
             }
         });
     }
@@ -149,14 +206,21 @@ public class ContentView extends TouchMoveView {
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-
+                Log.d("LQQQQQQQQ", "onScrollChanged ");
             }
+
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords) {
-                    personAdapter.add(bootData(0));
-                    personAdapter.notifyDataSetChanged();
+//                Log.d("LQQQQQQQQ", "onScroll: ");
+//                Log.d("LQQQQQQQQ", " f:"+firstVisibleItem+" v:"+visibleItemCount+" t:"+totalItemCount);
+                if (firstVisibleItem + visibleItemCount > totalItemCount - 1 && totalItemCount < maxRecords && visibleItemCount!=0 &&!getHuodongFlag) {
+                    HashMap map=new HashMap();
+                    map.put("type", 10304);
+                    map.put("acsended", bootCounter);
+                    netRequest.httpRequest(map, CommonUrl.getHuodongList);
+                    getHuodongFlag=true;
+                    Log.d("LQQQQQQQQ", firstVisibleItem+"+"+visibleItemCount+">"+totalItemCount+"-2&&"+totalItemCount+"<"+maxRecords);
                 }
             }
         });
@@ -195,23 +259,84 @@ public class ContentView extends TouchMoveView {
         return getMarginTop() - mShowStopMarginTop;
     }
 
-    private List<HuoDongItemModel> bootData(int Type){
-        List<HuoDongItemModel> persons = new ArrayList<>();
-        for(int i=bootCounter;i<bootCounter+20;i++){
-            HuoDongItemModel huodong = new HuoDongItemModel();
-            huodong.setDescribe("活动描述信息加载中...不得少于十五字不得多于一百五十字");
-            huodong.setEndtime(new Date());
-            huodong.setStarttime(new Date());
-            huodong.setSetTime(new Date());
-            huodong.setJoinNum((int) (Math.random() * 100)+1);
-            huodong.setPraiseNum((int) (Math.random() * 100) + 1);
-            huodong.setUsrName("用户" + i);
-            huodong.setLocation("这是活动地点");
-            huodong.setPrice(1234 * i);
-            persons.add(huodong);
+//    private List<HuoDongItemModel> bootData(int Num){
+//        List<HuoDongItemModel> persons = new ArrayList<>();
+//        for(int i=bootCounter;i<bootCounter+Num;i++){
+//            HuoDongItemModel huodong = new HuoDongItemModel();
+//            huodong.setDescribe("活动描述信息加载中...不得少于十五字不得多于一百五十字");
+//            huodong.setSetTime(new Date());
+//            huodong.setJoinNum((int) (Math.random() * 100) + 1);
+//            huodong.setPraiseNum((int) (Math.random() * 100) + 1);
+//            huodong.setUsrName("用户" + i);
+//            persons.add(huodong);
+//            Log.d("LQQQQQQQQ", "bootData"+i);
+//        }
+//        bootCounter+=Num;
+//        return persons;
+//    }
+
+    @Override
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+        if(requestUrl.equals(CommonUrl.getHuodongList)){
+            JSONObject jsonObject=new JSONObject(result);
+            String code=jsonObject.getString("code");
+            JSONArray jsonArray=jsonObject.getJSONArray("contents");
+            Log.d("LQQQQQ", code);
+            Log.d("LQQQQQ", jsonObject.getString("contents"));
+            if(code.equals("10303")){
+                List<HuoDongItemModel> persons = new ArrayList<>();
+                for(int i=bootCounter;i<bootCounter+jsonArray.length();i++){
+                    JSONObject info=jsonArray.getJSONObject(i-bootCounter);
+                    HuoDongItemModel huodong = new HuoDongItemModel();
+                    huodong.setDescribe(info.getString("ACcontent"));
+                    huodong.setSetTime(info.getString("ACstartT"));
+                    huodong.setJoinNum(Integer.valueOf(info.getString("ACregistN")));
+                    huodong.setPraiseNum(Integer.valueOf(info.getString("AClikenumber")));
+                    huodong.setUsrName(info.getString("Ualais"));
+                    huodong.setHuodongMainpic(info.getString("AClurl"));
+//                    huodong.setUserHeader();
+                    persons.add(huodong);
+//                    personAdapter.notifyDataSetChanged();
+                    Log.d("LQQQQQQQQ", "bootData"+i);
+                }
+                personAdapter.add(persons);
+                bootCounter+=jsonArray.length();
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_HUODONG_GET_HUODONG;
+                handler.sendMessage(msg);
+            }
+            else if(code.equals("10304")){
+//                Message msg=handler.obtainMessage();
+//                msg.what= StatusCode.REQUEST_HUODONG_MORE_HUODONG;
+//                handler.sendMessage(msg);
+                Log.d("LQQQQQQ", "10304: ");
+                List<HuoDongItemModel> persons = new ArrayList<>();
+                for(int i=bootCounter;i<bootCounter+jsonArray.length();i++){
+                    JSONObject info=jsonArray.getJSONObject(i-bootCounter);
+                    HuoDongItemModel huodong = new HuoDongItemModel();
+                    huodong.setDescribe(info.getString("ACcontent"));
+                    huodong.setSetTime(info.getString("ACstartT"));
+                    huodong.setJoinNum(Integer.valueOf(info.getString("ACregistN")));
+                    huodong.setPraiseNum(Integer.valueOf(info.getString("AClikenumber")));
+                    huodong.setUsrName(info.getString("Ualais"));
+                    huodong.setHuodongMainpic(info.getString("AClurl"));
+//                    huodong.setUserHeader();
+                    persons.add(huodong);
+                    Log.d("LQQQQQQQQ", "bootData" + i);
+//                    personAdapter.notifyDataSetChanged();
+                }
+                personAdapter.add(persons);
+                bootCounter+=jsonArray.length();
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_HUODONG_MORE_HUODONG;
+                handler.sendMessage(msg);
+            }
         }
-        bootCounter+=20;
-        return persons;
+    }
+
+    @Override
+    public void exception(IOException e, String requestUrl) {
+
     }
 
     /*public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

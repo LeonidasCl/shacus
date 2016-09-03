@@ -19,6 +19,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.CreateYuePaiActivity;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.NavigationModel;
+import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Data.Model.PictureModel;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.NetRequest;
@@ -28,6 +32,8 @@ import com.google.gson.Gson;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,11 +48,10 @@ import cn.bingoogolapple.bgabanner.BGABannerUtil;
  * 约拍主界面（一级）
  * Created by pc on 2016/7/7.
  */
-public class YuePaiFragment extends android.support.v4.app.Fragment implements  NetworkCallbackInterface.NetRequestIterface{
+public class YuePaiFragment extends android.support.v4.app.Fragment implements NetworkCallbackInterface.NetRequestIterface{
 
     private BGABanner mSideZoomBanner;
     private NetRequest requestFragment;
-    private int naviContent=4;
     FragmentManager fragmentManager;
     private FragmentTransaction fragmentTrs;
     private YuePaiFragmentC yuepaiFragment;
@@ -59,11 +64,17 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     private float mLastTouchY;
     private float mDelY;
     private YuePaiFragmentD rankFrag;
+    private List<NavigationModel> navigationBar;
+    private ACache cache;
 
     @Override
     public void onResume() {
         //如果之前动过还原动画flag
         super.onResume();
+    }
+
+    public YuePaiFragmentD getRankFrag(){
+        return rankFrag;
     }
 
     @Override
@@ -78,7 +89,6 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
         loadData();
         FragmentManager childfragManager=getChildFragmentManager();
         childfragManager.beginTransaction().replace(R.id.fragment_rank, rankFrag).commit();
-
         mSideZoomBanner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -245,24 +255,39 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
     private void loadData() {
         fragmentManager=getFragmentManager();
         tips.clear();
-        tips.add("推荐信息或广告位a");
-        tips.add("推荐信息或广告位b");
-        tips.add("推荐信息或广告位c");
-        tips.add("推荐信息或广告位d");
-        mSideZoomBanner.setViewsAndTips(getViews(naviContent), tips);
-        loadData(naviContent);
+        cache= ACache.get(getActivity());
+        Gson gson=new Gson();
+        JSONObject userStr=cache.getAsJSONObject("loginModel");
+        LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
+        navigationBar=model.getDaohanglan();
+        mSideZoomBanner.setViews(getViews(navigationBar.size()));
+        loadData(navigationBar.size());
 
     }
 
     private void loadData(int i) {
-        requestFragment = new NetRequest(this, APP.context);
-        Map map = new HashMap();
-        String count=String.valueOf(i);
-        map.put("userID", "15652009705");
-        map.put("usetToken", "123456");
-        map.put("requestNum", "100XX");
-        map.put("pictureCount", count);
+        //requestFragment = new NetRequest(this, APP.context);
+//        Map map = new HashMap();
+//        String count=String.valueOf(i);
+//        map.put("userID", "15652009705");
+//        map.put("usetToken", "123456");
+//        map.put("requestNum", "100XX");
+//        map.put("pictureCount", count);
         //requestFragment.httpRequest(map, CommonUrl.getYuepaiNavigateurl);
+        for (int j=0;j<i;j++){
+            ImageView view=mSideZoomBanner.getItemImageView(j);
+            Glide.with(YuePaiFragment.this)
+                    .load(navigationBar.get(j).getImgurl())
+                    .placeholder(R.drawable.holder)
+                    .error(R.drawable.holder)
+                    .into(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //打开活动webView
+                }
+            });
+        }
     }
 
 
@@ -294,7 +319,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
             PictureModel picStatusInfoObject = gson.fromJson(result, PictureModel.class);
             String errorCode = picStatusInfoObject.getErrorCode();
             if (errorCode.equals("0")){
-                for (int i=0;i<naviContent;i++){
+                /*for (int i=0;i<naviContent;i++){
                     String currentCount="pic"+String.valueOf(i);
                     String picUrl=picStatusInfoObject.getPicUrl(currentCount);
                     Glide.with(YuePaiFragment.this)
@@ -302,7 +327,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements  
                             .placeholder(R.drawable.holder)
                             .error(R.drawable.holder)
                             .into(mSideZoomBanner.getItemImageView(i));
-                }
+                }*/
             }
         }
     }

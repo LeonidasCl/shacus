@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by Mercer on 2016/7/12.
  */
-public class RankItemModel {
+public class YuepaiItemModel {
 
     private Drawable userIamgeSrc;
     private int rank;

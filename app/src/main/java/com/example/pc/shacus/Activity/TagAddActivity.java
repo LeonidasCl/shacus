@@ -21,6 +21,7 @@ public class TagAddActivity extends Activity {
     private ListView lv;
     private SearchView search;
     private Button selected;
+    private int type;//父活动的种类，1为约拍，2为活动
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +73,22 @@ public class TagAddActivity extends Activity {
                 String tag = search.getQuery().toString();
                 Intent intent = new Intent(getApplicationContext(), CreateYuePaiActivity.class);
                 intent.putExtra("tag", tag);
-                intent.putExtra("type", "tagAdd1");
+                intent.putExtra("type", type==1?"tagAdd1":"tagAdd2");
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
+                finish();
+                return;
             }
         });
+
+        setType(getIntent().getIntExtra("type",0));
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

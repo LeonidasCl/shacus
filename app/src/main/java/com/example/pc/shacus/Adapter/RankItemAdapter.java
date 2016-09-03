@@ -1,42 +1,46 @@
 package com.example.pc.shacus.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.pc.shacus.Data.Model.RankItemModel;
+import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.MainActivity;
+import com.example.pc.shacus.Activity.YuePaiDetailActivity;
+import com.example.pc.shacus.Data.Model.PhotographerModel;
+import com.example.pc.shacus.Fragment.YuePaiFragment;
 import com.example.pc.shacus.R;
 
 import java.util.List;
 
 /**
- * licl 2016.7.18
- * 这个适配器写法大量参照ekansh在2015.10.20的一个开源例子
+ * licl 2016.8.18
  */
 public class RankItemAdapter extends BaseAdapter{
 
-    private List<RankItemModel> rankList;
-    private Activity activity;
+    private List<PhotographerModel> rankList;
+    private MainActivity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder viewHolder;
 
-    public RankItemAdapter(Activity activity, List<RankItemModel> list) {
+    public RankItemAdapter(Activity activity, List<PhotographerModel> list) {
         this.rankList = list;
-        this.activity = activity;
+        this.activity = (MainActivity)activity;
     }
 
-    public void add(List<RankItemModel> persons){
+    public void add(List<PhotographerModel> persons){
         this.rankList.addAll(persons);
     }
-    public void refresh(List<RankItemModel> persons) {
+    public void refresh(List<PhotographerModel> persons) {
         this.rankList = persons;
     }
 
@@ -46,7 +50,7 @@ public class RankItemAdapter extends BaseAdapter{
     }
 
     @Override
-    public RankItemModel getItem(int i) {
+    public PhotographerModel getItem(int i) {
         return rankList.get(i);
     }
 
@@ -67,64 +71,72 @@ public class RankItemAdapter extends BaseAdapter{
         else
             viewHolder = (ViewHolder) view.getTag();
 
-        RankItemModel item = getItem(i);
+        PhotographerModel item = getItem(i);
         viewHolder.setValues(item);
+
+
 
         return view;
     }
 
 
     private class ViewHolder {
-        ImageButton userIamgeSrc;
-        Button rank;
-        TextView userNameText;
-        TextView userAddressText;
-        ImageButton mainPicture;
-        ImageButton rankPraise;
-        ImageButton rankComment;
+        ImageView userIamgeSrc;
+        TextView APTitle;
+        TextView APstartT;
+        ImageView mainPicture;
+        ImageButton APlike;
+        ImageButton APjoin;
         TextView praiseNum;
         TextView commentNum;
 
         public ViewHolder(View view) {
             //name = (TextView) view.findViewById(R.id.text_view_name);
-            userIamgeSrc=(ImageButton)view.findViewById(R.id.user_image);
-            rank=(Button)view.findViewById(R.id.rank_image);
-            userNameText=(TextView)view.findViewById(R.id.userInfo);
-            userAddressText=(TextView)view.findViewById(R.id.userAddress);
-            mainPicture=(ImageButton)view.findViewById(R.id.main_picture);
-            rankPraise=(ImageButton)view.findViewById(R.id.rank_praise);
-            rankComment=(ImageButton)view.findViewById(R.id.rank_comment);
-            praiseNum=(TextView)view.findViewById(R.id.rank_praise_num);
-            commentNum=(TextView)view.findViewById(R.id.rank_comment_num);
+            userIamgeSrc=(ImageView)view.findViewById(R.id.user_image);
+            APTitle =(TextView)view.findViewById(R.id.APtitle);
+            APstartT =(TextView)view.findViewById(R.id.APstartT);
+            mainPicture=(ImageView)view.findViewById(R.id.APimgurl);
+            APlike =(ImageButton)view.findViewById(R.id.APlikeBtn);
+            APjoin =(ImageButton)view.findViewById(R.id.APjoinBtn);
+            praiseNum=(TextView)view.findViewById(R.id.APlikeN);
+            commentNum=(TextView)view.findViewById(R.id.APregistN);
         }
 
-        public void setValues(RankItemModel item) {
-           // name.setText(item.getName());
+        public void setValues(PhotographerModel item){
+            //name.setText(item.getName());
             Resources res=activity.getResources();
-            Drawable usrimg=res.getDrawable(R.drawable.user_image);
-            userIamgeSrc.setImageDrawable(usrimg);
-            int rank=item.getRank();
-            if(rank<=3){
-                if(rank==1)
-                    this.rank.setBackgroundResource(R.drawable.rank1);
-                if(rank==2)
-                    this.rank.setBackgroundResource(R.drawable.rank2);
-                if(rank==3)
-                    this.rank.setBackgroundResource(R.drawable.rank3);
-            }else {
-                this.rank.setBackgroundResource(R.drawable.transparent);
-                this.rank.setText(String.valueOf(rank));
-            }
-            userNameText.setText(item.getUserNameText());
-            userAddressText.setText(item.getUserAddressText());
-            Drawable mainimg=res.getDrawable(R.drawable.main_picture1);
-            mainPicture.setImageDrawable(mainimg);
-            Drawable praise=res.getDrawable(R.drawable.praise);
-            rankPraise.setImageDrawable(praise);
-            Drawable comment=res.getDrawable(R.drawable.comment_image);
-            rankPraise.setImageDrawable(comment);
-            praiseNum.setText(String.valueOf(item.getFavorNum()));
-            commentNum.setText(String.valueOf(item.getCommentNum()));
+            //Drawable usrimg=res.getDrawable(R.drawable.user_image);
+            //userIamgeSrc.setImageDrawable(usrimg);
+            String userimg=item.getAPimgurl();
+            Glide.with(activity)
+                    .load(userimg)
+                    .placeholder(R.drawable.user_image)
+                    .error(R.drawable.p1)
+                    .into(userIamgeSrc);
+            APTitle.setText(item.getAPtitle());
+            APstartT.setText(item.getAPstartT());
+            String mainimg=item.getAPimgurl();
+            Glide.with(activity)
+                    .load(mainimg)
+                    .placeholder(R.drawable.holder)
+                    .error(R.drawable.p1)
+                    .into(mainPicture);
+            //mainPicture.setImageDrawable(mainimg);
+            praiseNum.setText(String.valueOf(item.getAPlikeN()));
+            commentNum.setText(String.valueOf(item.getAPregistN()));
+            APlike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //发起一个点赞请求
+                }
+            });
+            APjoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, YuePaiDetailActivity.class);
+                    activity.startActivity(intent);
+                }
+            });
 
         }
     }

@@ -1,19 +1,17 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.util.List;
+
 public class LoginDataModel {
 
 	private UserModel userModel;
-	private Object modelList;
-	private Object daohanglan;
+	private List<PhotographerModel> photoList;
+	private List<NavigationModel> daohanglan;
 	private String code;
-	private Object photoList;
+	private List<PhotographerModel> modelList;
 
-	public Object getPhotoList() {
+	public List<PhotographerModel> getPhotoList() {
 		return photoList;
-	}
-
-	public void setPhotoList(Object photoList) {
-		this.photoList = photoList;
 	}
 
 	public String getCode() {
@@ -24,20 +22,12 @@ public class LoginDataModel {
 		this.code = code;
 	}
 
-	public Object getDaohanglan() {
+	public List<NavigationModel> getDaohanglan() {
 		return daohanglan;
 	}
 
-	public void setDaohanglan(Object daohanglan) {
+	public void setDaohanglan(List<NavigationModel> daohanglan){
 		this.daohanglan = daohanglan;
-	}
-
-	public Object getModelList() {
-		return modelList;
-	}
-
-	public void setModelList(Object modelList) {
-		this.modelList = modelList;
 	}
 
 	public UserModel getUserModel() {
@@ -46,5 +36,17 @@ public class LoginDataModel {
 
 	public void setUserModel(UserModel userModel) {
 		this.userModel = userModel;
+	}
+
+	public List<PhotographerModel> getModelList() {
+		return modelList;
+	}
+
+	public void setModelList(List<PhotographerModel> modelList) {
+		this.modelList = modelList;
+	}
+
+	public void setPhotoList(List<PhotographerModel> photoList) {
+		this.photoList = photoList;
 	}
 }

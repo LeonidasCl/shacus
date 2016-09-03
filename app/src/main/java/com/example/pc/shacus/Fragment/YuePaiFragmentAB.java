@@ -38,9 +38,24 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
     private ListView headerlist;
     public static final int HEADLIST_NUM=17;
-    private int[] headerimg = new int[]{R.drawable.p0,R.drawable.p0,R.drawable.getnew,R.drawable.p1, R.drawable.p2,R.drawable.p2
-            ,R.drawable.p3,R.drawable.p1, R.drawable.p2, R.drawable.p3,R.drawable.p1, R.drawable.p2, R.drawable.p3,
-            R.drawable.getnew, R.drawable.p0,R.drawable.p0,R.drawable.p0};
+    private int[] headerimg = new int[]{
+            R.drawable.p0,
+            R.drawable.p0,
+            R.drawable.getnew,
+            R.drawable.p1,
+            R.drawable.p2,
+            R.drawable.p2
+            ,R.drawable.p3,
+            R.drawable.p1,
+            R.drawable.p2,
+            R.drawable.p3,
+            R.drawable.p1,
+            R.drawable.p2,
+            R.drawable.p3,
+            R.drawable.getnew,
+            R.drawable.p0,
+            R.drawable.p0,
+            R.drawable.p0};
 
     private Activity yuepai;
     List<YuePaiDataModel> yuepaiDatalist;
@@ -74,8 +89,8 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
         yuepai=this.getActivity();
         View view = inflater.inflate(R.layout.fragment_yue_pai_a, container, false);
-        FilterMenuLayout layout = (FilterMenuLayout) view.findViewById(R.id.filter_menu1);
-        attachMenu(layout);
+        //FilterMenuLayout layout = (FilterMenuLayout) view.findViewById(R.id.filter_menu1);
+        //attachMenu(layout);
         initUI(view);
 
         navibar=yuepai.findViewById(R.id.fragment_list);
@@ -103,17 +118,17 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         return view;
     }
 
-    private FilterMenu attachMenu(FilterMenuLayout layout){
-        return new FilterMenu.Builder(yuepai)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .attach(layout)
-                .withListener(listener)
-                .build();
-    }
+//        private FilterMenu attachMenu(FilterMenuLayout layout){
+//            return new FilterMenu.Builder(yuepai)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .attach(layout)
+//                    .withListener(listener)
+//                    .build();
+//        }
 
     private void initUI(View view) {
 
