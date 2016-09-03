@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else return false;
     }
 
+
     private void initView(){
 
         btn_main=(ImageButton)findViewById(R.id.button_main);
