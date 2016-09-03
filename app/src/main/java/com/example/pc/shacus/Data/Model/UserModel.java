@@ -1,9 +1,11 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by pc on 2016/3/7.
  */
-public class UserModel extends BaseDataModel {
+public class UserModel implements Serializable{
     private String headImage;
     private String realName;
     private String sex;
