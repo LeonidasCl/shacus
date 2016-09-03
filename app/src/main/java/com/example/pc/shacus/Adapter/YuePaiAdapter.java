@@ -23,16 +23,16 @@ import com.example.pc.shacus.R;
 import java.util.List;
 
 /**
- * licl 2016.8.18
+ * licl 2016.9.4
  */
-public class RankItemAdapter extends BaseAdapter{
+public class YuePaiAdapter extends BaseAdapter{
 
     private List<PhotographerModel> rankList;
     private MainActivity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder viewHolder;
 
-    public RankItemAdapter(Activity activity, List<PhotographerModel> list) {
+    public YuePaiAdapter(Activity activity, List<PhotographerModel> list) {
         this.rankList = list;
         this.activity = (MainActivity)activity;
     }
@@ -90,7 +90,7 @@ public class RankItemAdapter extends BaseAdapter{
         TextView praiseNum;
         TextView commentNum;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view){
             //name = (TextView) view.findViewById(R.id.text_view_name);
             userIamgeSrc=(ImageView)view.findViewById(R.id.user_image);
             APTitle =(TextView)view.findViewById(R.id.APtitle);
@@ -102,7 +102,7 @@ public class RankItemAdapter extends BaseAdapter{
             commentNum=(TextView)view.findViewById(R.id.APregistN);
         }
 
-        public void setValues(PhotographerModel item){
+        public void setValues(final PhotographerModel item){
             //name.setText(item.getName());
             Resources res=activity.getResources();
             //Drawable usrimg=res.getDrawable(R.drawable.user_image);
@@ -118,13 +118,14 @@ public class RankItemAdapter extends BaseAdapter{
             String mainimg=item.getAPimgurl();
             Glide.with(activity)
                     .load(mainimg)
+                    .centerCrop()
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.p1)
                     .into(mainPicture);
             //mainPicture.setImageDrawable(mainimg);
             praiseNum.setText(String.valueOf(item.getAPlikeN()));
             commentNum.setText(String.valueOf(item.getAPregistN()));
-            APlike.setOnClickListener(new View.OnClickListener() {
+            APlike.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
                     //发起一个点赞请求
@@ -134,6 +135,8 @@ public class RankItemAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(activity, YuePaiDetailActivity.class);
+                    intent.putExtra("detail",item.getAPid());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     activity.startActivity(intent);
                 }
             });

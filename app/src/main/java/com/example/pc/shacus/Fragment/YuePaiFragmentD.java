@@ -1,7 +1,6 @@
 package com.example.pc.shacus.Fragment;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -13,18 +12,25 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.example.pc.shacus.Adapter.RankItemAdapter;
+import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Adapter.YuePaiAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
-import com.example.pc.shacus.Data.Model.YuepaiItemModel;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -44,7 +50,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     boolean refreshing=false;
     private SwipeRefreshLayout refreshLayout;
-    private RankItemAdapter personAdapter;
+    private YuePaiAdapter personAdapter;
     private ListView listView;
     private int bootCounter=0;
     private int maxRecords = 400;
@@ -79,7 +85,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         button_grapher = (ImageButton) rankView.findViewById(R.id.button_grapher);
         button_model = (ImageButton) rankView.findViewById(R.id.button_model);
 
-        personAdapter = new RankItemAdapter(yuepai,bootData(GRAPHER));
+        personAdapter = new YuePaiAdapter(yuepai,bootData(GRAPHER));
         listView = (ListView) rankView.findViewById(R.id.rank_list);
         refreshLayout = (SwipeRefreshLayout) rankView.findViewById(R.id.swipe_refresh_layout);
         listView.setAdapter(personAdapter);
@@ -175,9 +181,30 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords) {
-                    personAdapter.add(bootData(isGrapher ? GRAPHER : MODEL));
+                    personAdapter.add(loadData(isGrapher ? GRAPHER : MODEL));
                     personAdapter.notifyDataSetChanged();
                 }
+            }
+
+            private List<PhotographerModel> loadData(int i) {
+
+                final  List<PhotographerModel> list=new ArrayList<>();
+
+                NetRequest requestFragment = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                    @Override
+                    public void requestFinish(String result, String requestUrl) throws JSONException {
+                        list.add(0,null);
+                    }
+
+                    @Override
+                    public void exception(IOException e, String requestUrl) {}
+
+                }, APP.context);
+
+                Map<String,Object> map=new HashMap<>();
+                requestFragment.httpRequest(map, CommonUrl.url);
+
+                return list;
             }
         });
     }
