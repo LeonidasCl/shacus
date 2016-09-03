@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_personalInfo"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import"/>
+            android:title="个人资料"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_orderList"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery"/>
+            android:title="我的订单"/>
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_message"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow"/>
+            android:title="消息"/>
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_myConcern"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools"/>
-    </group>
+            android:title="我的关注"/>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send"/>
-        </menu>
-    </item>
+        <item
+            android:id="@+id/nav_myCollection"
+            android:icon="@drawable/ic_menu_share"
+            android:title="我的收藏"/>
+        <item
+            android:id="@+id/nav_Setting"
+            android:icon="@drawable/ic_menu_send"
+            android:title="设置"/>
+    </group>
 
 </menu>

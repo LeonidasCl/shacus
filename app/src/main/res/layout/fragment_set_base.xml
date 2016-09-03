@@ -28,58 +28,6 @@
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="start"
-        android:background="#ffffff"
-        android:layout_marginTop="25dp">
-        <RelativeLayout
-            android:id="@+id/layout_UserManage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start">
-            <TextView
-                android:id="@+id/text_UserManage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="账号管理"
-                android:textSize="20sp"
-                android:layout_margin="10dp"/>
-            <Button
-                android:id="@+id/btn_UserManage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/downarrow"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/layout_private"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start">
-            <TextView
-                android:id="@+id/text_private"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="隐私管理"
-                android:textSize="20sp"
-                android:layout_margin="10dp"/>
-            <Button
-                android:id="@+id/btn_private"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/downarrow"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                />
-        </RelativeLayout>
-    </LinearLayout>
 
 
     <LinearLayout
@@ -87,51 +35,78 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="start"
-        android:background="#ffffff"
-        android:layout_marginTop="25dp">
+        android:background="#ffffff">
+
         <RelativeLayout
-            android:id="@+id/layout_general"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start">
+            android:background="#ffffff"
+            android:id="@+id/layout_phoneVisible"
+            android:gravity="left">
             <TextView
-                android:id="@+id/text_general"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="通用"
+                android:text="手机号可见"
                 android:textSize="20sp"
-                android:layout_margin="10dp"/>
-            <Button
-                android:id="@+id/btn_general"
-                android:layout_width="40dp"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"/>
+            <Switch
+                android:id="@+id/btn_phoneVisible"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:background="@drawable/downarrow"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
+                android:checked="true"
                 />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/layout_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:id="@+id/layout_messageInform"
+            android:gravity="left">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是否接受消息通知"
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"/>
+            <Switch
+                android:id="@+id/btn_messageInform"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:checked="true"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_changePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start">
             <TextView
-                android:id="@+id/text_about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="关于VITA"
+                android:text="修改密码"
                 android:textSize="20sp"
                 android:layout_margin="10dp"/>
-            <Button
-                android:id="@+id/btn_about"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/downarrow"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_versionUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start">
+            <TextView
+                android:id="@+id/text_versionUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="版本更新"
+                android:textSize="20sp"
+                android:layout_margin="10dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/layout_advice"
@@ -145,71 +120,41 @@
                 android:text="意见反馈"
                 android:textSize="20sp"
                 android:layout_margin="10dp"/>
-            <Button
-                android:id="@+id/btn_advice"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/downarrow"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_clearCache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
+            <TextView
+                android:id="@+id/text_clearCache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除缓存"
+                android:textSize="20sp"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/text_CacheSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13.0MB"
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_functionIntroduce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start">
+            <TextView
+                android:id="@+id/text_functionIntroduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="功能介绍"
+                android:textSize="20sp"
+                android:layout_margin="10dp"/>
         </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/layout_clearCache"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:layout_marginTop="25dp">
-        <TextView
-            android:id="@+id/text_clearCache"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="清除缓存"
-            android:textSize="20sp"
-            android:layout_margin="10dp"/>
-        <TextView
-            android:id="@+id/text_CacheSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="13.0MB"
-            android:textSize="20sp"
-            android:layout_margin="10dp"
-            android:layout_toStartOf="@+id/btn_clearCache"/>
-        <Button
-            android:id="@+id/btn_clearCache"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/downarrow"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/layout_Logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:layout_marginTop="25dp">
-        <TextView
-            android:id="@+id/text_Logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="退出登录"
-            android:textSize="20sp"
-            android:layout_margin="10dp"/>
-        <Button
-            android:id="@+id/btn_Logout"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/downarrow"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            />
-    </RelativeLayout>
 </LinearLayout>
