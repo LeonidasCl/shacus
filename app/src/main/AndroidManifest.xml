@@ -92,14 +92,10 @@
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity android:name=".Activity.PersonalInfoActivity" />
         <activity android:name=".Activity.PersonalInfoEditActivity"></activity>
-            android:theme="@android:style/Theme.Holo.Dialog">
-    </activity>
-    <activity
-        android:name=".Activity.NavigationTestActivity"
-        android:label="@string/title_activity_navigation_test"
-        android:theme="@style/Vita.ActionBar">
-        <activity android:name=".Activity.YuePaiDetailActivity"
-                  android:theme="@style/AppTheme.YuePaiDetailActivity">
+
+
+    <activity android:name=".Activity.YuePaiDetailActivity"
+    android:theme="@style/AppTheme.YuePaiDetailActivity">
         </activity>
     </application>
 

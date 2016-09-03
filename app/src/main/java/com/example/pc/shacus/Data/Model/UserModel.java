@@ -6,7 +6,6 @@ import java.io.Serializable;
  * Created by pc on 2016/3/7.
  */
 public class UserModel {
-public class UserModel {
     private String headImage;
     private String realName;
     private String sex;
