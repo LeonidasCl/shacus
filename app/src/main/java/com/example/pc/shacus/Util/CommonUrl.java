@@ -15,7 +15,6 @@ public class CommonUrl {
 	public static final String createActivityInfo    = url + "activity/create";//发布活动路径
 	public static final String otherUserInfo =url+"user/homepager";//访问他人个人主页
 
-	public static final String getFollowInfo=url+"user/mylike";
 	public static final String getYuePaiInfo    = url + "/appointment/ask";//获得约拍详情
 	public static final String settingChangeNetUrl=url+"PaswChange";
 
