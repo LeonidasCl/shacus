@@ -8,8 +8,8 @@
     <ImageButton
         android:id="@+id/following_user_image"
         android:src="@mipmap/ic_launcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"/>
 
     <TextView
@@ -30,12 +30,13 @@
         android:layout_toRightOf="@+id/following_user_image"
         android:layout_alignBottom="@+id/following_user_image"/>
 
-    <ImageButton
+    <Button
+        android:text="已关注"
         android:id="@+id/followedbtn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:src="@mipmap/ic_launcher"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

@@ -35,6 +35,7 @@
     <string name="input_theme_comment_title">请输入标题</string>
     <string name="input_theme_comment_desc">请输入内容</string>
     <string name="yuepai_create">发起约拍/活动</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content_title">条目头部</string>
     <string name="content">条目列表内容</string>
@@ -86,6 +87,10 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="border_top">Border Top</string>
+    <string name="border_bottom">Border Bottom</string>
+    <string name="image_url">Image Url</string>
     <string name="huodong_minp">请输入最小参加人数</string>
     <string name="huodong_maxp">请选择最大参加人数</string>
     <string name="huodong_check_maxp">不限制最大参加人数</string>

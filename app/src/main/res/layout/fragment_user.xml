@@ -1,185 +1,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.pc.shacus.Fragment.UserFragment">
-
-    <android.support.v7.widget.SearchView
-        android:id="@+id/test_search_tag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp">
-    </android.support.v7.widget.SearchView>
-    <!-- TODO: Update blank fragment layout -->
-<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-      <LinearLayout
-          android:layout_width="fill_parent"
-          android:layout_height="220dp"
-          android:orientation="vertical"
-          android:layout_gravity="center_vertical"
-          android:background="@mipmap/ic_launcher">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.pc.shacus.Fragment.UserFragment">
 
-          <LinearLayout
-              android:layout_width="wrap_content"
-              android:layout_height="150dp"
-              android:orientation="horizontal"
-              android:layout_gravity="center_horizontal">
-          <ImageView
-                  android:layout_width="30dp"
-                  android:layout_height="30dp"
-                  android:src="@mipmap/ic_launcher"
-              android:id="@+id/button5"
-              android:layout_gravity="bottom"/>
-
-          <com.example.pc.shacus.View.TagView.CircleImageView
-          android:layout_width="100dp"
-          android:layout_height="100dp"
-          android:layout_gravity="center"
-          android:layout_marginBottom="-10dp"
-          android:src="@drawable/user_image"
-              android:id="@+id/image3"
-              />
-
-          <ImageView
-              android:layout_width="30dp"
-              android:layout_height="30dp"
-              android:src="@mipmap/ic_launcher"
-              android:id="@+id/button6"
-              android:layout_gravity="bottom"
-           />
-      </LinearLayout>
-          <TextView
-              android:layout_gravity="center_horizontal"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="地点"
-              android:id="@+id/text1"
-              />
-
-          <TextView
-              android:id="@+id/text2"
-              android:layout_gravity="center_horizontal"
-              android:layout_width="200dp"
-              android:layout_height="wrap_content"
-              android:text="个性签名"
-              android:editable="true"
-              android:background="#ffffff"/>
-      </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#adadad"
-        android:weightSum="4">
-      <LinearLayout
-          android:id="@+id/button1"
-          android:layout_weight="1"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:clickable="true"
-          android:focusable="true">
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center_horizontal"
-             android:text="75" />
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="关注"
-              android:layout_gravity="center_horizontal"
-
-              android:layout_weight="1"/>
-
-
-      </LinearLayout>
-
-      <LinearLayout
-          android:id="@+id/button2"
-          android:layout_weight="1"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:clickable="true"
-          android:focusable="true">
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center_horizontal"
-              android:text="1000" />
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="粉丝"
-              android:layout_gravity="center_horizontal"
-              android:layout_weight="1"/>
-
-
-      </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/button3"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_horizontal"
-                android:text="80" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="作品"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"/>
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/button4"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true">
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="99" />
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_launcher"/>
-
-
-        </LinearLayout>
-  </LinearLayout>
-    <ListView
+    <!-- TODO: Update blank fragment layout -->
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView">
-
-    </ListView>
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
+        android:id="@+id/denglu"
+        android:text="登录"/>
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/fragment_list"
-        android:dividerHeight="10dp"
-        android:paddingBottom="0dp">
-    </ListView>
+        android:id="@+id/paga"
+        android:text="个人主页"/>
 </LinearLayout>
 </FrameLayout>

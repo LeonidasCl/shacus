@@ -367,13 +367,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent=new Intent(getApplicationContext(),PersonalInfoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_orderList) {
-
+            Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_message) {
 
         } else if (id == R.id.nav_myConcern) {
-
+            Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_myCollection) {
-
+            Intent intent=new Intent(getApplicationContext(),FavoritemActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_Setting) {
             Intent intent=new Intent(getApplicationContext(),SettingsActivity.class);
             startActivity(intent);

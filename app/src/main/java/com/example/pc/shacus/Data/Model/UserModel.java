@@ -20,6 +20,8 @@ public class UserModel implements Serializable{
     private String nickName;
     private String id;
 
+    private Boolean index;
+
     public String getHeadImage() {
         return headImage;
     }
@@ -122,5 +124,13 @@ public class UserModel implements Serializable{
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getIndex() {
+        return index;
+    }
+
+    public void setIndex(Boolean index) {
+        this.index = index;
     }
 }
