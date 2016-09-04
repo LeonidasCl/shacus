@@ -38,9 +38,24 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
     private ListView headerlist;
     public static final int HEADLIST_NUM=17;
-    private int[] headerimg = new int[]{R.drawable.p0,R.drawable.p0,R.drawable.getnew,R.drawable.p1, R.drawable.p2,R.drawable.p2
-            ,R.drawable.p3,R.drawable.p1, R.drawable.p2, R.drawable.p3,R.drawable.p1, R.drawable.p2, R.drawable.p3,
-            R.drawable.getnew, R.drawable.p0,R.drawable.p0,R.drawable.p0};
+    private int[] headerimg = new int[]{
+            R.drawable.p0,
+            R.drawable.p0,
+            R.drawable.getnew,
+            R.drawable.p1,
+            R.drawable.p2,
+            R.drawable.p2
+            ,R.drawable.p3,
+            R.drawable.p1,
+            R.drawable.p2,
+            R.drawable.p3,
+            R.drawable.p1,
+            R.drawable.p2,
+            R.drawable.p3,
+            R.drawable.getnew,
+            R.drawable.p0,
+            R.drawable.p0,
+            R.drawable.p0};
 
     private Activity yuepai;
     List<YuePaiDataModel> yuepaiDatalist;
@@ -74,8 +89,8 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
         yuepai=this.getActivity();
         View view = inflater.inflate(R.layout.fragment_yue_pai_a, container, false);
-        FilterMenuLayout layout = (FilterMenuLayout) view.findViewById(R.id.filter_menu1);
-        attachMenu(layout);
+        //FilterMenuLayout layout = (FilterMenuLayout) view.findViewById(R.id.filter_menu1);
+        //attachMenu(layout);
         initUI(view);
 
         navibar=yuepai.findViewById(R.id.fragment_list);
@@ -103,17 +118,17 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         return view;
     }
 
-    private FilterMenu attachMenu(FilterMenuLayout layout){
-        return new FilterMenu.Builder(yuepai)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .attach(layout)
-                .withListener(listener)
-                .build();
-    }
+//        private FilterMenu attachMenu(FilterMenuLayout layout){
+//            return new FilterMenu.Builder(yuepai)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .addItem(R.drawable.ic_action_info)
+//                    .attach(layout)
+//                    .withListener(listener)
+//                    .build();
+//        }
 
     private void initUI(View view) {
 
@@ -188,10 +203,10 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         for (int i=0;i<10;i++)
         {
             YuePaiDataModel model=new YuePaiDataModel();
-            model.setUsername("用户" + i);
-            model.setIntroduce("这是活动"+i+"的描述不能少于十五字不能多于一百五十字但是点开之前只能显示两行");
-            model.setStartTime(new Date());
-            model.setLocation("这是活动"+i+"的活动地点");
+            model.setAPtitle("用户" + i);
+            model.setAPcontent("这是活动"+i+"的描述不能少于十五字不能多于一百五十字但是点开之前只能显示两行");
+            model.setAPcreateT(new Date().toString());
+            model.setAPlocation("这是活动"+i+"的活动地点");
             yuepaiDatalist.add(model);
         }
 
@@ -230,10 +245,10 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
             YuePaiDataModel model=getItem(position % yuepaiDatalist.size());
            //这里用Glide load一个imgview into到布局里，待写
-            username.setText(model.getUsername());
-            introduce.setText(model.getIntroduce());
-            time.setText(model.getStartTime().toString());
-            location.setText(model.getLocation());
+            username.setText(model.getAPtitle());
+            introduce.setText(model.getAPcontent());
+            time.setText(model.getAPcreateT().toString());
+            location.setText(model.getAPlocation());
             return convertView;
         }
     }

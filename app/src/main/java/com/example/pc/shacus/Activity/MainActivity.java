@@ -4,25 +4,25 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.SettingDataModel;
 import com.example.pc.shacus.Fragment.FindFragment;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.HomeFragment;
@@ -36,8 +36,6 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -141,23 +139,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         initView();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //这个是父布局，也就是这个Activity的根布局
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        //找到侧边栏
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //为侧边栏设置监听，由于此Activity已实现OnNavigationItemSelectedListener接口，可以传this
+        navigationView.setNavigationItemSelectedListener(this);
+        //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
         btnAvartar=(ImageButton)findViewById(R.id.toolbar_btn_avatar);
         btnAvartar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isLogin){
-                        mDrawerLayout.openDrawer(navigationView);
-                    }else {
-                        Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
-                        intent.putExtra("method", StatusCode.STATUS_LOGIN);/////////////
-                        startActivity(intent);
-                    }
-
+            @Override
+            public void onClick(View v) {
+                if (isLogin) {
+                    //如果用户已经登录，打开侧滑菜单
+                    mDrawerLayout.openDrawer(navigationView);
+                } else {
+                    //如果没有登录，跳转到注册
+                    Intent intent = new Intent("android.intent.action.LOGINACTIVITY");
+                    intent.putExtra("method", StatusCode.STATUS_LOGIN);
+                    startActivity(intent);
                 }
-            });
+
+            }
+        });
+        //获取登录状态添加到侧滑栏信息
+        ACache acache=ACache.get(this);
+        UserModel dataModel= (UserModel) acache.getAsObject("userModel");
+        ImageView userImage= (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
+        TextView userName=(TextView)navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
+        ImageView userLevel= (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
+        TextView userSign=(TextView)navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
+        userName.setText(dataModel.getNickName());
+        userSign.setText(dataModel.getSign());
+
+        // 和设置缓存中
+        SettingDataModel setModel=new SettingDataModel();
+        setModel.setMessageInform(false);
+        setModel.setPhoneVisible(false);
+        setModel.setUserPhone(dataModel.getPhone());
+        setModel.setUserID(dataModel.getId());
+        acache.put("settingModel",setModel);
+
 
         fragmentTrs=fragmentMgr.beginTransaction();
         btn_yuepai.setSelected(true);
@@ -177,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         String hint=intent.getStringExtra("result");
         CommonUtils.getUtilInstance().showToast(APP.context, hint);
+        yuePaiFragment.getRankFrag().doRefresh();
     }
 
     @Override//不要忘记渲染APP动作条的overflow菜单
@@ -185,24 +208,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    private void initNetworkData() {
+    private void initNetworkData(){
     }
 
 
     private boolean manageLogin() throws JSONException {
         Gson gson=new Gson();
         JSONObject userStr=cache.getAsJSONObject("loginModel");
+        ACache cache=ACache.get(MainActivity.this);
         if (userStr!=null)
         {
             LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
             user=model.getUserModel();
             textName.setText(user.getNickName());
+            cache.put("userModel", user);
             return true;
         }
         else return false;
     }
 
-    private void initView() {
+
+    private void initView(){
 
         btn_main=(ImageButton)findViewById(R.id.button_main);
         btn_find=(ImageButton)findViewById(R.id.button_find);
@@ -308,8 +334,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //重新创建来刷新UI
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
-
-
         }
 
 
@@ -334,22 +358,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //这里是导航侧边栏的回调
-    @Override
+   @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
 
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_personalInfo) {
+            Intent intent=new Intent(getApplicationContext(),PersonalInfoActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_orderList) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_message) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_myConcern) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_myCollection) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_Setting) {
+            Intent intent=new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);

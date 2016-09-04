@@ -30,6 +30,6 @@ public class ShareActivityTest {
     public ActivityTestRule<ShareActivity> activityRule = new ActivityTestRule<>(ShareActivity.class);
     @Test
     public void testOnCreate() throws Exception {
-        Thread.sleep(10000);
+        Thread.sleep(20000);
     }
 }

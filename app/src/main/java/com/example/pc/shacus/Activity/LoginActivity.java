@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.NetRequest;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -290,22 +292,28 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
         if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
+            if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
                 JSONArray content=object.getJSONArray("contents");
                 //还有其它的JSONArray比如榜单、广告栏等初始化数据未接
-                String userJSON=content.getJSONObject(0).toString();
-                Gson gson=new Gson();
-                LoginDataModel loginDataModel=gson.fromJson(userJSON,LoginDataModel.class);
+                //String userJSON=content.getJSONObject(0).toString();
+                // Gson gson=new Gson();
+                //LoginDataModel loginDataModel=gson.fromJson(userJSON,LoginDataModel.class);
+                //UserModel user = loginDataModel.getUserModel();
 
-                UserModel user = loginDataModel.getUserModel();
+                //JSONArray photoList=content.getJSONObject(0).getJSONArray("photoList");
+                //List<PhotographerModel>
+                //for (int i=0;i<photoList.length();i++){
 
-            if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
+//                }
+
                 ACache cache=ACache.get(LoginActivity.this);
                 cache.put("loginModel",content.getJSONObject(0),ACache.TIME_WEEK*2);
             }else {
                 //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content.toString());Looper.loop();
                 loginProgressDlg.cancel();//进度条取消
+                String str=object.getString("contents");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("result","登录失败");
+                intent.putExtra("result","登录失败:"+str);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 return;
@@ -335,7 +343,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     content = object.getJSONArray("contents");
                     userJSON=content.getJSONObject(0).toString();
                     loginModel = gson.fromJson(userJSON.toString(), LoginDataModel.class);
-                    user = loginModel.getUserModel();
+                    //user = loginModel.getUserModel();
                 }else
                     contentstr=object.getString("contents");
 
@@ -356,7 +364,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         msg.what=StatusCode.RECIEVE_REGISTER_SUCCESS;
                         mHandler.sendMessage(msg);
                         Looper.prepare();
-                        CommonUtils.getUtilInstance().showToast(APP.context, "验证成功!请设置昵称和密码!");
+                        CommonUtils.getUtilInstance().showToast(APP.context, "验证成功!请设置昵称和密码!"
+
+                        );
                         Looper.loop();
                         return;
                     }

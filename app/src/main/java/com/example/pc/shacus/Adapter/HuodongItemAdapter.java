@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Data.Model.HuoDongItemModel;
 import com.example.pc.shacus.R;
 
@@ -67,6 +68,7 @@ public class HuodongItemAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) view.getTag();
 
         HuoDongItemModel item = getItem(i);
+
         viewHolder.setValues(item);
 
         return view;
@@ -79,11 +81,8 @@ public class HuodongItemAdapter extends BaseAdapter{
         TextView praiseNum;
         TextView joinNum;
         TextView userName;
-        TextView location;
-        TextView time;
         TextView setTime;
         TextView describe;
-        TextView price;
 
         public ViewHolder(View view) {
             userIamgeSrc=(ImageView)view.findViewById(R.id.huodong_avatar);
@@ -91,28 +90,26 @@ public class HuodongItemAdapter extends BaseAdapter{
             praiseNum=(TextView)view.findViewById(R.id.huodong_praise_num);
             joinNum=(TextView)view.findViewById(R.id.huodong_join_num);
             userName=(TextView)view.findViewById(R.id.huodong_username);
-            location=(TextView)view.findViewById(R.id.huodong_location);
-            time=(TextView)view.findViewById(R.id.huodong_time);
             setTime=(TextView)view.findViewById(R.id.huodong_settime);
             describe=(TextView)view.findViewById(R.id.huodong_describe);
-            price=(TextView)view.findViewById(R.id.huodong_price);
 
         }
 
         public void setValues(HuoDongItemModel item) {
+            Glide.with(activity)
+                    .load(item.getHuodongMainpic()).centerCrop()
+                    .placeholder(R.drawable.holder)
+                    .error(R.drawable.p1)
+                    .into(mainPicture);
             Resources res=activity.getResources();
             Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);
             userIamgeSrc.setImageDrawable(usrimg);
             Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
-            mainPicture.setImageDrawable(mainpic);
             praiseNum.setText(String.valueOf(item.getPraiseNum()));
             joinNum.setText(String.valueOf(item.getJoinNum()));
             userName.setText(item.getUsrName());
-            location.setText(item.getLocation());
-            time.setText(item.getStarttime().toString() + " - " + item.getEndtime().toString());
             setTime.setText(item.getSetTime().toString());
             describe.setText(item.getDescribe());
-            price.setText(String.valueOf(item.getPrice()));
         }
     }
 

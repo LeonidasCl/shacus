@@ -1,7 +1,6 @@
 package com.example.pc.shacus.Fragment;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -13,16 +12,29 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.example.pc.shacus.Adapter.RankItemAdapter;
-import com.example.pc.shacus.Data.Model.RankItemModel;
+import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Adapter.YuePaiAdapter;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.PhotographerModel;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
- * licl 2016.7.18
+ * licl 2016.9.3
  * 重写的排行榜fragment
  */
 public class YuePaiFragmentD extends android.support.v4.app.Fragment{
@@ -38,7 +50,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     boolean refreshing=false;
     private SwipeRefreshLayout refreshLayout;
-    private RankItemAdapter personAdapter;
+    private YuePaiAdapter personAdapter;
     private ListView listView;
     private int bootCounter=0;
     private int maxRecords = 400;
@@ -46,6 +58,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     View rankView;
     private RelativeLayout mSideZoomBanner;
+    private ACache cache;
 
     public YuePaiFragmentD() {
         isGrapher=true;
@@ -68,17 +81,14 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         yuepai=this.getActivity();
         refreshing=false;
         rankView = inflater.inflate(R.layout.fragment_rank, container, false);
-
-
-
+        cache= ACache.get(getActivity());
         button_grapher = (ImageButton) rankView.findViewById(R.id.button_grapher);
         button_model = (ImageButton) rankView.findViewById(R.id.button_model);
 
-        personAdapter = new RankItemAdapter(yuepai,bootData(MODEL));
+        personAdapter = new YuePaiAdapter(yuepai,bootData(GRAPHER));
         listView = (ListView) rankView.findViewById(R.id.rank_list);
         refreshLayout = (SwipeRefreshLayout) rankView.findViewById(R.id.swipe_refresh_layout);
         listView.setAdapter(personAdapter);
-
 
         onScrollListener();
         onRefreshListener();
@@ -89,7 +99,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     }
 
     private void setListener(){
-        button_grapher.setOnTouchListener(new View.OnTouchListener() {
+        button_grapher.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (isGrapher){
@@ -118,7 +128,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     button_model.setImageResource(R.drawable.button_model_down);
 
                     refreshLayout.setRefreshing(true);
-                    bootCounter=0;
+                    bootCounter = 0;
                     personAdapter.refresh(bootData(MODEL));
                     personAdapter.notifyDataSetChanged();
                     refreshLayout.setRefreshing(false);
@@ -135,10 +145,10 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 bootCounter = 0;
-                personAdapter.refresh(bootData(isGrapher ? GRAPHER :  MODEL));
+                personAdapter.refresh(bootData(isGrapher ? GRAPHER : MODEL));
                 personAdapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
-                refreshing=true;
+                refreshing = true;
             }
         });
     }
@@ -148,11 +158,11 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
                 //停止的时候必然会调用这里，滑动到顶端的时候必然停止，所以在这里用判断top来实现showHeader
-                ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
+                ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
                 int firstVisibleItem = absListView.getFirstVisiblePosition();
-                boolean onTop = firstVisibleItem == 0 &&absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() == 0;
-                if(onTop&&-layoutParam.topMargin==mSideZoomBanner.getHeight()){//showHeader
-                    ValueAnimator anim=ValueAnimator.ofInt(-mSideZoomBanner.getHeight(), 0);
+                boolean onTop = firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() == 0;
+                if (onTop && -layoutParam.topMargin == mSideZoomBanner.getHeight()) {//showHeader
+                    ValueAnimator anim = ValueAnimator.ofInt(-mSideZoomBanner.getHeight(), 0);
                     anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
                         public void onAnimationUpdate(ValueAnimator animation) {
@@ -171,34 +181,57 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords) {
-                    personAdapter.add(bootData(isGrapher ? GRAPHER:MODEL));
+                    personAdapter.add(loadData(isGrapher ? GRAPHER : MODEL));
                     personAdapter.notifyDataSetChanged();
                 }
+            }
+
+            private List<PhotographerModel> loadData(int i) {
+
+                final  List<PhotographerModel> list=new ArrayList<>();
+
+                NetRequest requestFragment = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                    @Override
+                    public void requestFinish(String result, String requestUrl) throws JSONException {
+                        list.add(0,null);
+                    }
+
+                    @Override
+                    public void exception(IOException e, String requestUrl) {}
+
+                }, APP.context);
+
+                Map<String,Object> map=new HashMap<>();
+                requestFragment.httpRequest(map, CommonUrl.url);
+
+                return list;
             }
         });
     }
 
-    private List<RankItemModel> bootData(int Type){
-        List<RankItemModel> persons = new ArrayList<>();
-        Resources res=getResources();
-        for(int i=bootCounter;i<bootCounter+20;i++){
-            RankItemModel person = new RankItemModel();
-            person.setRank(i+1);
-            person.setCommentNum((int)(Math.random()*1000)+1);
-            person.setFavorNum((int)(Math.random()*1000)+1);
-            person.setMainPicture(res.getDrawable(R.drawable.main_picture1));
-            person.setUserNameText("user" + i);
-            person.setUserAddressText(i + "addddddddddrrrrrrrrresssssssssss");
-            person.setUserIamgeSrc(res.getDrawable(R.drawable.user_image));
-            person.setComentPicture(res.getDrawable(R.drawable.comment_image));
-            person.setPraisePicture(res.getDrawable(R.drawable.praise));
-            persons.add(person);
+    private List<PhotographerModel> bootData(int type){
+        Gson gson=new Gson();
+        JSONObject userStr=cache.getAsJSONObject("loginModel");
+        LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
+        List<PhotographerModel> persons=null;
+        if (type==GRAPHER){
+            persons =model.getPhotoList();
         }
-        bootCounter+=20;
+        if (type==MODEL){
+           persons = model.getModelList();
+        }
         return persons;
     }
 
     public void setmSideZoomBanner(RelativeLayout mSideZoomBanner) {
         this.mSideZoomBanner = mSideZoomBanner;
+    }
+
+    public void doRefresh(){
+        refreshLayout.setRefreshing(true);
+        bootCounter=0;
+        personAdapter.refresh(bootData(isGrapher ? GRAPHER : MODEL));
+        personAdapter.notifyDataSetChanged();
+        refreshLayout.setRefreshing(false);
     }
 }
