@@ -210,9 +210,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     }
 
     private List<PhotographerModel> bootData(int type){
-        Gson gson=new Gson();
-        JSONObject userStr=cache.getAsJSONObject("loginModel");
-        LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
+
+        LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
         List<PhotographerModel> persons=null;
         if (type==GRAPHER){
             persons =model.getPhotoList();

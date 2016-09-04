@@ -73,7 +73,7 @@ public class LoadingRotate extends View {
     private ValueAnimator makeValueAnimator(float... value) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(value);
         valueAnimator.setInterpolator(new LinearInterpolator());
-        valueAnimator.setDuration(1000);
+        valueAnimator.setDuration(250);
         valueAnimator.start();
         return valueAnimator;
     }
@@ -81,7 +81,7 @@ public class LoadingRotate extends View {
     private ValueAnimator makeEndValueAnimator(float... value) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(value);
         valueAnimator.setInterpolator(new LinearInterpolator());
-        valueAnimator.setDuration(1000);
+        valueAnimator.setDuration(250);
         valueAnimator.start();
         return valueAnimator;
     }
@@ -113,7 +113,7 @@ public class LoadingRotate extends View {
             a = 2 * pi - a;
         }
         ValueAnimator circleAnimator = ValueAnimator.ofFloat(a, a + 2 * pi);
-        circleAnimator.setDuration(1500);
+        circleAnimator.setDuration(375);
         circleAnimator.setInterpolator(new LinearInterpolator());
         circleAnimator.setStartDelay(delay);
         circleAnimator.start();

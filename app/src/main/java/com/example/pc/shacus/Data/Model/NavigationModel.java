@@ -1,9 +1,11 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by pc on 2016/9/3.
  */
-public class NavigationModel{
+public class NavigationModel implements Serializable {
 
     private String weburl;
     private String imgurl;

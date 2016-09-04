@@ -19,7 +19,6 @@ public class UserModel implements Serializable{
     private String mailBox;
     private String nickName;
     private String id;
-
     private Boolean index;
 
     public String getHeadImage() {

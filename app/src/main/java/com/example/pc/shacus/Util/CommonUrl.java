@@ -14,8 +14,6 @@ public class CommonUrl {
 	public static final String saveThemeImgNew    = url + "xxxx";//将上传图片的结果与完整约拍信息回传业务服务器
 	public static final String createActivityInfo    = url + "activity/create";//发布活动路径
 	public static final String otherUserInfo =url+"user/homepager";//访问他人个人主页
-
-	public static final String getYuePaiInfo    = url + "/appointment/ask";//获得约拍详情
 	public static final String getYuePaiInfo    = url + "appointment/ask";//获得约拍详情
 	public static final String settingChangeNetUrl=url+"PaswChange";
 

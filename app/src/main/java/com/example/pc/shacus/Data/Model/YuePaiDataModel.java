@@ -1,12 +1,13 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by pc on 2016/7/13.
  */
-public class YuePaiDataModel {
+public class YuePaiDataModel implements Serializable {
 
     private String APtitle;
     private String APlocation;

@@ -4,7 +4,7 @@
         <objectAnimator
             android:duration="@android:integer/config_shortAnimTime"
             android:propertyName="translationZ"
-            android:valueFrom="10dp"
+            android:valueFrom="4dp"
             android:valueTo="0dp"
             android:valueType="floatType" />
     </item>
@@ -13,7 +13,7 @@
             android:duration="@android:integer/config_shortAnimTime"
             android:propertyName="translationZ"
             android:valueFrom="0dp"
-            android:valueTo="10dp"
+            android:valueTo="4dp"
             android:valueType="floatType" />
     </item>
     <item android:drawable="@drawable/bg_circle_pressed1" android:state_focused="true"/>

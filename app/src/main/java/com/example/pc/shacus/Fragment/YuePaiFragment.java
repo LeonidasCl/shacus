@@ -256,9 +256,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
         fragmentManager=getFragmentManager();
         tips.clear();
         cache= ACache.get(getActivity());
-        Gson gson=new Gson();
-        JSONObject userStr=cache.getAsJSONObject("loginModel");
-        LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
+        LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
         navigationBar=model.getDaohanglan();
         mSideZoomBanner.setViews(getViews(navigationBar.size()));
         loadData(navigationBar.size());

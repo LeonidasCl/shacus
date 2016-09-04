@@ -2,6 +2,6 @@
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="4dp"
+    android:padding="2dp"
     android:background="@drawable/item_float_menu_bg">
 </ImageButton>

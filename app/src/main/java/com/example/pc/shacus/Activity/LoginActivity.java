@@ -66,19 +66,6 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
             -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
 
-
-  /*  private DialogInterface.OnCancelListener cancelListener = new DialogInterface.OnCancelListener() {
-        @Override
-        public void onCancel(DialogInterface dialog) {
-            if(loginReturn==0){
-                CommonUtils.getUtilInstance().showToast(APP.context, getString(R.string.login_success));
-                finish();
-            }else{
-                CommonUtils.getUtilInstance().showToast(APP.context, getString(R.string.login_fail));
-            }
-        }
-    };*/
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -289,25 +276,16 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
 
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
+
         if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
+
             if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
-                JSONArray content=object.getJSONArray("contents");
-                //还有其它的JSONArray比如榜单、广告栏等初始化数据未接
-                //String userJSON=content.getJSONObject(0).toString();
-                // Gson gson=new Gson();
-                //LoginDataModel loginDataModel=gson.fromJson(userJSON,LoginDataModel.class);
-                //UserModel user = loginDataModel.getUserModel();
-
-                //JSONArray photoList=content.getJSONObject(0).getJSONArray("photoList");
-                //List<PhotographerModel>
-                //for (int i=0;i<photoList.length();i++){
-
-//                }
-
+                Gson gson=new Gson();
+                LoginDataModel loginModel=gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(),LoginDataModel.class);
                 ACache cache=ACache.get(LoginActivity.this);
-                cache.put("loginModel",content.getJSONObject(0),ACache.TIME_WEEK*2);
+                cache.put("loginModel",loginModel,ACache.TIME_WEEK*2);
             }else {
                 //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content.toString());Looper.loop();
                 loginProgressDlg.cancel();//进度条取消
@@ -326,36 +304,35 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 startActivity(intent);
                 finish();
         }
+
+
         if (requestUrl.equals(CommonUrl.registerAccount)) {//返回了注册请求
             try {
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
-                JSONArray content=null;
-                String contentstr=null;
-                UserModel user=null;
-                LoginDataModel loginModel;
-                String userJSON=null;
-
-                //还有其它的JSONArray比如榜单、广告栏等初始化数据未接
-                Gson gson=new Gson();
-                if (eventFlag==5)
-                {
-                    content = object.getJSONArray("contents");
-                    userJSON=content.getJSONObject(0).toString();
-                    loginModel = gson.fromJson(userJSON.toString(), LoginDataModel.class);
-                    //user = loginModel.getUserModel();
-                }else
-                    contentstr=object.getString("contents");
 
                 if (code==StatusCode.RECIEVE_REGISTER_SUCCESS)//注册的三次请求
                 {
+                    if (eventFlag==5)
+                    {
+                        loginProgressDlg.cancel();//进度条取消
+                        Gson gson=new Gson();
+                        LoginDataModel loginModel = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(),LoginDataModel.class);
+                        ACache cache=ACache.get(LoginActivity.this);
+                        cache.put("loginModel", loginModel, ACache.TIME_WEEK * 2);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("result","注册成功");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+                        finish();
+                    }
+
                     if (eventFlag==3){
                         loginProgressDlg.cancel();//进度条取消
                         Looper.prepare();
                         CommonUtils.getUtilInstance().showToast(APP.context, "验证码短信已发送");
                         Looper.loop();
-                    //eventFlag=4;
-                    return;
+                        return;
                     }
 
                     if (eventFlag==4) {
@@ -364,31 +341,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         msg.what=StatusCode.RECIEVE_REGISTER_SUCCESS;
                         mHandler.sendMessage(msg);
                         Looper.prepare();
-                        CommonUtils.getUtilInstance().showToast(APP.context, "验证成功!请设置昵称和密码!"
-
-                        );
+                        CommonUtils.getUtilInstance().showToast(APP.context, "验证成功!请设置昵称和密码!");
                         Looper.loop();
                         return;
                     }
-
-                    if (eventFlag==5) {
-                        loginProgressDlg.cancel();//进度条取消
-                        //解析并缓存用户信息、登录首信息//
-                        ACache cache=ACache.get(LoginActivity.this);
-                        cache.put("loginModel", content.getJSONObject(0), ACache.TIME_WEEK * 2);
-
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("result","注册成功");
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivity(intent);
-                        finish();
-
-                        /*Looper.prepare();
-                        CommonUtils.getUtilInstance().showToast(APP.context, "注册成功");
-                        Looper.loop();*/
-                        return;
-                    }
-
                     loginProgressDlg.dismiss();//进度条取消
                 }else{
                     if (eventFlag!=5)
@@ -396,7 +352,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     else
                         eventFlag=4;
                     loginProgressDlg.cancel();//进度条取消
-                    Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "请求失败");Looper.loop();
+                    Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, object.getString("contents"));Looper.loop();
                     return;
                 }
             } catch (JSONException e) {

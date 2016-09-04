@@ -1,8 +1,9 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class LoginDataModel {
+public class LoginDataModel implements Serializable {
 
 	private UserModel userModel;
 	private List<PhotographerModel> photoList;

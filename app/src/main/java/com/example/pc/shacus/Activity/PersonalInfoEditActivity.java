@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -53,7 +54,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
 
         //从缓存中取出数据
         ACache cache=ACache.get(PersonalInfoEditActivity.this);
-        dataModel= (UserModel) cache.getAsObject("userModel");
+        dataModel= ((LoginDataModel) cache.getAsObject("loginModel")).getUserModel();
         getUserName().setText(dataModel.getNickName());
         getUserPhoneNumber().setText(dataModel.getPhone());
         getUserEmail().setText(dataModel.getMailBox());
@@ -168,7 +169,9 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
             else if(code.equals("10510")){
                 Log.d("LQQQQQQQ", "email fail");}
             ACache cache=ACache.get(PersonalInfoEditActivity.this);
-            cache.put("userModel", dataModel);
+            LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
+            model.setUserModel(dataModel);
+            cache.put("loginModel",model);
         }
 
         finish();

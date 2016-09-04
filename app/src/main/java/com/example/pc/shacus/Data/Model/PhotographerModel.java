@@ -1,11 +1,13 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by pc on 2016/9/2.
  */
 
 //数据模型：摄影师发布的约拍
-public class PhotographerModel {
+public class PhotographerModel implements Serializable {
 
     private String Userimg;
     private String APtitle;

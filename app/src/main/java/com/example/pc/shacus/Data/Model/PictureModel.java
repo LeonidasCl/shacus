@@ -1,6 +1,7 @@
 package com.example.pc.shacus.Data.Model;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ import java.util.Map;
  *
  * Created by pc on 2016/3/7.
  */
-public class PictureModel  {
+public class PictureModel  implements Serializable {
 
     private String authKey = null;
     private String errorCode;

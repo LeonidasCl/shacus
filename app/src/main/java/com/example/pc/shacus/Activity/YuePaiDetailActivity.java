@@ -89,10 +89,8 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         request=new NetRequest(this,this);
         String apid=getIntent().getStringExtra("detail");
         ACache cache=ACache.get(this);
-        Gson gson=new Gson();
-        JSONObject userStr=cache.getAsJSONObject("loginModel");
-        LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
-        UserModel userModel=model.getUserModel();
+        LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
+        UserModel userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
         String uid=userModel.getId();
         int type= StatusCode.REQUEST_YUEPAI_DETAIL;
@@ -136,7 +134,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     filterMenu.setVisibility(View.VISIBLE);
                     attachMenu(filterMenu);
                     textTitle=(TextView)findViewById(R.id.detail_toolbar_back);
-                    textTitle.setText(" ＜ ");
+                    textTitle.setText("＜返回");
                     textTitle.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
