@@ -21,6 +21,10 @@ public interface StatusCode {
     int REQUEST_LOGIN=10106;
     //登录请求类别成功的返回码
     int REQUEST_LOGIN_SUCCESS =10101 ;
+    //请求访问他人个人主页请求码
+     int RECIEVE_VISIT_REJECT=10600;
+    //获取访问他人个人主页的权限
+    int RECIEVE_VISIT_SUCCESS=10601;
 
     int REQUEST_YUEPAI_SUCCESS=10200;
     int REQUEST_CREATE_YUEPAIA=10201;
@@ -73,6 +77,7 @@ public interface StatusCode {
     //int REQUEST_CANCEL_FAVORJIAOCHENG = 10
 
     int REQUEST_FAVORYUEPAI_SUCCESS = 10550; //请求所有收藏约拍成功
+    int REQUEST_OTHERUSER_INFO=10801;
     int REQUEST_HUODONG_SUCCESS=10313;
     int REQUEST_HUODONG_SUCCEED = 10323;
     int REQUEST_SEND_HUODONG=10302;
