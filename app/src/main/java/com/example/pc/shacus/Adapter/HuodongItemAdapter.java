@@ -99,7 +99,7 @@ public class HuodongItemAdapter extends BaseAdapter{
             Glide.with(activity)
                     .load(item.getHuodongMainpic()).centerCrop()
                     .placeholder(R.drawable.holder)
-                    .error(R.drawable.p1)
+                    .error(R.drawable.loading_error)
                     .into(mainPicture);
             Resources res=activity.getResources();
             Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);

@@ -324,7 +324,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 intent.putExtra("result", "登录成功");
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-
+                finish();
         }
         if (requestUrl.equals(CommonUrl.registerAccount)) {//返回了注册请求
             try {
@@ -381,9 +381,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         intent.putExtra("result","注册成功");
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-                        /*finish();
+                        finish();
 
-                        Looper.prepare();
+                        /*Looper.prepare();
                         CommonUtils.getUtilInstance().showToast(APP.context, "注册成功");
                         Looper.loop();*/
                         return;
