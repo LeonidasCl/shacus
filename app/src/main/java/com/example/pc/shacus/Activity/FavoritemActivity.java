@@ -1,23 +1,42 @@
 package com.example.pc.shacus.Activity;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
+import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.ItemModel;
+import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-//崔颖华
+import java.util.Map;
+
+/**
+ * Created by 崔颖华
+ */
 //收藏界面（二级）
 
 public class FavoritemActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
@@ -29,10 +48,29 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
     private TabHost mTabHost = null;
     private TabWidget mTabWidget = null;
 
+    private RecyclerView recyclerView1;
+    private RecyclerViewAdapter recyclerViewAdapter1;
+    List<ItemModel> favorItemList1;
+    RecyclerView.LayoutManager layoutManager1;
+
+
+    private RecyclerView recyclerView2;
+    private RecyclerViewAdapter recyclerViewAdapter2;
+    List<ItemModel> favorItemList2;
+    RecyclerView.LayoutManager layoutManager2;
+
+    private ACache aCache;
+    private NetRequest netRequest;
+    public int index = StatusCode.REQUEST_FAVOR_YUEPAI;
+    int spanCount = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritem);
+
+        netRequest = new NetRequest(FavoritemActivity.this,FavoritemActivity.this);
+        aCache = ACache.get(FavoritemActivity.this);
 
         //初始化TabHost
         initTabHost();
@@ -54,6 +92,8 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             @Override
             public void onPageSelected(int position) {
                 mTabWidget.setCurrentTab(position);
+                if(position == 0) index = StatusCode.REQUEST_FAVOR_YUEPAI;
+                //else index =
             }
 
             @Override
@@ -64,13 +104,15 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                if (tabId.equals("favoritem_yuepai")){
+                if (tabId.equals("yuepai")){
                     viewPager.setCurrentItem(0);
-                }else if (tabId.equals("favoritem_huodong")){
+                    index = StatusCode.REQUEST_FAVOR_YUEPAI;
+                }else if (tabId.equals("huodong")){
                     viewPager.setCurrentItem(1);
-                }else{
+                    //index =
+                }/*else{
                     viewPager.setCurrentItem(2);
-                }
+                }*/
             }
         });
 
@@ -83,19 +125,17 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
     //初始化viewPager
     private void initViewPagerContainter() {
         //建立三个view，并找到对应的
-        View view1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_favoritem_list,null);
-        View view2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_favoritem_list,null);
-        View view3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_favoritem_list,null);
+        View view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+        View view_2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+//        View view3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_favoritem_list,null);
         //加入ViewPager的容器
-        viewContainter.add(view1);
-        viewContainter.add(view2);
-        viewContainter.add(view3);
+        viewContainter.add(view_1);
+        viewContainter.add(view_2);
+//        viewContainter.add(view3);
 
-        /*
-        * 在这里添加对应的listview
-        * 直接先通过LayoutInflater对象来实例化listview所在的布局，然后通过这个view的findviewById方法来获取listview的实例
-        * ListView listView = (ListView) view1.findViewById(R.id.favoritem_list);
-        * */
+        recyclerView1 = (RecyclerView) view_1.findViewById(R.id.recyclerView);
+
+        initFavorInfo();
 
     }
 
@@ -110,10 +150,57 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
          * setIndicator()   每个Tab的标题
          * setCount()       每个Tab的标签页布局
          */
-        mTabHost.addTab(mTabHost.newTabSpec("yuepai").setContent(R.id.favoritem_yuepai).setIndicator("约拍"));
-        mTabHost.addTab(mTabHost.newTabSpec("huodong").setContent(R.id.favoritem_huodong).setIndicator("活动"));
-        mTabHost.addTab(mTabHost.newTabSpec("works").setContent(R.id.favoritem_works).setIndicator("作品"));
+        mTabHost.addTab(mTabHost.newTabSpec("yuepai").setContent(R.id.favoritem_tab1).setIndicator("约拍"));
+        mTabHost.addTab(mTabHost.newTabSpec("huodong").setContent(R.id.favoritem_tab2).setIndicator("作品"));
+        //mTabHost.addTab(mTabHost.newTabSpec("works").setContent(R.id.favoritem_works).setIndicator("作品"));
     }
+
+    //获得收藏信息
+    private void initFavorInfo(){
+        favorItemList1 = new ArrayList<>();
+        favorItemList2 = new ArrayList<>();
+
+        JSONObject jsonObject = aCache.getAsJSONObject("loginModel");
+        JSONObject content = null;
+        Map map = new HashMap<>();
+        String userId = null;
+        String authkey = null;
+
+        try {
+            content = jsonObject.getJSONObject("userModel");
+            userId = content.getString("id");
+            authkey = content.getString("auth_key");
+            map.put("authkey",authkey);
+            map.put("uid",userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        switch (index){
+            case StatusCode.REQUEST_FAVOR_YUEPAI:
+            {
+                map.put("type",StatusCode.REQUEST_FAVOR_YUEPAI);
+                netRequest.httpRequest(map, CommonUrl.getFavorInfo);
+            }
+        }
+
+    }
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS:
+                {
+                    layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
+                    recyclerView1.setLayoutManager(layoutManager1);
+
+                    recyclerViewAdapter1 = new RecyclerViewAdapter(favorItemList1,FavoritemActivity.this);
+                    recyclerView1.setAdapter(recyclerViewAdapter1);
+                }
+            }
+        }
+    };
 
     //内部类实现viewpager的适配器
     private class ViewPagerAdapter extends PagerAdapter{
@@ -145,7 +232,36 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
     }
 
     @Override
-    public void requestFinish(String result, String requestUrl) {
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+        if(requestUrl.equals(CommonUrl.getFavorInfo)){//返回收藏信息
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            Message msg = new Message();
+
+            switch (code){
+                case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS://请求收藏的约拍成功
+                {
+                    JSONArray content = object.getJSONArray("contents");
+                    Log.d("eeeeeeeeeeeeeeeeee",content.toString());
+                    for(int i = 0;i < content.length();i++){
+                        JSONObject favor = content.getJSONObject(i);
+                        ItemModel itemModel = new ItemModel();
+                        itemModel.setTitle(favor.getString("APtitle"));
+                        itemModel.setId(favor.getInt("APid"));
+                        itemModel.setUserImage(favor.getString("Userimg"));
+                        itemModel.setStartTime(favor.getString("APstartT"));
+                        itemModel.setLikeNum(favor.getInt("APlikeN"));
+                        itemModel.setImage(favor.getString("APimgurl"));
+                        itemModel.setRegistNum(favor.getInt("APregistN"));
+                        favorItemList1.add(itemModel);
+                    }
+                    msg.what = StatusCode.REQUEST_FAVORYUEPAI_SUCCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+            }
+
+        }
 
     }
 

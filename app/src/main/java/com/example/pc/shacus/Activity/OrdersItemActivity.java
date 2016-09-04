@@ -10,6 +10,6 @@ public class OrdersItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders_item);
+        setContentView(R.layout.item_orders_layout);
     }
 }

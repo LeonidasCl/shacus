@@ -13,4 +13,10 @@ public class CommonUrl {
 	public static final String createYuePaiInfo = url + "appointment/create";//约拍立项申请路径（请求10201，上传图片第一次握手）
 	public static final String saveThemeImgNew    = url + "xxxx";//将上传图片的结果与完整约拍信息回传业务服务器
 
+	public static final String getFollowInfo = url + "user/mylike";//获取关注和粉丝
+
+	public static final String getFavorInfo = url + "user/favorite"; //获取收藏
+
+	public static final String getOrdersInfo = url + "user/indent"; //获取用户订单
+
 }

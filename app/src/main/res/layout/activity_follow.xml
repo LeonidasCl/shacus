@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context="com.example.pc.shacus.Activity.FollowActivity">
 
-
     <!--返回标题-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,15 +39,6 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
-
-    <!--搜索框-->
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="搜索关注的用户"
-        android:imeOptions="actionSearch">
-    </SearchView>
 
     <!--关注或粉丝列表-->
     <ListView
