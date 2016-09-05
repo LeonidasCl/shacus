@@ -18,7 +18,10 @@
             android:id="@+id/nav_myConcern"
             android:icon="@drawable/ic_menu_manage"
             android:title="我的关注"/>
-
+        <item
+            android:id="@+id/nav_myFans"
+            android:icon="@drawable/praise"
+            android:title="我的粉丝"/>
         <item
             android:id="@+id/nav_myCollection"
             android:icon="@drawable/ic_menu_share"

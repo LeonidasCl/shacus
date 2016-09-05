@@ -33,6 +33,6 @@ public class OrdersActivityTest {
     public void testOnCreate() throws Exception {
         //onView(withId(R.id.listView_order)).perform(click());
 
-        Thread.sleep(20000);
+        //Thread.sleep(20000);
     }
 }
