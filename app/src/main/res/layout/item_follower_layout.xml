@@ -7,13 +7,15 @@
     <ImageButton
         android:id="@+id/follower_user_image"
         android:src="@mipmap/ic_launcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:scaleType="centerInside"
+        android:background="@drawable/shape_round"/>
 
     <TextView
         android:id="@+id/follower_user_name"
-        android:textSize="20dp"
+        android:textSize="14sp"
         android:text="我的粉丝"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +24,9 @@
         android:layout_toEndOf="@+id/follower_user_image" />
 
     <Button
+        android:textColor="@color/aa_black"
         android:text="关 注"
+        android:textSize="12sp"
         android:id="@+id/followingbtn"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"

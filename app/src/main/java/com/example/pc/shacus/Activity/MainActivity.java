@@ -23,19 +23,21 @@ import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.SettingDataModel;
-import com.example.pc.shacus.Fragment.FindFragment;
+import com.example.pc.shacus.Fragment.CourseFragment;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.HomeFragment;
 import com.example.pc.shacus.Fragment.UserFragment;
 import com.example.pc.shacus.Fragment.YuePaiFragment;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.SystemBarTintManager;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -51,12 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //四个功能项Fragment
     private HomeFragment mainFragmentNavigation;
     private YuePaiFragment yuePaiFragment;
-    private FindFragment findFragment;
+    private CourseFragment courseFragment;
     private UserFragment userFragment;
     private Toolbar toolbar;
     //Fragment切换按钮
     private ImageButton btn_main;
-    private ImageButton btn_find;
+    private ImageButton btn_course;
     private ImageButton btn_yuepai;
     private ImageButton btn_user;
     private android.support.v7.app.ActionBar actbar;
@@ -216,12 +218,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView(){
 
         btn_main=(ImageButton)findViewById(R.id.button_main);
-        btn_find=(ImageButton)findViewById(R.id.button_find);
+        btn_course =(ImageButton)findViewById(R.id.button_find);
         btn_user=(ImageButton)findViewById(R.id.button_user);
         btn_yuepai=(ImageButton)findViewById(R.id.button_yuepai);
 
         btn_main.setOnClickListener(this);
-        btn_find.setOnClickListener(this);
+        btn_course.setOnClickListener(this);
         btn_user.setOnClickListener(this);
         btn_yuepai.setOnClickListener(this);
 
@@ -238,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toMain();
                 break;
             case R.id.button_find:
-                btn_find.setSelected(true);
+                btn_course.setSelected(true);
                 toFind();
                 break;
             case R.id.button_yuepai:
@@ -264,12 +266,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toFind(){
-        if(findFragment == null){
-            findFragment = new FindFragment();
-            fragmentTrs.add(R.id.fl_content, findFragment);
+        if(courseFragment == null){
+            courseFragment = new CourseFragment();
+            fragmentTrs.add(R.id.fl_content, courseFragment);
         }else{
-            btn_find.setSelected(true);
-            fragmentTrs.show(findFragment);
+            btn_course.setSelected(true);
+            fragmentTrs.show(courseFragment);
         }
     }
 
@@ -294,14 +296,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setSelected(){
         btn_main.setSelected(false);
-        btn_find.setSelected(false);
+        btn_course.setSelected(false);
         btn_yuepai.setSelected(false);
         btn_user.setSelected(false);
         if(mainFragmentNavigation != null){
             fragmentTrs.hide(mainFragmentNavigation);
         }
-        if(findFragment != null){
-            fragmentTrs.hide(findFragment);
+        if(courseFragment != null){
+            fragmentTrs.hide(courseFragment);
         }
         if(userFragment != null){
             fragmentTrs.hide(userFragment);
@@ -358,10 +360,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (id == R.id.nav_myConcern) {
             Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
+            intent.putExtra("user","myself");
             intent.putExtra("activity","following");
             startActivity(intent);
         } else if (id==R.id.nav_myFans){
             Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
+            intent.putExtra("user","myself");
             intent.putExtra("activity","follower");
             startActivity(intent);
         } else if (id == R.id.nav_myCollection) {
@@ -370,6 +374,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.nav_Setting) {
             Intent intent=new Intent(getApplicationContext(),SettingsActivity.class);
             startActivity(intent);
+        } else if(id==R.id.nav_Logout){
+            //登出请求
+            NetRequest netRequest=new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                @Override
+                public void requestFinish(String result, String requestUrl) throws JSONException {
+
+                }
+
+                @Override
+                public void exception(IOException e, String requestUrl) {
+
+                }
+            }, this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);

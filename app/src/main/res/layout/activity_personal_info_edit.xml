@@ -5,23 +5,21 @@
     android:layout_height="match_parent"
     tools:context="com.example.pc.shacus.Activity.PersonalInfoActivity"
     android:orientation="vertical"
-    android:gravity="top"
-    android:background="#000000">
+    android:gravity="top">
 
 
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         android:gravity="start"
-        android:background="#ffffff"
-        android:layout_marginTop="2dp">
+        android:background="@color/gold">
         <Button
             android:id="@+id/btn_back"
             android:background="@drawable/downarrow"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="5dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -29,12 +27,12 @@
             android:text="个人资料"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="20sp" />
+            android:textSize="14sp" />
         <Button
             android:id="@+id/btn_finish"
             android:background="@null"
             android:hint="完成"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_margin="5dp"
@@ -52,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="头像"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <ImageView
@@ -63,7 +61,8 @@
             android:src="@drawable/user_image"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="40dp"/>
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="5dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -76,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -84,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="风吹柚子"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>
@@ -100,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="邮箱"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -108,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123456789@qq.com"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>
@@ -124,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="所在地"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -132,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="中国 江苏 南京"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>
@@ -148,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手机号"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -156,7 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="13911112222"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>

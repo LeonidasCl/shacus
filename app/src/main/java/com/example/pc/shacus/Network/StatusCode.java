@@ -71,7 +71,8 @@ public interface StatusCode {
     int REQUEST_FAVOR_HUODONG = 10502; //请求收藏的活动
     int REQUEST_FAVOR_ZUOPIN = 10503; //请求收藏的作品
     int REQUEST_FAVOR_JIAOCHENG = 10504; //请求收藏的教程
-    int REQUEST_CANCEL_FAVORYUEPAI = 10523; //取消收藏约拍
+    int REQUEST_CANCEL_FAVORYUEPAI = 10510; //取消收藏约拍
+    int REQUEST_CANCELYUEPAI_SUCCESS = 10523;//取消收藏的约拍成功
     int REQUEST_CANCEL_FAVORHUODONG = 10511; //取消收藏活动
     //int REQUEST_CANCEL_FAVORZUOPIN = 10512; //取消收藏作品
     //int REQUEST_CANCEL_FAVORJIAOCHENG = 10

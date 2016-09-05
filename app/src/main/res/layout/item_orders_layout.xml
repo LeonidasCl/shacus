@@ -27,37 +27,94 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside" />
             <TextView
-                android:textColor="#000000"
+                android:textColor="@color/aa_black"
                 android:id="@+id/item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:text="啊啊啊" />
             <TextView
-                android:textColor="#000000"
+                android:textColor="@color/aa_black"
                 android:id="@+id/item_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="今天天气很好"/>
-
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="1"
-                    android:textColor="#000000"
-                    android:id="@+id/item_like"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:text="2"
-                    android:textColor="#000000"
-                    android:layout_weight="1"
-                    android:id="@+id/item_regist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:background="#53000000"
+                android:layout_alignBottom="@+id/APimgurl"
+                android:layout_centerHorizontal="true">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"></LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="3">
+                    <ImageButton
+                        android:id="@+id/item_like_btn"
+                        android:layout_width="48dp"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:background="#00000000"
+                        android:src="@drawable/praise"
+                        android:scaleType="centerInside"
+                        android:contentDescription="@string/contentDescribe"/>
+
+                    <TextView
+                        android:id="@+id/item_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="55dp"
+                        android:textColor="@android:color/white"
+                        android:text="@string/rank_piarse_num"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/APlikeBtn"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="3">
+                    <ImageButton
+                        android:contentDescription="@string/contentDescribe"
+                        android:id="@+id/item_regist_btn"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="8dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/btn_detail_selector"
+                        android:background="#00000000"/>
+
+                    <TextView
+                        android:id="@+id/item_regist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white"
+                        android:text="@string/rank_join"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="5dp"/>
+
+                </RelativeLayout>
             </LinearLayout>
+
 
         </LinearLayout>
 

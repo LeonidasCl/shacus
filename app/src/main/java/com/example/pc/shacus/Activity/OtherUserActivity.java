@@ -19,6 +19,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
@@ -32,7 +33,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -84,8 +87,10 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
 
     ACache aCache;
     LoginDataModel loginModel;
-
+    private String type = null;
+    private String type1=null;
     String otherId="1";
+    String otherauthkey=null;
     private void initObject() throws JSONException{
 
 
@@ -101,6 +106,12 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_otheruser);
+
+        Intent intent = getIntent();
+        type = intent.getStringExtra("id");
+        otherId=type;
+        type1=intent.getStringExtra("authkey");
+        otherauthkey=type1;
         listView = (ListView)findViewById(R.id.listView);
         button1 = (LinearLayout) findViewById(R.id.button1);
         button2 = (LinearLayout)findViewById(R.id.button2);
@@ -147,7 +158,9 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         retrunButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //返回上一级
+                finish();
             }
         });
         menuButton.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +178,9 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 //他喜欢的
                 Intent intent1 = new Intent();
                 intent1.putExtra("activity", "following");
+                intent1.putExtra("user","other");
+                intent1.putExtra("user",otherId);
+                intent1.putExtra("authkey",otherauthkey);
                 intent1.setClass(OtherUserActivity.this, FollowActivity.class);
                 startActivity(intent1);
             }
@@ -175,6 +191,9 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 //他的粉丝
                 Intent intent2 = new Intent();
                 intent2.putExtra("activity", "follower");
+                intent2.putExtra("user","other");
+                intent2.putExtra("uuid",otherId);
+                intent2.putExtra("uuauthkey",otherauthkey);
                 intent2.setClass(OtherUserActivity.this, FollowActivity.class);
                 startActivity(intent2);
             }
@@ -228,9 +247,9 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             }
         });
 
-//        SimpleAdapter adapter1 = new SimpleAdapter(this.getActivity(), init(), R.layout.item_user_listview_layout, new String[]{"item1",
-//                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
-//        setListAdapter(adapter1);
+        SimpleAdapter adapter1 = new SimpleAdapter(this, init(), R.layout.item_user_listview_layout, new String[]{"item1",
+                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
+        listView.setAdapter(adapter1);
 
 
 
@@ -244,6 +263,13 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 }
                 if(msg.what==100){
 
+                    button5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            button5.setImageDrawable(getResources().getDrawable(R.drawable.bga_banner_point_disabled));
+
+                        }
+                    });
                         UserModel content1 = loginModel.getUserModel();
                         String userId = content1.getId();
                         String authkey = content1.getAuth_key();
@@ -262,6 +288,13 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 }
                 if(msg.what==101){
 
+                    button5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            button5.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_pressed1));
+
+                        }
+                    });
                         UserModel content1 = loginModel.getUserModel();
                         String userId = content1.getId();
                         String authkey = content1.getAuth_key();
@@ -278,17 +311,17 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             }
         };
 
-    //    private List<Map<String, Object>> init() {
-//        List<Map<String, Object>> lst = new ArrayList<>();
-//        for (int i = 0; i < data.length; i++) {
-//            Map<String, Object> item = new HashMap<>();
-//            item.put("item1", image1[i]);
-//            item.put("item2", data[i]);
-//            item.put("item3", R.drawable.a);
-//            lst.add(item);
-//        }
-//        return lst;
-//    }
+        private List<Map<String, Object>> init() {
+        List<Map<String, Object>> lst = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Map<String, Object> item = new HashMap<>();
+          //  item.put("item1", image1[i]);
+          //  item.put("item2", data[i]);
+            item.put("item3", R.drawable.huodong_loading);
+            lst.add(item);
+        }
+        return lst;
+    }
     private void showPopupMenu(View view) {
         // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(OtherUserActivity.this, view);
@@ -321,31 +354,28 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                     fansButton.setText(Integer.toString(following));
                    workButton.setText(Integer.toString(photo));
                     projectBuuton.setText(Integer.toString(course));
+        if (murl!=null){
+                Glide.with(this)
+                .load(murl)
+                .placeholder(R.drawable.holder)
+                .error(R.drawable.holder)
+                .into(image3);
+        }
                     // image3.setImageURI(http://img5.imgtn.bdimg.com/it/u=1268523085,477716560&fm=21&gp=0.jpg);
 
 
                     if (followor == false) {
                         button5.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_pressed1));
-                        button5.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                button5.setImageDrawable(getResources().getDrawable(R.drawable.bga_banner_point_disabled));
-                                Message msg = new Message();
-                                msg.what = 100;
-                                myHandler.sendMessage(msg);
-                            }
-                        });
+                        Message msg = new Message();
+                        msg.what = 100;
+                        myHandler.sendMessage(msg);
+
                     } else {
                         button5.setImageDrawable(getResources().getDrawable(R.drawable.bga_banner_point_disabled));
-                        button5.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                button5.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_pressed1));
-                                Message msg = new Message();
-                                msg.what = 101;
-                                myHandler.sendMessage(msg);
-                            }
-                        });
+                        Message msg = new Message();
+                        msg.what = 101;
+                        myHandler.sendMessage(msg);
+
                     }
 
                 }
@@ -380,7 +410,6 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 course = object2.getInt("ucourseN");
                 murl = object2.getString("uimage");
                 followor = object1.getBoolean("follow");
-
 
                 msg.what =222;
                 myHandler.sendMessage(msg);

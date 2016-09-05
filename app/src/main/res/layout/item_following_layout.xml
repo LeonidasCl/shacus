@@ -7,13 +7,15 @@
 
     <ImageButton
         android:id="@+id/following_user_image"
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentLeft="true"/>
+        android:src="@drawable/p3"
+        android:scaleType="centerInside"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/shape_round"/>
 
     <TextView
-        android:textSize="25dp"
+        android:textSize="14sp"
         android:text="我的好友"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +25,7 @@
 
     <TextView
         android:id="@+id/following_user_signature"
-        android:textSize="20dp"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="我的签名"
@@ -32,6 +34,7 @@
 
     <Button
         android:text="已关注"
+        android:textSize="12sp"
         android:id="@+id/followedbtn"
         android:src="@mipmap/ic_launcher"
         android:layout_width="wrap_content"
