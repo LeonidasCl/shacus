@@ -168,9 +168,9 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
             case 1:
             {
                 try {
-                    JSONObject jsonObject = aCache.getAsJSONObject("loginModel");
-                    JSONObject content = jsonObject.getJSONObject("userModel");
-                    content = jsonObject.getJSONObject("userModel");
+                    JSONObject loginModel = aCache.getAsJSONObject("loginModel");
+                    JSONObject content = loginModel.getJSONObject("userModel");
+                    content = loginModel.getJSONObject("userModel");
                     String userId = content.getString("id");
                     String authkey = content.getString("auth_key");
                 } catch (JSONException e) {

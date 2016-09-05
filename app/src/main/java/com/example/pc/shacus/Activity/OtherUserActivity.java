@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -81,7 +83,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
     ContextMenu menu;
 
     ACache aCache;
-    JSONObject jsonObject;
+    LoginDataModel loginModel;
 
     String otherId="1";
     private void initObject() throws JSONException{
@@ -120,31 +122,25 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         aCache=ACache.get(OtherUserActivity.this);
         Log.d("achach",aCache.toString());
         requestOthers=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
-       jsonObject = aCache.getAsJSONObject("loginModel");
-        Log.d("wwwww",jsonObject.toString());
+        loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        Log.d("wwwww", loginModel.toString());
 
-        JSONObject content=null;
+        UserModel content=null;
 
-        try {
          Log.d("wwwwww","hkl");
-          content = jsonObject.getJSONObject("userModel");
-            if(jsonObject==null){
+          content = loginModel.getUserModel();
+            if(loginModel ==null){
           Log.d("sssssssss", content.toString());}
-        String userId = content.getString("id");
-        String authkey = content.getString("auth_key");
+        String userId = content.getId();
+        String authkey = content.getAuth_key();
 
 
-          Map map=new HashMap();
-          map.put("uid", userId);
-          map.put("authkey", authkey);
-          map.put("seeid", otherId);
-          map.put("type",StatusCode.REQUEST_OTHERUSER_INFO);
-          requestOthers.httpRequest(map, CommonUrl.otherUserInfo);
-      }catch (JSONException e){
-
-      }
-
-
+        Map map=new HashMap();
+        map.put("uid", userId);
+        map.put("authkey", authkey);
+        map.put("seeid", otherId);
+        map.put("type",StatusCode.REQUEST_OTHERUSER_INFO);
+        requestOthers.httpRequest(map, CommonUrl.otherUserInfo);
 
 
 
@@ -247,10 +243,10 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                     initView();
                 }
                 if(msg.what==100){
-                    try {
-                        JSONObject content1 = jsonObject.getJSONObject("userModel");
-                        String userId = content1.getString("id");
-                        String authkey = content1.getString("auth_key");
+
+                        UserModel content1 = loginModel.getUserModel();
+                        String userId = content1.getId();
+                        String authkey = content1.getAuth_key();
                         request1=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
 
                         Map map1=new HashMap();
@@ -260,17 +256,15 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                         map1.put("type",10401);
                         request1.httpRequest(map1, CommonUrl.getFollowInfo);
                         initView();
-                    }catch (JSONException e){
 
-                    }
 
 
                 }
                 if(msg.what==101){
-                    try {
-                        JSONObject content1 = jsonObject.getJSONObject("userModel");
-                        String userId = content1.getString("id");
-                        String authkey = content1.getString("auth_key");
+
+                        UserModel content1 = loginModel.getUserModel();
+                        String userId = content1.getId();
+                        String authkey = content1.getAuth_key();
                         request2=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
                         Map map2=new HashMap();
                         map2.put("uid", userId);
@@ -279,9 +273,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                         map2.put("type",10402);
                         request2.httpRequest(map2, CommonUrl.getFollowInfo);
                         initView();
-                    }catch (JSONException e){
 
-                    }
                 }
             }
         };

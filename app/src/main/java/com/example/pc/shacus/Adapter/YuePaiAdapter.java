@@ -111,7 +111,7 @@ public class YuePaiAdapter extends BaseAdapter{
             Glide.with(activity)
                     .load(userimg)
                     .placeholder(R.drawable.user_image)
-                    .error(R.drawable.p1)
+                    .error(R.drawable.loading_error)
                     .into(userIamgeSrc);
             APTitle.setText(item.getAPtitle());
             APstartT.setText(item.getAPstartT());

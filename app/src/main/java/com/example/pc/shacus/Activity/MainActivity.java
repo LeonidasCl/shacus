@@ -78,20 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //将这个toolbar设置为actionBar
         setSupportActionBar(toolbar);
         cache=ACache.get(this);
-  /*      //尝试获取toolbar的标题TextView
-        CharSequence actionbarTitle =  toolbar.getTitle();
-        for(int i= 0; i < toolbar.getChildCount(); i++){
-            View v = toolbar.getChildAt(i);
-            if(v != null && v instanceof TextView){
-                TextView t = (TextView) v;
-                CharSequence title = t.getText();
-                if(!TextUtils.isEmpty(title) && actionbarTitle.equals(title) && t.getId() == View.NO_ID){
-                    //Toolbar does not assign id to views with layout params SYSTEM, hence getId() == View.NO_ID
-                    //in same manner subtitle TextView can be obtained.
-                    toolbarTitle=t;
-                }
-            }
-        }*/
 
         actbar=getSupportActionBar();
         if (actbar!=null)
@@ -163,22 +149,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         //获取登录状态添加到侧滑栏信息
-        ACache acache=ACache.get(this);
-        UserModel dataModel= (UserModel) acache.getAsObject("userModel");
-        ImageView userImage= (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
-        TextView userName=(TextView)navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
-        ImageView userLevel= (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
-        TextView userSign=(TextView)navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
-        userName.setText(dataModel.getNickName());
-        userSign.setText(dataModel.getSign());
+        if (user!=null) {
+            ACache acache=ACache.get(this);
+            ImageView userImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
+            TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
+            ImageView userLevel = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
+            TextView userSign = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
+            userName.setText(user.getNickName());
+            userSign.setText(user.getSign());
 
-        // 和设置缓存中
-        SettingDataModel setModel=new SettingDataModel();
-        setModel.setMessageInform(false);
-        setModel.setPhoneVisible(false);
-        setModel.setUserPhone(dataModel.getPhone());
-        setModel.setUserID(dataModel.getId());
-        acache.put("settingModel",setModel);
+            // 和设置缓存中
+            SettingDataModel setModel = new SettingDataModel();
+            setModel.setMessageInform(false);
+            setModel.setPhoneVisible(false);
+            setModel.setUserPhone(user.getPhone());
+            setModel.setUserID(user.getId());
+            acache.put("settingModel", setModel);
+        }
 
 
         fragmentTrs=fragmentMgr.beginTransaction();
@@ -213,15 +200,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private boolean manageLogin() throws JSONException {
-        Gson gson=new Gson();
-        JSONObject userStr=cache.getAsJSONObject("loginModel");
         ACache cache=ACache.get(MainActivity.this);
-        if (userStr!=null)
+        LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
+        user=loginModel.getUserModel();
+        if (user!=null)
         {
-            LoginDataModel model=gson.fromJson(userStr.toString(), LoginDataModel.class);
-            user=model.getUserModel();
             textName.setText(user.getNickName());
-            cache.put("userModel", user);
+            //cache.put("userModel", user);
             return true;
         }
         else return false;

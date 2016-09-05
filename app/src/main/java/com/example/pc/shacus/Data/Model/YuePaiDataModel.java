@@ -1,17 +1,20 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by pc on 2016/7/13.
  */
-public class YuePaiDataModel {
+public class YuePaiDataModel implements Serializable {
 
     private String APtitle;
     private String APlocation;
     private String APendT;
     private int APid;
+    private int APstatus;
+    private int AP_issponsor;
     private String APcontent;
     private int APlikeN;
     private int APfree;
@@ -192,5 +195,21 @@ public class YuePaiDataModel {
 
     public void setAPaddallowed(int APaddallowed) {
         this.APaddallowed = APaddallowed;
+    }
+
+    public int getAPstatus() {
+        return APstatus;
+    }
+
+    public void setAPstatus(int APstatus) {
+        this.APstatus = APstatus;
+    }
+
+    public int getAP_issponsor() {
+        return AP_issponsor;
+    }
+
+    public void setAP_issponsor(int AP_issponsor) {
+        this.AP_issponsor = AP_issponsor;
     }
 }

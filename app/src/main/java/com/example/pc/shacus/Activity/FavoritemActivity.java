@@ -18,6 +18,8 @@ import android.widget.TabWidget;
 import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ItemModel;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -160,21 +162,18 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         favorItemList1 = new ArrayList<>();
         favorItemList2 = new ArrayList<>();
 
-        JSONObject jsonObject = aCache.getAsJSONObject("loginModel");
-        JSONObject content = null;
+        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        UserModel content = null;
         Map map = new HashMap<>();
         String userId = null;
         String authkey = null;
 
-        try {
-            content = jsonObject.getJSONObject("userModel");
-            userId = content.getString("id");
-            authkey = content.getString("auth_key");
-            map.put("authkey",authkey);
-            map.put("uid",userId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        content = loginModel.getUserModel();
+        userId = content.getId();
+        authkey = content.getAuth_key();
+        map.put("authkey",authkey);
+        map.put("uid",userId);
+
 
         switch (index){
             case StatusCode.REQUEST_FAVOR_YUEPAI:

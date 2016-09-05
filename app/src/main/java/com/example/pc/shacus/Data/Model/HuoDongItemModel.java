@@ -2,6 +2,7 @@ package com.example.pc.shacus.Data.Model;
 
 import android.graphics.drawable.Drawable;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  *
  */
 
-public class HuoDongItemModel {
+public class HuoDongItemModel implements Serializable{
 
     private String userHeader;
     private String huodongMainpic;

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
@@ -55,11 +56,11 @@ public class PersonalInfoActivity extends AppCompatActivity implements NetworkCa
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
 //        if(requestUrl.equals(CommonUrl.loginAccount)){
-//            JSONObject jsonObject=new JSONObject(result);
-//            int code= Integer.valueOf(jsonObject.getString("code"));
+//            JSONObject loginModel=new JSONObject(result);
+//            int code= Integer.valueOf(loginModel.getString("code"));
 //            Log.d("code", String.valueOf(code));
 //            if(code==StatusCode.REQUEST_LOGIN_SUCCESS) {
-//                JSONArray jsonArray=jsonObject.getJSONArray("contents");
+//                JSONArray jsonArray=loginModel.getJSONArray("contents");
 //                ACache cache=ACache.get(this);
 //                cache.put("loginModel",jsonArray.getJSONObject(0),ACache.TIME_WEEK);
 //            }
@@ -89,7 +90,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements NetworkCa
     public  void  onResume(){
         super.onResume();
         ACache cache=ACache.get(PersonalInfoActivity.this);
-        dataModel= (UserModel) cache.getAsObject("userModel");
+        dataModel= ((LoginDataModel) cache.getAsObject("loginModel")).getUserModel();
         getUserName().setText(dataModel.getNickName());
         getPhoneNumber().setText(dataModel.getPhone());
         getEmail().setText(dataModel.getMailBox());

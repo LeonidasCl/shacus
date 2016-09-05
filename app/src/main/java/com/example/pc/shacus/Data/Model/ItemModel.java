@@ -1,9 +1,11 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by cuicui on 2016/9/3.
  */
-public class ItemModel {
+public class ItemModel implements Serializable{
 
     private int id;
     private String image;

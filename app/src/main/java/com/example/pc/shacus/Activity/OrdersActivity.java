@@ -19,6 +19,8 @@ import android.widget.TabWidget;
 import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ItemModel;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -183,19 +185,16 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
         ordersItemList2 = new ArrayList<>();
         ordersItemList3 = new ArrayList<>();
 
-        JSONObject jsonObject = aCache.getAsJSONObject("loginModel");
-        JSONObject content = null;
+        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        UserModel user = null;
         Map map = new HashMap<>();
         String userId = null;
         String authkey = null;
 
-        try {
-            content = jsonObject.getJSONObject("userModel");
-            userId = content.getString("id");
-            authkey = content.getString("auth_key");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        user = loginModel.getUserModel();
+        userId = user.getId();
+        authkey = user.getAuth_key();
+
         switch (index){
             case StatusCode.REQUEST_REGIST_ORDER:
             {
