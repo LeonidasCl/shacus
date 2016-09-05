@@ -373,6 +373,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (id == R.id.nav_myConcern) {
             Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
+            intent.putExtra("activity","following");
+            startActivity(intent);
+        } else if (id==R.id.nav_myFans){
+            Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
+            intent.putExtra("activity","follower");
             startActivity(intent);
         } else if (id == R.id.nav_myCollection) {
             Intent intent=new Intent(getApplicationContext(),FavoritemActivity.class);
