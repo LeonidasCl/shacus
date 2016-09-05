@@ -303,6 +303,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 finish();
+                return;
         }
 
 
@@ -325,6 +326,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         finish();
+                        return;
                     }
 
                     if (eventFlag==3){
@@ -362,7 +364,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     }
 
     @Override
-    public void exception(IOException e, String requestUrl) {
+    public void exception(IOException e, String requestUrl){
 
     }
 }
