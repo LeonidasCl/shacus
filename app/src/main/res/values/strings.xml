@@ -105,4 +105,5 @@
     <string name="title_holder">标题标题标题</string>
     <string name="time_holder">时间时间时间</string>
     <string name="loading">加载中…</string>
+    <string name="detail_join_num">报名人数：</string>
 </resources>

@@ -136,6 +136,7 @@ public class YuePaiAdapter extends BaseAdapter{
                 public void onClick(View view) {
                     Intent intent = new Intent(activity, YuePaiDetailActivity.class);
                     intent.putExtra("detail",item.getAPid());
+                    intent.putExtra("type","yuepai");
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     activity.startActivity(intent);
                 }

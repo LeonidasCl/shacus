@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.R;
 
@@ -22,20 +23,20 @@ public class JoinUserGridAdapter extends BaseAdapter {
     int count;
     Context context;
     private List<UserModel> usrlist;
-    private boolean hasMore;
+    //private boolean hasMore;
 
     public JoinUserGridAdapter(Context context, List<UserModel> list,boolean hasmore) {
 
         this.context = context;
 
         usrlist=list;
-        hasMore=hasmore;
+       /* hasMore=hasmore;
         if (hasmore)
         {
             UserModel user=new UserModel();
             user.setId("more");
             usrlist.add(user);
-        }
+        }*/
         this.count = list.size();
     }
 
@@ -66,10 +67,13 @@ public class JoinUserGridAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.ibv.setImageDrawable(context.getResources().getDrawable(R.drawable.user_image));
+        //holder.ibv.setImageDrawable(context.getResources().getDrawable(R.drawable.user_image));
 
-        if (hasMore&&(position==usrlist.size()-1))
-            holder.ibv.setImageDrawable(context.getResources().getDrawable(R.drawable.getnew));
+        Glide.with(context)
+                .load(usrlist.get(position).getHeadImage()).centerCrop()
+                .placeholder(R.drawable.user_image)
+                .error(R.drawable.user_image)
+                .into(holder.ibv);
 
         return convertView;
     }

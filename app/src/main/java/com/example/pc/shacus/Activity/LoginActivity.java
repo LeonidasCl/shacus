@@ -259,6 +259,13 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
         mHandler=new Handler(){
             @Override
             public void handleMessage(Message msg){
+                if (msg.what==StatusCode.REQUEST_FAILURE){
+                    //Looper.prepare();
+                    CommonUtils.getUtilInstance().showToast(APP.context, "网络请求失败！");
+                    //Looper.loop();
+                    finish();
+                    return;
+                }
               if (msg.what==StatusCode.RECIEVE_REGISTER_SUCCESS){
                   btn_verifycode.setVisibility(View.GONE);
                   forgotpassword.setVisibility(View.INVISIBLE);
@@ -365,6 +372,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
 
     @Override
     public void exception(IOException e, String requestUrl){
-
+        Message msg=new Message();
+        msg.what=StatusCode.REQUEST_FAILURE;
+        mHandler.sendMessage(msg);
     }
 }
