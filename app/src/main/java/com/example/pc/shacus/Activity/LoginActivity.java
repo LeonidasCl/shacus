@@ -284,7 +284,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
 
-        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
+        if (requestUrl.equals(CommonUrl.loginAccount)){//返回登录请求
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
 

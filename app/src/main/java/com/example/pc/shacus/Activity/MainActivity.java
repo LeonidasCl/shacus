@@ -215,6 +215,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
+
+
     private void initView(){
 
         btn_main=(ImageButton)findViewById(R.id.button_main);
