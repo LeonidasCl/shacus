@@ -1,14 +1,11 @@
 package com.example.pc.shacus.Activity;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,27 +14,18 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 
 import com.example.pc.shacus.Adapter.CourseListAdapter;
-import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
-import com.example.pc.shacus.Data.Model.ItemModel;
-import com.example.pc.shacus.Data.Model.LoginDataModel;
-import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
-import com.example.pc.shacus.Util.CommonUrl;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 孙启凡

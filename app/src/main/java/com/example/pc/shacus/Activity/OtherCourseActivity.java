@@ -1,5 +1,4 @@
 package com.example.pc.shacus.Activity;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
-import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import org.json.JSONException;
 
