@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Activity.FollowActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.StatusCode;
@@ -48,11 +49,13 @@ public class FollowItemAdapter extends BaseAdapter{
     private Button button2;
 
     String type = null;
+    String index = null;
 
     public FollowItemAdapter(FollowActivity activity, List<UserModel> list) {
         this.followlist = list;
         this.activity = activity;
         type = activity.getType();
+        index = activity.getIndex();
         netRequest = new NetRequest(activity,activity);
     }
 
@@ -85,16 +88,24 @@ public class FollowItemAdapter extends BaseAdapter{
                 viewHolder.userImageSrc = (ImageButton) view.findViewById(R.id.following_user_image);
                 //viewHolder.follow = (Button) view.findViewById(R.id.followedbtn);
                 button1 = (Button) view.findViewById(R.id.followedbtn);
-                button1.setOnClickListener(new FollowListener(position));
-                button1.setTag(StatusCode.REQUEST_CANCEL_FOLLOWING);
+                if (index.equals("myself")){
+                    button1.setOnClickListener(new FollowListener(position));
+                    button1.setTag(StatusCode.REQUEST_CANCEL_FOLLOWING);
+                }else if (index.equals("other")){
+                    button1.setVisibility(View.INVISIBLE);
+                }
             }else if(type.equals("follower")){
                 view = LayoutInflater.from(activity).inflate(R.layout.item_follower_layout, viewGroup, false);
                 viewHolder.userNameText = (TextView) view.findViewById(R.id.follower_user_name);
                 viewHolder.userImageSrc = (ImageButton) view.findViewById(R.id.follower_user_image);
                 viewHolder.follow = (Button) view.findViewById(R.id.followingbtn);
                 button2 = (Button) view.findViewById(R.id.followingbtn);
-                button2.setOnClickListener(new FollowListener(position));
-                button2.setTag(StatusCode.REQUEST_FOLLOW_USER);
+                if (index.equals("myself")){
+                    button2.setOnClickListener(new FollowListener(position));
+                    button2.setTag(StatusCode.REQUEST_FOLLOW_USER);
+                }else if (index.equals("other")){
+                    button2.setVisibility(View.INVISIBLE);
+                }
             }
 
             view.setTag(viewHolder);
@@ -143,28 +154,23 @@ public class FollowItemAdapter extends BaseAdapter{
             int tag = (int) v.getTag();
             switch (tag){
                 case StatusCode.REQUEST_CANCEL_FOLLOWING:
-                {
-                    ACache aCache = ACache.get(activity);
-                    JSONObject jsonObject = aCache.getAsJSONObject("loginModel");
-                    try {
+                {   ACache aCache = ACache.get(activity);
+                    LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                    UserModel content = null;
+                    Map map = new HashMap<>();
 
-                        JSONObject content = jsonObject.getJSONObject("userModel");
-                        String userid = content.getString("id");
-                        String authkey = content.getString("auth_key");
-                        String followerid = activity.getData().get(position).getId();
-                        Map map = new HashMap<>();
-                        map.put("uid",userid);
-                        map.put("authkey", authkey);
-                        map.put("followerid", followerid);
-                        map.put("type", StatusCode.REQUEST_CANCEL_FOLLOWING);
-                        netRequest.httpRequest(map, CommonUrl.getFollowInfo);
-                        v.setTag(StatusCode.REQUEST_FOLLOW_USER);
-                        followlist.remove(position);
-                        notifyDataSetChanged();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    content = loginDataModel.getUserModel();
+                    String userId = content.getId();
+                    String authkey = content.getAuth_key();
+                    String followerid = activity.getData().get(position).getId();
+                    map.put("uid",userId);
+                    map.put("authkey", authkey);
+                    map.put("followerid", followerid);
+                    map.put("type", StatusCode.REQUEST_CANCEL_FOLLOWING);
+                    netRequest.httpRequest(map, CommonUrl.getFollowInfo);
+                    v.setTag(StatusCode.REQUEST_FOLLOW_USER);
+                    followlist.remove(position);
+                    notifyDataSetChanged();
                     break;
                 }
                 case StatusCode.REQUEST_FOLLOW_USER:
@@ -182,7 +188,7 @@ public class FollowItemAdapter extends BaseAdapter{
                         map.put("followerid", followerid);
                         map.put("type", StatusCode.REQUEST_FOLLOW_USER);
                         netRequest.httpRequest(map, CommonUrl.getFollowInfo);
-                        v.getResources();
+                        button2.setText("已关注");
                         v.setTag(StatusCode.REQUEST_CANCEL_FOLLOWING);
                         notifyDataSetChanged();
 
