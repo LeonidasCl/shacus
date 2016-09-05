@@ -100,18 +100,10 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         map.put("type",type);
         map.put("apid", apid);
 
-        loading=(FrameLayout)findViewById(R.id.loading_layout);
+
         setContentView(R.layout.activity_yue_pai_detail);
         request.httpRequest(map, CommonUrl.getYuePaiInfo);
-        /*loadinganim=(ImageView)findViewById(R.id.loadingimg);
-        loadinganim.setBackgroundResource(R.drawable.dfggg);
-        animator=(AnimationDrawable)loadinganim.getBackground();
-        loadinganim.post(new Runnable() {
-            @Override
-            public void run() {
-                animator.start();
-            }
-        });*/
+
 
         handler=new Handler() {
             @Override
