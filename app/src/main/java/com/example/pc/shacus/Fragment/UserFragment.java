@@ -48,6 +48,7 @@ import com.example.pc.shacus.Activity.FavoritemActivity;
 import com.example.pc.shacus.Activity.FollowActivity;
 import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Activity.OrdersActivity;
+import com.example.pc.shacus.Activity.OtherCourseActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Activity.SettingsActivity;
 import com.example.pc.shacus.Activity.ShareActivity;
@@ -102,20 +103,22 @@ private Button bo;
             @Override
             public void onClick(View v) {
 
-
-                Map map=new HashMap();
-                map.put("phone","15951726659");
-                map.put("password","000000");
-                map.put("askCode",StatusCode.REQUEST_LOGIN);
-
-                requestFragment1.httpRequest(map, CommonUrl.loginAccount);
+                Intent ii=new Intent(getActivity(),CoursesActivity.class);
+                startActivity(ii);
+//
+//                Map map=new HashMap();
+//                map.put("phone","15951726659");
+//                map.put("password","000000");
+//                map.put("askCode",StatusCode.REQUEST_LOGIN);
+//
+//                requestFragment1.httpRequest(map, CommonUrl.loginAccount);
             }
         });
         oo.setOnClickListener(new View.OnClickListener() {
             @Override
 
                     public void onClick(View v) {
-                        Intent intent6 = new Intent(getActivity(), OtherUserActivity.class);
+                        Intent intent6 = new Intent(getActivity(), OtherCourseActivity.class);
                         startActivity(intent6);
                     }
 

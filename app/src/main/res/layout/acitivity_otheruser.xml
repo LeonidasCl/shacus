@@ -12,8 +12,8 @@
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/gray_holo_light"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/gold"
             android:orientation="horizontal"
             android:weightSum="1">
             <ImageButton
@@ -41,7 +41,7 @@
             android:layout_height="220dp"
             android:orientation="vertical"
             android:layout_gravity="center_vertical"
-            android:background="@mipmap/ic_launcher">
+            android:background="@drawable/login_background">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/praise_after"
                     android:id="@+id/button5"
                     android:layout_gravity="bottom"
                     />
@@ -68,7 +68,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/login_email"
                     android:id="@+id/button6"
                     android:layout_gravity="bottom"
                     />
@@ -79,15 +79,16 @@
                 android:layout_height="wrap_content"
                 android:text="地点"
                 android:id="@+id/text1"
+                android:textSize="12sp"
                 />
 
             <TextView
                 android:id="@+id/text2"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个性签名"
-                android:background="#ffffff"/>
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -109,7 +110,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="75"
-                    android:id="@+id/likeButton"/>
+                    android:id="@+id/likeButton"
+                    android:textSize="12sp"/>
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -139,13 +141,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="1000"
-                    android:id="@+id/fansButton"/>
+                    android:id="@+id/fansButton"
+                    android:textSize="12sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="粉丝"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textSize="12sp"/>
 
 
             </LinearLayout>
@@ -170,13 +174,15 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:text="80"
-                    android:id="@+id/workButton"/>
+                    android:id="@+id/workButton"
+                    android:textSize="12sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="图片"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textSize="12sp"/>
 
 
             </LinearLayout>
@@ -199,13 +205,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="99"
-                    android:id="@+id/projectButton"/>
+                    android:id="@+id/projectButton"
+                    android:textSize="12sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="项目"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textSize="12sp"/>
 
 
             </LinearLayout>
@@ -213,7 +221,8 @@
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/listView">
+            android:id="@+id/listView"
+            android:textSize="12sp">
 
         </ListView>
         <!--<ListView-->
@@ -224,5 +233,6 @@
             <!--android:dividerHeight="10dp"-->
             <!--android:paddingBottom="0dp">-->
         <!--</ListView>-->
+
     </LinearLayout>
 </LinearLayout>
