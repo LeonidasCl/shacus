@@ -2,8 +2,6 @@ package com.example.pc.shacus.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.pc.shacus.Activity.FavoritemActivity;
 import com.example.pc.shacus.Data.Model.ItemModel;
 import com.example.pc.shacus.R;
 

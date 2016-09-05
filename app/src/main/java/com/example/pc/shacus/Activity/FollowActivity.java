@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.pc.shacus.Adapter.FollowItemAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -46,6 +47,7 @@ import java.util.logging.LogRecord;
 public class FollowActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
 
     private String type = null;
+    private String index = null;
     private ImageButton backbtn;
     private ListView followListview;
     private List<UserModel> userList = new ArrayList<>();;
@@ -53,11 +55,17 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
     private FollowItemAdapter followItemAdapter;
     private NetRequest request = null;
     public  ACache aCache;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
+
+        //获得个人主界面点击的按钮名称 关注|粉丝
+        intent = getIntent();
+        type = intent.getStringExtra("activity");
+        index = intent.getStringExtra("user");
 
         request = new NetRequest(FollowActivity.this,FollowActivity.this);
         aCache = ACache.get(FollowActivity.this);
@@ -66,9 +74,6 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
         follow = (TextView) findViewById(R.id.follow);
         followListview = (ListView) findViewById(R.id.follow_listview);
 
-        //获得个人主界面点击的按钮名称 关注|粉丝
-        Intent intent = getIntent();
-        type = intent.getStringExtra("activity");
 
         if (type.equals("following")){
             follow.setText("我的关注");
@@ -85,6 +90,9 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
                 //点击进入其他用户主界面
                 //传入需要的参数
                 UserModel next = userList.get(position);
+                Intent intent = new Intent(FollowActivity.this,OtherUserActivity.class);
+                intent.putExtra("id",next.getId());
+                intent.putExtra("authkey",next.getAuth_key());
 
             }
         });
@@ -92,20 +100,23 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
 
     //初始化关注following或粉丝follower数据
     private void initUserInfo() {
-        JSONObject jsonObject = aCache.getAsJSONObject("loginModel");
-        JSONObject content = null;
         Map map = new HashMap<>();
+        String userId = null;
+        String authkey = null;
 
-        try {
-            content = jsonObject.getJSONObject("userModel");
-            Log.d("aaaaaaaaaaaaaaaaa", jsonObject.toString());
-            String userId = content.getString("id");
-            String authkey = content.getString("auth_key");
-            map.put("authkey",authkey);
-            map.put("uid",userId);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (index.equals("myself")){
+            LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+            UserModel content = null;
+            content = loginDataModel.getUserModel();
+            userId = content.getId();
+            authkey = content.getAuth_key();
+        }else if(index.equals("other")){
+            userId = intent.getStringExtra("id");
+            authkey = intent.getStringExtra("authkey");
         }
+
+        map.put("authkey", authkey);
+        map.put("uid", userId);
 
         if(type.equals("following")){
             /*向UserList中添加获取到的关注信息*/
@@ -124,6 +135,12 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
     public String getType() {
         return type;
     }
+
+    //在适配器中，判断显示自己还是其他用户信息
+    public String getIndex() {
+        return index;
+    }
+
     //在配适器中调用，用于关注和取消关注
     public List<UserModel> getData(){
         return userList;
@@ -161,26 +178,6 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
     };
 
 
- /*   @Override
-    public void onClick(View v) {
-        int id = (int) v.getTag();
-        switch (id){
-            case 1:
-            {
-                try {
-                    JSONObject loginModel = aCache.getAsJSONObject("loginModel");
-                    JSONObject content = loginModel.getJSONObject("userModel");
-                    content = loginModel.getJSONObject("userModel");
-                    String userId = content.getString("id");
-                    String authkey = content.getString("auth_key");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
-        }
-    }*/
-
     //返回一级我的个人主界面
     class BackButton implements View.OnClickListener{
 
@@ -207,7 +204,6 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
                         userModel.setHeadImage(following.getString("uimgurl"));
                         userModel.setId(following.getString("uid"));
                         userModel.setNickName(following.getString("ualais"));
-                        Log.d("aaaaaaaaaaaaaaaaa", userModel.getId().toString());
                         userList.add(userModel);
                     }
                     msg.what = StatusCode.REQUEST_FOLLOWING_SUCCESS;
@@ -225,8 +221,6 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
                         userModel.setId(follower.getString("uid"));
                         userModel.setNickName(follower.getString("ualais"));
                         userModel.setIndex(follower.getBoolean("fansback"));
-                        Log.d("aaaaaaaaaaaaaaaaa", userModel.getId().toString());
-                        Log.d("aaaaaaaaaaaaaaaaa","hhhhhhhhhhhhhhh");
                         userList.add(userModel);
                     }
                     msg.what = StatusCode.REQUEST_FOLLOWING_SUCCESS;
@@ -243,14 +237,12 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
                 case StatusCode.REQUEST_CANCEL_SUCCESS: //取消关注成功
                 {
                     msg.what = StatusCode.REQUEST_CANCEL_SUCCESS;
-                    Log.d("aaaaaaaaaaaaaaaaa", "取消成功");
                     handler.sendMessage(msg);
                     break;
                 }
                 case StatusCode.REQUEST_FOLLOW_SUCCESS://请求关注成功
                 {
                     msg.what = StatusCode.REQUEST_FOLLOW_SUCCESS;
-                    Log.d("aaaaaaaaaaaaaaaaa", "请求关注成功");
                     handler.sendMessage(msg);
                     break;
                 }
