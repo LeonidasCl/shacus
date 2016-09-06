@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
-import com.example.pc.shacus.Adapter.CourseListAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
 import com.example.pc.shacus.Network.NetRequest;

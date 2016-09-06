@@ -7,6 +7,9 @@ import java.io.Serializable;
  */
 public class CoursesModel  implements Serializable {
     private String image;
+    private int readNum;
+    private String title;
+    private String courseurl;
 
     public int getReadNum() {
         return readNum;
@@ -32,18 +35,15 @@ public class CoursesModel  implements Serializable {
         this.image = image;
     }
 
-    private int readNum;
-    private String title;
 
-    public String getCoureseurl() {
-        return coureseurl;
+
+    public String getCourseurl() {
+        return courseurl;
     }
 
-    public void setCoureseurl(String coureseurl) {
-        this.coureseurl = coureseurl;
+    public void setCourseurl(String courseurl) {
+        this.courseurl = courseurl;
     }
-
-    private String coureseurl;
 
 
 }

@@ -10,7 +10,7 @@
     >
 
 
-    <ImageView
+    <VideoView
         android:id="@+id/ItemImage"
         android:src="@mipmap/ic_launcher"
         android:layout_width="100dp"
