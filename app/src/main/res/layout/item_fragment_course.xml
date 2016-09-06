@@ -7,7 +7,7 @@
         android:id="@+id/recommendCourse_image"
         android:layout_width="230dp"
         android:layout_height="110dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_launcher"
         android:layout_centerInParent="true"
         android:layout_marginRight="5dp"
