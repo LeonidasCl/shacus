@@ -23,13 +23,13 @@ public class CourseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //9.5缺少布局文件
-        /*View view=inflater.inflate(R.layout.fragment_course, container, false);
+        //9.6已更正
+        View view=inflater.inflate(R.layout.fragment_mycourse, container, false);
         recommendLine= (LinearLayout) view.findViewById(R.id.recommendCourse_Linear);
 
         initView();
 
-        return view;*/
-        return null;
+        return view;
     }
 
     private void initView() {
