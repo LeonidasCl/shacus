@@ -3,6 +3,7 @@ package com.example.pc.shacus.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -47,7 +49,7 @@ import java.util.TimerTask;
     //time:8.29
 public class SetBaseFragment extends Fragment implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
 
-    private Button btn_back;
+    private ImageButton btn_back;
     private Switch phoneVisible,messageInform;
     private View changePassword,versionUpdate,advice,cleanCache, functionIntroduction;
     private NetRequest netRequest;
@@ -84,7 +86,7 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         phoneVisible= (Switch) view.findViewById(R.id.btn_phoneVisible);
         messageInform= (Switch) view.findViewById(R.id.btn_messageInform);
 
-        btn_back= (Button) view.findViewById(R.id.btn_back);
+        btn_back= (ImageButton) view.findViewById(R.id.btn_back);
         changePassword=view.findViewById(R.id.layout_changePassword);
         versionUpdate=view.findViewById(R.id.layout_versionUpdate);
         functionIntroduction=view.findViewById(R.id.layout_functionIntroduce);

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,8 +23,9 @@ import java.io.IOException;
 //Time:9.1
 public class PersonalInfoActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
-    private Button btn_back,btn_edit;
-    private TextView userName,phoneNumber,Email,Address;
+    private ImageButton btn_back;
+
+    private TextView userName,phoneNumber,Email,Address,btn_edit;
     private ImageView userImage;
     private UserModel dataModel;
     @Override
@@ -31,8 +33,8 @@ public class PersonalInfoActivity extends AppCompatActivity implements NetworkCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
         //初始化
-        btn_edit= (Button) findViewById(R.id.btn_edit);
-        btn_back= (Button) findViewById(R.id.btn_back);
+        btn_edit= (TextView) findViewById(R.id.btn_edit);
+        btn_back= (ImageButton) findViewById(R.id.btn_back);
         userImage= (ImageView) findViewById(R.id.imageData_UserImage);
         userName= (TextView) findViewById(R.id.textData_UserName);
         phoneNumber= (TextView) findViewById(R.id.textData_UserPhoneNumber);

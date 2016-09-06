@@ -5,14 +5,14 @@
     tools:context="com.example.pc.shacus.Fragment.SetAboutFragment"
     android:orientation="vertical"
     android:gravity="top"
-    android:background="@color/cc_white">
+    android:background="@color/edit_photo_bg_color">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:gravity="start"
         android:background="@color/gold">
-        <Button
+        <ImageButton
             android:id="@+id/btn_back"
             android:background="@drawable/downarrow"
             android:layout_centerVertical="true"
@@ -23,9 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="关于VITA"
+            android:textColor="@color/ee_black"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <ImageView
@@ -42,52 +43,48 @@
         android:gravity="start"
         android:background="#ffffff"
         android:layout_marginTop="25dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_color_99999a"></LinearLayout>
         <RelativeLayout
             android:id="@+id/layout_versionUpdate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:gravity="start">
             <TextView
                 android:id="@+id/text_versionUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="版本更新"
-                android:textSize="14sp"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/ee_black"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"/>
-            <Button
-                android:id="@+id/btn_versionUpdate"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/downarrow"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                />
         </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_color_99999a"></LinearLayout>
         <RelativeLayout
             android:id="@+id/layout_functionIntroduce"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:gravity="start">
             <TextView
                 android:id="@+id/text_functionIntroduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="功能介绍"
-                android:textSize="14sp"
+                android:textColor="@color/ee_black"
+                android:textSize="@dimen/sp_16"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"/>
-            <Button
-                android:id="@+id/btn_functionIntroduce"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/downarrow"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                />
         </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_color_99999a"></LinearLayout>
     </LinearLayout>
 
 
@@ -110,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="官网"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/sp_14"
                     android:textColor="#1500ff"
                     android:layout_gravity="center"
                     />
@@ -123,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="服务条款"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/sp_14"
                     android:textColor="#1500ff"
                     android:layout_gravity="center"/>
             </LinearLayout>
@@ -136,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="xxxxxxxxxxxxxxxxxxxx"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/sp_14"
                     android:layout_gravity="center"
                     />
             </LinearLayout>
