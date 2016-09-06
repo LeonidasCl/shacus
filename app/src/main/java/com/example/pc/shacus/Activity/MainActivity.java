@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.setNavigationItemSelectedListener(this);
         //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
         btnAvartar=(ImageButton)findViewById(R.id.toolbar_btn_avatar);
-        btnAvartar.setOnClickListener(new View.OnClickListener() {
+        btnAvartar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if (isLogin) {

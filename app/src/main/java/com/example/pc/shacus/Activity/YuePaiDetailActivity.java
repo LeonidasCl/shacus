@@ -36,6 +36,7 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.Util.DisplayUtil;
 import com.example.pc.shacus.View.FloatMenu.FilterMenu;
 import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
 import com.google.gson.Gson;
@@ -162,7 +163,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         super.onCreate(savedInstanceState);
 
         request=new NetRequest(this,this);
-        String apid=getIntent().getStringExtra("detail");
+        String aid=getIntent().getStringExtra("detail");
         typo=getIntent().getStringExtra("type");
         type=10000;
         if (typo.equals("yuepai"))
@@ -181,18 +182,20 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         if (typo.equals("yuepai"))
         map.put("uid",uid);
         else
-        map.put("Uid",uid);
+        map.put("uid",uid);
         map.put("type", type);
         if (typo.equals("yuepai"))
-        map.put("apid", apid);
+        map.put("apid", aid);
         else
-        map.put("ACid", 7);
+        map.put("acid", aid);
 
         setContentView(R.layout.activity_yue_pai_detail);
         mSideZoomBanner = (BGABanner) findViewById(R.id.banner_detail_zoom);
         display_big_image_layout=(RelativeLayout)findViewById(R.id.display_detail_image);
         position_in_total=(TextView)findViewById(R.id.position_total);
         image_viewpager=(UploadViewPager)findViewById(R.id.image_detail_viewpager);
+        praiseNum=(TextView)findViewById(R.id.tv_praise_num);
+        btn_praise=(ImageButton)findViewById(R.id.detail_praise);
 
         if (typo.equals("yuepai"))
         request.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -206,19 +209,58 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (msg.what==StatusCode.REQUEST_FAILURE){
                     CommonUtils.getUtilInstance().showToast(APP.context, (String) msg.obj);
-                    //finish();
+                    finish();
                     return;
                 }
 
-                if (msg.what== StatusCode.REQUEST_JOIN_YUEPAI_SUCCESS||msg.what== StatusCode.REQUEST_JOIN_HUODONG_SUCCESS){
+                if (msg.what== StatusCode.PRAISE_YUEPAI_SUCCESS){
+                    btn_praise.setSelected(true);
+                    //praiseNum=(TextView)findViewById(R.id.tv_praise_num);
+                    praiseNum.setText(data.getAPlikeN() + "");
+                }
+
+                if (msg.what== StatusCode.PRAISE_HUODONG_SUCCESS){
+                    btn_praise.setSelected(true);
+                    praiseNum=(TextView)findViewById(R.id.tv_praise_num);
+                    praiseNum.setText(data.getAClikenumber()+"");
+                }
+
+                if (msg.what == StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS){
+                    btn_praise.setSelected(false);
+                    //praiseNum=(TextView)findViewById(R.id.tv_praise_num);
+                    praiseNum.setText(data.getAPlikeN()+"");
+                }
+
+                if (msg.what== StatusCode.CANCEL_HUODONH_PRAISE){
+                    btn_praise.setSelected(false);
+                    //praiseNum=(TextView)findViewById(R.id.tv_praise_num);
+                    praiseNum.setText(data.getAClikenumber()+"");
+                }
+
+                if (msg.what== StatusCode.REQUEST_JOIN_HUODONG_SUCCESS){
                     CommonUtils.getUtilInstance().showToast(APP.context, "报名成功");
+                    joinNum.setText(data.getACregister().size()+"");
                     return;
                 }
 
-                if (msg.what== StatusCode.CANCEL_JOIN_SUCCESS||msg.what==StatusCode.CANCEL_HUODONG_SUCCESS){
-                    CommonUtils.getUtilInstance().showToast(APP.context, "取消报名成功");
+                if (msg.what== StatusCode.REQUEST_JOIN_YUEPAI_SUCCESS){
+                    CommonUtils.getUtilInstance().showToast(APP.context, "报名成功");
+                    joinNum.setText(data.getAPregistN()+"");
                     return;
                 }
+
+                if (msg.what== StatusCode.CANCEL_JOIN_SUCCESS){//取消约拍报名
+                    CommonUtils.getUtilInstance().showToast(APP.context, "取消报名成功");
+                    joinNum.setText(data.getAPregistN()+"");
+                    return;
+                }
+
+                if (msg.what==StatusCode.CANCEL_HUODONG_SUCCESS){
+                    CommonUtils.getUtilInstance().showToast(APP.context, "取消报名成功");
+                    joinNum.setText(data.getACregister().size() + "");
+                    return;
+                }
+
 
                 if (msg.what==StatusCode.REQUEST_DETAIL_SUCCESS){
 
@@ -237,6 +279,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         selectJoinUser.setVisibility(View.GONE);
                     }
 
+
                     horizontalScrollView = (HorizontalScrollView) findViewById(R.id.join_user_scroll);
                     gridView = (GridView) findViewById(R.id.grid_join_user_scroll);
                     horizontalScrollView.setHorizontalScrollBarEnabled(false);// 隐藏滚动条
@@ -247,14 +290,28 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     filterMenu= (FilterMenuLayout)findViewById(R.id.detail_filter_menu);
                     filterMenu.setVisibility(View.VISIBLE);
                     attachMenu(filterMenu);
-                    praiseNum=(TextView)findViewById(R.id.tv_praise_num);
-                    praiseNum.setText(data.getAPlikeN()+"");
-                    btn_praise=(ImageButton)findViewById(R.id.detail_praise);
+
+                    praiseNum.setText(data.getAPlikeN() + "");
+
+                    if (data.getUserliked()==0)
+                        btn_praise.setSelected(false);
+                    else
+                        btn_praise.setSelected(true);
                     btn_praise.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             //点赞
-                            praiseNum.setText(Integer.valueOf(praiseNum.getText().toString()) + 1 + "");
+                            //praiseNum.setText(Integer.valueOf(praiseNum.getText().toString()) + 1 + "");
+                            Map map = new HashMap();
+                            if (data.getUserliked()==1)
+                                map.put("type", StatusCode.CANCEL_YUEPAI_PRAISE);
+                            else
+                                map.put("type", StatusCode.PRAISE_YUEPAI);
+                            map.put("typeid", data.getAPid());
+                            //ACache cache = ACache.get(APP.context);
+                            map.put("uid", userModel.getId());
+                            map.put("authkey",userModel.getAuth_key());
+                            request.httpRequest(map, CommonUrl.praiseAppointment);
                         }
                     });
                     joinNum =(TextView)findViewById(R.id.tv_join_num);
@@ -278,6 +335,10 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     textName.setText(data.getAPtitle()+"");
                     loading=(FrameLayout)findViewById(R.id.loading_layout);
                     loading.setVisibility(View.GONE);
+                    if (data.getUserliked()==0)
+                        btn_praise.setSelected(false);
+                    else
+                        btn_praise.setSelected(true);
                 }
 
                 if (msg.what== StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS){
@@ -307,14 +368,27 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     filterMenu= (FilterMenuLayout)findViewById(R.id.detail_filter_menu);
                     filterMenu.setVisibility(View.VISIBLE);
                     attachMenu(filterMenu);
-                    praiseNum=(TextView)findViewById(R.id.tv_praise_num);
                     praiseNum.setText(data.getAClikenumber()+"");
-                    btn_praise=(ImageButton)findViewById(R.id.detail_praise);
+
+                    if (data.getUserliked()==0)
+                        btn_praise.setSelected(false);
+                    else
+                        btn_praise.setSelected(true);
                     btn_praise.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             //点赞
-                            praiseNum.setText(Integer.valueOf(praiseNum.getText().toString()) + 1 + "");
+                            //praiseNum.setText(Integer.valueOf(praiseNum.getText().toString()) + 1 + "");
+                            Map map = new HashMap();
+                            if (data.getUserliked()==1)
+                                map.put("type", StatusCode.CANCEL_HUODONH_PRAISE);
+                            else
+                                map.put("type", StatusCode.PRAISE_HUODONG);
+                            map.put("aclacid", data.getACid());
+                            //ACache cache = ACache.get(APP.context);
+                            map.put("uid", userModel.getId());
+                            map.put("authkey",userModel.getAuth_key());
+                            request.httpRequest(map, CommonUrl.praiseActivity);
                         }
                     });
                     joinNum =(TextView)findViewById(R.id.tv_join_num);
@@ -322,13 +396,13 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     btn_join=(TextView)findViewById(R.id.detail_join_num);
                     btn_join.setOnClickListener(new View.OnClickListener(){
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(View view){
                             //
                         }
                     });
                     textTitle=(TextView)findViewById(R.id.detail_toolbar_back);
                     textTitle.setText("＜返回");
-                    textTitle.setOnClickListener(new View.OnClickListener() {
+                    textTitle.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view) {
                             finish();
@@ -338,6 +412,11 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     textName.setText(data.getAPtitle()+"");
                     loading=(FrameLayout)findViewById(R.id.loading_layout);
                     loading.setVisibility(View.GONE);
+
+                    if (data.getUserliked()==0)
+                        btn_praise.setSelected(false);
+                    else
+                        btn_praise.setSelected(true);
                 }
 
             }
@@ -382,6 +461,11 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     }
 
     private void setUserValue(List<UserModel> list) {
+
+        if(list==null){
+            return;
+        }
+
         JoinUserGridAdapter adapter = new JoinUserGridAdapter(this, list,true);
 
         gridView.setAdapter(adapter);
@@ -445,6 +529,44 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             }
         }
 
+        if (requestUrl.equals(CommonUrl.praiseActivity)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code == StatusCode.PRAISE_HUODONG_SUCCESS) {
+                data.setUserliked(1);
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.PRAISE_HUODONG_SUCCESS;
+                data.setAClikenumber(Integer.valueOf(praiseNum.getText().toString()) + 1);
+                handler.sendMessage(msg);
+            }
+            if (code == StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS) {
+                data.setUserliked(0);
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS;
+                data.setAClikenumber(Integer.valueOf(praiseNum.getText().toString()) - 1);
+                handler.sendMessage(msg);
+            }
+        }
+
+        if (requestUrl.equals(CommonUrl.praiseAppointment)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code == StatusCode.PRAISE_YUEPAI_SUCCESS) {
+                data.setUserliked(1);
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.PRAISE_YUEPAI_SUCCESS;
+                data.setAPlikeN(Integer.valueOf(praiseNum.getText().toString()) +1);
+                handler.sendMessage(msg);
+            }
+            if (code == StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS) {
+                data.setUserliked(0);
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS;
+                data.setAPlikeN(Integer.valueOf(praiseNum.getText().toString()) - 1);
+                handler.sendMessage(msg);
+            }
+        }
+
         if (requestUrl.equals(CommonUrl.joinYuepai)){
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
@@ -452,6 +574,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_JOIN_YUEPAI_SUCCESS;
                 //msg.obj=object.getString("contents");
+                data.setAPregistN(Integer.valueOf(joinNum.getText().toString()) +1);
                 handler.sendMessage(msg);
                 return;
             }
@@ -459,6 +582,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             if (code==StatusCode.CANCEL_JOIN_SUCCESS){
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.CANCEL_JOIN_SUCCESS;
+                data.setAPregistN(Integer.valueOf(joinNum.getText().toString()) -1);
                 handler.sendMessage(msg);
                 return;
             }
@@ -497,6 +621,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_JOIN_HUODONG_SUCCESS;
                 //msg.obj=object.getString("contents");
+                data.setAClikenumber(Integer.valueOf(joinNum.getText().toString()) + 1);
                 handler.sendMessage(msg);
                 return;
             }
@@ -504,6 +629,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             if (code==StatusCode.CANCEL_HUODONG_SUCCESS){
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.CANCEL_HUODONG_SUCCESS;
+                data.setAClikenumber(Integer.valueOf(joinNum.getText().toString()) - 1);
                 handler.sendMessage(msg);
                 return;
             }

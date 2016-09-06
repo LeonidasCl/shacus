@@ -262,8 +262,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 if (msg.what==StatusCode.REQUEST_FAILURE){
                     //Looper.prepare();
                     CommonUtils.getUtilInstance().showToast(APP.context, "网络请求失败！");
+                    loginProgressDlg.cancel();
                     //Looper.loop();
-                    finish();
+                    //finish();
                     return;
                 }
               if (msg.what==StatusCode.RECIEVE_REGISTER_SUCCESS){

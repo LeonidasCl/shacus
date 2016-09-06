@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Activity.YuePaiDetailActivity;
+import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.HuoDongItemModel;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * licl 2016.7.18
@@ -29,6 +43,8 @@ public class HuodongItemAdapter extends BaseAdapter{
     private Context activity;
     private LayoutInflater layoutInflater;
     private ViewHolder viewHolder;
+
+
 
     public HuodongItemAdapter(Context activity, List<HuoDongItemModel> list) {
         this.rankList = list;
@@ -116,12 +132,30 @@ public class HuodongItemAdapter extends BaseAdapter{
             userName.setText(item.getACid()+"");
             setTime.setText(item.getACstartT());
             describe.setText(item.getACcontent());
+
+            final Handler handler=new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+
+                    if (msg.what== StatusCode.PRAISE_HUODONG_SUCCESS){
+                        huodongPraise.setSelected(true);
+                        praiseNum.setText(item.getAClikenumber()+"");
+                    }
+                    if (msg.what == StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS){
+
+                        huodongPraise.setSelected(false);
+                        praiseNum.setText(item.getAClikenumber()+"");
+                    }
+                }
+            };
+
             huodongJoin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //进入细节
                     Intent intent = new Intent(activity, YuePaiDetailActivity.class);
-                    intent.putExtra("detail",item.getACid());
+                    intent.putExtra("detail",item.getACid()+"");
                     intent.putExtra("type","huodong");
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     activity.startActivity(intent);
@@ -131,6 +165,49 @@ public class HuodongItemAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View view) {
                     //点赞
+                    NetRequest netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                        @Override
+                        public void requestFinish(String result, String requestUrl) throws JSONException {
+                            if (requestUrl.equals(CommonUrl.praiseActivity)) {
+                                JSONObject object = new JSONObject(result);
+                                int code = Integer.valueOf(object.getString("code"));
+                                if (code == StatusCode.PRAISE_HUODONG_SUCCESS) {
+                                    item.setUserliked(1);
+                                    Message msg=handler.obtainMessage();
+                                    msg.what= StatusCode.PRAISE_HUODONG_SUCCESS;
+                                    item.setAClikenumber(Integer.valueOf(praiseNum.getText().toString()) + 1);
+
+                                    handler.sendMessage(msg);
+                                    return;
+                                }
+                                if (code == StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS){
+                                    item.setUserliked(0);
+                                    Message msg=handler.obtainMessage();
+                                    msg.what= StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS;
+                                    item.setAClikenumber(Integer.valueOf(praiseNum.getText().toString()) - 1 );
+                                    handler.sendMessage(msg);
+                                    return;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void exception(IOException e, String requestUrl) {
+
+                        }
+                    }, activity);
+
+                    Map map = new HashMap();
+                    if (item.getUserliked()==1)
+                        map.put("type", StatusCode.CANCEL_HUODONH_PRAISE);
+                    else
+                        map.put("type", StatusCode.PRAISE_HUODONG);
+                    map.put("aclacid", item.getACid());
+                    ACache cache = ACache.get(activity);
+                    LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
+                    map.put("uid", model.getUserModel().getId());
+                    map.put("authkey", model.getUserModel().getAuth_key());
+                    netRequest.httpRequest(map, CommonUrl.praiseActivity);
                 }
             });
         }

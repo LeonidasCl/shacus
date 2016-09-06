@@ -16,6 +16,7 @@ public class HuoDongItemModel implements Serializable{
     private int AClikenumber;
     private int ACregistN;
     private int ACid;
+    private int Userliked;
 
 
 
@@ -73,5 +74,13 @@ public class HuoDongItemModel implements Serializable{
 
     public void setACid(int ACid) {
         this.ACid = ACid;
+    }
+
+    public int getUserliked() {
+        return Userliked;
+    }
+
+    public void setUserliked(int userliked) {
+        Userliked = userliked;
     }
 }

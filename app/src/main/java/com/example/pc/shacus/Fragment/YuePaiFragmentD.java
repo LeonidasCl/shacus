@@ -2,6 +2,8 @@ package com.example.pc.shacus.Fragment;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,18 +21,18 @@ import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
-import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.util.logging.LogRecord;
 
 
 /**
@@ -84,6 +86,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         cache= ACache.get(getActivity());
         button_grapher = (ImageButton) rankView.findViewById(R.id.button_grapher);
         button_model = (ImageButton) rankView.findViewById(R.id.button_model);
+
 
         personAdapter = new YuePaiAdapter(yuepai,bootData(GRAPHER));
         listView = (ListView) rankView.findViewById(R.id.rank_list);

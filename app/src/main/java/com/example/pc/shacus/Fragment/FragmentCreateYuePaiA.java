@@ -688,10 +688,9 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 edit_photo_fullscreen_layout.setVisibility(View.GONE);*/
             case R.id.upload://第一次握手：按发表键后
                 //检查用户是否登录
-                Gson gson=new Gson();
                 ACache cache= ACache.get(getActivity());
-                JSONObject userStr=cache.getAsJSONObject("loginModel");
-                user=gson.fromJson(userStr.toString(),LoginDataModel.class).getUserModel();
+                LoginDataModel userStr=(LoginDataModel)cache.getAsObject("loginModel");
+                user=userStr.getUserModel();
                 String usename=user.getPhone();
                 String authKey=user.getAuth_key();
                 if(authKey!=null&&authKey.equals("")){
