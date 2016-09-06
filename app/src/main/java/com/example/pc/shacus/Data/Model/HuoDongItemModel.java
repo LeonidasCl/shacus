@@ -1,9 +1,6 @@
 package com.example.pc.shacus.Data.Model;
 
-import android.graphics.drawable.Drawable;
-
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  *
@@ -12,77 +9,69 @@ import java.util.Date;
 
 public class HuoDongItemModel implements Serializable{
 
-    private String userHeader;
-    private String huodongMainpic;
-    private String usrName;
-    private String usrtoken;
-    private String setTime;
-    private String describe;
-    private int praiseNum;
-    private int joinNum;
+    private String Userimageurl;
+    private String AClurl;
+    private String ACstartT;
+    private String ACcontent;
+    private int AClikenumber;
+    private int ACregistN;
+    private int ACid;
 
 
-    public String getUsrName() {
-        return usrName;
+
+    public String getACcontent() {
+        return ACcontent;
     }
 
-    public void setUsrName(String usrName) {
-        this.usrName = usrName;
+    public void setACcontent(String ACcontent) {
+        this.ACcontent = ACcontent;
     }
 
-    public String getUsrtoken() {
-        return usrtoken;
+    public int getAClikenumber() {
+        return AClikenumber;
     }
 
-    public void setUsrtoken(String usrtoken) {
-        this.usrtoken = usrtoken;
+    public void setAClikenumber(int AClikenumber) {
+        this.AClikenumber = AClikenumber;
     }
 
-    public String getDescribe() {
-        return describe;
+    public int getACregistN() {
+        return ACregistN;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setACregistN(int ACregistN) {
+        this.ACregistN = ACregistN;
     }
 
-    public int getPraiseNum() {
-        return praiseNum;
+    public String getACstartT() {
+        return ACstartT;
     }
 
-    public void setPraiseNum(int praiseNum) {
-        this.praiseNum = praiseNum;
+    public void setACstartT(String ACstartT) {
+        this.ACstartT = ACstartT;
     }
 
-    public int getJoinNum() {
-        return joinNum;
+    public String getUserimageurl() {
+        return Userimageurl;
     }
 
-    public void setJoinNum(int joinNum) {
-        this.joinNum = joinNum;
+    public void setUserimageurl(String userimageurl) {
+        this.Userimageurl = userimageurl;
     }
 
-    public String getSetTime() {
-        return setTime;
+    public String getAClurl() {
+        return AClurl;
     }
 
-    public void setSetTime(String setTime) {
-        this.setTime = setTime;
+    public void setAClurl(String AClurl) {
+        this.AClurl = AClurl;
     }
 
-    public String getUserHeader() {
-        return userHeader;
+    public int getACid() {
+        return ACid;
     }
 
-    public void setUserHeader(String userHeader) {
-        this.userHeader = userHeader;
-    }
-
-    public String getHuodongMainpic() {
-        return huodongMainpic;
-    }
-
-    public void setHuodongMainpic(String huodongMainpic) {
-        this.huodongMainpic = huodongMainpic;
+    public void setACid(int ACid) {
+        this.ACid = ACid;
     }
 }

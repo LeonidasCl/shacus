@@ -21,7 +21,8 @@ public class CourseFragment extends Fragment {
     private ImageButton myCourseImage;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //缺少布局文件
+
+        //9.5缺少布局文件
         /*View view=inflater.inflate(R.layout.fragment_course, container, false);
         recommendLine= (LinearLayout) view.findViewById(R.id.recommendCourse_Linear);
 

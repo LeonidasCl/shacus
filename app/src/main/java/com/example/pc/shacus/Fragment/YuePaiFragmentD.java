@@ -180,7 +180,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords) {
+                if (firstVisibleItem + visibleItemCount-1 > totalItemCount - 1 && totalItemCount < maxRecords) {
                     personAdapter.add(loadData(isGrapher ? GRAPHER : MODEL));
                     personAdapter.notifyDataSetChanged();
                 }
@@ -222,7 +222,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         return persons;
     }
 
-    public void setmSideZoomBanner(RelativeLayout mSideZoomBanner) {
+    public void setmSideZoomBanner(RelativeLayout mSideZoomBanner){
         this.mSideZoomBanner = mSideZoomBanner;
     }
 

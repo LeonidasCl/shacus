@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Adapter.HuodongItemAdapter;
 import com.example.pc.shacus.Data.Model.HuoDongItemModel;
 import com.example.pc.shacus.Network.NetRequest;
@@ -19,6 +18,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,14 +36,6 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
 
     Context context;
     View parent;
-
-    /*PtrClassicFrameLayout ptrClassicFrameLayout;
-    RecyclerView mRecyclerView;
-    private List<String> mData = new ArrayList<String>();
-    private RecyclerAdapter adapter;
-    private RecyclerAdapterWithHF mAdapter;
-    Handler handler = new Handler();
-    int page = 0;*/
 
     private SwipeRefreshLayout refreshLayout;
     private HuodongItemAdapter personAdapter;
@@ -63,10 +54,10 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
 //                    List<HuoDongItemModel> persons = new ArrayList<>();
 //                    for(int i=bootCounter;i<bootCounter+10;i++){
 //                        HuoDongItemModel huodong = new HuoDongItemModel();
-//                        huodong.setDescribe("活动描述信息加载中...不得少于十五字不得多于一百五十字");
-//                        huodong.setSetTime(new Date());
-//                        huodong.setJoinNum((int) (Math.random() * 100) + 1);
-//                        huodong.setPraiseNum((int) (Math.random() * 100) + 1);
+//                        huodong.setACcontent("活动描述信息加载中...不得少于十五字不得多于一百五十字");
+//                        huodong.setACstartT(new Date());
+//                        huodong.setACregistN((int) (Math.random() * 100) + 1);
+//                        huodong.setAClikenumber((int) (Math.random() * 100) + 1);
 //                        huodong.setUsrName("用户" + i);
 //                        persons.add(huodong);
 //                        Log.d("LQQQQQQQQ", "bootData"+i);
@@ -211,7 +202,7 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
 
 
             @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount){
 //                Log.d("LQQQQQQQQ", "onScroll: ");
 //                Log.d("LQQQQQQQQ", " f:"+firstVisibleItem+" v:"+visibleItemCount+" t:"+totalItemCount);
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 1 && totalItemCount < maxRecords && visibleItemCount!=0 &&!getHuodongFlag) {
@@ -263,10 +254,10 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
 //        List<HuoDongItemModel> persons = new ArrayList<>();
 //        for(int i=bootCounter;i<bootCounter+Num;i++){
 //            HuoDongItemModel huodong = new HuoDongItemModel();
-//            huodong.setDescribe("活动描述信息加载中...不得少于十五字不得多于一百五十字");
-//            huodong.setSetTime(new Date());
-//            huodong.setJoinNum((int) (Math.random() * 100) + 1);
-//            huodong.setPraiseNum((int) (Math.random() * 100) + 1);
+//            huodong.setACcontent("活动描述信息加载中...不得少于十五字不得多于一百五十字");
+//            huodong.setACstartT(new Date());
+//            huodong.setACregistN((int) (Math.random() * 100) + 1);
+//            huodong.setAClikenumber((int) (Math.random() * 100) + 1);
 //            huodong.setUsrName("用户" + i);
 //            persons.add(huodong);
 //            Log.d("LQQQQQQQQ", "bootData"+i);
@@ -281,20 +272,21 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
             JSONObject jsonObject=new JSONObject(result);
             String code=jsonObject.getString("code");
             JSONArray jsonArray=jsonObject.getJSONArray("contents");
-            Log.d("LQQQQQ", code);
-            Log.d("LQQQQQ", jsonObject.getString("contents"));
+            //Log.d("LQQQQQ", code);
+            //Log.d("LQQQQQ", jsonObject.getString("contents"));
             if(code.equals("10303")){
                 List<HuoDongItemModel> persons = new ArrayList<>();
                 for(int i=bootCounter;i<bootCounter+jsonArray.length();i++){
                     JSONObject info=jsonArray.getJSONObject(i-bootCounter);
-                    HuoDongItemModel huodong = new HuoDongItemModel();
-                    huodong.setDescribe(info.getString("ACcontent"));
-                    huodong.setSetTime(info.getString("ACstartT"));
-                    huodong.setJoinNum(Integer.valueOf(info.getString("ACregistN")));
-                    huodong.setPraiseNum(Integer.valueOf(info.getString("AClikenumber")));
+                    Gson gson=new Gson();
+                    HuoDongItemModel huodong =gson.fromJson(info.toString(),HuoDongItemModel.class);
+                    /*huodong.setACcontent(info.getString("ACcontent"));
+                    huodong.setACstartT(info.getString("ACstartT"));
+                    huodong.setACregistN(Integer.valueOf(info.getString("ACregistN")));
+                    huodong.setAClikenumber(Integer.valueOf(info.getString("AClikenumber")));
                     huodong.setUsrName(info.getString("Ualais"));
-                    huodong.setHuodongMainpic(info.getString("AClurl"));
-//                    huodong.setUserHeader();
+                    huodong.setAClurl(info.getString("AClurl"));*/
+//                    huodong.setUserimageurl();
                     persons.add(huodong);
 //                    personAdapter.notifyDataSetChanged();
                     Log.d("LQQQQQQQQ", "bootData"+i);
@@ -314,13 +306,13 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
                 for(int i=bootCounter;i<bootCounter+jsonArray.length();i++){
                     JSONObject info=jsonArray.getJSONObject(i-bootCounter);
                     HuoDongItemModel huodong = new HuoDongItemModel();
-                    huodong.setDescribe(info.getString("ACcontent"));
-                    huodong.setSetTime(info.getString("ACstartT"));
-                    huodong.setJoinNum(Integer.valueOf(info.getString("ACregistN")));
-                    huodong.setPraiseNum(Integer.valueOf(info.getString("AClikenumber")));
-                    huodong.setUsrName(info.getString("Ualais"));
-                    huodong.setHuodongMainpic(info.getString("AClurl"));
-//                    huodong.setUserHeader();
+                    huodong.setACcontent(info.getString("ACcontent"));
+                    huodong.setACstartT(info.getString("ACstartT"));
+                    huodong.setACregistN(Integer.valueOf(info.getString("ACregistN")));
+                    huodong.setAClikenumber(Integer.valueOf(info.getString("AClikenumber")));
+                    //huodong.setUsrName(info.getString("Ualais"));
+                    huodong.setAClurl(info.getString("AClurl"));
+//                    huodong.setUserimageurl();
                     persons.add(huodong);
                     Log.d("LQQQQQQQQ", "bootData" + i);
 //                    personAdapter.notifyDataSetChanged();

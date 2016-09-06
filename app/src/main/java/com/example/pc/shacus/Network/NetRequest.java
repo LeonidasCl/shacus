@@ -42,9 +42,9 @@ public class NetRequest {
 		//CommonUtils.getUtilInstance().showToast(APP.context,map.toString());
 
 		OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(5000, TimeUnit.MILLISECONDS)
-                .writeTimeout(8, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(3000, TimeUnit.MILLISECONDS)
+                .writeTimeout(4, TimeUnit.SECONDS)
+                .readTimeout(6, TimeUnit.SECONDS)
                 .build();
         FormBody.Builder builder = new FormBody.Builder();
 		if (null != map && !map.isEmpty())

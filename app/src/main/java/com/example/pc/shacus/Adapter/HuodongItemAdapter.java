@@ -1,16 +1,19 @@
 package com.example.pc.shacus.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.YuePaiDetailActivity;
 import com.example.pc.shacus.Data.Model.HuoDongItemModel;
 import com.example.pc.shacus.R;
 
@@ -83,6 +86,8 @@ public class HuodongItemAdapter extends BaseAdapter{
         TextView userName;
         TextView setTime;
         TextView describe;
+        ImageButton huodongJoin;
+        ImageButton huodongPraise;
 
         public ViewHolder(View view) {
             userIamgeSrc=(ImageView)view.findViewById(R.id.huodong_avatar);
@@ -92,24 +97,42 @@ public class HuodongItemAdapter extends BaseAdapter{
             userName=(TextView)view.findViewById(R.id.huodong_username);
             setTime=(TextView)view.findViewById(R.id.huodong_settime);
             describe=(TextView)view.findViewById(R.id.huodong_describe);
-
+            huodongJoin=(ImageButton)view.findViewById(R.id.huodong_join);
+            huodongPraise=(ImageButton)view.findViewById(R.id.huodong_praise);
         }
 
-        public void setValues(HuoDongItemModel item) {
+        public void setValues(final HuoDongItemModel item) {
             Glide.with(activity)
-                    .load(item.getHuodongMainpic()).centerCrop()
+                    .load(item.getAClurl()).centerCrop()
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(mainPicture);
             Resources res=activity.getResources();
             Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);
             userIamgeSrc.setImageDrawable(usrimg);
-            Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
-            praiseNum.setText(String.valueOf(item.getPraiseNum()));
-            joinNum.setText(String.valueOf(item.getJoinNum()));
-            userName.setText(item.getUsrName());
-            setTime.setText(item.getSetTime().toString());
-            describe.setText(item.getDescribe());
+            //Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
+            praiseNum.setText(String.valueOf(item.getAClikenumber()));
+            joinNum.setText(String.valueOf(item.getACregistN()));
+            userName.setText(item.getACid()+"");
+            setTime.setText(item.getACstartT());
+            describe.setText(item.getACcontent());
+            huodongJoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //进入细节
+                    Intent intent = new Intent(activity, YuePaiDetailActivity.class);
+                    intent.putExtra("detail",item.getACid());
+                    intent.putExtra("type","huodong");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    activity.startActivity(intent);
+                }
+            });
+            huodongPraise.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //点赞
+                }
+            });
         }
     }
 

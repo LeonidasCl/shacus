@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Data.Model.ItemModel;
+import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.R;
 
 import java.util.List;
@@ -24,10 +26,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<ItemModel> itemModelList;
     private Context context;
+    private NetRequest netRequest;
 
-    public RecyclerViewAdapter(List<ItemModel> list, Activity context){
+    public RecyclerViewAdapter(List<ItemModel> list, Activity activity){
         itemModelList = list;
-        this.context=context;
+        this.context = activity;
     }
 
     @Override
@@ -49,6 +52,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.time.setText(itemModelList.get(position).getStartTime());
         holder.like.setText(Integer.toString(itemModelList.get(position).getLikeNum()));
         holder.regist.setText(Integer.toString(itemModelList.get(position).getRegistNum()));
+
+        holder.likebtn.setTag(position);
+        holder.likebtn.setOnClickListener((View.OnClickListener) context);
+
     }
 
 
@@ -57,6 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return itemModelList.size();
     }
 
+
     public static class RecyclerHolderView extends RecyclerView.ViewHolder{
 
         ImageView imageView;
@@ -64,6 +72,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView time;
         TextView like;
         TextView regist;
+        ImageButton likebtn;
+        ImageButton registbtn;
 
 
         public RecyclerHolderView(View itemView) {
@@ -73,6 +83,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             time = (TextView) itemView.findViewById(R.id.item_time);
             like = (TextView) itemView.findViewById(R.id.item_like);
             regist = (TextView) itemView.findViewById(R.id.item_regist);
+            likebtn = (ImageButton) itemView.findViewById(R.id.item_like_btn);
+            registbtn = (ImageButton) itemView.findViewById(R.id.item_regist_btn);
+
         }
     }
 }

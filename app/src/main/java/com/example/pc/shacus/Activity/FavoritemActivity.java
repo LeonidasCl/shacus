@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.Toast;
 
 import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -41,7 +42,7 @@ import java.util.Map;
  */
 //收藏界面（二级）
 
-public class FavoritemActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
+public class FavoritemActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
     private ViewPager viewPager = null;
     private List<View> viewContainter = new ArrayList<>();   //存放容器
@@ -201,6 +202,26 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         }
     };
 
+    @Override
+    public void onClick(View v) {
+        int tag = (int) v.getTag();
+        ACache aCache = ACache.get(FavoritemActivity.this);
+        LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+        UserModel content = null;
+        Map map = new HashMap<>();
+        content = loginDataModel.getUserModel();
+        String userId = content.getId();
+        String authkey = content.getAuth_key();
+
+        map.put("uid",userId);
+        map.put("authkey", authkey);
+        map.put("type",StatusCode.REQUEST_CANCEL_FAVORYUEPAI);
+        map.put("typeid",favorItemList1.get(tag).getId());
+        netRequest.httpRequest(map, CommonUrl.getFavorInfo);
+        favorItemList1.remove(tag);
+        recyclerViewAdapter1.notifyDataSetChanged();
+    }
+
     //内部类实现viewpager的适配器
     private class ViewPagerAdapter extends PagerAdapter{
 
@@ -241,7 +262,6 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS://请求收藏的约拍成功
                 {
                     JSONArray content = object.getJSONArray("contents");
-                    Log.d("eeeeeeeeeeeeeeeeee",content.toString());
                     for(int i = 0;i < content.length();i++){
                         JSONObject favor = content.getJSONObject(i);
                         ItemModel itemModel = new ItemModel();
@@ -258,6 +278,12 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     handler.sendMessage(msg);
                     break;
                 }
+                /*case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS://请求取消收藏约拍成功
+                {
+                    msg.what = StatusCode.REQUEST_CANCELYUEPAI_SUCCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }*/
             }
 
         }
