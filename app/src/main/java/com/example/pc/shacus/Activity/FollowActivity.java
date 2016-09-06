@@ -184,6 +184,7 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
         @Override
         public void onClick(View v) {
             //返回上级界面
+            finish();
         }
     }
 

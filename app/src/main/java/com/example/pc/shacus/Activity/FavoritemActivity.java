@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -95,6 +96,8 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             @Override
             public void onPageSelected(int position) {
                 mTabWidget.setCurrentTab(position);
+                mTabHost.setCurrentTab(position);
+                updateTab(mTabHost);
                 if(position == 0) index = StatusCode.REQUEST_FAVOR_YUEPAI;
                 //else index =
             }
@@ -107,6 +110,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+                updateTab(mTabHost);
                 if (tabId.equals("yuepai")){
                     viewPager.setCurrentItem(0);
                     index = StatusCode.REQUEST_FAVOR_YUEPAI;
@@ -123,6 +127,26 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 //        mTabHost.setCurrentTab(1);
 //        mTabHost.setCurrentTab(0);
 
+    }
+
+    private void updateTab(TabHost tabHost){
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++)
+        {
+            View view = tabHost.getTabWidget().getChildAt(i);
+            if (tabHost.getCurrentTab() == i)
+            {
+                //选中
+                //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
+                view.setBackgroundColor(Color.parseColor("#55E6BF66"));
+
+            }
+            else
+            {
+                //不选中
+                //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
+                view.setBackgroundColor(Color.parseColor("#E6BF66"));
+            }
+        }
     }
 
     //初始化viewPager
@@ -156,6 +180,9 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         mTabHost.addTab(mTabHost.newTabSpec("yuepai").setContent(R.id.favoritem_tab1).setIndicator("约拍"));
         mTabHost.addTab(mTabHost.newTabSpec("huodong").setContent(R.id.favoritem_tab2).setIndicator("作品"));
         //mTabHost.addTab(mTabHost.newTabSpec("works").setContent(R.id.favoritem_works).setIndicator("作品"));
+        mTabHost.setCurrentTab(0);
+        //初始化Tab的颜色，和字体的颜色
+        updateTab(mTabHost);
     }
 
     //获得收藏信息

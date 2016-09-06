@@ -2,7 +2,8 @@
 <!--我的粉丝单项布局-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp">
 
     <ImageButton
         android:id="@+id/follower_user_image"
@@ -14,9 +15,11 @@
         android:background="@drawable/shape_round"/>
 
     <TextView
+        android:textColor="@color/ee_black"
         android:id="@+id/follower_user_name"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:text="我的粉丝"
+        android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -26,7 +29,7 @@
     <Button
         android:textColor="@color/aa_black"
         android:text="关 注"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:id="@+id/followingbtn"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"

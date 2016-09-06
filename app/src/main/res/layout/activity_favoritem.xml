@@ -14,7 +14,7 @@
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/gold">
+            android:tabStripEnabled="false">
         </TabWidget>
 
         <FrameLayout
@@ -27,15 +27,17 @@
                 android:layout_height="wrap_content">
             </android.support.v4.view.ViewPager>
             <TextView
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:id="@+id/favoritem_tab1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/ee_black"/>
             <TextView
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:id="@+id/favoritem_tab2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/ee_black"/>
         </FrameLayout>
     </LinearLayout>
 

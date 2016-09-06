@@ -1,5 +1,7 @@
 package com.example.pc.shacus.Activity;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
 
 import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -97,6 +100,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             public void onPageSelected(int position) {
 
                 mTabWidget.setCurrentTab(position);
+                mTabHost.setCurrentTab(position);
+                updateTab(mTabHost);
                 if (position == 0) {
                     index = StatusCode.REQUEST_REGIST_ORDER;
                     initOrderInfo();
@@ -121,14 +126,17 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 if (tabId.equals("tab1")) { //报名中
                     viewPager.setCurrentItem(0);
                     index = StatusCode.REQUEST_REGIST_ORDER;
+                    updateTab(mTabHost);
                     initOrderInfo();
                 } else if (tabId.equals("tab2")) { //进行中
                     viewPager.setCurrentItem(1);
                     index = StatusCode.REQUEST_DOING_ORDER;
+                    updateTab(mTabHost);
                     initOrderInfo();
                 } else {  //已完成
                     viewPager.setCurrentItem(2);
                     index = StatusCode.REQUEST_DONE_ORDER;
+                    updateTab(mTabHost);
                     initOrderInfo();
                 }
             }
@@ -154,7 +162,30 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
         mTabHost.addTab(mTabHost.newTabSpec("tab1").setContent(R.id.order_tab1).setIndicator("报名中"));
         mTabHost.addTab(mTabHost.newTabSpec("tab2").setContent(R.id.order_tab2).setIndicator("进行中"));
         mTabHost.addTab(mTabHost.newTabSpec("tab3").setContent(R.id.order_tab3).setIndicator("已完成"));
+        mTabHost.setCurrentTab(0);
+        //初始化Tab的颜色，和字体的颜色
+        updateTab(mTabHost);
 
+    }
+
+    private void updateTab(TabHost tabHost){
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++)
+        {
+            View view = tabHost.getTabWidget().getChildAt(i);
+            if (tabHost.getCurrentTab() == i)
+            {
+                //选中
+                //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
+                view.setBackgroundColor(Color.parseColor("#55E6BF66"));
+
+            }
+            else
+            {
+                //不选中
+                //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
+                view.setBackgroundColor(Color.parseColor("#E6BF66"));
+            }
+        }
     }
 
     //初始化viewPager

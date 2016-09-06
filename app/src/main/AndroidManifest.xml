@@ -81,7 +81,8 @@
         <activity android:name=".Activity.FavoritemActivity"/>
         <activity android:name=".Activity.CoursesActivity"/>
         <activity android:name=".Activity.WorksActiviy"/>
-        <activity android:name=".Activity.OrdersActivity"/>
+        <activity android:name=".Activity.OrdersActivity">
+        </activity>
         <activity android:name=".Activity.ShareActivity"/>
         <activity android:name=".Activity.SettingsActivity"/>
         <activity android:name=".Activity.CoursesActivity_item"/>
