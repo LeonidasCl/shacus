@@ -32,7 +32,8 @@ public class ImagePagerAdapter extends FragmentStatePagerAdapter {
 	public int getItemPosition(Object object) {
 
 		return PagerAdapter.POSITION_NONE;
-			}
+
+	}
 	public void changeList(List<String>list){
 		this.list=list;
 	}

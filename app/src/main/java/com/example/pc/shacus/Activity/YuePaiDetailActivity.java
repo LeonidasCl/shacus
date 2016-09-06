@@ -3,6 +3,7 @@ package com.example.pc.shacus.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,11 +16,16 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Adapter.ImagePagerAdapter;
 import com.example.pc.shacus.Adapter.JoinUserGridAdapter;
+import com.example.pc.shacus.Adapter.PhotoViewAttacher;
+import com.example.pc.shacus.Adapter.UploadViewPager;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
@@ -46,7 +52,7 @@ import java.util.Map;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 
-public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface{
+public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     HorizontalScrollView horizontalScrollView;
     GridView gridView;
@@ -54,11 +60,11 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     private int num_per_page = 5; // 每行显示个数
     FilterMenuLayout filterMenu;
     private int width;//每列宽度
-    //private int total = 10;//列数
     private BGABanner mSideZoomBanner;
     private NetRequest request;
-    //private ImageView loadinganim;
-    //private AnimationDrawable animator;
+    private ImagePagerAdapter imagePagerAdapter;
+    private UploadViewPager image_viewpager;
+
 
     FilterMenu.OnMenuChangeListener listener = new FilterMenu.OnMenuChangeListener() {
         @Override
@@ -131,7 +137,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
         }
     };
-
+    private RelativeLayout display_big_image_layout;
     private TextView textName;
     private TextView textTitle;
     private Handler handler;
@@ -146,6 +152,9 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     private String typo;
     private int isSponsor;
     private UserModel userModel;
+    private int viewpagerPosition;
+    private TextView position_in_total;
+    private boolean isBigImageShow=false;
 
 
     @Override
@@ -180,6 +189,10 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         map.put("ACid", 7);
 
         setContentView(R.layout.activity_yue_pai_detail);
+        mSideZoomBanner = (BGABanner) findViewById(R.id.banner_detail_zoom);
+        display_big_image_layout=(RelativeLayout)findViewById(R.id.display_detail_image);
+        position_in_total=(TextView)findViewById(R.id.position_total);
+        image_viewpager=(UploadViewPager)findViewById(R.id.image_detail_viewpager);
 
         if (typo.equals("yuepai"))
         request.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -229,7 +242,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     horizontalScrollView.setHorizontalScrollBarEnabled(false);// 隐藏滚动条
                     dwidth =(int)getScreenDen();width=100;num_per_page = dwidth / width;
                     setUserValue(data.getAPregisters());
-                    mSideZoomBanner = (BGABanner) findViewById(R.id.banner_detail_zoom);
+
                     mSideZoomBanner.setViews(getPics(data.getAPimgurl().size(), data.getAPimgurl()));
                     filterMenu= (FilterMenuLayout)findViewById(R.id.detail_filter_menu);
                     filterMenu.setVisibility(View.VISIBLE);
@@ -289,7 +302,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     horizontalScrollView.setHorizontalScrollBarEnabled(false);// 隐藏滚动条
                     dwidth =(int)getScreenDen();width=100;num_per_page = dwidth / width;
                     setUserValue(data.getACregister());
-                    mSideZoomBanner = (BGABanner) findViewById(R.id.banner_detail_zoom);
+                    //mSideZoomBanner = (BGABanner) findViewById(R.id.banner_detail_zoom);
                     mSideZoomBanner.setViews(getPics(data.getACimageurl().size(), data.getACimageurl()));
                     filterMenu= (FilterMenuLayout)findViewById(R.id.detail_filter_menu);
                     filterMenu.setVisibility(View.VISIBLE);
@@ -330,6 +343,15 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             }
         };
 
+        mSideZoomBanner.setDelegate(new BGABanner.Delegate() {
+        @Override
+        public void onClickBannerItem(int position) {
+                    //Toast.makeText(APP.context, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT).show();
+                    showImageViewPager(position, data.getACimageurl(), data.getACimageurl(), "local", "upload");
+                    viewpagerPosition = position - 1;
+                }
+            }
+        );
 
     }
 
@@ -499,5 +521,64 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         msg.what=StatusCode.REQUEST_FAILURE;
         msg.obj="网络请求失败";
         handler.sendMessage(msg);
+    }
+
+    public void showImageViewPager(int position,
+                                   final List<String>pictureUrlList,final List<String>localUrlList,
+                                   final String flag,final String str){
+        List<String>urlList;
+        if(flag.equals("net")){
+            urlList=pictureUrlList;
+        }else{
+            urlList=localUrlList;
+        }
+        display_big_image_layout.setVisibility(View.VISIBLE);
+        imagePagerAdapter=new ImagePagerAdapter(this.getSupportFragmentManager(),urlList);
+        image_viewpager.setAdapter(imagePagerAdapter);
+        imagePagerAdapter.notifyDataSetChanged();
+        image_viewpager.setOffscreenPageLimit(imagePagerAdapter.getCount());
+        image_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                viewpagerPosition = position;
+                if (flag.equals("net")) {
+                    position_in_total.setText((position + 1) + "/" + pictureUrlList.size());
+                } else {
+                    position_in_total.setText((position + 1) + "/" + localUrlList.size());
+                }
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+            }
+        });
+        if(str.equals("display")){
+            image_viewpager.setCurrentItem(position);
+
+            position_in_total.setText((position+1)+"/"+urlList.size());
+            isBigImageShow=true;
+
+        }else{
+            image_viewpager.setCurrentItem(position - 1);
+
+            position_in_total.setText((position)+"/"+urlList.size());
+            isBigImageShow=true;
+
+        }
+        PhotoViewAttacher.setOnSingleTapToPhotoViewListener(this);
+    }
+
+    @Override
+    public void onDismissBigPhoto() {
+        display_big_image_layout.setVisibility(View.GONE);
+        isBigImageShow=false;
     }
 }

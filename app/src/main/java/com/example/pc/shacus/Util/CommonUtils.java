@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -83,6 +84,7 @@ public class CommonUtils {
 		Log.d("gaolei", "displayRoundCorner20Image---------------");
 	}
 
+	//加载原图
 	public void displayOriginalImage(String url, ImageView view) {
 		if (view == null) {
 			return;
@@ -96,17 +98,23 @@ public class CommonUtils {
 		mImageLoader.displayImage(CommonUrl.imageUrl + url, view, options);
 	}
 
-	public void displayLowQualityInImage(String url, ImageView view) {
+	//加载网络图片
+	public void displayNetworkImage(String url, ImageView view) {
 		if (view == null) {
 			return;
 		}
-		DisplayImageOptions options = new DisplayImageOptions.Builder()
+		/*DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.cacheInMemory(true)
 				.cacheOnDisk(true).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
 				.bitmapConfig(Bitmap.Config.RGB_565)
 				.showImageOnLoading(R.drawable.image_show_default)
 				.build();
-		mImageLoader.displayImage(CommonUrl.imageUrl + url, view, options);
+		mImageLoader.displayImage(CommonUrl.imageUrl + url, view, options);*/
+		Glide.with(APP.context)
+				.load(url).centerCrop()
+				.placeholder(R.drawable.holder)
+				.error(R.drawable.loading_error)
+				.into(view);
 	}
 
 	public void displayCircleImage(String url, ImageView view, String str) {
