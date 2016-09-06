@@ -147,7 +147,7 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                 FragmentManager fm5=getFragmentManager();
                 FragmentTransaction tx5=fm5.beginTransaction();
                 tx5.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                tx5.replace(R.id.frameLayout,adviceFragment,"UserManage");
+                tx5.replace(R.id.frameLayout,adviceFragment,"Advice");
                 tx5.addToBackStack(null);
                 tx5.commit();
                 break;
