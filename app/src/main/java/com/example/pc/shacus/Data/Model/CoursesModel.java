@@ -9,7 +9,17 @@ public class CoursesModel  implements Serializable {
     private String image;
     private int readNum;
     private String title;
-    private String courseurl;
+    private Boolean collet;
+    //private String courseurl;
+
+    public Boolean getCollet() {
+        return collet;
+    }
+
+    public void setCollet(Boolean collet) {
+        this.collet = collet;
+    }
+
 
     public int getReadNum() {
         return readNum;
@@ -37,13 +47,13 @@ public class CoursesModel  implements Serializable {
 
 
 
-    public String getCourseurl() {
-        return courseurl;
-    }
-
-    public void setCourseurl(String courseurl) {
-        this.courseurl = courseurl;
-    }
+//    public String getCourseurl() {
+//        return courseurl;
+//    }
+//
+//    public void setCourseurl(String courseurl) {
+//        this.courseurl = courseurl;
+//    }
 
 
 }

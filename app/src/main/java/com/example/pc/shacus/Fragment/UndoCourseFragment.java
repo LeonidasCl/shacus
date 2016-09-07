@@ -1,34 +1,35 @@
-package com.example.pc.shacus.Activity;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+package com.example.pc.shacus.Fragment;
+
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
 import com.example.pc.shacus.Adapter.CourseListAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
+
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by 孙启凡 on 2016/9/5.
+ * Created by 启凡 on 2016/9/6.
  */
-public class OtherCourseActivity  extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
-
-
-    private ImageButton returnButton;
-    private ImageButton imageButton1;
-    private TextView title;
+public class UndoCourseFragment extends Fragment implements NetworkCallbackInterface.NetRequestIterface{
 
     private RecyclerView recyclerView1;
     private CourseListAdapter courseListAdapter1;
@@ -38,56 +39,40 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
     private ACache aCache;
     private NetRequest netRequest;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_othercourse);
-        returnButton=(ImageButton)findViewById(R.id.returnbutton2);
-        title=(TextView)findViewById(R.id.ownerName2);
-        imageButton1=(ImageButton)findViewById(R.id.imagebutton);
-        netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
-        aCache = ACache.get(OtherCourseActivity.this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view=inflater.inflate(R.layout.fragment_undocourse,container,false);
+        recyclerView1=(RecyclerView)view.findViewById(R.id.undorecyclerView);
+        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        UserModel user = null;
+        Map map = new HashMap<>();
+        String userId = null;
+        String authkey = null;
 
+        user = loginModel.getUserModel();
+        userId = user.getId();
+        authkey = user.getAuth_key();
+        initInfo();
 
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        imageButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        recyclerView1 = (RecyclerView)findViewById(R.id.otherrecyclerView);
-
-
+        return view;
     }
 
-
-    //获得收藏信息
     private void initInfo() {
         courseItemList1 = new ArrayList<>();
-//        CoursesModel itemModel = new CoursesModel();
-//                        itemModel.setTitle("wddddd");
-//                        itemModel.setReadNum(88);
-//                        itemModel.setImage("ssss");
-//                        courseItemList1.add(itemModel);
+
 
         layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView1.setLayoutManager(layoutManager1);
 
-        courseListAdapter1 = new CourseListAdapter(courseItemList1, OtherCourseActivity.this);
+        courseListAdapter1 = new CourseListAdapter(courseItemList1, getActivity());
         recyclerView1.setAdapter(courseListAdapter1);
 
     }
 
     @Override
-    public void requestFinish (String result, String requestUrl)throws JSONException {
-//        if(requestUrl.equals(CommonUrl.getFavorInfo)){//返回收藏信息
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+        //  if(requestUrl.equals(CommonUrl.getFavorInfo)){//返回收藏信息
 //            JSONObject object = new JSONObject(result);
 //            int code = Integer.valueOf(object.getString("code"));
 //            Message msg = new Message();
@@ -102,6 +87,8 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
 //                        ItemModel itemModel = new ItemModel();
 //                        itemModel.setTitle(favor.getString("APtitle"));
 //                        itemModel.setId(favor.getInt("APid"));
+//                        itemModel.setUserImage(favor.getString("Userimg"));
+//                        itemModel.setStartTime(favor.getString("APstartT"));
 //                        itemModel.setLikeNum(favor.getInt("APlikeN"));
 //                        itemModel.setImage(favor.getString("APimgurl"));
 //                        itemModel.setRegistNum(favor.getInt("APregistN"));
@@ -118,10 +105,7 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
     }
 
     @Override
-    public void exception (IOException e, String requestUrl){
+    public void exception(IOException e, String requestUrl) {
 
     }
-
-
-
 }

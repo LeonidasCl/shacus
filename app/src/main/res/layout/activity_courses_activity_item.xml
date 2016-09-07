@@ -5,13 +5,12 @@
     android:layout_height="wrap_content"
     tools:context="com.example.pc.shacus.Activity.CoursesActivity_item"
     android:gravity="top"
-    android:background="@drawable/btn_focus_bg"
+    android:background="@color/aa_black"
     android:descendantFocusability="blocksDescendants"
     >
 
-
-    <VideoView
-        android:id="@+id/ItemImage"
+    <ImageView
+        android:id="@+id/ItemVideo"
         android:src="@mipmap/ic_launcher"
         android:layout_width="100dp"
         android:layout_height="100dp" />
@@ -20,26 +19,36 @@
         android:id="@+id/ItemName"
         android:text="xxxx(视频教程)"
         android:textSize="20sp"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/CollectItem"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/transparent"
+        android:src="@drawable/button_pop_down"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignStart="@+id/ItemName" />
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignBottom="@+id/ItemViewNum"
+        android:layout_toEndOf="@+id/ItemName"
+        android:id="@+id/imageView" />
 
     <TextView
         android:id="@+id/ItemViewNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="111111"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="5sp"
-        android:layout_alignBottom="@+id/ItemImage"/>
+        android:layout_marginRight="30sp"
+        android:layout_alignBottom="@+id/ItemVideo"/>
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@mipmap/ic_launcher"
-        android:layout_alignLeft="@id/ItemViewNum"
-        android:layout_marginLeft="30dp"/>
 </RelativeLayout>
