@@ -22,6 +22,7 @@ public class CommonUrl {
 	public static final String getFavorInfo = url + "user/favorite"; //获取收藏
 
 	public static final String getOrdersInfo = url + "user/indent"; //获取用户订单
+	public static final String courseInfo = url+"course/ask";//获取我的课程
 
 	public static final String getHuodongList=url+"Activity/ask";
 	public static String joinYuepai=url+"appointment/regist";//约拍报名

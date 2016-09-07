@@ -1,5 +1,7 @@
 package com.example.pc.shacus.Activity;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -13,9 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
 
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ItemModel;
@@ -26,6 +31,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +47,7 @@ import java.util.Map;
  * Created by 崔颖华 on 2016/9/3.
  */
 
-public class OrdersActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
+public class OrdersActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface ,View.OnClickListener{
 
 
     private ViewPager viewPager = null;
@@ -69,12 +75,19 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
     private NetRequest netRequest;
     public int index = StatusCode.REQUEST_REGIST_ORDER ;
     int spanCount = 2;
+    View view_1;
+    View view_2;
+    View view_3;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+
+        TextView textView = (TextView) findViewById(R.id.orders_title);
+        textView.setText("我的订单");
+
         netRequest = new NetRequest(OrdersActivity.this,OrdersActivity.this);
         aCache = ACache.get(OrdersActivity.this);
 
@@ -97,6 +110,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             public void onPageSelected(int position) {
 
                 mTabWidget.setCurrentTab(position);
+                mTabHost.setCurrentTab(position);
+                updateTab(mTabHost);
                 if (position == 0) {
                     index = StatusCode.REQUEST_REGIST_ORDER;
                     initOrderInfo();
@@ -121,18 +136,29 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 if (tabId.equals("tab1")) { //报名中
                     viewPager.setCurrentItem(0);
                     index = StatusCode.REQUEST_REGIST_ORDER;
+                    updateTab(mTabHost);
                     initOrderInfo();
                 } else if (tabId.equals("tab2")) { //进行中
                     viewPager.setCurrentItem(1);
                     index = StatusCode.REQUEST_DOING_ORDER;
+                    updateTab(mTabHost);
                     initOrderInfo();
                 } else {  //已完成
                     viewPager.setCurrentItem(2);
                     index = StatusCode.REQUEST_DONE_ORDER;
+                    updateTab(mTabHost);
                     initOrderInfo();
                 }
             }
 
+        });
+
+        ImageButton imageButton = (ImageButton) findViewById(R.id.orders_backbtn);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
         //解决开始时不显示viewPager
@@ -154,16 +180,39 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
         mTabHost.addTab(mTabHost.newTabSpec("tab1").setContent(R.id.order_tab1).setIndicator("报名中"));
         mTabHost.addTab(mTabHost.newTabSpec("tab2").setContent(R.id.order_tab2).setIndicator("进行中"));
         mTabHost.addTab(mTabHost.newTabSpec("tab3").setContent(R.id.order_tab3).setIndicator("已完成"));
+        mTabHost.setCurrentTab(0);
+        //初始化Tab的颜色，和字体的颜色
+        updateTab(mTabHost);
 
+    }
+
+    private void updateTab(TabHost tabHost){
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++)
+        {
+            View view = tabHost.getTabWidget().getChildAt(i);
+            if (tabHost.getCurrentTab() == i)
+            {
+                //选中
+                //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
+                view.setBackgroundColor(Color.parseColor("#55E6BF66"));
+
+            }
+            else
+            {
+                //不选中
+                //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
+                view.setBackgroundColor(Color.parseColor("#E6BF66"));
+            }
+        }
     }
 
     //初始化viewPager
     public void initViewPagerContainter(){
 
         //建立两个view的样式，并找到他们
-        View view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
-        View view_2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
-        View view_3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+        view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+        view_2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+        view_3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
 
         //加入ViewPage的容器
         viewContainter.add(view_1);
@@ -248,9 +297,48 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerView3.setLayoutManager(layoutManager3);
                     break;
                 }
+                case StatusCode.REQUEST_ORDER_ERROR:
+                {
+                    CommonUtils.getUtilInstance().showToast(APP.context, "出错啦~请重试");
+                    break;
+
+                }
+                case 111: //没有已报名
+                {
+                    TextView textView = (TextView) view_1.findViewById(R.id.none_item);
+                    textView.setVisibility(View.VISIBLE);
+                    recyclerView1.setVisibility(View.INVISIBLE);
+                    textView.setText("没有报名的活动~快去“发现”看看吧");
+                    break;
+                }
+                case 222: //没有正在进行
+                {
+                    TextView textView = (TextView) view_2.findViewById(R.id.none_item);
+                    textView.setVisibility(View.VISIBLE);
+                    recyclerView1.setVisibility(View.INVISIBLE);
+                    textView.setText("暂无正在进行的活动~快去“发现”看看吧");
+                    break;
+                }
+                case 333: //没有已完成
+                {
+                    TextView textView = (TextView) view_3.findViewById(R.id.none_item);
+                    textView.setVisibility(View.VISIBLE);
+                    recyclerView1.setVisibility(View.INVISIBLE);
+                    textView.setText("暂无已完成");
+                    break;
+                }
+                case 88:{
+                    CommonUtils.getUtilInstance().showToast(APP.context, "网络请求超时，请重试");
+                    break;
+                }
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
 
     //内部类实现viewpager的适配器
@@ -291,9 +379,10 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             switch (code){
                 case StatusCode.REQUEST_REGIST_SUCCESS: //请求已报名的成功
                 {
+                    int index = 0;
                     JSONObject jsonObject = object.getJSONObject("contents");
 
-                    if(jsonObject.getJSONArray("myappointment") != null){
+                    if(jsonObject.getJSONArray("myappointment").length() != 0){
                         JSONArray jsonArray1 = jsonObject.getJSONArray("myappointment");
                         for (int i = 0; i < jsonArray1.length();i++){
                             JSONObject myat = jsonArray1.getJSONObject(i);
@@ -305,12 +394,13 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            Log.d("oooooooooooo", ordersModel.getTitle());
                             ordersItemList1.add(ordersModel);
                         }
+                    }else{
+                        index++;
                     }
 
-                    if(jsonObject.getJSONArray("entryappointment")!= null){
+                    if(jsonObject.getJSONArray("entryappointment").length()!= 0){
                         JSONArray jsonArray2 = jsonObject.getJSONArray("entryappointment");
                         for (int i = 0; i < jsonArray2.length();i++){
                             JSONObject myat = jsonArray2.getJSONObject(i);
@@ -324,9 +414,11 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
                             ordersItemList1.add(ordersModel);
                         }
+                    }else{
+                        index++;
                     }
 
-                    if(jsonObject.getJSONArray("activity") != null){
+                    if(jsonObject.getJSONArray("activity").length() != 0){
                         JSONArray jsonArray3 = jsonObject.getJSONArray("activity");
                         for (int i = 0; i < jsonArray3.length();i++){
                             JSONObject myat = jsonArray3.getJSONObject(i);
@@ -339,19 +431,27 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
                             ordersItemList1.add(ordersModel);
                         }
+                    }else{
+                        index++;
                     }
-                    msg.what = StatusCode.REQUEST_REGIST_SUCCESS;
-                    handler.sendMessage(msg);
 
-                    break;
-
-
+                    if(index != 3){
+                        msg.what = StatusCode.REQUEST_REGIST_SUCCESS;
+                        handler.sendMessage(msg);
+                        break;
+                    }
+                    else{
+                        msg.what = 111;//没有已报名的订单
+                        handler.sendMessage(msg);
+                        break;
+                    }
 
                 }
                 case StatusCode.REQUEST_DOING_SUCCESS: //请求正在进行中成功
                 {
+                    int index = 0;
                     JSONObject jsonObject = object.getJSONObject("contents");
-                    if(jsonObject.getJSONArray("myappointment") != null){
+                    if(jsonObject.getJSONArray("myappointment").length() != 0){
                         JSONArray jsonArray1 = jsonObject.getJSONArray("myappointment");
                         for (int i = 0; i < jsonArray1.length();i++) {
                             JSONObject myat = jsonArray1.getJSONObject(i);
@@ -365,9 +465,9 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
                             ordersItemList2.add(ordersModel);
                         }
-                    }
+                    }else index++;
 
-                    if(jsonObject.getJSONArray("entryappointment") != null){
+                    if(jsonObject.getJSONArray("entryappointment").length() != 0){
                         JSONArray jsonArray2 = jsonObject.getJSONArray("entryappointment");
                         for (int i = 0; i < jsonArray2.length();i++){
                             JSONObject myat = jsonArray2.getJSONObject(i);
@@ -381,9 +481,9 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
                             ordersItemList2.add(ordersModel);
                         }
-                    }
+                    }else index++;
 
-                    if(jsonObject.getJSONArray("activity") != null){
+                    if(jsonObject.getJSONArray("activity").length() != 0){
                         JSONArray jsonArray3 = jsonObject.getJSONArray("activity");
                         for (int i = 0; i < jsonArray3.length();i++){
                             JSONObject myat = jsonArray3.getJSONObject(i);
@@ -396,17 +496,24 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
                             ordersItemList2.add(ordersModel);
                         }
+                    }else index++;
+                    if(index != 3){
+                        msg.what = StatusCode.REQUEST_DOING_SUCCESS;
+                        handler.sendMessage(msg);
+                        break;
+                    }else{
+                        msg.what = 222;//没有正在进行的订单
+                        handler.sendMessage(msg);
+                        break;
                     }
 
-                    msg.what = StatusCode.REQUEST_DOING_SUCCESS;
-                    handler.sendMessage(msg);
-                    break;
 
                 }
                 case StatusCode.REQUEST_DONE_SUCCESS: //请求已完成成功
                 {
+                    int index = 0;
                     JSONObject jsonObject = object.getJSONObject("contents");
-                    if(jsonObject.getJSONArray("myappointment") != null){
+                    if(jsonObject.getJSONArray("myappointment").length() != 0){
                         JSONArray jsonArray1 = jsonObject.getJSONArray("myappointment");
                         for (int i = 0; i < jsonArray1.length();i++){
                             JSONObject myat = jsonArray1.getJSONObject(i);
@@ -420,9 +527,9 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
                             ordersItemList3.add(ordersModel);
                         }
-                    }
+                    }else index++;
 
-                    if (jsonObject.getJSONArray("entryappointment")!= null){
+                    if (jsonObject.getJSONArray("entryappointment").length()!= 0){
                         JSONArray jsonArray2 = jsonObject.getJSONArray("entryappointment");
                         for (int i = 0; i < jsonArray2.length();i++){
                             JSONObject myat = jsonArray2.getJSONObject(i);
@@ -437,9 +544,9 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersItemList3.add(ordersModel);
                         }
 
-                    }
+                    }else index++;
 
-                    if(jsonObject.getJSONArray("activity") != null){
+                    if(jsonObject.getJSONArray("activity").length() != 0){
                         JSONArray jsonArray3 = jsonObject.getJSONArray("activity");
                         for (int i = 0; i < jsonArray3.length();i++){
                             JSONObject myat = jsonArray3.getJSONObject(i);
@@ -452,16 +559,23 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
                             ordersItemList3.add(ordersModel);
                         }
+                    }else index++;
+                    if(index!=3) {
+                        msg.what = StatusCode.REQUEST_DONE_SUCCESS;
+                        handler.sendMessage(msg);
+                        break;
+                    }else{
+                        msg.what = 333;
+                        handler.sendMessage(msg);
+                        break;
                     }
-                    msg.what = StatusCode.REQUEST_DONE_SUCCESS;
-                    handler.sendMessage(msg);
-
-                    break;
 
                 }
                 case StatusCode.REQUEST_ORDER_ERROR: //请求订单授权码错误
                 {
-
+                    msg.what = StatusCode.REQUEST_ORDER_ERROR;
+                    handler.sendMessage(msg);
+                    break;
                 }
             }
 
@@ -471,6 +585,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
 
     @Override
     public void exception(IOException e, String requestUrl) {
-
+        Message message = new Message();
+        message.what = 88;
+        handler.sendMessage(message);
     }
 }

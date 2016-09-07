@@ -7,6 +7,19 @@ import java.io.Serializable;
  */
 public class CoursesModel  implements Serializable {
     private String image;
+    private int readNum;
+    private String title;
+    private Boolean collet;
+    //private String courseurl;
+
+    public Boolean getCollet() {
+        return collet;
+    }
+
+    public void setCollet(Boolean collet) {
+        this.collet = collet;
+    }
+
 
     public int getReadNum() {
         return readNum;
@@ -32,18 +45,15 @@ public class CoursesModel  implements Serializable {
         this.image = image;
     }
 
-    private int readNum;
-    private String title;
 
-    public String getCoureseurl() {
-        return coureseurl;
-    }
 
-    public void setCoureseurl(String coureseurl) {
-        this.coureseurl = coureseurl;
-    }
-
-    private String coureseurl;
+//    public String getCourseurl() {
+//        return courseurl;
+//    }
+//
+//    public void setCourseurl(String courseurl) {
+//        this.courseurl = courseurl;
+//    }
 
 
 }

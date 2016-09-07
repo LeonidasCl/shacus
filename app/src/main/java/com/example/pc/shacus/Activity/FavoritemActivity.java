@@ -1,5 +1,7 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -12,10 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.RecyclerViewAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ItemModel;
@@ -26,6 +32,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +73,8 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
     private NetRequest netRequest;
     public int index = StatusCode.REQUEST_FAVOR_YUEPAI;
     int spanCount = 2;
+    View view_1;
+    View view_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +104,8 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             @Override
             public void onPageSelected(int position) {
                 mTabWidget.setCurrentTab(position);
+                mTabHost.setCurrentTab(position);
+                updateTab(mTabHost);
                 if(position == 0) index = StatusCode.REQUEST_FAVOR_YUEPAI;
                 //else index =
             }
@@ -107,6 +118,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+                updateTab(mTabHost);
                 if (tabId.equals("yuepai")){
                     viewPager.setCurrentItem(0);
                     index = StatusCode.REQUEST_FAVOR_YUEPAI;
@@ -123,13 +135,41 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 //        mTabHost.setCurrentTab(1);
 //        mTabHost.setCurrentTab(0);
 
+        ImageButton imageButton = (ImageButton) findViewById(R.id.favor_backbtn);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+
+    private void updateTab(TabHost tabHost){
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++)
+        {
+            View view = tabHost.getTabWidget().getChildAt(i);
+            if (tabHost.getCurrentTab() == i)
+            {
+                //选中
+                //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
+                view.setBackgroundColor(Color.parseColor("#55E6BF66"));
+
+            }
+            else
+            {
+                //不选中
+                //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
+                view.setBackgroundColor(Color.parseColor("#E6BF66"));
+            }
+        }
     }
 
     //初始化viewPager
     private void initViewPagerContainter() {
         //建立三个view，并找到对应的
-        View view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
-        View view_2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+        view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+        view_2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
 //        View view3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_favoritem_list,null);
         //加入ViewPager的容器
         viewContainter.add(view_1);
@@ -156,6 +196,9 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         mTabHost.addTab(mTabHost.newTabSpec("yuepai").setContent(R.id.favoritem_tab1).setIndicator("约拍"));
         mTabHost.addTab(mTabHost.newTabSpec("huodong").setContent(R.id.favoritem_tab2).setIndicator("作品"));
         //mTabHost.addTab(mTabHost.newTabSpec("works").setContent(R.id.favoritem_works).setIndicator("作品"));
+        mTabHost.setCurrentTab(0);
+        //初始化Tab的颜色，和字体的颜色
+        updateTab(mTabHost);
     }
 
     //获得收藏信息
@@ -190,13 +233,31 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
+                case StatusCode.REQUEST_FAVORYUEPAI_NONE:{
+                    TextView textView = (TextView) view_1.findViewById(R.id.none_item);
+                    textView.setVisibility(View.VISIBLE);
+                    recyclerView1.setVisibility(View.INVISIBLE);
+                    textView.setText("没有收藏~快去“发现”看看吧");
+                    break;
+                }
                 case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS:
                 {
+                    view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
                     layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView1.setLayoutManager(layoutManager1);
 
                     recyclerViewAdapter1 = new RecyclerViewAdapter(favorItemList1,FavoritemActivity.this);
                     recyclerView1.setAdapter(recyclerViewAdapter1);
+                    break;
+                }
+                case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS:
+                {
+                    CommonUtils.getUtilInstance().showToast(APP.context, "已取消收藏");
+                    break;
+                }
+                case 88:{
+                    CommonUtils.getUtilInstance().showToast(APP.context, "网络请求超时，请重试");
+                    break;
                 }
             }
         }
@@ -257,33 +318,45 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
             Message msg = new Message();
-
             switch (code){
-                case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS://请求收藏的约拍成功
-                {
-                    JSONArray content = object.getJSONArray("contents");
-                    for(int i = 0;i < content.length();i++){
-                        JSONObject favor = content.getJSONObject(i);
-                        ItemModel itemModel = new ItemModel();
-                        itemModel.setTitle(favor.getString("APtitle"));
-                        itemModel.setId(favor.getInt("APid"));
-                        itemModel.setUserImage(favor.getString("Userimg"));
-                        itemModel.setStartTime(favor.getString("APstartT"));
-                        itemModel.setLikeNum(favor.getInt("APlikeN"));
-                        itemModel.setImage(favor.getString("APimgurl"));
-                        itemModel.setRegistNum(favor.getInt("APregistN"));
-                        favorItemList1.add(itemModel);
-                    }
-                    msg.what = StatusCode.REQUEST_FAVORYUEPAI_SUCCESS;
+                case StatusCode.REQUEST_FAVORYUEPAI_NONE:{//用户未收藏任何约拍
+                    msg.what = StatusCode.REQUEST_FAVORYUEPAI_NONE;
                     handler.sendMessage(msg);
                     break;
                 }
-                /*case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS://请求取消收藏约拍成功
+                case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS://请求收藏的约拍成功
+                {
+                    JSONArray content = object.getJSONArray("contents");
+                    if(content.length() != 0){
+                        for(int i = 0;i < content.length();i++){
+                            JSONObject favor = content.getJSONObject(i);
+                            ItemModel itemModel = new ItemModel();
+                            itemModel.setTitle(favor.getString("APtitle"));
+                            itemModel.setId(favor.getInt("APid"));
+                            itemModel.setUserImage(favor.getString("Userimg"));
+                            itemModel.setStartTime(favor.getString("APstartT"));
+                            itemModel.setLikeNum(favor.getInt("APlikeN"));
+                            itemModel.setImage(favor.getString("APimgurl"));
+                            itemModel.setRegistNum(favor.getInt("APregistN"));
+                            favorItemList1.add(itemModel);
+                        }
+                        msg.what = StatusCode.REQUEST_FAVORYUEPAI_SUCCESS;
+                        handler.sendMessage(msg);
+                        break;
+                    }
+                    else{
+                        msg.what = StatusCode.REQUEST_FAVORYUEPAI_NONE;
+                        handler.sendMessage(msg);
+                        break;
+                    }
+
+                }
+                case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS://请求取消收藏约拍成功
                 {
                     msg.what = StatusCode.REQUEST_CANCELYUEPAI_SUCCESS;
                     handler.sendMessage(msg);
                     break;
-                }*/
+                }
             }
 
         }
@@ -292,7 +365,9 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 
     @Override
     public void exception(IOException e, String requestUrl) {
-
+        Message message = new Message();
+        message.what = 88;
+        handler.sendMessage(message);
     }
 
 }

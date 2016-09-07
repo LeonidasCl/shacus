@@ -1,42 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost
-    android:id="@android:id/tabhost"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.pc.shacus.Activity.FavoritemActivity"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
-    <LinearLayout
+    android:orientation="vertical">
+
+    <!--返回标题-->
+    <RelativeLayout
+        android:background="@color/gold"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+
+        <TextView
+            android:id="@+id/orders_title"
+            android:textSize="20dp"
+            android:text="我的收藏"
+            android:textColor="@color/ee_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+
+        <ImageButton
+            android:id="@+id/favor_backbtn"
+            android:background="@color/gold"
+            android:src="@drawable/button_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+
+        <ImageButton
+            android:visibility="invisible"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.example.pc.shacus.Activity.FavoritemActivity"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TabWidget
-            android:id="@android:id/tabs"
+        android:layout_width="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/gold">
-        </TabWidget>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tabStripEnabled="false"
+                android:layout_weight="15">
+            </TabWidget>
 
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </android.support.v4.view.ViewPager>
-            <TextView
-                android:textSize="12sp"
-                android:id="@+id/favoritem_tab1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textSize="12sp"
-                android:id="@+id/favoritem_tab2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-    </LinearLayout>
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </android.support.v4.view.ViewPager>
+                <TextView
+                    android:textSize="14sp"
+                    android:id="@+id/favoritem_tab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/ee_black"/>
+                <TextView
+                    android:textSize="14sp"
+                    android:id="@+id/favoritem_tab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/ee_black"/>
+            </FrameLayout>
+        </LinearLayout>
 
-</TabHost>
+    </TabHost>
+</LinearLayout>

@@ -75,6 +75,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Activity.SignInActivity" />
         <activity android:name=".Activity.ChatActivity" />
         <activity android:name=".Activity.FollowActivity" />
@@ -87,6 +88,8 @@
         <activity android:name=".Activity.CoursesActivity_item" />
         <activity android:name=".Activity.OrdersItemActivity" />
         <activity android:name=".Activity.OtherUserActivity" />
+        <activity android:name=".Activity.OtherCourseActivity"/>
+
         <activity
             android:name=".Activity.TagAddActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
