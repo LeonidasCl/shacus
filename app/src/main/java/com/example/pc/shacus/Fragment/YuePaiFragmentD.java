@@ -138,7 +138,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
                     refreshLayout.setRefreshing(true);
                     bootCounter=0;
-                    personAdapter.refresh(bootData(GRAPHER));
+                    personAdapter.refresh(bootData(INIT));
                     personAdapter.notifyDataSetChanged();//直接调用BaseAdapter的notify
                     refreshLayout.setRefreshing(false);
                     Log.d("LQQQQQQQQQ", "button_grapher onTouchListener");
@@ -157,7 +157,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
                     refreshLayout.setRefreshing(true);
                     bootCounter = 0;
-                    personAdapter.refresh(bootData(MODEL));
+                    personAdapter.refresh(bootData(INIT));
                     personAdapter.notifyDataSetChanged();
                     refreshLayout.setRefreshing(false);
                     Log.d("LQQQQQQQQQ", "button_model onTouchListener");
@@ -241,13 +241,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                                 Log.d("LQQQQQ", info.getString("APid"));
                                 list.add(photo);
                             }
-                            bootCounter+=array.length();
+                            bootCounter += array.length();
                             personAdapter.add(list);
-                            Message msg=handler.obtainMessage();
-                            msg.what=10253;
+                            Message msg = handler.obtainMessage();
+                            msg.what = 10253;
                             handler.sendMessage(msg);
-                        }else {
-
+                        } else if(code.equals("10262")){
+                            Log.d("LQQQQQ", "加载失败");
                         }
 
                     }
@@ -266,7 +266,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
                     requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
                     Log.d("LQQQQQQQQQ", "request map");
-                }else if (type==MODEL){
+                } else if (type == MODEL) {
 
                 }
 
@@ -278,13 +278,24 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     private List<PhotographerModel> bootData(int type){
 
         if(type==INIT){
-            LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
-            List<PhotographerModel> persons=null;
-            persons =model.getPhotoList();
-            bootCounter+=persons.size();
-            Log.d("LQQQQQQQQQ", "bootdata");
-            getYuePaiFlag=true;
-            return persons;
+            if(isGrapher){
+                LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
+                List<PhotographerModel> persons=null;
+                persons =model.getPhotoList();
+                bootCounter+=persons.size();
+                Log.d("LQQQQQQQQQ", "bootdata");
+                getYuePaiFlag=true;
+                return persons;
+            } else if(!isGrapher){
+                LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
+                List<PhotographerModel> persons=null;
+                persons =model.getModelList();
+                bootCounter+=persons.size();
+                Log.d("LQQQQQQQQQ", "bootdata");
+                getYuePaiFlag=true;
+                return persons;
+
+            }
         }
 
 
@@ -315,7 +326,22 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     Message msg=handler.obtainMessage();
                     msg.what=10231;
                     handler.sendMessage(msg);
-                }
+                }else if (code.equals("10252")) {
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject info = array.getJSONObject(i);
+                        Gson gson = new Gson();
+                        PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
+                        Log.d("LQQQQQ", info.getString("APid"));
+                        list.add(photo);
+                    }
+                    bootCounter+=array.length();
+                    model.setModelList(list);
+                    cache.put("loginModel", model);
+                    personAdapter.add(list);
+                    Message msg=handler.obtainMessage();
+                    msg.what=10231;
+                    handler.sendMessage(msg);
+                }else if(code.equals("10261"));
 
             }
 
@@ -325,12 +351,21 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
         }, APP.context);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("type", "10231");
-        map.put("authkey", data.getAuth_key());
-        map.put("uid", data.getId());
-        requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
-        Log.d("LQQQQQQQQQ", "request map");
+        if(type==GRAPHER){
+            Map<String, Object> map = new HashMap<>();
+            map.put("type", "10231");
+            map.put("authkey", data.getAuth_key());
+            map.put("uid", data.getId());
+            requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
+            Log.d("LQQQQQQQQQ", "request map");
+        }else if(type==MODEL){
+            Map<String, Object> map = new HashMap<>();
+            map.put("type", "10235");
+            map.put("authkey", data.getAuth_key());
+            map.put("uid", data.getId());
+            requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
+            Log.d("LQQQQQQQQQ", "request map");
+        }
         return list;
 
     }
