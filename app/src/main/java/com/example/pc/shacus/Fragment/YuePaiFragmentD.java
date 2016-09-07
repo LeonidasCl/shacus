@@ -79,7 +79,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     personAdapter.notifyDataSetChanged();
                     getYuePaiFlag=true;
                     break;
-                case 10260:
+                case 10253:
                     personAdapter.notifyDataSetChanged();
                     getYuePaiFlag=true;
                     break;
@@ -244,7 +244,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             bootCounter+=array.length();
                             personAdapter.add(list);
                             Message msg=handler.obtainMessage();
-                            msg.what=10260;
+                            msg.what=10253;
                             handler.sendMessage(msg);
                         }else {
 
@@ -283,6 +283,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             persons =model.getPhotoList();
             bootCounter+=persons.size();
             Log.d("LQQQQQQQQQ", "bootdata");
+            getYuePaiFlag=true;
             return persons;
         }
 
