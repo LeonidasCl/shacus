@@ -140,7 +140,6 @@ public class FollowItemAdapter extends BaseAdapter{
     }
 
     private class ViewHolder{
-        /*关注已关注监听事件*/
         CircleImageView userImageSrc;
         TextView userNameText;
         TextView usersignatureText;

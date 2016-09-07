@@ -115,4 +115,7 @@ public interface StatusCode {
     int CANCEL_HUODONG_SUCCESS = 10361;
     int REQUEST_HUODONG_DETAIL_SUCCESS = 10371;
 
+    int REQUEST_BAOMING_YUEPAI_USER = 10245;//请求某个约拍报名人列表
+    int REQUEST_BAOMING_YUEPAI_USERSUCCESS = 10257; //成功返回选择报名人中报名人列表
+
 }

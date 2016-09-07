@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabWidget;
@@ -74,6 +76,10 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
     private ACache aCache;
     private NetRequest netRequest;
     public int index = StatusCode.REQUEST_REGIST_ORDER ;
+    private FrameLayout loading1;
+    private FrameLayout loading2;
+    private FrameLayout loading3;
+
     int spanCount = 2;
     View view_1;
     View view_2;
@@ -113,12 +119,15 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 mTabHost.setCurrentTab(position);
                 updateTab(mTabHost);
                 if (position == 0) {
+                    loading1.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_REGIST_ORDER;
                     initOrderInfo();
                 } else if (position == 1) {
+                    loading2.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_DOING_ORDER;
                     initOrderInfo();
                 } else {
+                    loading3.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_DONE_ORDER;
                     initOrderInfo();
                 }
@@ -135,16 +144,19 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             public void onTabChanged(String tabId) {
                 if (tabId.equals("tab1")) { //报名中
                     viewPager.setCurrentItem(0);
+                    loading1.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_REGIST_ORDER;
                     updateTab(mTabHost);
                     initOrderInfo();
                 } else if (tabId.equals("tab2")) { //进行中
                     viewPager.setCurrentItem(1);
+                    loading2.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_DOING_ORDER;
                     updateTab(mTabHost);
                     initOrderInfo();
                 } else {  //已完成
                     viewPager.setCurrentItem(2);
+                    loading3.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_DONE_ORDER;
                     updateTab(mTabHost);
                     initOrderInfo();
@@ -223,6 +235,9 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
         recyclerView2 = (RecyclerView) view_2.findViewById(R.id.recyclerView);
         recyclerView3 = (RecyclerView) view_3.findViewById(R.id.recyclerView);
 
+        loading1 = (FrameLayout) view_1.findViewById(R.id.wait_loading_layout);
+        loading2 = (FrameLayout) view_2.findViewById(R.id.wait_loading_layout);
+        loading3 = (FrameLayout) view_3.findViewById(R.id.wait_loading_layout);
         initOrderInfo();
     }
 
@@ -256,7 +271,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             {
                 map.put("uid",userId);
                 map.put("authkey",authkey);
-                map.put("type",StatusCode.REQUEST_DOING_ORDER);
+                map.put("type", StatusCode.REQUEST_DOING_ORDER);
                 netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
             }
             case StatusCode.REQUEST_DONE_ORDER:
@@ -279,6 +294,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerView1.setAdapter(recyclerViewAdapter1);
                     layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView1.setLayoutManager(layoutManager1);
+                    loading1.setVisibility(View.GONE);
                     break;
                 }
                 case  StatusCode.REQUEST_DOING_SUCCESS:
@@ -287,6 +303,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerView2.setAdapter(recyclerViewAdapter2);
                     layoutManager2 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView2.setLayoutManager(layoutManager2);
+                    loading2.setVisibility(View.GONE);
                     break;
                 }
                 case  StatusCode.REQUEST_DONE_SUCCESS:
@@ -295,6 +312,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerView3.setAdapter(recyclerViewAdapter3);
                     layoutManager3 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView3.setLayoutManager(layoutManager3);
+                    loading3.setVisibility(View.GONE);
                     break;
                 }
                 case StatusCode.REQUEST_ORDER_ERROR:
@@ -337,7 +355,24 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
 
     @Override
     public void onClick(View v) {
-
+        List list = new ArrayList();
+        list = (List) v.getTag();
+        int i = (int) list.get(0);
+        if( i == 2){
+            int position = (int) list.get(1);
+            Intent intent = new Intent(OrdersActivity.this,YuePaiDetailActivity.class);
+            if(index == StatusCode.REQUEST_REGIST_ORDER) {
+                intent.putExtra("detail",ordersItemList1.get(position).getId());
+                intent.putExtra("type",ordersItemList1.get(position).getType());
+            } else if(index == StatusCode.REQUEST_DOING_ORDER){
+                intent.putExtra("detail",ordersItemList2.get(position).getId());
+                intent.putExtra("type",ordersItemList2.get(position).getType());
+            } else if(index == StatusCode.REQUEST_DONE_ORDER){
+                intent.putExtra("detail",ordersItemList3.get(position).getId());
+                intent.putExtra("type",ordersItemList3.get(position).getType());
+            }
+            startActivity(intent);
+        }
     }
 
 
@@ -394,6 +429,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setType("yuepai");
                             ordersItemList1.add(ordersModel);
                         }
                     }else{
@@ -412,6 +448,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setType("yuepai");
                             ordersItemList1.add(ordersModel);
                         }
                     }else{
@@ -429,6 +466,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setStartTime(myat.getString("ACstartT"));
                             ordersModel.setLikeNum(myat.getInt("AClikeN"));
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
+                            ordersModel.setType("huodong");
                             ordersItemList1.add(ordersModel);
                         }
                     }else{
@@ -463,6 +501,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setType("yuepai");
                             ordersItemList2.add(ordersModel);
                         }
                     }else index++;
@@ -479,6 +518,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setType("yuepai");
                             ordersItemList2.add(ordersModel);
                         }
                     }else index++;
@@ -494,6 +534,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setStartTime(myat.getString("ACstartT"));
                             ordersModel.setLikeNum(myat.getInt("AClikeN"));
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
+                            ordersModel.setType("activity");
                             ordersItemList2.add(ordersModel);
                         }
                     }else index++;

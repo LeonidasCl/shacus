@@ -50,6 +50,7 @@ import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.OtherCourseActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.SelectUserActivity;
 import com.example.pc.shacus.Activity.SettingsActivity;
 import com.example.pc.shacus.Activity.ShareActivity;
 import com.example.pc.shacus.Activity.SignInActivity;
@@ -118,7 +119,7 @@ private Button bo;
             @Override
 
                     public void onClick(View v) {
-                        Intent intent6 = new Intent(getActivity(), OtherUserActivity.class);
+                        Intent intent6 = new Intent(getActivity(), SelectUserActivity.class);
                         startActivity(intent6);
                     }
 
