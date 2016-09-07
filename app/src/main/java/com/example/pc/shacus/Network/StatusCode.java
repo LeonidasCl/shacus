@@ -37,7 +37,7 @@ public interface StatusCode {
     //请求我关注的用户（我的关注）
     int REQUEST_INFO_FOLLOWING = 10403;
     int REQUEST_FOLLOWING_SUCCESS = 10430; //请求我的关注成功
-    int REQUEST_FOLLOWING_NONE = 10431; //用户不存在粉丝
+    int REQUEST_FOLLOWING_NONE = 10431; //用户没有关注任何人
     int REQUEST_USER_ILLEGAL = 10412; //用户不合法
 
     //请求取消关注
@@ -48,6 +48,7 @@ public interface StatusCode {
     //请求关注
     int REQUEST_FOLLOW_USER = 10401;
     int REQUEST_FOLLOW_SUCCESS = 10411; //请求关注成功
+    int REQUEST_FOLLOWER_NONE = 10441;//没有粉丝
 
     //请求我的粉丝
     int REQUEST_INFO_FOLLOWER = 10404;
@@ -73,6 +74,7 @@ public interface StatusCode {
     int REQUEST_FAVOR_JIAOCHENG = 10504; //请求收藏的教程
     int REQUEST_CANCEL_FAVORYUEPAI = 10510; //取消收藏约拍
     int REQUEST_CANCELYUEPAI_SUCCESS = 10523;//取消收藏的约拍成功
+    int REQUEST_FAVORYUEPAI_NONE = 10526; //用户未收藏任何约拍
     int REQUEST_CANCEL_FAVORHUODONG = 10511; //取消收藏活动
     //int REQUEST_CANCEL_FAVORZUOPIN = 10512; //取消收藏作品
     //int REQUEST_CANCEL_FAVORJIAOCHENG = 10
@@ -108,6 +110,7 @@ public interface StatusCode {
     int REQUEST_JOIN_HUODONG_SUCCESS = 10352;
     int CANCEL_HUODONG_SUCCESS = 10361;
     int REQUEST_HUODONG_DETAIL_SUCCESS = 10371;
+
     int PRAISE_HUODONG_SUCCESS = 10387;
     int PRAISE_YUEPAI = 10601;
     int PRAISE_YUEPAI_SUCCESS=10600;

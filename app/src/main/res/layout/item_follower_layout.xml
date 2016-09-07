@@ -2,21 +2,26 @@
 <!--我的粉丝单项布局-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:descendantFocusability="blocksDescendants">
 
-    <ImageButton
+
+    <com.example.pc.shacus.View.CircleImageView
         android:id="@+id/follower_user_image"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/holder"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:scaleType="centerInside"
-        android:background="@drawable/shape_round"/>
+        app:border_color="#00000000"/>
 
     <TextView
+        android:textColor="@color/ee_black"
         android:id="@+id/follower_user_name"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:text="我的粉丝"
+        android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -24,14 +29,13 @@
         android:layout_toEndOf="@+id/follower_user_image" />
 
     <Button
+        android:background="@drawable/shape_round"
         android:textColor="@color/aa_black"
-        android:text="关 注"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:id="@+id/followingbtn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_width="70dp"
+        android:layout_height="35dp" />
 
 </RelativeLayout>
