@@ -28,23 +28,23 @@ public class YuePaiFragmentC extends Fragment {
         View view = inflater.inflate(R.layout.fragment_yue_pai_c, container, false);
 
 
-        Button toPhotograph=(Button)view.findViewById(R.id.button_yaopai);
-        toPhotograph.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(yuepai, CreateYuePaiActivity.class));
-            }
-        });
-
-        Button toModel=(Button)view.findViewById(R.id.button_beipai);
-        /*toModel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(yuepai, ModelActivity.class));
-            }
-        });*/
-
-        Button toActivity=(Button)view.findViewById(R.id.button_activity);
+//        Button toPhotograph=(Button)view.findViewById(R.id.button_yaopai);
+//        toPhotograph.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(yuepai, CreateYuePaiActivity.class));
+//            }
+//        });
+//
+//        Button toModel=(Button)view.findViewById(R.id.button_beipai);
+//        /*toModel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(yuepai, ModelActivity.class));
+//            }
+//        });*/
+//
+//        Button toActivity=(Button)view.findViewById(R.id.button_activity);
         /*toActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

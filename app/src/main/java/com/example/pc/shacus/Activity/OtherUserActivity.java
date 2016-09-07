@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
@@ -28,14 +29,14 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.View.CircleImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,7 +47,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
 
     private ListView listView;
     private SimpleAdapter adapter;
-    private com.example.pc.shacus.View.TagView.CircleImageView image3;//用户头像
+    private CircleImageView image3;//用户头像
 
 
     private NetRequest requestOthers;
@@ -67,8 +68,6 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
     TextView fansButton;
     TextView workButton;
     TextView projectBuuton;
-
-    private Handler myHandler1;
     String otherName;
     String sign;
     int following ;
@@ -88,14 +87,8 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
     ACache aCache;
     LoginDataModel loginModel;
     private String type = null;
-    private String type1=null;
     String otherId="1";
-    String otherauthkey=null;
-    private void initObject() throws JSONException{
 
-
-
-    }
 
 
 
@@ -106,13 +99,13 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_otheruser);
-
+        //接受上一个界面传参
         Intent intent = getIntent();
         type = intent.getStringExtra("id");
         otherId=type;
-        type1=intent.getStringExtra("authkey");
-        otherauthkey=type1;
-        listView = (ListView)findViewById(R.id.listView);
+       // listView = (ListView)findViewById(R.id.listView);
+
+        //初始化
         button1 = (LinearLayout) findViewById(R.id.button1);
         button2 = (LinearLayout)findViewById(R.id.button2);
         button3 = (LinearLayout)findViewById(R.id.button3);
@@ -124,7 +117,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         retrunButton=(ImageButton)findViewById(R.id.returnbutton);
         menuButton=(ImageButton)findViewById(R.id.menuButton);
         ownerName=(TextView)findViewById(R.id.ownerName);
-        image3 = (com.example.pc.shacus.View.TagView.CircleImageView) findViewById(R.id.image3);
+        image3 = (CircleImageView) findViewById(R.id.image3);
         likeButton=(TextView)findViewById(R.id.likeButton);
         workButton=(TextView)findViewById(R.id.workButton);
         projectBuuton=(TextView)findViewById(R.id.projectButton);
@@ -145,7 +138,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         String userId = content.getId();
         String authkey = content.getAuth_key();
 
-
+        //发送网络请求
         Map map=new HashMap();
         map.put("uid", userId);
         map.put("authkey", authkey);
@@ -153,6 +146,148 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         map.put("type",StatusCode.REQUEST_OTHERUSER_INFO);
         requestOthers.httpRequest(map, CommonUrl.otherUserInfo);
 
+
+
+
+//        SimpleAdapter adapter1 = new SimpleAdapter(this, init(), R.layout.item_user_listview_layout, new String[]{"item1",
+//                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
+//        listView.setAdapter(adapter1);
+
+
+
+    }
+    private Handler myHandler=new Handler(){
+
+            @Override
+            public void handleMessage(Message msg){
+                if (msg.what==222){
+                    //成功返回信息
+                    initView();
+                }
+                if(msg.what==100){
+                   //发送关注请求
+                    button5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            button5.setImageDrawable(getResources().getDrawable(R.drawable.praise_after));
+                            UserModel content1 = loginModel.getUserModel();
+                            String userId = content1.getId();
+                            String authkey = content1.getAuth_key();
+                            request1=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
+
+                            Map map1=new HashMap();
+                            map1.put("uid", userId);
+                            map1.put("authkey", authkey);
+                            map1.put("followerid", otherId);
+                            map1.put("type",10401);
+                            request1.httpRequest(map1, CommonUrl.getFollowInfo);
+                            initView();
+
+                        }
+                    });
+
+
+
+                }
+                if(msg.what==101){
+                    //发送取消关注请求
+                    button5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            button5.setImageDrawable(getResources().getDrawable(R.drawable.praise));
+                            UserModel content1 = loginModel.getUserModel();
+                            String userId = content1.getId();
+                            String authkey = content1.getAuth_key();
+                            request2=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
+                            Map map2=new HashMap();
+                            map2.put("uid", userId);
+                            map2.put("authkey", authkey);
+                            map2.put("followerid", otherId);
+                            map2.put("type",10402);
+                            request2.httpRequest(map2, CommonUrl.getFollowInfo);
+                            initView();
+                        }
+                    });
+
+
+                }
+                if (msg.what==223){
+                    //访问请求拒绝
+                    CommonUtils.getUtilInstance().showToast(APP.context, "获取信息失败");
+                }
+                if (msg.what==404){
+                    //网络错误
+                    CommonUtils.getUtilInstance().showToast(APP.context, "网络请求超时，请重试");
+                }
+            }
+        };
+
+//        private List<Map<String, Object>> init() {
+//        List<Map<String, Object>> lst = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            Map<String, Object> item = new HashMap<>();
+//          //  item.put("item1", image1[i]);
+//          //  item.put("item2", data[i]);
+//            item.put("item3", R.drawable.huodong_loading);
+//            lst.add(item);
+//        }
+//        return lst;
+//    }
+    private void showPopupMenu(View view) {
+        // View当前PopupMenu显示的相对View的位置
+        PopupMenu popupMenu = new PopupMenu(OtherUserActivity.this, view);
+        // menu布局
+        popupMenu.getMenuInflater().inflate(R.menu.owner_menu, popupMenu.getMenu());
+        // menu的item点击事件
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(OtherUserActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        // PopupMenu关闭事件
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                Toast.makeText(OtherUserActivity.this, "关闭PopupMenu", Toast.LENGTH_SHORT).show();
+            }
+        });
+        popupMenu.show();
+    }
+
+    private void initView(){
+                    //接收数据后初始化
+                    ownerName.setText(otherName);
+                    text1.setText(location);
+                    text2.setText(sign);
+                    likeButton.setText(Integer.toString(follow));
+                    fansButton.setText(Integer.toString(following));
+                    workButton.setText(Integer.toString(photo));
+                    projectBuuton.setText(Integer.toString(course));
+        if (murl!=null){
+                Glide.with(this)
+                .load(murl)
+                .placeholder(R.drawable.holder)
+                .error(R.drawable.holder)
+                .into(image3);
+        }
+                    // image3.setImageURI(http://img5.imgtn.bdimg.com/it/u=1268523085,477716560&fm=21&gp=0.jpg);
+
+                    //是否关注
+                    if (followor == false) {
+                        button5.setImageDrawable(getResources().getDrawable(R.drawable.praise));
+                        Message msg = new Message();
+                        msg.what = 100;
+                        myHandler.sendMessage(msg);
+
+                    } else {
+                        button5.setImageDrawable(getResources().getDrawable(R.drawable.praise_after));
+                        Message msg = new Message();
+                        msg.what = 101;
+                        myHandler.sendMessage(msg);
+
+                    }
 
 
         retrunButton.setOnClickListener(new View.OnClickListener() {
@@ -178,9 +313,8 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 //他喜欢的
                 Intent intent1 = new Intent();
                 intent1.putExtra("activity", "following");
-                intent1.putExtra("user","other");
-                intent1.putExtra("user",otherId);
-                intent1.putExtra("authkey",otherauthkey);
+                intent1.putExtra("user", "other");
+                intent1.putExtra("user", otherId);
                 intent1.setClass(OtherUserActivity.this, FollowActivity.class);
                 startActivity(intent1);
             }
@@ -191,9 +325,8 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 //他的粉丝
                 Intent intent2 = new Intent();
                 intent2.putExtra("activity", "follower");
-                intent2.putExtra("user","other");
-                intent2.putExtra("uuid",otherId);
-                intent2.putExtra("uuauthkey",otherauthkey);
+                intent2.putExtra("user", "other");
+                intent2.putExtra("uuid", otherId);
                 intent2.setClass(OtherUserActivity.this, FollowActivity.class);
                 startActivity(intent2);
             }
@@ -247,138 +380,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             }
         });
 
-        SimpleAdapter adapter1 = new SimpleAdapter(this, init(), R.layout.item_user_listview_layout, new String[]{"item1",
-                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
-        listView.setAdapter(adapter1);
-
-
-
     }
-    private Handler myHandler=new Handler(){
-
-            @Override
-            public void handleMessage(Message msg){
-                if (msg.what==222){
-                    initView();
-                }
-                if(msg.what==100){
-
-                    button5.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            button5.setImageDrawable(getResources().getDrawable(R.drawable.bga_banner_point_disabled));
-
-                        }
-                    });
-                        UserModel content1 = loginModel.getUserModel();
-                        String userId = content1.getId();
-                        String authkey = content1.getAuth_key();
-                        request1=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
-
-                        Map map1=new HashMap();
-                        map1.put("uid", userId);
-                        map1.put("authkey", authkey);
-                        map1.put("followerid", otherId);
-                        map1.put("type",10401);
-                        request1.httpRequest(map1, CommonUrl.getFollowInfo);
-                        initView();
-
-
-
-                }
-                if(msg.what==101){
-
-                    button5.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            button5.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_pressed1));
-
-                        }
-                    });
-                        UserModel content1 = loginModel.getUserModel();
-                        String userId = content1.getId();
-                        String authkey = content1.getAuth_key();
-                        request2=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
-                        Map map2=new HashMap();
-                        map2.put("uid", userId);
-                        map2.put("authkey", authkey);
-                        map2.put("followerid", otherId);
-                        map2.put("type",10402);
-                        request2.httpRequest(map2, CommonUrl.getFollowInfo);
-                        initView();
-
-                }
-            }
-        };
-
-        private List<Map<String, Object>> init() {
-        List<Map<String, Object>> lst = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Map<String, Object> item = new HashMap<>();
-          //  item.put("item1", image1[i]);
-          //  item.put("item2", data[i]);
-            item.put("item3", R.drawable.huodong_loading);
-            lst.add(item);
-        }
-        return lst;
-    }
-    private void showPopupMenu(View view) {
-        // View当前PopupMenu显示的相对View的位置
-        PopupMenu popupMenu = new PopupMenu(OtherUserActivity.this, view);
-        // menu布局
-        popupMenu.getMenuInflater().inflate(R.menu.owner_menu, popupMenu.getMenu());
-        // menu的item点击事件
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(OtherUserActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-        // PopupMenu关闭事件
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                Toast.makeText(OtherUserActivity.this, "关闭PopupMenu", Toast.LENGTH_SHORT).show();
-            }
-        });
-        popupMenu.show();
-    }
-
-    private void initView(){
-
-                    ownerName.setText(otherName);
-                    text1.setText(location);
-                    text2.setText(sign);
-                  likeButton.setText(Integer.toString(follow));
-                    fansButton.setText(Integer.toString(following));
-                   workButton.setText(Integer.toString(photo));
-                    projectBuuton.setText(Integer.toString(course));
-        if (murl!=null){
-                Glide.with(this)
-                .load(murl)
-                .placeholder(R.drawable.holder)
-                .error(R.drawable.holder)
-                .into(image3);
-        }
-                    // image3.setImageURI(http://img5.imgtn.bdimg.com/it/u=1268523085,477716560&fm=21&gp=0.jpg);
-
-
-                    if (followor == false) {
-                        button5.setImageDrawable(getResources().getDrawable(R.drawable.bg_circle_pressed1));
-                        Message msg = new Message();
-                        msg.what = 100;
-                        myHandler.sendMessage(msg);
-
-                    } else {
-                        button5.setImageDrawable(getResources().getDrawable(R.drawable.bga_banner_point_disabled));
-                        Message msg = new Message();
-                        msg.what = 101;
-                        myHandler.sendMessage(msg);
-
-                    }
-
-                }
 
 
 
@@ -417,6 +419,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             }
             if (code == StatusCode.RECIEVE_VISIT_REJECT) {
                 Log.d("aaaaa", "失败");
+                msg.what=223;
             }
 
         }
@@ -426,7 +429,9 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
 
     @Override
     public void exception(IOException e, String requestUrl) {
-
+        Message msg = new Message();
+        msg.what=404;
+        myHandler.sendMessage(msg);
     }
 
 }

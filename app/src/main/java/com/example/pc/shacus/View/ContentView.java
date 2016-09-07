@@ -286,7 +286,7 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
                     huodong.setAClikenumber(Integer.valueOf(info.getString("AClikenumber")));
                     huodong.setUsrName(info.getString("Ualais"));
                     huodong.setAClurl(info.getString("AClurl"));*/
-//                    huodong.setUserimageurl();
+//                  huodong.setUserimageurl();
                     persons.add(huodong);
 //                    personAdapter.notifyDataSetChanged();
                     Log.d("LQQQQQQQQ", "bootData"+i);
@@ -305,13 +305,14 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
                 List<HuoDongItemModel> persons = new ArrayList<>();
                 for(int i=bootCounter;i<bootCounter+jsonArray.length();i++){
                     JSONObject info=jsonArray.getJSONObject(i-bootCounter);
-                    HuoDongItemModel huodong = new HuoDongItemModel();
-                    huodong.setACcontent(info.getString("ACcontent"));
-                    huodong.setACstartT(info.getString("ACstartT"));
-                    huodong.setACregistN(Integer.valueOf(info.getString("ACregistN")));
-                    huodong.setAClikenumber(Integer.valueOf(info.getString("AClikenumber")));
-                    //huodong.setUsrName(info.getString("Ualais"));
-                    huodong.setAClurl(info.getString("AClurl"));
+                    Gson gson=new Gson();
+                    HuoDongItemModel huodong =gson.fromJson(info.toString(), HuoDongItemModel.class);
+//                    huodong.setACcontent(info.getString("ACcontent"));
+//                    huodong.setACstartT(info.getString("ACstartT"));
+//                    huodong.setACregistN(Integer.valueOf(info.getString("ACregistN")));
+//                    huodong.setAClikenumber(Integer.valueOf(info.getString("AClikenumber")));
+//                    //huodong.setUsrName(info.getString("Ualais"));
+//                    huodong.setAClurl(info.getString("AClurl"));
 //                    huodong.setUserimageurl();
                     persons.add(huodong);
                     Log.d("LQQQQQQQQ", "bootData" + i);

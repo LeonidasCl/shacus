@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.pc.shacus.R;
 
@@ -18,7 +20,8 @@ import com.example.pc.shacus.R;
 //time:8.30
 public class SetAdviceFragment extends Fragment implements View.OnClickListener{
 
-    private Button btn_back,sendMessage;
+    private ImageButton btn_back;
+    private TextView sendMessage;
     private EditText connectWay,content;
     public SetAdviceFragment() {
         // Required empty public constructor
@@ -31,10 +34,10 @@ public class SetAdviceFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_set_advice, container, false);
         //初始化
-        btn_back= (Button) view.findViewById(R.id.btn_back);
+        btn_back= (ImageButton) view.findViewById(R.id.btn_back);
         connectWay= (EditText) view.findViewById(R.id.advice_connectType);
         content= (EditText) view.findViewById(R.id.advice_content);
-        sendMessage= (Button) view.findViewById(R.id.btn_sendMessage);
+        sendMessage= (TextView) view.findViewById(R.id.btn_sendMessage);
 
         //添加监听
 

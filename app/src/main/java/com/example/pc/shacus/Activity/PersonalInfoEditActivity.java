@@ -4,9 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -15,6 +20,7 @@ import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.AutoHint;
 import com.example.pc.shacus.Util.CommonUrl;
 
 import org.json.JSONException;
@@ -27,9 +33,10 @@ import java.util.HashMap;
 //Time:9.1
 public class PersonalInfoEditActivity extends AppCompatActivity implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
 
-    private Button btn_back,btn_finish;
-    private EditText userName,userEmail,userAddress,userPhoneNumber;
+    private ImageButton btn_back;
+    private EditText userName,userAddress,userPhoneNumber,userEmail;
     private ImageView userImage;
+    private TextView btn_finish;
     UserModel dataModel;
     private NetRequest netRequest;
     @Override
@@ -38,8 +45,8 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_personal_info_edit);
 
         //init
-        btn_back= (Button) findViewById(R.id.btn_back);
-        btn_finish= (Button) findViewById(R.id.btn_finish);
+        btn_back= (ImageButton) findViewById(R.id.btn_back);
+        btn_finish= (TextView) findViewById(R.id.btn_finish);
         userName = (EditText) findViewById(R.id.textData_UserName);
         userEmail= (EditText) findViewById(R.id.textData_UserEmail);
         userAddress= (EditText) findViewById(R.id.textData_UserAddress);
@@ -47,6 +54,10 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         userImage= (ImageView) findViewById(R.id.user_image);
 
         netRequest=new NetRequest(this,this);
+
+//        userEmail.setThreshold(1);
+//        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,AutoHint.EMAILS);
+//        userEmail.setAdapter(arrayAdapter);
 
         //listener
         btn_back.setOnClickListener(this);
@@ -70,6 +81,8 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                 break;
             case R.id.btn_finish:
                 //传入数据
+                if(userName.getText().equals(""))
+                    Toast.makeText(this,"昵称不能为空",Toast.LENGTH_SHORT);
                 String result=checkChange();
                 if(result.charAt(1)=='1'){
                     HashMap map=new HashMap<>();
