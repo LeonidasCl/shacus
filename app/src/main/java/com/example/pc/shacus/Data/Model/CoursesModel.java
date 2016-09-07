@@ -6,17 +6,48 @@ import java.io.Serializable;
  * Created by 启凡 on 2016/9/5.
  */
 public class CoursesModel  implements Serializable {
+
+    private int kind;
+    private int itemid;
+    private int see;
     private String image;
     private int readNum;
     private String title;
-    private Boolean collet;
+    private int likeNum;
+    private int collet;
+    private int valid;
     //private String courseurl;
 
-    public Boolean getCollet() {
+    public int getKind() {
+        return kind;
+    }
+
+    public void setKind(int kind) {
+        this.kind = kind;
+    }
+    public int getValid() {
+        return valid;
+    }
+
+    public void setValid(int valid) {
+        this.valid = valid;
+    }
+
+
+
+    public int getSee() {
+        return see;
+    }
+
+    public void setSee(int see) {
+        this.see = see;
+    }
+
+    public int getCollet() {
         return collet;
     }
 
-    public void setCollet(Boolean collet) {
+    public void setCollet(int collet) {
         this.collet = collet;
     }
 
@@ -46,6 +77,21 @@ public class CoursesModel  implements Serializable {
     }
 
 
+    public int getItemid() {
+        return itemid;
+    }
+
+    public void setItemid(int itemid) {
+        this.itemid = itemid;
+    }
+
+    public int getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(int likeNum) {
+        this.likeNum = likeNum;
+    }
 
 //    public String getCourseurl() {
 //        return courseurl;

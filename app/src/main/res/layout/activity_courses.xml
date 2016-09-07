@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#f0f0f0"
+    android:background="@color/gray_color_99999a"
     tools:context="com.example.pc.shacus.Activity.CoursesActivity">
 
 <LinearLayout
@@ -37,9 +37,6 @@
             android:layout_gravity="center_vertical"
             android:background="@color/gold"/>
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dp" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/discover_tab_bar"

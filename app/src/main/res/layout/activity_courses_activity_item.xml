@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.example.pc.shacus.Activity.CoursesActivity_item"
     android:gravity="top"
-    android:background="@color/aa_black"
-    android:descendantFocusability="blocksDescendants"
-    >
+    android:id="@+id/relativeLayout4"
+    android:descendantFocusability="blocksDescendants">
+
 
     <ImageView
         android:id="@+id/ItemVideo"
@@ -24,21 +26,21 @@
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/CollectItem"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/transparent"
-        android:src="@drawable/button_pop_down"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_alignStart="@+id/ItemName" />
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@mipmap/ic_launcher"
         android:layout_alignBottom="@+id/ItemViewNum"
-        android:layout_toEndOf="@+id/ItemName"
-        android:id="@+id/imageView" />
+        android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:src="@drawable/watch"
+        android:id="@+id/imageView"
+        android:layout_alignBottom="@+id/ItemViewNum"
+        android:layout_toStartOf="@+id/ItemViewNum" />
 
     <TextView
         android:id="@+id/ItemViewNum"
@@ -50,5 +52,17 @@
         android:layout_marginBottom="5sp"
         android:layout_marginRight="30sp"
         android:layout_alignBottom="@+id/ItemVideo"/>
+    <TextView
+        android:id="@+id/ItemSeeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/imageView" />
+
 
 </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/transparent"/>
+</LinearLayout>

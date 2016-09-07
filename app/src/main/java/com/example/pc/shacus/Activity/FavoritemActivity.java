@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -75,6 +76,8 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
     int spanCount = 2;
     View view_1;
     View view_2;
+    private FrameLayout loading1;
+    private FrameLayout loading2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +109,11 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 mTabWidget.setCurrentTab(position);
                 mTabHost.setCurrentTab(position);
                 updateTab(mTabHost);
-                if(position == 0) index = StatusCode.REQUEST_FAVOR_YUEPAI;
+                if(position == 0){
+                    loading1.setVisibility(View.VISIBLE);
+                    index = StatusCode.REQUEST_FAVOR_YUEPAI;
+                    initFavorInfo();
+                }
                 //else index =
             }
 
@@ -122,8 +129,10 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 if (tabId.equals("yuepai")){
                     viewPager.setCurrentItem(0);
                     index = StatusCode.REQUEST_FAVOR_YUEPAI;
+                    loading1.setVisibility(View.VISIBLE);
                 }else if (tabId.equals("huodong")){
                     viewPager.setCurrentItem(1);
+
                     //index =
                 }/*else{
                     viewPager.setCurrentItem(2);
@@ -175,6 +184,9 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         viewContainter.add(view_1);
         viewContainter.add(view_2);
 //        viewContainter.add(view3);
+        loading1 = (FrameLayout) view_1.findViewById(R.id.wait_loading_layout);
+        loading2 = (FrameLayout) view_2.findViewById(R.id.wait_loading_layout);
+        loading2.setVisibility(View.INVISIBLE);
 
         recyclerView1 = (RecyclerView) view_1.findViewById(R.id.recyclerView);
 
@@ -238,16 +250,20 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     textView.setVisibility(View.VISIBLE);
                     recyclerView1.setVisibility(View.INVISIBLE);
                     textView.setText("没有收藏~快去“发现”看看吧");
+                    loading1.setVisibility(View.GONE);
                     break;
                 }
                 case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS:
                 {
+
                     view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
                     layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView1.setLayoutManager(layoutManager1);
 
                     recyclerViewAdapter1 = new RecyclerViewAdapter(favorItemList1,FavoritemActivity.this);
                     recyclerView1.setAdapter(recyclerViewAdapter1);
+                    loading1.setVisibility(View.GONE);
+
                     break;
                 }
                 case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS:
@@ -256,6 +272,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     break;
                 }
                 case 88:{
+                    loading1.setVisibility(View.GONE);
                     CommonUtils.getUtilInstance().showToast(APP.context, "网络请求超时，请重试");
                     break;
                 }
@@ -265,22 +282,27 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 
     @Override
     public void onClick(View v) {
-        int tag = (int) v.getTag();
-        ACache aCache = ACache.get(FavoritemActivity.this);
-        LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
-        UserModel content = null;
-        Map map = new HashMap<>();
-        content = loginDataModel.getUserModel();
-        String userId = content.getId();
-        String authkey = content.getAuth_key();
+        List list = new ArrayList();
+        list = (List) v.getTag();
+        int i = (int) list.get(0);
+        if( i == 1){
+            int tag = (int) list.get(1);
+            ACache aCache = ACache.get(FavoritemActivity.this);
+            LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+            UserModel content = null;
+            Map map = new HashMap<>();
+            content = loginDataModel.getUserModel();
+            String userId = content.getId();
+            String authkey = content.getAuth_key();
 
-        map.put("uid",userId);
-        map.put("authkey", authkey);
-        map.put("type",StatusCode.REQUEST_CANCEL_FAVORYUEPAI);
-        map.put("typeid",favorItemList1.get(tag).getId());
-        netRequest.httpRequest(map, CommonUrl.getFavorInfo);
-        favorItemList1.remove(tag);
-        recyclerViewAdapter1.notifyDataSetChanged();
+            map.put("uid",userId);
+            map.put("authkey", authkey);
+            map.put("type",StatusCode.REQUEST_CANCEL_FAVORYUEPAI);
+            map.put("typeid",favorItemList1.get(tag).getId());
+            netRequest.httpRequest(map, CommonUrl.getFavorInfo);
+            favorItemList1.remove(tag);
+            recyclerViewAdapter1.notifyDataSetChanged();
+        }
     }
 
     //内部类实现viewpager的适配器
