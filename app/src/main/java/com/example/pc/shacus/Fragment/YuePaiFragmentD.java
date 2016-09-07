@@ -191,8 +191,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
                 int firstVisibleItem = absListView.getFirstVisiblePosition();
                 boolean onTop = firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() == 0;
-                Log.d("LQ1111", "firstVisibleItem" + firstVisibleItem + "absListView.getChildAt(0)" + absListView.getChildAt(0) + "" +
-                        "\nabsListView.getChildAt(0).getTop()" + absListView.getChildAt(0).getTop());
+//                Log.d("LQ1111", "firstVisibleItem" + firstVisibleItem + "absListView.getChildAt(0)" + absListView.getChildAt(0) + "" +
+//                        "\nabsListView.getChildAt(0).getTop()" + absListView.getChildAt(0).getTop());
                 if (onTop && -layoutParam.topMargin == mSideZoomBanner.getHeight()) {//showHeader
                     ValueAnimator anim = ValueAnimator.ofInt(-mSideZoomBanner.getHeight(), 0);
                     anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
