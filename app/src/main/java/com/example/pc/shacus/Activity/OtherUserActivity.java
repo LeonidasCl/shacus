@@ -45,7 +45,7 @@ import java.util.Map;
 public class OtherUserActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
 
 
-    private ListView listView;
+   // private ListView listView;
     private SimpleAdapter adapter;
     private CircleImageView image3;//用户头像
 
