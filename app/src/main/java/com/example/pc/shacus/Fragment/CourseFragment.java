@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,10 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.CourseWebViewActivity;
 import com.example.pc.shacus.R;
 //LQ
 //9.5
-public class CourseFragment extends Fragment {
+public class CourseFragment extends Fragment implements View.OnClickListener{
     //推荐列表
     private LinearLayout recommendLine;
     //推荐图
@@ -37,12 +39,21 @@ public class CourseFragment extends Fragment {
         for (int i = 0; i < 10; i++) {
             View view=mInflater.inflate(R.layout.item_fragment_course,null);
             recommendImage= (ImageView) view.findViewById(R.id.recommendCourse_image);
+            recommendImage.setOnClickListener(this);
             Glide.with(this.getActivity())
                     .load("http://img15.3lian.com/2015/f1/41/d/8"+i+".jpg").centerCrop()
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(recommendImage);
             recommendLine.addView(view);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.recommendCourse_image) {
+            Intent intent=new Intent(this.getActivity(), CourseWebViewActivity.class);
+            startActivity(intent);
         }
     }
 }
