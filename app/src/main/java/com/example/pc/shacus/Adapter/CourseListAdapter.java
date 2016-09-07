@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -38,7 +39,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
     @Override
     public CourseListAdapter.RecyclerHolderView onCreateViewHolder(ViewGroup viewGroup, int i){
 
-        String[] stringcolor={"FF7575","97CBFF","FFD1A4","C7C7E2"};
+
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_courses_activity_item,null);
         RecyclerHolderView viewHolder = new RecyclerHolderView(view);
         view.setOnClickListener(new View.OnClickListener() {
@@ -47,29 +48,37 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
                 //进入网页xxxxxxxx
             }
         });
-        int index=(int)(Math.random()*stringcolor.length);
-        view.setBackgroundColor(Color.parseColor(stringcolor[index]));
+
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerHolderView holder, int position) {
         Glide.with(context)
-                .load(courseModelList.get(position).getImage())
-                .placeholder(R.drawable.holder)
+                .load(courseModelList.get(position).getImage()).fitCenter()
+                .placeholder(R.drawable.holder).dontAnimate().dontTransform()
                 .error(R.drawable.holder)
                 .into(holder.imageView);
         holder.title.setText(courseModelList.get(position).getTitle());
         holder.read.setText(Integer.toString(courseModelList.get(position).getReadNum()));
-        if (courseModelList.get(position).getCollet()==true){
-            holder.collectItem.setImageResource(R.drawable.button_pop_down);
-        }else {
-            holder.collectItem.setImageResource(R.drawable.button_pop_down);
+        if (courseModelList.get(position).getKind()==1||courseModelList.get(position).getKind()==3) {
+            if (courseModelList.get(position).getCollet() == 1) {
+                holder.collectItem.setImageResource(R.drawable.button_pop_down);
+            } else {
+                holder.collectItem.setImageResource(R.drawable.button_pop_down);
+            }
+        }
+        if (courseModelList.get(position).getKind()==2) {
+            if (courseModelList.get(position).getSee() == 1) {
+                holder.seeNum.setText("已看完");
+                holder.seeNum.setTextColor(Color.BLUE);
+            } else {
+                holder.seeNum.setText("未完成");
+                holder.seeNum.setTextColor(Color.RED);
+            }
         }
 
-
     }
-
 
 
     @Override
@@ -84,6 +93,8 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         TextView read;
         ImageView collectItem;
 
+        RelativeLayout relativeLayout;
+        TextView seeNum;
 
 
         public RecyclerHolderView(View itemView) {
@@ -92,6 +103,11 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
             title = (TextView) itemView.findViewById(R.id.ItemName);
             read = (TextView) itemView.findViewById(R.id.ItemViewNum);
             collectItem=(ImageView)itemView.findViewById(R.id.CollectItem);
+            seeNum=(TextView)itemView.findViewById(R.id.ItemSeeNum);
+            relativeLayout=(RelativeLayout)itemView.findViewById(R.id.relativeLayout4);
+            String[] stringcolor={"#ECF5FF","#FFECF5","#ECF5FF","#ECECFF","#FFFCEC","#FFE6D9","#F2E6E6","#F3F3FA","#D1E9E9","#F5FFE8"};
+            int index=(int)(Math.random()*stringcolor.length);
+            relativeLayout.setBackgroundColor(Color.parseColor(stringcolor[index]));
         }
     }
 }
