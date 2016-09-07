@@ -75,28 +75,27 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignInActivity"/>
-        <activity android:name=".Activity.ChatActivity"/>
-        <activity android:name=".Activity.FollowActivity"/>
-        <activity android:name=".Activity.FavoritemActivity"/>
-        <activity android:name=".Activity.CoursesActivity"/>
-        <activity android:name=".Activity.WorksActiviy"/>
-        <activity android:name=".Activity.OrdersActivity"/>
-        <activity android:name=".Activity.ShareActivity"/>
-        <activity android:name=".Activity.SettingsActivity"/>
-        <activity android:name=".Activity.CoursesActivity_item"/>
-        <activity android:name=".Activity.OrdersItemActivity"/>
-        <activity android:name=".Activity.OtherUserActivity"/>
+        <activity android:name=".Activity.SignInActivity" />
+        <activity android:name=".Activity.ChatActivity" />
+        <activity android:name=".Activity.FollowActivity" />
+        <activity android:name=".Activity.FavoritemActivity" />
+        <activity android:name=".Activity.CoursesActivity" />
+        <activity android:name=".Activity.WorksActiviy" />
+        <activity android:name=".Activity.OrdersActivity" />
+        <activity android:name=".Activity.ShareActivity" />
+        <activity android:name=".Activity.SettingsActivity" />
+        <activity android:name=".Activity.CoursesActivity_item" />
+        <activity android:name=".Activity.OrdersItemActivity" />
+        <activity android:name=".Activity.OtherUserActivity" />
         <activity
             android:name=".Activity.TagAddActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity android:name=".Activity.PersonalInfoActivity" />
-        <activity android:name=".Activity.PersonalInfoEditActivity"></activity>
-
-
-    <activity android:name=".Activity.YuePaiDetailActivity"
-    android:theme="@style/AppTheme.YuePaiDetailActivity">
-        </activity>
+        <activity android:name=".Activity.PersonalInfoEditActivity" />
+        <activity
+            android:name=".Activity.YuePaiDetailActivity"
+            android:theme="@style/AppTheme.YuePaiDetailActivity"></activity>
+        <activity android:name=".Activity.CourseWebViewActivity"></activity>
     </application>
 
 </manifest>

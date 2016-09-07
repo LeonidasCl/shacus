@@ -81,8 +81,10 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                 break;
             case R.id.btn_finish:
                 //传入数据
-                if(userName.getText().equals(""))
-                    Toast.makeText(this,"昵称不能为空",Toast.LENGTH_SHORT);
+                if(userName.getText().toString().equals("")||userEmail.getText().toString()=="") {
+                    Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 String result=checkChange();
                 if(result.charAt(1)=='1'){
                     HashMap map=new HashMap<>();
