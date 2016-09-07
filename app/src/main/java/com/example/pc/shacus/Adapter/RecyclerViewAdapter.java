@@ -44,15 +44,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerHolderView holder, int position) {
         Glide.with(context)
-                .load(itemModelList.get(position).getImage())
-                .placeholder(R.drawable.holder)
+                .load(itemModelList.get(position).getImage()).fitCenter()
+                .placeholder(R.drawable.holder).dontAnimate().dontTransform()
                 .error(R.drawable.holder)
                 .into(holder.imageView);
         holder.title.setText(itemModelList.get(position).getTitle());
         holder.time.setText(itemModelList.get(position).getStartTime());
         holder.like.setText(Integer.toString(itemModelList.get(position).getLikeNum()));
         holder.regist.setText(Integer.toString(itemModelList.get(position).getRegistNum()));
-
         holder.likebtn.setTag(position);
         holder.likebtn.setOnClickListener((View.OnClickListener) context);
 

@@ -24,6 +24,7 @@ import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.View.CircleImageView;
 
 import junit.framework.Test;
 
@@ -46,7 +47,8 @@ public class FollowItemAdapter extends BaseAdapter{
     private FollowActivity activity;
     private NetRequest netRequest;
     private Button button1;
-    private Button button2;
+//    private Button button2;
+    ViewHolder viewHolder;
 
     String type = null;
     String index = null;
@@ -77,7 +79,6 @@ public class FollowItemAdapter extends BaseAdapter{
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
 
-        ViewHolder viewHolder;
         if(view == null){
             viewHolder = new ViewHolder();
             //点击我的关注
@@ -85,7 +86,7 @@ public class FollowItemAdapter extends BaseAdapter{
                 view = LayoutInflater.from(activity).inflate(R.layout.item_following_layout, viewGroup, false);
                 viewHolder.usersignatureText = (TextView) view.findViewById(R.id.following_user_signature);
                 viewHolder.userNameText = (TextView) view.findViewById(R.id.following_user_name);
-                viewHolder.userImageSrc = (ImageButton) view.findViewById(R.id.following_user_image);
+                viewHolder.userImageSrc = (CircleImageView) view.findViewById(R.id.following_user_image);
                 //viewHolder.follow = (Button) view.findViewById(R.id.followedbtn);
                 button1 = (Button) view.findViewById(R.id.followedbtn);
                 if (index.equals("myself")){
@@ -97,14 +98,19 @@ public class FollowItemAdapter extends BaseAdapter{
             }else if(type.equals("follower")){
                 view = LayoutInflater.from(activity).inflate(R.layout.item_follower_layout, viewGroup, false);
                 viewHolder.userNameText = (TextView) view.findViewById(R.id.follower_user_name);
-                viewHolder.userImageSrc = (ImageButton) view.findViewById(R.id.follower_user_image);
+                viewHolder.userImageSrc = (CircleImageView) view.findViewById(R.id.follower_user_image);
                 viewHolder.follow = (Button) view.findViewById(R.id.followingbtn);
-                button2 = (Button) view.findViewById(R.id.followingbtn);
                 if (index.equals("myself")){
-                    button2.setOnClickListener(new FollowListener(position));
-                    button2.setTag(StatusCode.REQUEST_FOLLOW_USER);
+                    viewHolder.follow.setOnClickListener(new FollowListener(position));
+                    if(followlist.get(position).getIndex()) {
+                        viewHolder.follow.setTag(StatusCode.REQUEST_CANCEL_FOLLOWING);
+                    }
+                    else {
+                        viewHolder.follow.setText("关注");
+                        viewHolder.follow.setTag(StatusCode.REQUEST_FOLLOW_USER);
+                    }
                 }else if (index.equals("other")){
-                    button2.setVisibility(View.INVISIBLE);
+                    viewHolder.follow.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -135,7 +141,7 @@ public class FollowItemAdapter extends BaseAdapter{
 
     private class ViewHolder{
         /*关注已关注监听事件*/
-        ImageButton userImageSrc;
+        CircleImageView userImageSrc;
         TextView userNameText;
         TextView usersignatureText;
         Button follow; //已关注或关注
@@ -163,38 +169,38 @@ public class FollowItemAdapter extends BaseAdapter{
                     String userId = content.getId();
                     String authkey = content.getAuth_key();
                     String followerid = activity.getData().get(position).getId();
-                    map.put("uid",userId);
+                    map.put("uid", userId);
                     map.put("authkey", authkey);
                     map.put("followerid", followerid);
                     map.put("type", StatusCode.REQUEST_CANCEL_FOLLOWING);
+                    if(type.equals("following")){
+                        followlist.remove(position);
+                        notifyDataSetChanged();
+                    }
+                    else{
+                        followlist.clear();
+                        v.setTag(StatusCode.REQUEST_FOLLOW_USER);
+                    }
                     netRequest.httpRequest(map, CommonUrl.getFollowInfo);
-                    v.setTag(StatusCode.REQUEST_FOLLOW_USER);
-                    followlist.remove(position);
-                    notifyDataSetChanged();
                     break;
                 }
                 case StatusCode.REQUEST_FOLLOW_USER:
                 {
                     ACache aCache = ACache.get(activity);
-                    JSONObject jsonObject = aCache.getAsJSONObject("loginModel");
-                    try {
-                        JSONObject content = jsonObject.getJSONObject("userModel");
-                        String userid = content.getString("id");
-                        String authkey = content.getString("auth_key");
-                        String followerid = activity.getData().get(position).getId();
-                        Map map = new HashMap<>();
-                        map.put("uid", userid);
-                        map.put("authkey", authkey);
-                        map.put("followerid", followerid);
-                        map.put("type", StatusCode.REQUEST_FOLLOW_USER);
-                        netRequest.httpRequest(map, CommonUrl.getFollowInfo);
-                        button2.setText("已关注");
-                        v.setTag(StatusCode.REQUEST_CANCEL_FOLLOWING);
-                        notifyDataSetChanged();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                    UserModel content = null;
+                    content = loginDataModel.getUserModel();
+                    String userid = content.getId();
+                    String authkey = content.getAuth_key();
+                    String followerid = activity.getData().get(position).getId();
+                    Map map = new HashMap<>();
+                    map.put("uid", userid);
+                    map.put("authkey", authkey);
+                    map.put("followerid", followerid);
+                    map.put("type", StatusCode.REQUEST_FOLLOW_USER);
+                    followlist.clear();
+                    v.setTag(StatusCode.REQUEST_CANCEL_FOLLOWING);
+                    netRequest.httpRequest(map, CommonUrl.getFollowInfo);
                     break;
                 }
 
