@@ -110,7 +110,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         Intent intent = getIntent();
         type = intent.getStringExtra("id");
         otherId=type;
-        listView = (ListView)findViewById(R.id.listView);
+       // listView = (ListView)findViewById(R.id.listView);
         button1 = (LinearLayout) findViewById(R.id.button1);
         button2 = (LinearLayout)findViewById(R.id.button2);
         button3 = (LinearLayout)findViewById(R.id.button3);
@@ -243,9 +243,9 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             }
         });
 
-        SimpleAdapter adapter1 = new SimpleAdapter(this, init(), R.layout.item_user_listview_layout, new String[]{"item1",
-                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
-        listView.setAdapter(adapter1);
+//        SimpleAdapter adapter1 = new SimpleAdapter(this, init(), R.layout.item_user_listview_layout, new String[]{"item1",
+//                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
+//        listView.setAdapter(adapter1);
 
 
 
