@@ -11,8 +11,12 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.HuodongItemAdapter;
+import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.HuoDongItemModel;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -28,6 +32,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import okhttp3.Cache;
 
 /**
  * 内容视图
@@ -85,58 +91,6 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
     //这个init必须由父view在inflate完成后调用
 	public void init(View view) {
 
-        /*ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.huodong_view_frame);
-        mRecyclerView = (RecyclerView) this.findViewById(R.id.huodong_recycler_view);
-
-        adapter = new RecyclerAdapter(context, mData);
-        mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setAdapter(mAdapter);
-        ptrClassicFrameLayout.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                ptrClassicFrameLayout.autoRefresh(true);
-            }
-        }, 150);
-
-        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        page = 0;
-                        mData.clear();
-                        for (int i = 0; i < 17; i++) {
-                            mData.add(new String("  RecyclerView item  -" + i));
-                        }
-                        mAdapter.notifyDataSetChanged();
-                        ptrClassicFrameLayout.refreshComplete();
-                        ptrClassicFrameLayout.setLoadMoreEnable(true);
-                    }
-                }, 2000);
-            }
-        });
-
-        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-
-            @Override
-            public void loadMore() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mData.add(new String("  RecyclerView item  - add " + page));
-                        mAdapter.notifyDataSetChanged();
-                        ptrClassicFrameLayout.loadMoreComplete(true);
-                        page++;
-                        //Toast.makeText(RecyclerViewActivity.this, "load more complete", Toast.LENGTH_SHORT).show();
-                    }
-                }, 1000);
-            }
-        });*/
-
 
         List<HuoDongItemModel> list=new ArrayList<>();
         personAdapter = new HuodongItemAdapter(context,list);
@@ -161,8 +115,13 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
 	}
 
     private void onInitHuodong(){
+        ACache cache= ACache.get(APP.context);
+        LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
+        UserModel model=loginModel.getUserModel();
         HashMap map=new HashMap();
         map.put("type",10303);
+        map.put("uid",model.getId()+"");
+        map.put("authkey",model.getAuth_key()+"");
         netRequest.httpRequest(map, CommonUrl.getHuodongList);
     }
 
@@ -198,6 +157,11 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
                     HashMap map=new HashMap();
                     map.put("type", 10304);
                     map.put("acsended", bootCounter);
+                    ACache cache= ACache.get(APP.context);
+                    LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
+                    UserModel model=loginModel.getUserModel();
+                    map.put("uid",model.getId()+"");
+                    map.put("authkey",model.getAuth_key()+"");
                     netRequest.httpRequest(map, CommonUrl.getHuodongList);
                     getHuodongFlag=true;
                     Log.d("LQQQQQQQQ", firstVisibleItem+"+"+visibleItemCount+">"+totalItemCount+"-2&&"+totalItemCount+"<"+maxRecords);

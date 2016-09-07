@@ -75,7 +75,7 @@ public class HuodongItemAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup){
 
         if(view ==null){
             layoutInflater = LayoutInflater.from(activity);
@@ -117,7 +117,7 @@ public class HuodongItemAdapter extends BaseAdapter{
             huodongPraise=(ImageButton)view.findViewById(R.id.huodong_praise);
         }
 
-        public void setValues(final HuoDongItemModel item) {
+        public void setValues(final HuoDongItemModel item){
             Glide.with(activity)
                     .load(item.getAClurl()).centerCrop()
                     .placeholder(R.drawable.holder)
@@ -133,9 +133,9 @@ public class HuodongItemAdapter extends BaseAdapter{
             setTime.setText(item.getACstartT());
             describe.setText(item.getACcontent());
 
-            final Handler handler=new Handler() {
+            final Handler handler=new Handler(){
                 @Override
-                public void handleMessage(Message msg) {
+                public void handleMessage(Message msg){
                     super.handleMessage(msg);
 
                     if (msg.what== StatusCode.PRAISE_HUODONG_SUCCESS){
@@ -192,7 +192,7 @@ public class HuodongItemAdapter extends BaseAdapter{
                         }
 
                         @Override
-                        public void exception(IOException e, String requestUrl) {
+                        public void exception(IOException e, String requestUrl){
 
                         }
                     }, activity);

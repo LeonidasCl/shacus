@@ -20,7 +20,7 @@ public class HuoDongItemModel implements Serializable{
 
 
 
-    public String getACcontent() {
+    public String getACcontent(){
         return ACcontent;
     }
 
