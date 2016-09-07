@@ -28,4 +28,5 @@ public class CommonUrl {
 	public static String joinHuodong=url+"activity/register";//约拍报名
 	public static String praiseAppointment=url+"appointment/prase";
 	public static String praiseActivity=url+"Activity/entry";
+	public static String favouriteYuepai=url+"user/favorite";
 }

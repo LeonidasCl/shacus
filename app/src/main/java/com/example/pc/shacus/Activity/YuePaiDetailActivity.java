@@ -72,6 +72,17 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         public void onMenuItemClick(View view, int position) {
             //Toast.makeText(getApplicationContext(), "Touched position " + position, Toast.LENGTH_SHORT).show();
             if (typo.equals("yuepai")){//约拍的操作：{他人发布的：报名与取消报名，自己发布的：取消约拍与}
+
+                if (position==2){
+                    //收藏约拍
+                    Map map=new HashMap();
+                    map.put("authkey",userModel.getAuth_key());
+                    map.put("uid",userModel.getId());
+                    map.put("type",StatusCode.REQUEST_FAVOURITE_YUEPAI);
+                    map.put("typeid",data.getAPid());
+                    request.httpRequest(map,CommonUrl.favouriteYuepai);
+                }
+
                 if (isSponsor==0){//是自己发布的
                     if (position==0){
                     //取消约拍
@@ -99,6 +110,17 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     }
                 }
             }else {//活动的操作：{他人发布的：报名与取消报名，自己发布的：取消活动与}
+
+                if (position==2){
+                    //收藏活动
+                    Map map=new HashMap();
+                    map.put("authkey",userModel.getAuth_key());
+                    map.put("uid",userModel.getId());
+                    map.put("type",StatusCode.REQUEST_FAVOURITE_HUODONG);
+                    map.put("typeid",data.getAPid());
+                    request.httpRequest(map,CommonUrl.favouriteYuepai);
+                }
+
                 if (isSponsor==0){//是自己发布的
                     if (position==0){
                         //取消约拍
@@ -210,6 +232,11 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 if (msg.what==StatusCode.REQUEST_FAILURE){
                     CommonUtils.getUtilInstance().showToast(APP.context, (String) msg.obj);
                     finish();
+                    return;
+                }
+
+                if (msg.what == StatusCode.REQUEST_FAVOURITE_YUEPAI_SUCCESS){
+                    CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
                     return;
                 }
 
@@ -438,6 +465,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         return new FilterMenu.Builder(this)
                 .addItem(R.drawable.ic_action_info)
                 .addItem(R.drawable.ic_action_info)
+                .addItem(R.drawable.ic_action_info)
                 .attach(filterMenu)
                 .withListener(listener)
                 .build();
@@ -523,9 +551,33 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     msg.what= StatusCode.REQUEST_DETAIL_SUCCESS;
                     msg.obj=data;
                     handler.sendMessage(msg);
+                     return;
                  }
             }else {
-                //
+                 Message msg=handler.obtainMessage();
+                 msg.what= StatusCode.REQUEST_FAILURE;
+                 msg.obj=object.getString("contents");
+                 handler.sendMessage(msg);
+                 return;
+            }
+        }
+
+        if (requestUrl.equals(CommonUrl.favouriteYuepai)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code==StatusCode.REQUEST_FAVOURITE_YUEPAI_SUCCESS){
+                //JSONObject content=object.getJSONObject("contents");
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FAVOURITE_YUEPAI_SUCCESS;
+                msg.obj=data;
+                handler.sendMessage(msg);
+                return;
+            }else {
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FAILURE;
+                msg.obj=object.getString("contents");
+                handler.sendMessage(msg);
+                return;
             }
         }
 
@@ -538,6 +590,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 msg.what= StatusCode.PRAISE_HUODONG_SUCCESS;
                 data.setAClikenumber(Integer.valueOf(praiseNum.getText().toString()) + 1);
                 handler.sendMessage(msg);
+                return;
             }
             if (code == StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS) {
                 data.setUserliked(0);
@@ -545,7 +598,14 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 msg.what= StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS;
                 data.setAClikenumber(Integer.valueOf(praiseNum.getText().toString()) - 1);
                 handler.sendMessage(msg);
+                return;
             }
+
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
+            return;
         }
 
         if (requestUrl.equals(CommonUrl.praiseAppointment)){
@@ -555,8 +615,9 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 data.setUserliked(1);
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.PRAISE_YUEPAI_SUCCESS;
-                data.setAPlikeN(Integer.valueOf(praiseNum.getText().toString()) +1);
+                data.setAPlikeN(Integer.valueOf(praiseNum.getText().toString()) + 1);
                 handler.sendMessage(msg);
+                return;
             }
             if (code == StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS) {
                 data.setUserliked(0);
@@ -564,7 +625,14 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 msg.what= StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS;
                 data.setAPlikeN(Integer.valueOf(praiseNum.getText().toString()) - 1);
                 handler.sendMessage(msg);
+                return;
             }
+
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
+            return;
         }
 
         if (requestUrl.equals(CommonUrl.joinYuepai)){
@@ -587,11 +655,11 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 return;
             }
 
-                Message msg=handler.obtainMessage();
-                msg.what= StatusCode.REQUEST_FAILURE;
-                msg.obj=object.getString("contents");
-                handler.sendMessage(msg);
-
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
+            return;
         }
 
         if (requestUrl.equals(CommonUrl.getHuodongList)){
@@ -608,9 +676,14 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     msg.what= StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS;
                     msg.obj=data;
                     handler.sendMessage(msg);
+                    return;
                 }
             }else {
-                //
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FAILURE;
+                msg.obj=object.getString("contents");
+                handler.sendMessage(msg);
+                return;
             }
         }
 
@@ -638,6 +711,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             msg.what= StatusCode.REQUEST_FAILURE;
             msg.obj=object.getString("contents");
             handler.sendMessage(msg);
+            return;
         }
     }
 

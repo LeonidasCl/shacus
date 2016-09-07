@@ -171,7 +171,7 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
 
 	}
 
-    private void onInitHuodong() {
+    private void onInitHuodong(){
         HashMap map=new HashMap();
         map.put("type",10303);
         netRequest.httpRequest(map, CommonUrl.getHuodongList);
@@ -196,7 +196,7 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
     private void onScrollListener() {
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
+            public void onScrollStateChanged(AbsListView absListView, int i){
                 Log.d("LQQQQQQQQ", "onScrollChanged ");
             }
 
