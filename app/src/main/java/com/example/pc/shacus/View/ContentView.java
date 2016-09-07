@@ -51,18 +51,7 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
             super.handleMessage(msg);
             switch (msg.what){
                 case StatusCode.REQUEST_HUODONG_GET_HUODONG:
-//                    List<HuoDongItemModel> persons = new ArrayList<>();
-//                    for(int i=bootCounter;i<bootCounter+10;i++){
-//                        HuoDongItemModel huodong = new HuoDongItemModel();
-//                        huodong.setACcontent("活动描述信息加载中...不得少于十五字不得多于一百五十字");
-//                        huodong.setACstartT(new Date());
-//                        huodong.setACregistN((int) (Math.random() * 100) + 1);
-//                        huodong.setAClikenumber((int) (Math.random() * 100) + 1);
-//                        huodong.setUsrName("用户" + i);
-//                        persons.add(huodong);
-//                        Log.d("LQQQQQQQQ", "bootData"+i);
-//                    }
-//                    bootCounter+=10;
+
                     personAdapter.notifyDataSetChanged();
                     getHuodongFlag=false;
                     break;
