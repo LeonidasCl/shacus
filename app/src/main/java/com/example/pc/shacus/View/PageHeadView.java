@@ -2,6 +2,7 @@ package com.example.pc.shacus.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * 页面头部View
@@ -38,5 +39,9 @@ public class PageHeadView extends MoveView {
 			return;
 		}
 		updateMarginTop(-getHideMoveStep(step));
+	}
+
+	public void init(View view){
+
 	}
 }
