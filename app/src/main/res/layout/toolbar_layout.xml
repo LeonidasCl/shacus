@@ -8,17 +8,18 @@
                                    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                                    layout_height="?attr/actionBarSize"
-                                   layout_width="match_parent">
+                                   layout_width="match_parent"
+    android:layout_width="wrap_content">
 
-                                    <ImageButton
+                                    <com.example.pc.shacus.View.CircleImageView
                                         android:contentDescription="@string/app_name"
                                         android:id="@+id/toolbar_btn_avatar"
                                         android:layout_width="45dp"
                                         android:layout_height="45dp"
                                         android:background="@drawable/shape_round"
-                                        android:src="@drawable/login_button"
+                                        android:src="@drawable/holder"
                                         android:layout_gravity="start|top"
-                                        android:scaleType="centerInside"/>
+                                        app:border_color="#00000000"/>
 
                                     <TextView
                                     android:id="@+id/m_toolbar_title"

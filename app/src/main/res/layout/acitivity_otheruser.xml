@@ -56,12 +56,12 @@
                     android:layout_gravity="bottom"
                     />
 
-                <com.example.pc.shacus.View.TagView.CircleImageView
+                <com.example.pc.shacus.View.CircleImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="-10dp"
-                    android:src="@drawable/user_image"
+                    android:src="@drawable/holder"
                     android:id="@+id/image3"
                     />
 

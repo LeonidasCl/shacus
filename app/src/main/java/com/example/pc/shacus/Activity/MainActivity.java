@@ -34,6 +34,7 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.SystemBarTintManager;
+import com.example.pc.shacus.View.CircleImageView;
 
 import org.json.JSONException;
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private android.support.v7.app.ActionBar actbar;
     private TextView toolbarTitle;
     private ACache cache;
-    private ImageButton btnAvartar;
+    private CircleImageView btnAvartar;
     private TextView textName;
 
     private DrawerLayout mDrawerLayout;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //为侧边栏设置监听，由于此Activity已实现OnNavigationItemSelectedListener接口，可以传this
         navigationView.setNavigationItemSelectedListener(this);
         //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
-        btnAvartar=(ImageButton)findViewById(R.id.toolbar_btn_avatar);
+        btnAvartar= (CircleImageView) findViewById(R.id.toolbar_btn_avatar);
         btnAvartar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

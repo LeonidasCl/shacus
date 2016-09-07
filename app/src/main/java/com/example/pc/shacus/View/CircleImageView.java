@@ -1,4 +1,4 @@
-package com.example.pc.shacus.View.TagView;
+package com.example.pc.shacus.View;
 
 /**
  * Created by 孙启凡 on 2016/8/29.
