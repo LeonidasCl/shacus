@@ -35,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -241,10 +243,9 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             }
         });
 
-
-//        SimpleAdapter adapter1 = new SimpleAdapter(this, init(), R.layout.item_user_listview_layout, new String[]{"item1",
-//                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
-//        listView.setAdapter(adapter1);
+        SimpleAdapter adapter1 = new SimpleAdapter(this, init(), R.layout.item_user_listview_layout, new String[]{"item1",
+                "item2", "item3"}, new int[]{R.id.image1, R.id.content, R.id.image2});
+        listView.setAdapter(adapter1);
 
 
 

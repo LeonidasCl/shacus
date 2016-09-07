@@ -24,7 +24,7 @@ public class CourseFragment extends Fragment {
 
         //9.5缺少布局文件
         //9.6已更正
-        View view=inflater.inflate(R.layout.fragment_mycourse, container, false);
+        View view=inflater.inflate(R.layout.frag_course, container, false);
         recommendLine= (LinearLayout) view.findViewById(R.id.recommendCourse_Linear);
 
         initView();

@@ -88,6 +88,7 @@
         <activity android:name=".Activity.CoursesActivity_item"/>
         <activity android:name=".Activity.OrdersItemActivity"/>
         <activity android:name=".Activity.OtherUserActivity"/>
+        <activity android:name=".Activity.OtherCourseActivity"/>
         <activity
             android:name=".Activity.TagAddActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />

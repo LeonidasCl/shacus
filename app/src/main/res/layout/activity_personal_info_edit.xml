@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.example.pc.shacus.Activity.PersonalInfoActivity"
     android:orientation="vertical"
-    android:gravity="top">
+    android:gravity="top"
+    android:background="@color/edit_photo_bg_color">
 
 
 
@@ -15,27 +16,29 @@
         android:layout_height="?actionBarSize"
         android:gravity="start"
         android:background="@color/gold">
-        <Button
+        <ImageButton
             android:id="@+id/btn_back"
             android:background="@drawable/downarrow"
             android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个人资料"
+            android:textColor="@color/ee_black"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="14sp" />
-        <Button
+            android:textSize="20sp" />
+        <TextView
             android:id="@+id/btn_finish"
             android:background="@null"
-            android:hint="完成"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
+            android:text="完成"
+            android:textColor="@color/ee_black"
+            android:textSize="@dimen/sp_16"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
@@ -44,13 +47,14 @@
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:id="@+id/layout_UserImage"
-        android:gravity="start">
+        android:gravity="start"
+        android:layout_marginTop="5dp">
         <TextView
             android:id="@+id/text_UserImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="头像"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_16"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <ImageView
@@ -66,16 +70,17 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#ffffff"
         android:id="@+id/layout_UserName"
-        android:gravity="start">
+        android:gravity="start"
+        android:layout_marginTop="20dp">
         <TextView
             android:id="@+id/text_UserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_16"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -83,14 +88,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="风吹柚子"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_14"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#ffffff"
         android:id="@+id/layout_UserEmail"
         android:gravity="start">
@@ -99,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="邮箱"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_16"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -107,14 +112,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123456789@qq.com"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_14"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#ffffff"
         android:id="@+id/layout_UserAddress"
         android:gravity="start">
@@ -123,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="所在地"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_16"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -131,14 +136,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="中国 江苏 南京"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_14"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#ffffff"
         android:id="@+id/layout_UserPhoneNumber"
         android:gravity="start">
@@ -147,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手机号"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_16"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"/>
         <EditText
@@ -155,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="13911112222"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_14"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="40dp"/>

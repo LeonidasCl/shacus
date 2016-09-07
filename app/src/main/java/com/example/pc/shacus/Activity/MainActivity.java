@@ -377,6 +377,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if(id==R.id.nav_Logout){
             //登出请求
+            ACache cache=ACache.get(APP.context);
+            cache.clear();
+            Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
+            finish();
             NetRequest netRequest=new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
                 @Override
                 public void requestFinish(String result, String requestUrl) throws JSONException {

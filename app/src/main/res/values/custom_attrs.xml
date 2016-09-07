@@ -4,7 +4,7 @@
     <declare-styleable name="MoveHideView"><!-- 模仿UC浏览器界面的约拍view -->
         <attr name="pageHeadViewHeight" format="dimension"/><!-- 页面头部搜索框的高度 -->
         <attr name="isPageHeadViewFixed" format="boolean"/><!-- 搜索框是否固定，此属性为true的话PageHeadView则会固定在界面顶部不会滑动,此属性为false的话PageHeadView会首先隐藏再慢慢滑出 -->
-        <attr name="pageHeadViewLayoutId" format="reference"/><!-- UC页面头部内容的布局资源ID -->
+        <attr name="pageHeadViewLayoutId" format="reference"/><!--头部内容的布局资源ID -->
         <attr name="pageNavigationViewHeight" format="dimension"/><!-- 按钮（约拍+活动） -->
         <attr name="pageNavigationViewLayoutId" format="reference"/><!-- 按钮布局资源ID -->
         <attr name="isContentHeadViewEnable" format="boolean"/><!-- 约拍活动列表头是否开启 -->
