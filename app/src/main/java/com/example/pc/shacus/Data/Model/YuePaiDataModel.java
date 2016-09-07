@@ -15,6 +15,7 @@ public class YuePaiDataModel implements Serializable {
     private String APendT;
     private int APid;
     private int ACid;
+    private int Userliked;
     private int AP_issponsor;//自己是否为发起者  0为不是  1为是
     private int AC_issponsor;//自己是否为发起者  0为不是  1为是
     private int APstatus;//1是报名中 2是选择完成 3是已结束
@@ -409,5 +410,13 @@ public class YuePaiDataModel implements Serializable {
 
     public void setAC_issponsor(int AC_issponsor) {
         this.AC_issponsor = AC_issponsor;
+    }
+
+    public int getUserliked() {
+        return Userliked;
+    }
+
+    public void setUserliked(int userliked) {
+        Userliked = userliked;
     }
 }

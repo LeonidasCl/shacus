@@ -16,6 +16,7 @@ public class PhotographerModel implements Serializable {
     private String APstartT;
     private String APlikeN;
     private String APregistN;
+    private int Userliked;
 
 
     public String getAPtitle() {
@@ -72,5 +73,13 @@ public class PhotographerModel implements Serializable {
 
     public void setUserimg(String userimg) {
         Userimg = userimg;
+    }
+
+    public int getUserliked() {
+        return Userliked;
+    }
+
+    public void setUserliked(int userliked) {
+        Userliked = userliked;
     }
 }

@@ -262,8 +262,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 if (msg.what==StatusCode.REQUEST_FAILURE){
                     //Looper.prepare();
                     CommonUtils.getUtilInstance().showToast(APP.context, "网络请求失败！");
+                    loginProgressDlg.cancel();
                     //Looper.loop();
-                    finish();
+                    //finish();
                     return;
                 }
               if (msg.what==StatusCode.RECIEVE_REGISTER_SUCCESS){
@@ -284,7 +285,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
 
-        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
+        if (requestUrl.equals(CommonUrl.loginAccount)){//返回登录请求
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
 

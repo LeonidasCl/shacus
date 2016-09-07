@@ -25,18 +25,18 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class CoursesActivityTest {
 
-    //测试规则
-    @Rule
-    public ActivityTestRule<CoursesActivity> activityRule = new ActivityTestRule<>(CoursesActivity.class);
-
-    @Test
-    public void testOnCreate() throws Exception {
-        onView(withId(R.id.btn_finishList)).perform(click());
-
-        onView(withId(R.id.btn_finishList)).check(matches(withText("完成列表")));
-
-
-        onView(withId(R.id.listView_course)).perform(click());
-        Thread.sleep(25000);
-    }
+//    //测试规则
+//    @Rule
+//    public ActivityTestRule<CoursesActivity> activityRule = new ActivityTestRule<>(CoursesActivity.class);
+//
+//    @Test
+//    public void testOnCreate() throws Exception {
+//        onView(withId(R.id.btn_finishList)).perform(click());
+//
+//        onView(withId(R.id.btn_finishList)).check(matches(withText("完成列表")));
+//
+//
+//        onView(withId(R.id.listView_course)).perform(click());
+//        Thread.sleep(25000);
+//    }
 }

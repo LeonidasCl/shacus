@@ -39,7 +39,7 @@
                 android:layout_height="48dp"
                 android:layout_margin="8dp"
                 android:background="#00000000"
-                android:src="@drawable/praise"
+                android:src="@drawable/btn_detail_selector"
                 android:scaleType="centerInside"
                 android:contentDescription="@string/contentDescribe"/>
 

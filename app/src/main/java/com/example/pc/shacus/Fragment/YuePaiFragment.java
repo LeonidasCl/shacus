@@ -214,7 +214,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
             int firstVisibleItem = rankFrag.getListView().getFirstVisiblePosition();
             boolean onTop = firstVisibleItem == 0 &&rankFrag.getListView().getChildAt(0) != null && rankFrag.
                     getListView().getChildAt(0).getTop() == 0;
-                Log.w("logout.gettop",rankFrag.getListView().getChildAt(0).getTop()+"");
+//                Log.w("logout.gettop",rankFrag.getListView().getChildAt(0).getTop()+"");
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         break;

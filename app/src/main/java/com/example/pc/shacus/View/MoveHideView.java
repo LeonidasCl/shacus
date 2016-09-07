@@ -21,19 +21,19 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
      */
     private Context mContext;
     /**
-     * 页面头部视图(对应UC首页新闻视图向上滑动完成后页面的头部View，UC中最开始隐藏)
+     * 顶部搜索框的视图
      */
     private PageHeadView mPageHeadView;
     /**
-     * 页面内容导航视图(对应UC首页的网址导航视图)
+     * 活动listview之上的头布局，显示一些微小的用户信息
      */
     private PageNavigationView mPageNavigationView;
     /**
-     * 内容视图的头部视图(对应UC首页新闻视图完全展示后的新闻类型导航头部部分，初始时隐藏)
+     * 内容视图的头部视图，这个视图显示异常，直接不显示了
      */
     private ContentHeadView mContentHeadView;
     /**
-     * 内容视图(对应UC首页中的新闻部分)
+     * 下面的活动listview
      */
     private ContentView mContentView;
 
@@ -178,8 +178,8 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         mPageNavigationView.setNeedMoveHeight(mPageHeadViewHeight / 2);
         mPageNavigationView.setHideStopMarginTop(layoutParams.topMargin);
 
-        inflate(mContext, resId, mPageNavigationView);
-        mPageNavigationView.init();
+        View view=inflate(mContext, resId, mPageNavigationView);
+        mPageNavigationView.init(view);
         addView(mPageNavigationView);
     }
 
