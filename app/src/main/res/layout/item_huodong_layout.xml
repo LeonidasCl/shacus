@@ -9,7 +9,9 @@
         android:layout_height="48dp"
         android:orientation="horizontal"
         android:gravity="start"
-        android:layout_margin="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/huodong_avatar"
@@ -63,31 +65,44 @@
             android:text="@string/huodong_describe"/>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
     <ImageView
         android:id="@+id/huodong_mainimg"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/huodong_loading"
-        android:scaleType="fitXY"/>
-
+        android:scaleType="fitXY"
+        android:contentDescription="@string/appname"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        android:layout_margin="10dp"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
+        android:baselineAligned="false"
+        android:background="#53000000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="6"></LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
             <ImageButton
                 android:id="@+id/huodong_praise"
                 android:layout_width="48dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_height="48dp"
-                android:background="@null"
-                android:src="@drawable/praise"
+                android:layout_margin="8dp"
+                android:src="@drawable/btn_detail_selector"
+                android:background="#00000000"
                 android:scaleType="centerInside"
                 />
 
@@ -104,17 +119,18 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="3">
 
             <ImageButton
                 android:id="@+id/huodong_join"
                 android:layout_width="48dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_height="48dp"
-                android:background="@null"
-                android:src="@drawable/praise"
+                android:src="@drawable/btn_detail_selector"
+                android:layout_margin="8dp"
+                android:background="#00000000"
                 android:scaleType="centerInside"
                 />
 
@@ -130,7 +146,10 @@
                 android:layout_marginStart="5dp"/>
 
         </RelativeLayout>
+
     </LinearLayout>
+
+    </RelativeLayout>
 
 
 </LinearLayout>

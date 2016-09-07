@@ -4,7 +4,8 @@
     <item name="gray_holo_light" type="color">#ffd0d0d0</item>
     <color name="colorCreateYuePai">#99000000</color>
     <color name="colorAccent">#d9d9d9</color>
-    <color name="gold">#E6BF66</color>
+    <!--<color name="gold">#E6BF66</color>-->
+    <color name="gold">#1A1A1A</color>
     <color name="lightgold">#55E6BF66</color>
     <color name="chocolate">#5C3317</color>
     <color name="item_selected_gray">#d9d9d9</color>

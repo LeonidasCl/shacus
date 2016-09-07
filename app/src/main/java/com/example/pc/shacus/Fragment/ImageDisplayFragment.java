@@ -33,23 +33,25 @@ public class ImageDisplayFragment extends Fragment implements OnClickListener{
 	}
 
 	public  ImageDisplayFragment create(String url,int position) {
+		//在这里设置好要返回的Fragment
 		ImageDisplayFragment imageDisplayFragment= new ImageDisplayFragment();
+		//设置Bundle并放入图片地址
 		Bundle bundle = new Bundle();  
 		bundle.putString("url", url);
-//		Log.d("gaolei", "url-----------put-------------"+url);
         imageDisplayFragment.setArguments(bundle); 
-	return imageDisplayFragment;
+		return imageDisplayFragment;
 	}
 
 	private void initView(View view) {
+
 		display_big_image = (PhotoView) view.findViewById(R.id.display_big_image);
 		display_image_fragment= (LinearLayout) view.findViewById(R.id.display_image_fragment);
 		display_image_fragment.setOnClickListener(this);
+		//拿到放入的图片地址
 		String imageUrl=getArguments().getString("url");
-//		Log.d("gaolei", "imageUrl-----------get-------------"+imageUrl);
-//		Log.d("gaolei", "showNetImg-------------"+showNetImg);
+
 		if(showNetImg){
-		CommonUtils.getUtilInstance().displayLowQualityInImage(imageUrl, display_big_image);
+		CommonUtils.getUtilInstance().displayNetworkImage(imageUrl, display_big_image);
 		}else{
 			Bitmap bitmap= UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(imageUrl);
 			display_big_image.setImageDrawable(new BitmapDrawable(getActivity().getResources(),bitmap));

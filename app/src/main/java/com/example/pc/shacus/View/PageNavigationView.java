@@ -2,6 +2,7 @@ package com.example.pc.shacus.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * 导航按钮
@@ -51,15 +52,8 @@ public class PageNavigationView extends TouchMoveView {
 		return getMarginTop() >= mHideStopMarginTop ? true : false;
 	}
 
-	public void init(){
-
+	public void init(View view){
 
 	}
-
-/*	@Override
-    public boolean onTouchEvent(MotionEvent event) {
-       super.onTouchEvent(event);
-        return false;
-    }*/
 
 }

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.pc.shacus.Activity.OtherCourseActivity">
+    tools:context="com.example.pc.shacus.Activity.OtherCourseActivity"
+    android:background="@color/gray_color_99999a">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,6 +42,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/otherrecyclerView"
         android:scrollbars="vertical"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

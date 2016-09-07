@@ -106,4 +106,5 @@
     <string name="time_holder">时间时间时间</string>
     <string name="loading">加载中…</string>
     <string name="detail_join_num">报名人数：</string>
+    <string name="appname">app</string>
 </resources>
