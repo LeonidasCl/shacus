@@ -60,7 +60,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
     }
 
     @Override
-    public void onBindViewHolder(RecyclerHolderView holder, int position) {
+    public void onBindViewHolder(final RecyclerHolderView holder, int position) {
         Glide.with(context)
                 .load(courseModelList.get(position).getImage()).fitCenter()
                 .placeholder(R.drawable.holder).dontAnimate().dontTransform()
@@ -69,14 +69,26 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         holder.title.setText(courseModelList.get(position).getTitle());
         holder.read.setText(Integer.toString(courseModelList.get(position).getReadNum()));
         //在分类和已完成教程中可以收藏和取消收藏
-        if (courseModelList.get(position).getKind()==1||courseModelList.get(position).getKind()==3) {
+//        if (courseModelList.get(position).getKind()==1||courseModelList.get(position).getKind()==3) {
             if (courseModelList.get(position).getCollet() == 1) {
                 holder.collectItem.setImageResource(R.drawable.button_pop_down);
+                holder.collectItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.collectItem.setImageResource(R.drawable.button_model_up);
+                    }
+                });
             } else {
-                holder.collectItem.setImageResource(R.drawable.button_pop_down);
+                holder.collectItem.setImageResource(R.drawable.button_model_up);
+                holder.collectItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.collectItem.setImageResource(R.drawable.button_model_up);
+                    }
+                });
             }
 
-        }
+      //  }
 
         //在课程表中标注已完成和未完成
         if (courseModelList.get(position).getKind()==2) {
@@ -91,6 +103,9 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         List list1 = new ArrayList();
         list1.add(1);
         list1.add(position);
+        list1.add(courseModelList.get(position).getItemid());
+        list1.add(courseModelList.get(position).getCollet());
+        list1.add(holder.collectItem);
         holder.collectItem.setTag(list1);
         holder.collectItem.setOnClickListener((View.OnClickListener) context);
         List list2 = new ArrayList();

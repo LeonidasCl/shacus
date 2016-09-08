@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,7 +52,7 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
     private int itemid;
 
     private ACache aCache;
-    private NetRequest netRequest = new NetRequest(this,getActivity());
+    private NetRequest netRequest;
 
     String userId = null;
     String authkey = null;
@@ -65,6 +66,7 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
         recyclerView1= (RecyclerView) view.findViewById(R.id.finishrecyclerView);
         aCache = ACache.get(getActivity());
         courseItemList1 = new ArrayList<>();
+        netRequest = new NetRequest(this,getActivity());
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
         UserModel user = null;
         Map map = new HashMap<>();
@@ -82,6 +84,13 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
         initInfo();
 
         return view;
+    }
+    @Override
+
+    public void onAttach(Activity activity) {
+
+        super.onAttach(activity);
+
     }
 private Handler handler=new Handler(){
     @Override
@@ -123,7 +132,7 @@ private Handler handler=new Handler(){
         layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView1.setLayoutManager(layoutManager1);
         recyclerView1.addItemDecoration(new CourseDecoration(getActivity(), CourseDecoration.VERTICAL_LIST));
-        courseListAdapter1 = new CourseListAdapter(courseItemList1, getActivity());
+        courseListAdapter1 = new CourseListAdapter(courseItemList1,getActivity());
         recyclerView1.setAdapter(courseListAdapter1);
 
     }
