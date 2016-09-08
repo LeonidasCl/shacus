@@ -515,6 +515,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
     }
 
+
     public float getScreenDen(){
         //dwidth = new DisplayMetrics();
         //getWindowManager().getDefaultDisplay().getMetrics(dwidth);
