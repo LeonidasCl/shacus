@@ -37,6 +37,7 @@
         android:layout_alignBottom="@+id/following_user_image"/>
 
     <Button
+        android:textColor="@color/white"
         android:background="@drawable/shape_round"
         android:text="已关注"
         android:textSize="14sp"

@@ -120,10 +120,16 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 updateTab(mTabHost);
                 if (position == 0) {
                     loading1.setVisibility(View.VISIBLE);
+                    index = StatusCode.REQUEST_REGIST_ORDER;
+                    initOrderInfo();
                 } else if (position == 1) {
                     loading2.setVisibility(View.VISIBLE);
+                    index = StatusCode.REQUEST_DOING_ORDER;
+                    initOrderInfo();
                 } else {
                     loading3.setVisibility(View.VISIBLE);
+                    index = StatusCode.REQUEST_DONE_ORDER;
+                    initOrderInfo();
                 }
             }
 
@@ -141,19 +147,16 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     loading1.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_REGIST_ORDER;
                     updateTab(mTabHost);
-                    initOrderInfo();
                 } else if (tabId.equals("tab2")) { //进行中
                     viewPager.setCurrentItem(1);
                     loading2.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_DOING_ORDER;
                     updateTab(mTabHost);
-                    initOrderInfo();
                 } else {  //已完成
                     viewPager.setCurrentItem(2);
                     loading3.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_DONE_ORDER;
                     updateTab(mTabHost);
-                    initOrderInfo();
                 }
             }
 
@@ -200,14 +203,14 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             {
                 //选中
                 //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
-                view.setBackgroundColor(Color.parseColor("#55E6BF66"));
+                view.setBackgroundColor(Color.parseColor("#aa000000"));
 
             }
             else
             {
                 //不选中
                 //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
-                view.setBackgroundColor(Color.parseColor("#E6BF66"));
+                view.setBackgroundColor(Color.parseColor("#ee000000"));
             }
         }
     }
@@ -279,6 +282,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 break;
             }
         }
+
+
     }
 
     private Handler handler = new Handler(){
@@ -287,28 +292,31 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             switch (msg.what){
                 case StatusCode.REQUEST_REGIST_SUCCESS:
                 {
-                    recyclerViewAdapter1 = new RecyclerViewAdapter(ordersItemList1,OrdersActivity.this);
+                    view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
                     layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView1.setLayoutManager(layoutManager1);
+                    recyclerViewAdapter1 = new RecyclerViewAdapter(ordersItemList1,OrdersActivity.this);
                     recyclerView1.setAdapter(recyclerViewAdapter1);
                     loading1.setVisibility(View.GONE);
                     break;
                 }
                 case  StatusCode.REQUEST_DOING_SUCCESS:
                 {
-                    recyclerViewAdapter2 = new RecyclerViewAdapter(ordersItemList2,OrdersActivity.this);
-                    recyclerView2.setAdapter(recyclerViewAdapter2);
+                    view_2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
                     layoutManager2 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView2.setLayoutManager(layoutManager2);
+                    recyclerViewAdapter2 = new RecyclerViewAdapter(ordersItemList2,OrdersActivity.this);
+                    recyclerView2.setAdapter(recyclerViewAdapter2);
                     loading2.setVisibility(View.GONE);
                     break;
                 }
                 case  StatusCode.REQUEST_DONE_SUCCESS:
                 {
-                    recyclerViewAdapter3 = new RecyclerViewAdapter(ordersItemList3,OrdersActivity.this);
-                    recyclerView3.setAdapter(recyclerViewAdapter3);
+                    view_3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
                     layoutManager3 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView3.setLayoutManager(layoutManager3);
+                    recyclerViewAdapter3 = new RecyclerViewAdapter(ordersItemList3,OrdersActivity.this);
+                    recyclerView3.setAdapter(recyclerViewAdapter3);
                     loading3.setVisibility(View.GONE);
                     break;
                 }

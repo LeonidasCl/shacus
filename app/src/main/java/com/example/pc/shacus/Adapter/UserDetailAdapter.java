@@ -42,11 +42,11 @@ public class UserDetailAdapter extends BaseAdapter{
     SelectUserActivity selectUserActivity;
     NetRequest netRequest;
     Map map = new HashMap<>();
-    int index;
 
     public UserDetailAdapter(SelectUserActivity c,List<UserModel> list){
         selectUserActivity = c;
         userModelList = list;
+        netRequest = new NetRequest(selectUserActivity,selectUserActivity);
     }
 
     @Override
@@ -86,16 +86,14 @@ public class UserDetailAdapter extends BaseAdapter{
                     viewHolder.baoming.setText("已选择");
                 }else
                     viewHolder.baoming.setText("选择");
-                Log.d("aaaaaaaaaaa","success");
                 viewHolder.baoming.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("aaaaaaaaaaa","aasssss");
                         if(userModelList.get(position).getIndex()){
                             CommonUtils.getUtilInstance().showToast(APP.context, "已选择不能更改");
                         }  else {
                             new AlertDialog.Builder(selectUserActivity).setTitle("确定选择")
-                                    .setMessage(userModelList.get(position).getNickName() +"/n为约拍对象吗？一旦设置，不可更改")
+                                    .setMessage(userModelList.get(position).getNickName() +"\n为约拍对象吗？一旦设置，不可更改")
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {//确定按钮响应事件
@@ -110,29 +108,21 @@ public class UserDetailAdapter extends BaseAdapter{
                                             map.put("authkey",authkey);
                                             map.put("uid",myid);
                                             map.put("type", StatusCode.REQUEST_SELECT_YUEPAIUSER);
-                                            index = 1;
+                                            Log.d("aaaaaaaaaaa", map.toString());
                                             dialog.dismiss();
+                                            viewHolder.baoming.setText("已选择");
+                                            netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
                                         }
                                     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    index = 2;
                                     dialog.dismiss();
                                 }
                             }).show();
                         }
-
-                        if(index == 1){
-                            netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
-                            /*发intent*/
-                            Intent intent = new Intent(selectUserActivity, YuePaiDetailActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            intent.putExtra("type","selectuser");
-                            intent.putExtra("result","success");
-                            selectUserActivity.startActivity(intent);
-                        }
                     }
                 });
+
 
             }else if(selectUserActivity.getType().equals("huodong")){
                 viewHolder.baoming.setVisibility(View.INVISIBLE);

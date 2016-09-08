@@ -142,4 +142,8 @@ public interface StatusCode {
     int REQUEST_SELECT_YUEPAIUSER = 10904; //选择约拍对象
     int REQUEST_SELECT_YUEPAIUSER_SUCCESS = 10920; //选择约拍对象成功
     int REUQEST_SELECT_YUEPAIUSER_NONE = 10264; //
+
+    int REQUEST_ALLDONGTAI = 12001; //返回所有发布的动态
+    int REQUEST_ALLDONGTAI_SUCCESS = 12013; //请求动态成功
+    int REQUESTT_ALLDONGTAI_ERROR = 12012;//用户身份认证失败
 }

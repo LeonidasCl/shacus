@@ -39,7 +39,7 @@
     <Button
         android:background="@drawable/shape_round"
         android:text="选择"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:id="@+id/baomingbtn"
         android:layout_width="70dp"
