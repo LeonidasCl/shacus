@@ -339,7 +339,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
-                    msg.what=10231;
+                    msg.what=10235;
                     handler.sendMessage(msg);
                 }else if(code.equals("10261"));
 
