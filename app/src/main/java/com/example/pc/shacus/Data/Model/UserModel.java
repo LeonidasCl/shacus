@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class UserModel implements Serializable{
     private String headImage;
     private String realName;
+    private String chattoken;
     private String sex;
     private String birthday;
     private String sign;
@@ -131,5 +132,13 @@ public class UserModel implements Serializable{
 
     public void setIndex(Boolean index) {
         this.index = index;
+    }
+
+    public String getChattoken() {
+        return chattoken;
+    }
+
+    public void setChattoken(String chattoken) {
+        this.chattoken = chattoken;
     }
 }
