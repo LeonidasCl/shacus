@@ -118,7 +118,7 @@ public class YuePaiAdapter extends BaseAdapter{
             Resources res=activity.getResources();
             //Drawable usrimg=res.getDrawable(R.drawable.user_image);
             //userIamgeSrc.setImageDrawable(usrimg);
-            String userimg=item.getAPimgurl();
+            String userimg=item.getUserimg();
             Glide.with(activity)
                     .load(userimg)
                     .placeholder(R.drawable.user_image)

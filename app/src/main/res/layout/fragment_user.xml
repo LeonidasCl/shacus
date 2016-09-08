@@ -3,21 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.pc.shacus.Fragment.UserFragment">
+    tools:context=".Fragment.ConversationListStaticFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/denglu"
-        android:text="登录"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/paga"
-        android:text="个人主页"/>
-</LinearLayout>
 </FrameLayout>

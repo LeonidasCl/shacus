@@ -473,11 +473,13 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             }
         };
 
-        mSideZoomBanner.setDelegate(new BGABanner.Delegate() {
+        mSideZoomBanner.setDelegate(new BGABanner.Delegate(){
         @Override
-        public void onClickBannerItem(int position) {
-                    //Toast.makeText(APP.context, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT).show();
-                    showImageViewPager(position, data.getACimageurl(), data.getACimageurl(), "local", "upload");
+        public void onClickBannerItem(int position){
+                    if(typo.equals("yuepai"))
+                        showImageViewPager(position, data.getAPimgurl(), data.getAPimgurl(), "local", "upload");
+                    else
+                        showImageViewPager(position, data.getACimageurl(), data.getACimageurl(), "local", "upload");
                     viewpagerPosition = position - 1;
                 }
             }

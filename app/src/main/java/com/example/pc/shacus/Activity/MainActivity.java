@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,10 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -26,7 +30,7 @@ import com.example.pc.shacus.Data.Model.SettingDataModel;
 import com.example.pc.shacus.Fragment.CourseFragment;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.HomeFragment;
-import com.example.pc.shacus.Fragment.UserFragment;
+import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
 import com.example.pc.shacus.Fragment.YuePaiFragment;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "TAG";
     private boolean isLogin=false;
     private UserModel user;
-
+    //String token = "FbZ4HMuZZO/ESKruW+/qeaUo4kjEXu8XdB8wv+TPwivXMB8nRegvT+ppRcnmlJbfCm6nby6IQAfqaS629/8qcNA1onDWbdMu";
     //管理Fragment
     private FragmentManager fragmentMgr = this.getSupportFragmentManager();
     private FragmentTransaction fragmentTrs;
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private HomeFragment mainFragmentNavigation;
     private YuePaiFragment yuePaiFragment;
     private CourseFragment courseFragment;
-    private UserFragment userFragment;
+    private ConversationListStaticFragment conversationListStaticFragment;
     private Toolbar toolbar;
     //Fragment切换按钮
     private ImageButton btn_main;
@@ -176,6 +180,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toYuePai();
         fragmentTrs.commit();
 
+
+        RongIM.connect(user.getChattoken(), new RongIMClient.ConnectCallback(){
+            @Override
+            public void onTokenIncorrect() {
+                Log.e(TAG, "-----onTokenIncorrect-----");
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "-----onSuccess-----" + s);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.e(TAG, "-----onError-----" + errorCode);
+            }
+        });
+
     }
 
     //登录完成后在这里处理UI的更新
@@ -287,11 +310,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toUser(){
-        if(userFragment == null){
-            userFragment = new UserFragment();
-            fragmentTrs.add(R.id.fl_content, userFragment);
+        if(conversationListStaticFragment == null){
+            conversationListStaticFragment = new ConversationListStaticFragment();
+            fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
         }else{
-            fragmentTrs.show(userFragment);
+            fragmentTrs.show(conversationListStaticFragment);
         }
     }
 
@@ -306,8 +329,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(courseFragment != null){
             fragmentTrs.hide(courseFragment);
         }
-        if(userFragment != null){
-            fragmentTrs.hide(userFragment);
+        if(conversationListStaticFragment != null){
+            fragmentTrs.hide(conversationListStaticFragment);
         }
         if(yuePaiFragment != null){
             fragmentTrs.hide(yuePaiFragment);
@@ -399,4 +422,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 }
