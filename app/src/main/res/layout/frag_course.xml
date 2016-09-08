@@ -111,7 +111,7 @@
         <TableRow>
             <RelativeLayout
                 android:layout_weight="1">
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_moreType1"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
@@ -120,6 +120,7 @@
                     android:src="@drawable/p3"
                     />
                 <TextView
+                    android:id="@+id/text_tag1"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
                     android:text="风景"
@@ -130,7 +131,7 @@
             <RelativeLayout
                 android:layout_weight="1"
                 android:gravity="center">
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_moreType2"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
@@ -139,6 +140,7 @@
                     android:src="@drawable/p1"
                     />
                 <TextView
+                    android:id="@+id/text_tag2"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
                     android:text="人文"
@@ -149,7 +151,7 @@
             <RelativeLayout
                 android:layout_weight="1"
                 android:gravity="end">
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_moreType3"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
@@ -158,6 +160,7 @@
                     android:src="@drawable/p2"
                     />
                 <TextView
+                    android:id="@+id/text_tag3"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
                     android:text="后期"
@@ -170,7 +173,7 @@
             android:layout_marginTop="10dp">
             <RelativeLayout
                 android:layout_weight="1">
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_moreType4"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
@@ -179,6 +182,7 @@
                     android:src="@drawable/start_logo"
                     />
                 <TextView
+                    android:id="@+id/text_tag4"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
                     android:text="器材"
@@ -189,7 +193,7 @@
             <RelativeLayout
                 android:layout_weight="1"
                 android:gravity="center">
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_moreType5"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
@@ -198,6 +202,7 @@
                     android:src="@drawable/ic_launcher"
                     />
                 <TextView
+                    android:id="@+id/text_tag5"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
                     android:text="技巧"
@@ -208,7 +213,7 @@
             <RelativeLayout
                 android:layout_weight="1"
                 android:gravity="end">
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_moreType6"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
@@ -217,6 +222,7 @@
                     android:src="@drawable/user_image"
                     />
                 <TextView
+                    android:id="@+id/text_tag6"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
                     android:text="人像"

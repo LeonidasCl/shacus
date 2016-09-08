@@ -140,4 +140,7 @@ public interface StatusCode {
     int REQUEST_BAOMING_YUEPAI_USER = 10245;//请求某个约拍报名人列表
     int REQUEST_BAOMING_YUEPAI_USERSUCCESS = 10257; //成功返回选择报名人中报名人列表
 
+    int REQUEST_COURSE_HOMEPAGE_SUCCESS=11010;//获取教程首页
+    int REQUEST_COURSE_HOMEPAGE_TAG_SUCCESS=110102;//获取教程首页tag
+
 }
