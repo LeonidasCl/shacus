@@ -327,6 +327,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     textView.setVisibility(View.VISIBLE);
                     recyclerView1.setVisibility(View.INVISIBLE);
                     textView.setText("没有报名的活动~快去“发现”看看吧");
+                    loading1.setVisibility(View.GONE);
                     break;
                 }
                 case 222: //没有正在进行
@@ -335,6 +336,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     textView.setVisibility(View.VISIBLE);
                     recyclerView1.setVisibility(View.INVISIBLE);
                     textView.setText("暂无正在进行的活动~快去“发现”看看吧");
+                    loading2.setVisibility(View.GONE);
                     break;
                 }
                 case 333: //没有已完成
@@ -343,6 +345,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     textView.setVisibility(View.VISIBLE);
                     recyclerView1.setVisibility(View.INVISIBLE);
                     textView.setText("暂无已完成");
+                    loading3.setVisibility(View.GONE);
                     break;
                 }
                 case 88:{

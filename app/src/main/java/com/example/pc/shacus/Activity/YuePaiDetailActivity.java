@@ -493,7 +493,23 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
+        String type=intent.getStringExtra("type");
+        if (type.equals("selectuser")){
+            String result=intent.getStringExtra("result");
+            if (result.equals("success")){
+                selectJoinUser.setText("完成约拍");
+                selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+            }
+        }
+
     }
+
 
     public float getScreenDen(){
         //dwidth = new DisplayMetrics();

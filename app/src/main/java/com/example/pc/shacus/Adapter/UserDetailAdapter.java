@@ -3,8 +3,10 @@ package com.example.pc.shacus.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.preference.DialogPreference;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.SelectUserActivity;
+import com.example.pc.shacus.Activity.YuePaiDetailActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
@@ -38,6 +41,8 @@ public class UserDetailAdapter extends BaseAdapter{
     ViewHolder viewHolder;
     SelectUserActivity selectUserActivity;
     NetRequest netRequest;
+    Map map = new HashMap<>();
+    int index;
 
     public UserDetailAdapter(SelectUserActivity c,List<UserModel> list){
         selectUserActivity = c;
@@ -81,9 +86,11 @@ public class UserDetailAdapter extends BaseAdapter{
                     viewHolder.baoming.setText("已选择");
                 }else
                     viewHolder.baoming.setText("选择");
+                Log.d("aaaaaaaaaaa","success");
                 viewHolder.baoming.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d("aaaaaaaaaaa","aasssss");
                         if(userModelList.get(position).getIndex()){
                             CommonUtils.getUtilInstance().showToast(APP.context, "已选择不能更改");
                         }  else {
@@ -95,24 +102,34 @@ public class UserDetailAdapter extends BaseAdapter{
                                             ACache aCache = ACache.get(selectUserActivity);
                                             LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
                                             UserModel content = loginDataModel.getUserModel();
-                                            Map map = new HashMap<>();
                                             String myid = content.getId();
                                             String authkey = content.getAuth_key();
-                                            String ap = selectUserActivity.getId();
+                                            int ap = selectUserActivity.getId();
                                             map.put("apid",ap);
                                             map.put("chooseduid",userModelList.get(position).getId());
                                             map.put("authkey",authkey);
                                             map.put("uid",myid);
                                             map.put("type", StatusCode.REQUEST_SELECT_YUEPAIUSER);
+                                            index = 1;
                                             dialog.dismiss();
-                                            netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
                                         }
-                                    }).setNegativeButton("", new DialogInterface.OnClickListener() {
+                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    index = 2;
                                     dialog.dismiss();
                                 }
-                            });
+                            }).show();
+                        }
+
+                        if(index == 1){
+                            netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
+                            /*发intent*/
+                            Intent intent = new Intent(selectUserActivity, YuePaiDetailActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            intent.putExtra("type","selectuser");
+                            intent.putExtra("result","success");
+                            selectUserActivity.startActivity(intent);
                         }
                     }
                 });

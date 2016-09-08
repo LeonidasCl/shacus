@@ -49,7 +49,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
 
     String type = null;
 
-    String id = null;
+    int id = -1;
     int index = 0;
 
     @Override
@@ -76,15 +76,15 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         type = intent.getStringExtra("type");
         if(type.equals("yuepai")){
             index = StatusCode.REQUEST_BAOMING_YUEPAI_USER;
-            id = intent.getStringExtra("apid");
+            id = intent.getIntExtra("apid", -1);
         }else if(type.equals("huodong")){
             //
-            id = intent.getStringExtra("acid");
+            id = intent.getIntExtra("acid",-1);
         }
         initUserInfo();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -102,11 +102,12 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         String authkey = content.getAuth_key();
 
         map.put("uid", userId);
-        map.put("authkey",authkey);
+        map.put("authkey", authkey);
         if(index == StatusCode.REQUEST_BAOMING_YUEPAI_USER){
             map.put("type", StatusCode.REQUEST_BAOMING_YUEPAI_USER);
             map.put("apid", id);
         }//else
+        Log.d("aaaaa", String.valueOf(id));
         netRequest.httpRequest(map, CommonUrl.askYuepai);
 
     }
