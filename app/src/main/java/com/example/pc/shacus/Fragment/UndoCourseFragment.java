@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.CourseWebViewActivity;
 import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.OtherCourseActivity;
 import com.example.pc.shacus.Adapter.CourseListAdapter;
@@ -52,7 +53,7 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
     private int itemid;
 
     private ACache aCache;
-    private NetRequest  netRequest=new NetRequest(this,getActivity());;
+    private NetRequest  netRequest;
     String userId = null;
     String authkey = null;
 
@@ -64,6 +65,7 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
         View view=inflater.inflate(R.layout.fragment_undocourse,container,false);
         aCache=ACache.get(getActivity());
 
+        netRequest=new NetRequest(this,getActivity());
         recyclerView1=(RecyclerView)view.findViewById(R.id.undorecyclerView);
         courseItemList1 = new ArrayList<>();
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
@@ -119,7 +121,7 @@ private Handler handler=new Handler(){
             netRequest.httpRequest(map1, CommonUrl.courseInfo);
         }
         if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
-            Intent intent = new Intent(getActivity(),OrdersActivity.class);
+            Intent intent = new Intent(getActivity(),CourseWebViewActivity.class);
             intent.putExtra("detail", url);
             startActivity(intent);
 

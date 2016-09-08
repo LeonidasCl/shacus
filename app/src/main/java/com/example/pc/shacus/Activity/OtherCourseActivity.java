@@ -157,7 +157,7 @@ private Handler handler=new Handler(){
             Log.d("sssssssssssssss","lllllllllll");
         }
         if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
-            Intent intent = new Intent(OtherCourseActivity.this,OrdersActivity.class);
+            Intent intent = new Intent(OtherCourseActivity.this,CourseWebViewActivity.class);
             intent.putExtra("detail", url);
             startActivity(intent);
 

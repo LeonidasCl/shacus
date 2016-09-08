@@ -40,7 +40,7 @@ import java.util.List;
  */
 //课程界面（二级）
 
-public class CoursesActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface,TabLayout.OnTabSelectedListener,View.OnClickListener{
+public class CoursesActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface,TabLayout.OnTabSelectedListener{
 
     private ImageButton returnButton;
     private ImageButton imageButton1;
@@ -124,21 +124,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         }
 
 
-    @Override
-    public void onClick(View v) {
-        List list = new ArrayList();
-        list = (List) v.getTag();
-        int i = (int) list.get(0);
-        if( i == 2){
-            int position = (int) list.get(1);
-            Intent intent = new Intent(CoursesActivity.this,OrdersActivity.class);
-
-
-            // intent.putExtra("detail",courseItemList1.get(position).getItemid());
-
-
-            startActivity(intent);
-
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//    }
 }

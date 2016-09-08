@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.CourseWebViewActivity;
+import com.example.pc.shacus.Activity.CoursesActivity;
+import com.example.pc.shacus.Activity.OtherCourseActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CourseHomepageModel;
 import com.example.pc.shacus.Data.Model.CourseHomepageRecommend;
@@ -48,7 +51,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
     private ImageView recommendImage;
     private List<TextView> tagsT=new ArrayList<>();
     private List<ImageView>tag=new ArrayList<>();
-    private ImageButton myCourseImage;
+    private Button moreRecommend;
+    private ImageView myCourseImage;
     private NetRequest netRequest;
     private Handler handler=new Handler(){
         @Override
@@ -63,6 +67,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
                         recommendText= (TextView) view.findViewById(R.id.recommendCourse_Text);
                         recommendImage= (ImageView) view.findViewById(R.id.recommendCourse_image);
                         recommendText.setText(courseHomepageRecommend.get(i).getCtitle());
+                        recommendImage.setTag(i);
                         recommendImage.setOnClickListener(CourseFragment.this);
                         Glide.with(CourseFragment.this.getActivity())
                                 .load(courseHomepageRecommend.get(i).getCimageUrl()).centerCrop()
@@ -107,6 +112,12 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
         tagsT.add((TextView) view.findViewById(R.id.text_tag4));
         tagsT.add((TextView) view.findViewById(R.id.text_tag5));
         tagsT.add((TextView) view.findViewById(R.id.text_tag6));
+        moreRecommend= (Button) view.findViewById(R.id.btn_moreRecommend);
+        myCourseImage= (ImageView) view.findViewById(R.id.myCourse_image);
+
+        moreRecommend.setOnClickListener(this);
+        myCourseImage.setOnClickListener(this);
+
         netRequest=new NetRequest(CourseFragment.this,CourseFragment.this.getActivity());
 
        // initImage();//添加初始图片，避免加载时破坏布局
@@ -119,17 +130,17 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
 
         return view;
     }
-
-    private void initImage() {
-        LayoutInflater mInflater=LayoutInflater.from(CourseFragment.this.getActivity());
-
-        View view=mInflater.inflate(R.layout.item_fragment_course, null);
-        TextView initText= (TextView) view.findViewById(R.id.recommendCourse_Text);
-        ImageView initImageView= (ImageView) view.findViewById(R.id.recommendCourse_image);
-        initText.setText("Loading....");
-        initImageView.setImageResource(R.drawable.ic_launcher);
-        recommendLine.addView(view);
-    }
+//
+//    private void initImage() {
+//        LayoutInflater mInflater=LayoutInflater.from(CourseFragment.this.getActivity());
+//
+//        View view=mInflater.inflate(R.layout.item_fragment_course, null);
+//        TextView initText= (TextView) view.findViewById(R.id.recommendCourse_Text);
+//        ImageView initImageView= (ImageView) view.findViewById(R.id.recommendCourse_image);
+//        initText.setText("Loading....");
+//        initImageView.setImageResource(R.drawable.ic_launcher);
+//        recommendLine.addView(view);
+//    }
 
     private void initNet() {
         ACache aCache=ACache.get(APP.context);
@@ -147,21 +158,45 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
         switch (v.getId()) {
             case R.id.recommendCourse_image:
                 Intent intent=new Intent(CourseFragment.this.getActivity(), CourseWebViewActivity.class);
+                int i= (int) v.getTag();
+                intent.putExtra("detail",courseHomepageRecommend.get(i).getCimageUrl());
                 startActivity(intent);
                 break;
             case R.id.btn_moreType1:
+                Intent intent1=new Intent(CourseFragment.this.getActivity(),OtherCourseActivity.class);
+                intent1.putExtra("tid","1");
+                startActivity(intent1);
                 break;
             case R.id.btn_moreType2:
+                Intent intent2=new Intent(CourseFragment.this.getActivity(),OtherCourseActivity.class);
+                intent2.putExtra("tid","2");
+                startActivity(intent2);
                 break;
             case R.id.btn_moreType3:
+                Intent intent3=new Intent(CourseFragment.this.getActivity(),OtherCourseActivity.class);
+                intent3.putExtra("tid","3");
+                startActivity(intent3);
                 break;
             case R.id.btn_moreType4:
+                Intent intent4=new Intent(CourseFragment.this.getActivity(),OtherCourseActivity.class);
+                intent4.putExtra("tid","4");
+                startActivity(intent4);
                 break;
             case R.id.btn_moreType5:
+                Intent intent5=new Intent(CourseFragment.this.getActivity(),OtherCourseActivity.class);
+                intent5.putExtra("tid","5");
+                startActivity(intent5);
                 break;
             case R.id.btn_moreType6:
+                Intent intent6=new Intent(CourseFragment.this.getActivity(),OtherCourseActivity.class);
+                intent6.putExtra("tid","6");
+                startActivity(intent6);
                 break;
             case R.id.btn_moreRecommend:
+                break;
+            case R.id.myCourse_image:
+                Intent intent8=new Intent(CourseFragment.this.getActivity(), CoursesActivity.class);
+                startActivity(intent8);
                 break;
         }
     }

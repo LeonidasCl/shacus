@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.CourseWebViewActivity;
 import com.example.pc.shacus.Activity.CoursesActivity;
 import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
@@ -51,7 +52,7 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
     private int itemid;
 
     private ACache aCache;
-    private NetRequest netRequest = new NetRequest(this,getActivity());
+    private NetRequest netRequest;
 
     String userId = null;
     String authkey = null;
@@ -65,6 +66,7 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
         recyclerView1= (RecyclerView) view.findViewById(R.id.finishrecyclerView);
         aCache = ACache.get(getActivity());
         courseItemList1 = new ArrayList<>();
+        netRequest = new NetRequest(this,getActivity());
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
         UserModel user = null;
         Map map = new HashMap<>();
@@ -106,7 +108,7 @@ private Handler handler=new Handler(){
             netRequest.httpRequest(map1, CommonUrl.courseInfo);
         }
         if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
-            Intent intent = new Intent(getActivity(),OrdersActivity.class);
+            Intent intent = new Intent(getActivity(),CourseWebViewActivity.class);
             intent.putExtra("detail", url);
             startActivity(intent);
 
