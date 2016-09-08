@@ -3,7 +3,7 @@
     <item name="gray_holo_dark" type="color">#ff464646</item>
     <item name="gray_holo_light" type="color">#ffd0d0d0</item>
     <color name="colorCreateYuePai">#99000000</color>
-    <color name="colorAccent">#d9d9d9</color>
+
     <!--<color name="gold">#E6BF66</color>-->
     <color name="gold">#1A1A1A</color>
     <color name="lightgold">#55E6BF66</color>
@@ -15,6 +15,8 @@
     <color name="ee_black">#ee000000</color>
     <color name="cc_white">#ccffffff</color>
     <color name="white">#ffffff</color>
+    <color name="ee_white">#eeffffff</color>
+    <color name="colorAccent">#d9d9d9</color>
     <color name="holo_blue">#7BCFA6</color>
     <color name="color_838483">#838483</color>
     <color name="gray_color_99999a">#4499999a</color>

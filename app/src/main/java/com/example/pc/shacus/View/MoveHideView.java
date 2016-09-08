@@ -150,7 +150,8 @@ public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMove
         mPageHeadView.setHideStopMarginTop(layoutParams.topMargin);//向下滑时PageHeadView的滑动停止的位置，此时该位置为PageHeadView的初始化位置
         mPageHeadView.setNeedMoveHeight(mPageHeadViewHeight);//设置ContentHeadView相对ContentView需要滑动的高度，即为其本身的高度
 
-        inflate(mContext, resId, mPageHeadView);
+        View view=inflate(mContext, resId, mPageHeadView);
+        mPageHeadView.init(view);
         addView(mPageHeadView);
     }
 

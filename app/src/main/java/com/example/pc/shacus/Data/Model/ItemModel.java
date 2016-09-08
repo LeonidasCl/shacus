@@ -15,6 +15,8 @@ public class ItemModel implements Serializable{
     private int registNum;
     private String title;
 
+    private String type;
+
     public int getId() {
         return id;
     }
@@ -69,6 +71,14 @@ public class ItemModel implements Serializable{
 
     public void setRegistNum(int registNum) {
         this.registNum = registNum;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 

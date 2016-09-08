@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/huodong_header_sign"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:text="用户签名签名签名签名"
         android:layout_below="@id/huodong_header_name"
         android:layout_marginTop="10dp"

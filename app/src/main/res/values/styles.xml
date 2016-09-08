@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/gold</item>
         <item name="colorPrimaryDark">@color/gold</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="AppTheme.CreateActivity" parent="Theme.AppCompat">
@@ -16,8 +17,8 @@
 
 
     <style name="AppTheme.YuePaiDetailActivity" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/gold</item>
-        <item name="colorPrimaryDark">@color/lightgold</item>
+        <item name="colorPrimary">@color/ee_white</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

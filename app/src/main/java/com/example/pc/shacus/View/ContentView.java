@@ -151,8 +151,8 @@ public class ContentView extends TouchMoveView implements NetworkCallbackInterfa
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount){
-//                Log.d("LQQQQQQQQ", "onScroll: ");
-//                Log.d("LQQQQQQQQ", " f:"+firstVisibleItem+" v:"+visibleItemCount+" t:"+totalItemCount);
+//             //   Log.d("LQQQQQQQQ", "onScroll: ");
+//            //    Log.d("LQQQQQQQQ", " f:"+firstVisibleItem+" v:"+visibleItemCount+" t:"+totalItemCount);
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 1 && totalItemCount < maxRecords && visibleItemCount!=0 &&!getHuodongFlag) {
                     HashMap map=new HashMap();
                     map.put("type", 10304);

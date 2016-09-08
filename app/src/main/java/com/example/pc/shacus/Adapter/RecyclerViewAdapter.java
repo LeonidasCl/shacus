@@ -2,6 +2,7 @@ package com.example.pc.shacus.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.pc.shacus.Data.Model.ItemModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,8 +54,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.time.setText(itemModelList.get(position).getStartTime());
         holder.like.setText(Integer.toString(itemModelList.get(position).getLikeNum()));
         holder.regist.setText(Integer.toString(itemModelList.get(position).getRegistNum()));
-        holder.likebtn.setTag(position);
+        List list1 = new ArrayList();
+        list1.add(1);
+        list1.add(position);
+        holder.likebtn.setTag(list1);
         holder.likebtn.setOnClickListener((View.OnClickListener) context);
+        List list2 = new ArrayList();
+        list2.add(2);
+        list2.add(position);
+        holder.cardView.setTag(list2);
+        holder.cardView.setOnClickListener((View.OnClickListener) context);
+
 
     }
 
@@ -73,6 +84,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView regist;
         ImageButton likebtn;
         ImageButton registbtn;
+        CardView cardView;
 
 
         public RecyclerHolderView(View itemView) {
@@ -84,7 +96,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             regist = (TextView) itemView.findViewById(R.id.item_regist);
             likebtn = (ImageButton) itemView.findViewById(R.id.item_like_btn);
             registbtn = (ImageButton) itemView.findViewById(R.id.item_regist_btn);
-
+            cardView = (CardView) itemView.findViewById(R.id.cardview);
         }
     }
 }

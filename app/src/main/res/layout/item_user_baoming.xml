@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--报名人详情单项布局-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:descendantFocusability="blocksDescendants">
+
+    <com.example.pc.shacus.View.CircleImageView
+        android:id="@+id/baoming_user_image"
+        android:src="@drawable/p3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        app:border_color="#00000000"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:text="用户名"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/baoming_user_image"
+        android:layout_toEndOf="@+id/baoming_user_image"
+        android:id="@+id/baoming_user_name" />
+
+    <TextView
+        android:id="@+id/baoming_user_signature"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="简介"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/baoming_user_image"
+        android:layout_alignBottom="@+id/baoming_user_image"/>
+
+    <Button
+        android:background="@drawable/shape_round"
+        android:text="选择"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:id="@+id/baomingbtn"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
@@ -36,7 +35,6 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
-import com.example.pc.shacus.Util.DisplayUtil;
 import com.example.pc.shacus.View.FloatMenu.FilterMenu;
 import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
 import com.google.gson.Gson;
@@ -117,7 +115,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     map.put("authkey",userModel.getAuth_key());
                     map.put("uid",userModel.getId());
                     map.put("type",StatusCode.REQUEST_FAVOURITE_HUODONG);
-                    map.put("typeid",data.getAPid());
+                    map.put("typeid",data.getACid());
                     request.httpRequest(map,CommonUrl.favouriteYuepai);
                 }
 
@@ -200,7 +198,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         String uid=userModel.getId();
 
         Map map=new HashMap();
-        map.put("authkey",authKey);
+        map.put("authkey", authKey);
         if (typo.equals("yuepai"))
         map.put("uid",uid);
         else
@@ -248,7 +246,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (msg.what== StatusCode.PRAISE_HUODONG_SUCCESS){
                     btn_praise.setSelected(true);
-                    praiseNum=(TextView)findViewById(R.id.tv_praise_num);
+                    //praiseNum=(TextView)findViewById(R.id.tv_praise_num);
                     praiseNum.setText(data.getAClikenumber()+"");
                 }
 
@@ -258,7 +256,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     praiseNum.setText(data.getAPlikeN()+"");
                 }
 
-                if (msg.what== StatusCode.CANCEL_HUODONH_PRAISE){
+                if (msg.what== StatusCode.PRAISE_HUODONG_CANCEL_SUCCESS){
                     btn_praise.setSelected(false);
                     //praiseNum=(TextView)findViewById(R.id.tv_praise_num);
                     praiseNum.setText(data.getAClikenumber()+"");
@@ -282,7 +280,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     return;
                 }
 
-                if (msg.what==StatusCode.CANCEL_HUODONG_SUCCESS){
+                if (msg.what==StatusCode.CANCEL_JOIN_HUODONG_SUCCESS){
                     CommonUtils.getUtilInstance().showToast(APP.context, "取消报名成功");
                     joinNum.setText(data.getACregister().size() + "");
                     return;
@@ -294,15 +292,25 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     data=(YuePaiDataModel)msg.obj;
                     isSponsor=data.getAP_issponsor();
                     selectJoinUser=(Button)findViewById(R.id.btn_select_join);
-                    if (isSponsor==0){
+                    if (isSponsor==1){
                         selectJoinUser.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                //
+                                Intent intent=new Intent(getApplicationContext(),SelectUserActivity.class);
+                                if (typo.equals("yuepai"))
+                                {
+                                    intent.putExtra("apid",data.getAPid());
+                                    intent.putExtra("type","yuepai");
+                                }
+                                else {
+                                    intent.putExtra("acid",data.getACid());
+                                    intent.putExtra("type","huodong");
+                                }
+                                startActivity(intent);
                             }
                         });
                     }
-                    if (isSponsor==1){
+                    if (isSponsor==0){
                         selectJoinUser.setVisibility(View.GONE);
                     }
 
@@ -373,15 +381,25 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     data=(YuePaiDataModel)msg.obj;
                     isSponsor=data.getAC_issponsor();
                     selectJoinUser=(Button)findViewById(R.id.btn_select_join);
-                    if (isSponsor==0){
+                    if (isSponsor==1){
                         selectJoinUser.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                //
+                                Intent intent=new Intent(getApplicationContext(),SelectUserActivity.class);
+                                if (typo.equals("yuepai"))
+                                {
+                                    intent.putExtra("apid",data.getAPid());
+                                    intent.putExtra("type","yuepai");
+                                }
+                                else {
+                                    intent.putExtra("acid",data.getACid());
+                                    intent.putExtra("type","huodong");
+                                }
+                                startActivity(intent);
                             }
                         });
                     }
-                    if (isSponsor==1){
+                    if (isSponsor==0){
                         selectJoinUser.setVisibility(View.GONE);
                     }
 
@@ -436,7 +454,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         }
                     });
                     textName=(TextView)findViewById(R.id.detail_toolbar_title);
-                    textName.setText(data.getAPtitle()+"");
+                    textName.setText(data.getACtitle()+"");
                     loading=(FrameLayout)findViewById(R.id.loading_layout);
                     loading.setVisibility(View.GONE);
 
@@ -517,7 +535,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         return  list;
     }
 
-    public List<? extends View> getPics(int count,List<String> imgs) {
+    public List<? extends View> getPics(int count,List<String> imgs){
 
         if (count==0)
         return null;
@@ -584,7 +602,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         if (requestUrl.equals(CommonUrl.praiseActivity)){
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            if (code == StatusCode.PRAISE_HUODONG_SUCCESS) {
+            if (code == StatusCode.PRAISE_HUODONG_SUCCESS){
                 data.setUserliked(1);
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.PRAISE_HUODONG_SUCCESS;
@@ -694,15 +712,15 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_JOIN_HUODONG_SUCCESS;
                 //msg.obj=object.getString("contents");
-                data.setAClikenumber(Integer.valueOf(joinNum.getText().toString()) + 1);
+                data.setAClikenumber(data.getACregister().size() + 1);
                 handler.sendMessage(msg);
                 return;
             }
 
-            if (code==StatusCode.CANCEL_HUODONG_SUCCESS){
+            if (code==StatusCode.CANCEL_JOIN_HUODONG_SUCCESS){
                 Message msg=handler.obtainMessage();
-                msg.what= StatusCode.CANCEL_HUODONG_SUCCESS;
-                data.setAClikenumber(Integer.valueOf(joinNum.getText().toString()) - 1);
+                msg.what= StatusCode.CANCEL_JOIN_HUODONG_SUCCESS;
+                data.setAClikenumber(data.getACregister().size() - 1);
                 handler.sendMessage(msg);
                 return;
             }
