@@ -119,7 +119,7 @@ private Button bo;
             @Override
 
                     public void onClick(View v) {
-                        Intent intent6 = new Intent(getActivity(), OtherUserActivity.class);
+                        Intent intent6 = new Intent(getActivity(), CoursesActivity.class);
                         startActivity(intent6);
                     }
 

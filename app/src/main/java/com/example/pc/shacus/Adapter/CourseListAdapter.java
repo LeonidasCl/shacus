@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +16,34 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 启凡 on 2016/9/5.
  */
 
 
-public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.RecyclerHolderView>{
+public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.RecyclerHolderView> implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
 
     private List<CoursesModel> courseModelList;
     private Context context;
+
+
 
     public CourseListAdapter(List<CoursesModel> list, Activity context){
         courseModelList = list;
@@ -39,21 +53,15 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
     @Override
     public CourseListAdapter.RecyclerHolderView onCreateViewHolder(ViewGroup viewGroup, int i){
 
-
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_courses_activity_item,null);
         RecyclerHolderView viewHolder = new RecyclerHolderView(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //进入网页xxxxxxxx
-            }
-        });
+
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerHolderView holder, int position) {
+    public void onBindViewHolder(final RecyclerHolderView holder, int position) {
         Glide.with(context)
                 .load(courseModelList.get(position).getImage()).fitCenter()
                 .placeholder(R.drawable.holder).dontAnimate().dontTransform()
@@ -61,13 +69,29 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
                 .into(holder.imageView);
         holder.title.setText(courseModelList.get(position).getTitle());
         holder.read.setText(Integer.toString(courseModelList.get(position).getReadNum()));
-        if (courseModelList.get(position).getKind()==1||courseModelList.get(position).getKind()==3) {
+        //在分类和已完成教程中可以收藏和取消收藏
+//        if (courseModelList.get(position).getKind()==1||courseModelList.get(position).getKind()==3) {
             if (courseModelList.get(position).getCollet() == 1) {
                 holder.collectItem.setImageResource(R.drawable.button_pop_down);
+                holder.collectItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.collectItem.setImageResource(R.drawable.button_model_up);
+                    }
+                });
             } else {
-                holder.collectItem.setImageResource(R.drawable.button_pop_down);
+                holder.collectItem.setImageResource(R.drawable.button_model_up);
+                holder.collectItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.collectItem.setImageResource(R.drawable.button_model_up);
+                    }
+                });
             }
-        }
+
+      //  }
+
+        //在课程表中标注已完成和未完成
         if (courseModelList.get(position).getKind()==2) {
             if (courseModelList.get(position).getSee() == 1) {
                 holder.seeNum.setText("已看完");
@@ -77,6 +101,22 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
                 holder.seeNum.setTextColor(Color.RED);
             }
         }
+        List list1 = new ArrayList();
+        list1.add(1);
+        list1.add(position);
+        list1.add(courseModelList.get(position).getItemid());
+        list1.add(courseModelList.get(position).getCollet());
+        list1.add(holder.collectItem);
+        holder.collectItem.setTag(list1);
+        holder.collectItem.setOnClickListener((View.OnClickListener) context);
+        List list2 = new ArrayList();
+        list2.add(2);
+        list2.add(position);
+        list2.add(courseModelList.get(position).getItemid());
+        holder.relativeLayout.setTag(list2);
+        holder.relativeLayout.setOnClickListener((View.OnClickListener) context);
+
+
 
     }
 
@@ -84,6 +124,21 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
     @Override
     public int getItemCount() {
         return courseModelList.size();
+    }
+
+    @Override
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+
+    }
+
+    @Override
+    public void exception(IOException e, String requestUrl) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     public static class RecyclerHolderView extends RecyclerView.ViewHolder{
