@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.CourseWebViewActivity;
 import com.example.pc.shacus.Activity.CoursesActivity;
 import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
@@ -115,7 +116,7 @@ private Handler handler=new Handler(){
             netRequest.httpRequest(map1, CommonUrl.courseInfo);
         }
         if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
-            Intent intent = new Intent(getActivity(),OrdersActivity.class);
+            Intent intent = new Intent(getActivity(),CourseWebViewActivity.class);
             intent.putExtra("detail", url);
             startActivity(intent);
 

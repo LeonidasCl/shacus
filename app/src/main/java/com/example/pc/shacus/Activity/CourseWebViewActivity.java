@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +23,13 @@ public class CourseWebViewActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_web_view);
+        Intent intent=getIntent();
+        String url=intent.getStringExtra("detail");
+
         webView= (WebView) findViewById(R.id.webView);
         btn_back= (ImageButton) findViewById(R.id.btn_back);
         text_title= (TextView) findViewById(R.id.text_title);
-        webView.loadUrl("http://shacus.cn/jiaocheng/jichu/baipingheng/baipingheng.html");
+        webView.loadUrl(url);
 
 
         WebChromeClient wvcc = new WebChromeClient() {

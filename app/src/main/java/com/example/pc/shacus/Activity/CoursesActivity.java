@@ -145,35 +145,35 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
     }
 
 
-        @Override
-        public void requestFinish (String result, String requestUrl)throws JSONException {
+    @Override
+    public void requestFinish (String result, String requestUrl)throws JSONException {
 
-            if(requestUrl.equals(CommonUrl.courseInfo)){//返回收藏信息
-                JSONObject object = new JSONObject(result);
-                int code = Integer.valueOf(object.getString("code"));
-                Message msg = new Message();
+        if(requestUrl.equals(CommonUrl.courseInfo)){//返回收藏信息
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            Message msg = new Message();
 
-                switch (code){
-                    case StatusCode.REQUEST_UNDO_FAIL:
-                    {
-                        msg.what=StatusCode.REQUEST_UNDO_FAIL;
-                        handler.sendMessage(msg);
-                        break;
-                    }
+            switch (code){
+                case StatusCode.REQUEST_UNDO_FAIL:
+                {
+                    msg.what=StatusCode.REQUEST_UNDO_FAIL;
+                    handler.sendMessage(msg);
+                    break;
+                }
 
-                    case StatusCode.REQUEST_DETAIL_SECCESS: {
-                        JSONObject object1 = object.getJSONObject("contents");
-                        JSONObject object2=object1.getJSONObject("course");
-                        url = object2.getString("Curl");
-                        msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
-                        handler.sendMessage(msg);
-                        break;
-                    }
-                    case StatusCode.REQUSET_DETAIL_INVALID:
-                    {
-                        msg.what=StatusCode.REQUSET_DETAIL_INVALID;
-                        handler.sendMessage(msg);
-                        break;
+                case StatusCode.REQUEST_DETAIL_SECCESS: {
+                    JSONObject object1 = object.getJSONObject("contents");
+                    JSONObject object2=object1.getJSONObject("course");
+                    url = object2.getString("Curl");
+                    msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUSET_DETAIL_INVALID:
+                {
+                    msg.what=StatusCode.REQUSET_DETAIL_INVALID;
+                    handler.sendMessage(msg);
+                    break;
 
                     }
                     case StatusCode.REQUEST_DISCOLLECT_SUCCESS:
@@ -225,16 +225,17 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
                         break;
                     }
                 }
-
-
             }
+
+
+        }
 //
-        }
+    }
 
-        @Override
-        public void exception (IOException e, String requestUrl){
+    @Override
+    public void exception (IOException e, String requestUrl){
 
-        }
+    }
 
 private int itemCollect;
     ImageView collect;
@@ -292,7 +293,7 @@ private int itemCollect;
                 netRequest.httpRequest(map1, CommonUrl.courseInfo);
             }
             if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
-                Intent intent = new Intent(CoursesActivity.this,OrdersActivity.class);
+                Intent intent = new Intent(CoursesActivity.this,CourseWebViewActivity.class);
                 intent.putExtra("detail", url);
                 startActivity(intent);
 

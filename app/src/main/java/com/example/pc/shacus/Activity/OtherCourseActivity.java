@@ -66,7 +66,7 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
 
         Intent intent = getIntent();
         String type = intent.getStringExtra("tid");
-        tid="1";
+        tid=type;
         returnButton=(ImageButton)findViewById(R.id.returnbutton2);
         title=(TextView)findViewById(R.id.ownerName2);
         imageButton1=(ImageButton)findViewById(R.id.imagebutton);
@@ -106,6 +106,9 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
             case "6":
                 title.setText("人像描绘");
                 break;
+            case "7":
+                title.setText("更多课程");
+                break;
 
         }
         recyclerView1 = (RecyclerView)findViewById(R.id.otherrecyclerView);
@@ -118,13 +121,21 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
         userId = user.getId();
         authkey = user.getAuth_key();
 
-        Map map=new HashMap();
-        map.put("uid",userId);
-        map.put("authkey", authkey);
-        map.put("type", StatusCode.REQUEST_KIND_COURSE);
-        map.put("tid",tid);
-        netRequest.httpRequest(map, CommonUrl.courseInfo);
+        if(tid.equals("7")){
+            Map map=new HashMap();
+            map.put("uid",userId);
+            map.put("authkey",authkey);
+            map.put("type","11009");
+            netRequest.httpRequest(map,CommonUrl.courseHomePage);
 
+        }else {
+            Map map = new HashMap();
+            map.put("uid", userId);
+            map.put("authkey", authkey);
+            map.put("type", StatusCode.REQUEST_KIND_COURSE);
+            map.put("tid", tid);
+            netRequest.httpRequest(map, CommonUrl.courseInfo);
+        }
 
     }
 
@@ -133,6 +144,9 @@ private Handler handler=new Handler(){
     @Override
     public void handleMessage(Message msg) {
         if(msg.what==StatusCode.REQUEST_KIND_SECCESS){
+            initInfo();
+        }
+        if(msg.what==StatusCode.REQUEST_COURSE_MORE_COURSES_SUCCESS){
             initInfo();
         }
         if (msg.what==StatusCode.REQUEST_KIND_FAIL){
@@ -157,7 +171,7 @@ private Handler handler=new Handler(){
             Log.d("sssssssssssssss","lllllllllll");
         }
         if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
-            Intent intent = new Intent(OtherCourseActivity.this,OrdersActivity.class);
+            Intent intent = new Intent(OtherCourseActivity.this,CourseWebViewActivity.class);
             intent.putExtra("detail", url);
             startActivity(intent);
 
@@ -315,7 +329,6 @@ private Handler handler=new Handler(){
                     msg.what=StatusCode.REQUSET_DETAIL_INVALID;
                     handler.sendMessage(msg);
                     break;
-
                 }
                 case StatusCode.REQUEST_DISCOLLECT_SUCCESS:
                 {
@@ -367,6 +380,32 @@ private Handler handler=new Handler(){
                 }
             }
 
+        }
+        else if(requestUrl==CommonUrl.courseHomePage){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            Message msg = new Message();
+            if(code==StatusCode.REQUEST_COURSE_MORE_COURSES_SUCCESS){
+                JSONArray array=object.getJSONArray("contents");
+                for(int i=0;i<array.length();i++){
+                    Log.d("wwwwwwwwwwwww","fffffff");
+                    JSONObject course = array.getJSONObject(i);
+                    CoursesModel coursesModel=new CoursesModel();
+                    coursesModel.setSee(course.getInt("Csee"));
+                    coursesModel.setTitle(course.getString("Ctitle"));
+                    coursesModel.setReadNum(course.getInt("CwatchN"));
+                    coursesModel.setImage(course.getString("CimageUrl"));
+                    coursesModel.setItemid(course.getInt("Cid"));
+                    coursesModel.setValid(course.getInt("Cvalid"));
+                    coursesModel.setCollet(course.getInt("Cfav"));
+                    coursesModel.setLikeNum(course.getInt("Cliked"));
+
+                    coursesModel.setKind(2);
+                    courseItemList1.add(coursesModel);
+                }
+                msg.what = StatusCode.REQUEST_COURSE_MORE_COURSES_SUCCESS;
+                handler.sendMessage(msg);
+            }
         }
 
     }

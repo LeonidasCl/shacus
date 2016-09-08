@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,8 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         public void handleMessage(Message msg){
             if(msg.what==StatusCode.REQUEST_SETTING_CHANGE_PASSWORD_SUCCESS)
                 changePasswordDialog(1);
+            else if(msg.what==StatusCode.STATUS_ERROR)
+                Toast.makeText(SetBaseFragment.this.getActivity(),"密码不能少于六位",Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(SetBaseFragment.this.getActivity(),"密码错误",Toast.LENGTH_SHORT).show();
             Log.d("LQQQQQQQQQQQ", "handleMessage: ");
@@ -183,12 +186,21 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //修改旧密码
-                                HashMap map=new HashMap();
-                                map.put("oldpassword", UN.getText().toString());
-                                map.put("type",10501);
-                                map.put("Userid",dataModel.getUserID());
-                                netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
-                                Log.d("LQQQQQQQQ", "put old password");
+                                UN.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                if(UN.getText().toString().equals("")||UN.getText().toString().length()<6)
+                                {
+                                    Message msg=handler.obtainMessage();
+                                    msg.what=StatusCode.STATUS_ERROR;
+                                    handler.sendMessage(msg);
+                                }
+                                else {
+                                    HashMap map = new HashMap();
+                                    map.put("oldpassword", UN.getText().toString());
+                                    map.put("type", 10501);
+                                    map.put("Userid", dataModel.getUserID());
+                                    netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
+                                    Log.d("LQQQQQQQQ", "put old password");
+                                }
                             }
                         })
                         .setNegativeButton("取消", null)
@@ -203,8 +215,17 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //输入新密码
-                                password=UN.getText().toString();
-                                changePasswordDialog(2);
+                                UN.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                if(UN.getText().toString().equals("")||UN.getText().toString().length()<6)
+                                {
+                                    Message msg=handler.obtainMessage();
+                                    msg.what=StatusCode.STATUS_ERROR;
+                                    handler.sendMessage(msg);
+                                }
+                                else {
+                                    password = UN.getText().toString();
+                                    changePasswordDialog(2);
+                                }
                             }
                         })
                         .setNegativeButton("取消", null)
@@ -219,18 +240,24 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //确认新密码
-                                String str=UN.getText().toString();
-                                if(str.equals(password)){
-                                    HashMap map=new HashMap();
-                                    map.put("newpassword", UN.getText().toString());
-                                    map.put("type",10511);
-                                    map.put("Userid",dataModel.getUserID());
-                                    netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
-                                    Log.d("LQQQQQQQQ", "put new password");
-                                    Toast.makeText(SetBaseFragment.this.getActivity(),"修改成功",Toast.LENGTH_SHORT).show();
+                                UN.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                if (UN.getText().toString().equals("") || UN.getText().toString().length() < 6) {
+                                    Message msg = handler.obtainMessage();
+                                    msg.what = StatusCode.STATUS_ERROR;
+                                    handler.sendMessage(msg);
+                                } else {
+                                    String str = UN.getText().toString();
+                                    if (str.equals(password)) {
+                                        HashMap map = new HashMap();
+                                        map.put("newpassword", UN.getText().toString());
+                                        map.put("type", 10511);
+                                        map.put("Userid", dataModel.getUserID());
+                                        netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
+                                        Log.d("LQQQQQQQQ", "put new password");
+                                        Toast.makeText(SetBaseFragment.this.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+                                    } else
+                                        Toast.makeText(SetBaseFragment.this.getActivity(), "两次输入不一致", Toast.LENGTH_SHORT).show();
                                 }
-                                else
-                                    Toast.makeText(SetBaseFragment.this.getActivity(),"两次输入不一致",Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("取消", null)

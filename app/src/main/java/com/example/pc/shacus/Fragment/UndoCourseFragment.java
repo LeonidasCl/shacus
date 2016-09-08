@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.CourseWebViewActivity;
 import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.OtherCourseActivity;
 import com.example.pc.shacus.Adapter.CourseListAdapter;
@@ -85,13 +86,6 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
 
         return view;
     }
-    @Override
-
-    public void onAttach(Activity activity) {
-
-        super.onAttach(activity);
-
-    }
 private Handler handler=new Handler(){
     @Override
     public void handleMessage(Message msg) {
@@ -113,9 +107,21 @@ private Handler handler=new Handler(){
             map1.put("cid", itemid);
             netRequest.httpRequest(map1, CommonUrl.courseInfo);
         }
-
+        if (msg.what==StatusCode.REQUEST_DETAIL_COURSE){
+            aCache = ACache.get(getActivity());
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map1=new HashMap();
+            map1.put("uid",userId);
+            map1.put("authkey",authkey);
+            map1.put("type",StatusCode.REQUEST_DETAIL_COURSE);
+            map1.put("cid", itemid);
+            netRequest.httpRequest(map1, CommonUrl.courseInfo);
+        }
         if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
-            Intent intent = new Intent(getActivity(),OrdersActivity.class);
+            Intent intent = new Intent(getActivity(),CourseWebViewActivity.class);
             intent.putExtra("detail", url);
             startActivity(intent);
 
