@@ -129,7 +129,7 @@ public class HuodongItemAdapter extends BaseAdapter{
             //Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
             praiseNum.setText(String.valueOf(item.getAClikenumber()));
             joinNum.setText(String.valueOf(item.getACregistN()));
-            userName.setText(item.getACid()+"");
+            userName.setText(item.getACtitle()+"");
             setTime.setText(item.getACstartT());
             describe.setText(item.getACcontent());
 
