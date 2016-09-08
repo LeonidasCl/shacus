@@ -27,18 +27,21 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 启凡 on 2016/9/5.
  */
 
 
-public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.RecyclerHolderView> implements  NetworkCallbackInterface.NetRequestIterface{
+public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.RecyclerHolderView> implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
 
     private List<CoursesModel> courseModelList;
     private Context context;
+
 
 
     public CourseListAdapter(List<CoursesModel> list, Activity context){
@@ -48,7 +51,6 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
 
     @Override
     public CourseListAdapter.RecyclerHolderView onCreateViewHolder(ViewGroup viewGroup, int i){
-
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_courses_activity_item,null);
         RecyclerHolderView viewHolder = new RecyclerHolderView(view);
@@ -94,6 +96,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         List list2 = new ArrayList();
         list2.add(2);
         list2.add(position);
+        list2.add(courseModelList.get(position).getItemid());
         holder.relativeLayout.setTag(list2);
         holder.relativeLayout.setOnClickListener((View.OnClickListener) context);
 
@@ -114,6 +117,11 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
 
     @Override
     public void exception(IOException e, String requestUrl) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 
