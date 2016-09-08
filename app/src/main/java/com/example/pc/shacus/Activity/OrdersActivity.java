@@ -120,16 +120,10 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 updateTab(mTabHost);
                 if (position == 0) {
                     loading1.setVisibility(View.VISIBLE);
-                    index = StatusCode.REQUEST_REGIST_ORDER;
-                    initOrderInfo();
                 } else if (position == 1) {
                     loading2.setVisibility(View.VISIBLE);
-                    index = StatusCode.REQUEST_DOING_ORDER;
-                    initOrderInfo();
                 } else {
                     loading3.setVisibility(View.VISIBLE);
-                    index = StatusCode.REQUEST_DONE_ORDER;
-                    initOrderInfo();
                 }
             }
 
@@ -266,6 +260,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 map.put("authkey",authkey);
                 map.put("type",StatusCode.REQUEST_REGIST_ORDER);
                 netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
+                break;
             }
             case StatusCode.REQUEST_DOING_ORDER:
             {
@@ -273,6 +268,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 map.put("authkey",authkey);
                 map.put("type", StatusCode.REQUEST_DOING_ORDER);
                 netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
+                break;
             }
             case StatusCode.REQUEST_DONE_ORDER:
             {
@@ -280,6 +276,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 map.put("authkey",authkey);
                 map.put("type",StatusCode.REQUEST_DONE_ORDER);
                 netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
+                break;
             }
         }
     }
@@ -291,9 +288,9 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 case StatusCode.REQUEST_REGIST_SUCCESS:
                 {
                     recyclerViewAdapter1 = new RecyclerViewAdapter(ordersItemList1,OrdersActivity.this);
-                    recyclerView1.setAdapter(recyclerViewAdapter1);
                     layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
                     recyclerView1.setLayoutManager(layoutManager1);
+                    recyclerView1.setAdapter(recyclerViewAdapter1);
                     loading1.setVisibility(View.GONE);
                     break;
                 }
