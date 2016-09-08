@@ -1,5 +1,7 @@
 package com.example.pc.shacus.Fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.CourseWebViewActivity;
+import com.example.pc.shacus.Activity.OrdersActivity;
+import com.example.pc.shacus.Activity.OtherCourseActivity;
 import com.example.pc.shacus.Adapter.CourseListAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
@@ -39,29 +44,34 @@ import java.util.Map;
 /**
  * Created by 启凡 on 2016/9/6.
  */
-public class UndoCourseFragment extends Fragment implements NetworkCallbackInterface.NetRequestIterface{
+public class UndoCourseFragment extends Fragment implements NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
     private RecyclerView recyclerView1;
     private CourseListAdapter courseListAdapter1;
     List<CoursesModel> courseItemList1;
     RecyclerView.LayoutManager layoutManager1;
 
+    private int itemid;
+
     private ACache aCache;
     private NetRequest netRequest;
+    String userId = null;
+    String authkey = null;
 
+    UserModel user = null;
+    String url=null;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_undocourse,container,false);
         aCache=ACache.get(getActivity());
-        netRequest=new NetRequest(this,getActivity());
+
         recyclerView1=(RecyclerView)view.findViewById(R.id.undorecyclerView);
         courseItemList1 = new ArrayList<>();
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
-        UserModel user = null;
+        netRequest=new NetRequest(this,getActivity());
         Map map = new HashMap<>();
-        String userId = null;
-        String authkey = null;
+
 
 
         user = loginModel.getUserModel();
@@ -72,6 +82,7 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
         map.put("type", StatusCode.REQUEST_UNDO_COURSE);
         netRequest.httpRequest(map, CommonUrl.courseInfo);
         initInfo();
+
 
         return view;
     }
@@ -84,12 +95,50 @@ private Handler handler=new Handler(){
         if (msg.what==StatusCode.REQUEST_UNDO_FAIL){
             CommonUtils.getUtilInstance().showToast(APP.context, "请求失败！");
         }
+        if (msg.what==StatusCode.REQUEST_DETAIL_COURSE){
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map1=new HashMap();
+            map1.put("uid",userId);
+            map1.put("authkey",authkey);
+            map1.put("type",StatusCode.REQUEST_DETAIL_COURSE);
+            map1.put("cid", itemid);
+            netRequest.httpRequest(map1, CommonUrl.courseInfo);
+        }
+        if (msg.what==StatusCode.REQUEST_DETAIL_COURSE){
+            aCache = ACache.get(getActivity());
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map1=new HashMap();
+            map1.put("uid",userId);
+            map1.put("authkey",authkey);
+            map1.put("type",StatusCode.REQUEST_DETAIL_COURSE);
+            map1.put("cid", itemid);
+            netRequest.httpRequest(map1, CommonUrl.courseInfo);
+        }
+        if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
+            Intent intent = new Intent(getActivity(),CourseWebViewActivity.class);
+            intent.putExtra("detail", url);
+            startActivity(intent);
+
+        }
+        if (msg.what==StatusCode.REQUSET_DETAIL_INVALID){
+            CommonUtils.getUtilInstance().showToast(APP.context, "教程不存在！");
+        }
+        if(msg.what==StatusCode.REQUEST_DISCOLLECT_COURSE){
+
+
+        }
     }
 };
 
     private void initInfo() {
 
-        courseListAdapter1 = new CourseListAdapter(courseItemList1, getActivity());
+             courseListAdapter1 = new CourseListAdapter(courseItemList1, getActivity());
         recyclerView1.setAdapter(courseListAdapter1);
 
         layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -131,13 +180,30 @@ private Handler handler=new Handler(){
                     handler.sendMessage(msg);
                     break;
                 }
-                case StatusCode.REQUEST_UNDO_COURSE:
+                case StatusCode.REQUEST_UNDO_FAIL:
                 {
                     msg.what=StatusCode.REQUEST_UNDO_FAIL;
                     handler.sendMessage(msg);
                     break;
                 }
+
+                case StatusCode.REQUEST_DETAIL_SECCESS: {
+                    JSONObject object1 = object.getJSONObject("contents");
+                    JSONObject object2=object1.getJSONObject("course");
+                    url = object2.getString("Curl");
+                    msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUSET_DETAIL_INVALID:
+                {
+                    msg.what=StatusCode.REQUSET_DETAIL_INVALID;
+                    handler.sendMessage(msg);
+                    break;
+
+                }
             }
+
 
         }
 
@@ -150,4 +216,31 @@ private Handler handler=new Handler(){
 
         Log.d("ffffffff","kkkkkkkkkkk");
     }
+    @Override
+    public void onClick(View v) {
+        List list = new ArrayList();
+        list = (List) v.getTag();
+        int i = (int) list.get(0);
+        if( i == 2){
+            int position = (int) list.get(1);
+            itemid=courseItemList1.get(position).getItemid();
+            Message msg = new Message();
+            msg.what = StatusCode.REQUEST_DETAIL_COURSE;
+            handler.sendMessage(msg);
+
+        }
+        if (i==1){
+            int position = (int) list.get(1);
+            itemid=courseItemList1.get(position).getItemid();
+            Message msg = new Message();
+            msg.what = StatusCode.REQUEST_DISCOLLECT_COURSE;
+            handler.sendMessage(msg);
+
+        }
+
+
+
+
+    }
+
 }

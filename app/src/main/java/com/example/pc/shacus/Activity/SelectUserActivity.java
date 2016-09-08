@@ -48,6 +48,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
     private UserDetailAdapter userDetailAdapter;
 
     String type = null;
+    Boolean successd = false;
 
     int id = -1;
     int index = 0;
@@ -66,6 +67,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
@@ -125,7 +127,12 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                 case StatusCode.REQUEST_SELECT_YUEPAIUSER_SUCCESS: //成功
                 {
                     CommonUtils.getUtilInstance().showToast(APP.context, "已成功选择");
-
+                    /*发intent*/
+                    Intent intent = new Intent(SelectUserActivity.this, YuePaiDetailActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    intent.putExtra("type","selectuser");
+                    intent.putExtra("result","success");
+                    startActivity(intent);
                 }
             }
         }
@@ -137,7 +144,6 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         if(requestUrl.equals(CommonUrl.askYuepai)){
             JSONObject object = new JSONObject(result);
             int code  = Integer.valueOf(object.getString("code"));
-            Log.d("aaaaaaa",object.toString());
             switch (code){
                 case StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS: //成功返回报名人列表
                 {

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment2"
     tools:context="com.example.pc.shacus.Fragment.FinishedCourseFragment">
 
     <android.support.v7.widget.RecyclerView

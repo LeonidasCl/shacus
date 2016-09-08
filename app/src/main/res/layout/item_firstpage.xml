@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/first_author"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:descendantFocusability="blocksDescendants">
+
+
+        <com.example.pc.shacus.View.CircleImageView
+            android:id="@+id/firstpage_user_image"
+            android:src="@drawable/holder"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            app:border_color="#00000000"/>
+
+        <TextView
+            android:textColor="@color/ee_black"
+            android:id="@+id/firstpage_user_title"
+            android:textSize="16sp"
+            android:text="花海"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/firstpage_user_image"
+            android:layout_toEndOf="@+id/firstpage_user_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="2016-09-08T17:15:09"
+            android:id="@+id/first_time"
+            android:layout_below="@+id/firstpage_user_title"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="5dp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/first_bigimage"
+        android:src="@drawable/test"
+        android:adjustViewBounds="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first_author"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/first_detail"
+        android:layout_below="@+id/first_bigimage"
+        android:textColor="@color/aa_black"
+        android:text="与君初相识，犹如故人归"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first_detail"
+        android:orientation="horizontal">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:gravity="center">
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/heart" />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/aa_black"
+               android:layout_marginLeft="15dp"
+               android:textSize="14sp"
+               android:id="@+id/first_likenum"
+               android:text="14"/>
+       </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/comment" />
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/aa_black"
+                android:id="@+id/first_commentnum"
+                android:textSize="14sp"
+                android:text="14"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

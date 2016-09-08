@@ -15,6 +15,9 @@ public class ItemModel implements Serializable{
     private int registNum;
     private String title;
 
+    private int commentNum;
+    private String detial;
+
     private String type;
 
     public int getId() {
@@ -81,5 +84,20 @@ public class ItemModel implements Serializable{
         this.type = type;
     }
 
+    public int getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(int commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    public String getDetial() {
+        return detial;
+    }
+
+    public void setDetial(String detial) {
+        this.detial = detial;
+    }
 
 }
