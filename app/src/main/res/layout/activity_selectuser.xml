@@ -14,7 +14,7 @@
             android:id="@+id/baoming_title"
             android:textSize="20dp"
             android:text="XX详情"
-            android:textColor="@color/ee_black"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"/>
