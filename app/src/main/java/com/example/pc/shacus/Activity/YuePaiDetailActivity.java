@@ -83,9 +83,9 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (isSponsor==1){//是自己发布的
                     if (position==0){
-                    //取消约拍
+                        CommonUtils.getUtilInstance().showToast(getApplicationContext(),"不能报名自己发布的约拍");
                 }if (position==1){
-
+                    //取消约拍
                 }
                 }
                 if (isSponsor==0){//是别人发布的
@@ -121,9 +121,9 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (isSponsor==1){//是自己发布的
                     if (position==0){
-                        //取消约拍
+                        CommonUtils.getUtilInstance().showToast(getApplicationContext(),"不能报名自己发布的约拍");
                     }if (position==1){
-
+                        //取消约拍
                     }
                 }
                 if (isSponsor==0){//是别人发布的
@@ -178,6 +178,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     private boolean isBigImageShow=false;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -224,7 +225,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
         handler=new Handler(){
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(Message msg){
                 super.handleMessage(msg);
 
                 if (msg.what==StatusCode.REQUEST_FAILURE){
@@ -301,10 +302,12 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                                 {
                                     intent.putExtra("apid",data.getAPid());
                                     intent.putExtra("type","yuepai");
+                                    intent.putExtra("title",data.getAPtitle());
                                 }
                                 else {
                                     intent.putExtra("acid",data.getACid());
                                     intent.putExtra("type","huodong");
+                                    intent.putExtra("title",data.getACtitle());
                                 }
                                 startActivity(intent);
                             }
@@ -390,10 +393,12 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                                 {
                                     intent.putExtra("apid",data.getAPid());
                                     intent.putExtra("type","yuepai");
+                                    intent.putExtra("title",data.getAPtitle());
                                 }
                                 else {
                                     intent.putExtra("acid",data.getACid());
                                     intent.putExtra("type","huodong");
+                                    intent.putExtra("title",data.getACtitle());
                                 }
                                 startActivity(intent);
                             }
@@ -493,6 +498,21 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
+        String type=intent.getStringExtra("type");
+        if (type.equals("selectuser")){
+            String result=intent.getStringExtra("result");
+            if (result.equals("success")){
+                selectJoinUser.setText("完成约拍");
+                selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+            }
+        }
+
     }
 
     public float getScreenDen(){

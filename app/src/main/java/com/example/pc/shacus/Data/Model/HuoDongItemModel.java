@@ -11,6 +11,7 @@ public class HuoDongItemModel implements Serializable{
 
     private String Userimageurl;
     private String AClurl;
+    private String ACtitle;
     private String ACstartT;
     private String ACcontent;
     private int AClikenumber;
@@ -82,5 +83,13 @@ public class HuoDongItemModel implements Serializable{
 
     public void setUserliked(int userliked) {
         Userliked = userliked;
+    }
+
+    public String getACtitle() {
+        return ACtitle;
+    }
+
+    public void setACtitle(String ACtitle) {
+        this.ACtitle = ACtitle;
     }
 }
