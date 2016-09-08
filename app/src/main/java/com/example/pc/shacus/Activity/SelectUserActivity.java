@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.UserDetailAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -20,6 +21,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +46,9 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
     private ImageButton back;
     private TextView title;
     private UserDetailAdapter userDetailAdapter;
+
     String type = null;
+
     String id = null;
     int index = 0;
 
@@ -67,23 +71,27 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         });
 
         Intent intent = getIntent();
+        String t  = intent.getStringExtra("title");
+        title.setText(t);
         type = intent.getStringExtra("type");
         if(type.equals("yuepai")){
             index = StatusCode.REQUEST_BAOMING_YUEPAI_USER;
             id = intent.getStringExtra("apid");
         }else if(type.equals("huodong")){
             //
-            id = intent.getStringExtra("apid");
+            id = intent.getStringExtra("acid");
         }
-
-        title.setText("");
-        for(int i = 0 ; i <10; i++){
-            UserModel userModel = new UserModel();
-            userModel.setNickName("崔崔");
-            userModel.setSign("哈哈哈");
-            userModelList.add(userModel);
-        }
+        initUserInfo();
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
 
     //获得报名用户的信息
     private void initUserInfo(){
@@ -113,17 +121,21 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                     listView.setAdapter(userDetailAdapter);
                     break;
                 }
+                case StatusCode.REQUEST_SELECT_YUEPAIUSER_SUCCESS: //成功
+                {
+                    CommonUtils.getUtilInstance().showToast(APP.context, "已成功选择");
+
+                }
             }
         }
     };
 
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
+        Message msg = new Message();
         if(requestUrl.equals(CommonUrl.askYuepai)){
             JSONObject object = new JSONObject(result);
             int code  = Integer.valueOf(object.getString("code"));
-            Message msg = new Message();
-
             Log.d("aaaaaaa",object.toString());
             switch (code){
                 case StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS: //成功返回报名人列表
@@ -136,11 +148,27 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                         userModel.setSign(user.getString("usign"));
                         userModel.setId(user.getString("uid"));
                         userModel.setNickName(user.getString("ualais"));
+                        if(user.getInt("uchoosed")==1) userModel.setIndex(true);
+                        else userModel.setIndex(false);
                         userModelList.add(userModel);
                     }
                     Log.d("sssssss",object.toString());
                     msg.what = StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS;
                     handler.sendMessage(msg);
+                    break;
+                }
+            }
+        }
+        else if(requestUrl.equals(CommonUrl.getOrdersInfo)){
+            JSONObject object = new JSONObject(result);
+            int code  = Integer.valueOf(object.getString("code"));
+            Log.d("aaaaaaa",object.toString());
+            switch (code){
+                case StatusCode.REQUEST_SELECT_YUEPAIUSER_SUCCESS:
+                {
+                    msg.what = StatusCode.REQUEST_SELECT_YUEPAIUSER_SUCCESS;
+                    handler.sendMessage(msg);
+                    break;
                 }
             }
         }
