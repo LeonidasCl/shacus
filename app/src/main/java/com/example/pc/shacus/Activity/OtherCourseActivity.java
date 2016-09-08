@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * Created by 孙启凡 on 2016/9/5.
  */
-public class OtherCourseActivity  extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface{
+public class OtherCourseActivity  extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
 
     private ImageButton returnButton;
@@ -50,9 +50,14 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
     RecyclerView.LayoutManager layoutManager1;
     String tid;
 
-    LoginDataModel loginModel;
-    private ACache aCache;
-    private NetRequest netRequest;
+    private ACache aCache ;
+    private NetRequest  netRequest;
+    private int itemid;
+    String userId = null;
+    String authkey = null;
+
+    UserModel user = null;
+    String url=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +70,9 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
         returnButton=(ImageButton)findViewById(R.id.returnbutton2);
         title=(TextView)findViewById(R.id.ownerName2);
         imageButton1=(ImageButton)findViewById(R.id.imagebutton);
-        netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
         aCache = ACache.get(OtherCourseActivity.this);
-
+        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
         courseItemList1 = new ArrayList<>();
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,12 +80,12 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
                 finish();
             }
         });
-        imageButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        imageButton1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         switch (tid){
             case "1":
@@ -105,24 +110,19 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
         }
         recyclerView1 = (RecyclerView)findViewById(R.id.otherrecyclerView);
 
-        loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+
         Log.d("wwwww", loginModel.toString());
 
-        UserModel content=null;
 
-        Log.d("wwwwww","hkl");
-        content = loginModel.getUserModel();
-        if(loginModel ==null){
-            Log.d("sssssssss", content.toString());}
-        String userId = content.getId();
-        String authkey = content.getAuth_key();
+        user = loginModel.getUserModel();
+        userId = user.getId();
+        authkey = user.getAuth_key();
 
         Map map=new HashMap();
         map.put("uid",userId);
         map.put("authkey",authkey);
         map.put("type", StatusCode.REQUEST_KIND_COURSE);
         map.put("tid",tid);
-        map.put("nid",0);
         netRequest.httpRequest(map, CommonUrl.courseInfo);
 
 
@@ -140,6 +140,30 @@ private Handler handler=new Handler(){
         }
         if (msg.what==StatusCode.REQUEST_KIND_NOMORE){
             CommonUtils.getUtilInstance().showToast(APP.context, "没有更多了！");
+        }
+        if (msg.what==StatusCode.REQUEST_DETAIL_COURSE){
+            aCache = ACache.get(OtherCourseActivity.this);
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map1=new HashMap();
+            map1.put("uid",userId);
+            map1.put("authkey",authkey);
+            map1.put("type",StatusCode.REQUEST_DETAIL_COURSE);
+            map1.put("cid", itemid);
+            netRequest.httpRequest(map1, CommonUrl.courseInfo);
+            Log.d("sssssssssssssss","lllllllllll");
+        }
+        if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
+            Intent intent = new Intent(OtherCourseActivity.this,OrdersActivity.class);
+            intent.putExtra("detail", url);
+            startActivity(intent);
+
+        }
+        if (msg.what==StatusCode.REQUSET_DETAIL_INVALID){
+            CommonUtils.getUtilInstance().showToast(APP.context, "教程不存在！");
         }
     }
 };
@@ -200,6 +224,21 @@ private Handler handler=new Handler(){
                     handler.sendMessage(msg);
                     break;
                 }
+                case StatusCode.REQUEST_DETAIL_SECCESS: {
+                    JSONObject object1 = object.getJSONObject("contents");
+                    url = object1.getString("Curl");
+                    msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
+                    handler.sendMessage(msg);
+                    Log.d("oooooooooo","ppppppppp");
+                    break;
+                }
+                case StatusCode.REQUSET_DETAIL_INVALID:
+                {
+                    msg.what=StatusCode.REQUSET_DETAIL_INVALID;
+                    handler.sendMessage(msg);
+                    break;
+
+                }
             }
 
         }
@@ -213,4 +252,20 @@ private Handler handler=new Handler(){
 
 
 
+    @Override
+    public void onClick(View v) {
+        List list = new ArrayList();
+        list = (List) v.getTag();
+        int i = (int) list.get(0);
+        if( i == 2){
+            int position = (int) list.get(1);
+            itemid=courseItemList1.get(position).getItemid();
+            Message msg = new Message();
+            msg.what = StatusCode.REQUEST_DETAIL_COURSE;
+            handler.sendMessage(msg);
+
+
+        }
+
+    }
 }
