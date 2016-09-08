@@ -30,4 +30,6 @@ public class CommonUrl {
 	public static String praiseAppointment=url+"appointment/prase";
 	public static String praiseActivity=url+"Activity/entry";
 	public static String favouriteYuepai=url+"user/favorite";
+
+	public static final String askYuepai = url+ "appointment/ask"; //获得约拍系列信息
 }

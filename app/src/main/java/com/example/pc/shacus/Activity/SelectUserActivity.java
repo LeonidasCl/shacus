@@ -3,7 +3,9 @@ package com.example.pc.shacus.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -15,9 +17,13 @@ import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +44,9 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
     private ImageButton back;
     private TextView title;
     private UserDetailAdapter userDetailAdapter;
+    String type = null;
+    String id = null;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,14 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         });
 
         Intent intent = getIntent();
+        type = intent.getStringExtra("type");
+        if(type.equals("yuepai")){
+            index = StatusCode.REQUEST_BAOMING_YUEPAI_USER;
+            id = intent.getStringExtra("apid");
+        }else if(type.equals("huodong")){
+            //
+            id = intent.getStringExtra("apid");
+        }
 
         title.setText("");
         for(int i = 0 ; i <10; i++){
@@ -66,8 +83,6 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
             userModel.setSign("哈哈哈");
             userModelList.add(userModel);
         }
-        userDetailAdapter = new UserDetailAdapter(SelectUserActivity.this,userModelList);
-        listView.setAdapter(userDetailAdapter);
     }
 
     //获得报名用户的信息
@@ -78,15 +93,57 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         String userId = content.getId();
         String authkey = content.getAuth_key();
 
+        map.put("uid", userId);
+        map.put("authkey",authkey);
+        if(index == StatusCode.REQUEST_BAOMING_YUEPAI_USER){
+            map.put("type", StatusCode.REQUEST_BAOMING_YUEPAI_USER);
+            map.put("apid", id);
+        }//else
+        netRequest.httpRequest(map, CommonUrl.askYuepai);
+
     }
 
     private Handler handler = new Handler(){
-
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS: //成功返回报名人列表
+                {
+                    userDetailAdapter = new UserDetailAdapter(SelectUserActivity.this,userModelList);
+                    listView.setAdapter(userDetailAdapter);
+                    break;
+                }
+            }
+        }
     };
 
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
+        if(requestUrl.equals(CommonUrl.askYuepai)){
+            JSONObject object = new JSONObject(result);
+            int code  = Integer.valueOf(object.getString("code"));
+            Message msg = new Message();
 
+            Log.d("aaaaaaa",object.toString());
+            switch (code){
+                case StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS: //成功返回报名人列表
+                {
+                    JSONArray content = object.getJSONArray("contents");
+                    for(int i = 0;i < content.length();i++){
+                        JSONObject user = content.getJSONObject(i);
+                        UserModel userModel = new UserModel();
+                        userModel.setHeadImage(user.getString("uimage"));
+                        userModel.setSign(user.getString("usign"));
+                        userModel.setId(user.getString("uid"));
+                        userModel.setNickName(user.getString("ualais"));
+                        userModelList.add(userModel);
+                    }
+                    Log.d("sssssss",object.toString());
+                    msg.what = StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS;
+                    handler.sendMessage(msg);
+                }
+            }
+        }
     }
 
     @Override
