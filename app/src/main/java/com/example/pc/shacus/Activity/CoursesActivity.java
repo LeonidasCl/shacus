@@ -230,7 +230,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
 
         }
 //
-    }
+//    }
 
     @Override
     public void exception (IOException e, String requestUrl){
