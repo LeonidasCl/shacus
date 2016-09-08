@@ -198,7 +198,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         String uid=userModel.getId();
 
         Map map=new HashMap();
-        map.put("authkey",authKey);
+        map.put("authkey", authKey);
         if (typo.equals("yuepai"))
         map.put("uid",uid);
         else
@@ -296,7 +296,17 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         selectJoinUser.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                //
+                                Intent intent=new Intent(getApplicationContext(),SelectUserActivity.class);
+                                if (typo.equals("yuepai"))
+                                {
+                                    intent.putExtra("apid",data.getAPid());
+                                    intent.putExtra("type","yuepai");
+                                }
+                                else {
+                                    intent.putExtra("acid",data.getACid());
+                                    intent.putExtra("type","huodong");
+                                }
+                                startActivity(intent);
                             }
                         });
                     }
@@ -375,7 +385,17 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         selectJoinUser.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                //
+                                Intent intent=new Intent(getApplicationContext(),SelectUserActivity.class);
+                                if (typo.equals("yuepai"))
+                                {
+                                    intent.putExtra("apid",data.getAPid());
+                                    intent.putExtra("type","yuepai");
+                                }
+                                else {
+                                    intent.putExtra("acid",data.getACid());
+                                    intent.putExtra("type","huodong");
+                                }
+                                startActivity(intent);
                             }
                         });
                     }
