@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.View.CircleImageView;
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class UserDetailAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         if(view == null){
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.item_user_baoming,parent,false);
@@ -61,6 +63,16 @@ public class UserDetailAdapter extends BaseAdapter{
                     .into(viewHolder.userImageSrc);
             viewHolder.userNameText.setText(userModelList.get(position).getNickName());
             viewHolder.usersignatureText.setText(userModelList.get(position).getSign());
+
+            viewHolder.baoming.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(userModelList.get(position).getIndex()){
+                        CommonUtils.getUtilInstance().showToast(APP.context, "已取消关注");
+
+                    }
+                }
+            });
 
             view.setTag(viewHolder);
         }else{

@@ -139,5 +139,7 @@ public interface StatusCode {
 
     int REQUEST_BAOMING_YUEPAI_USER = 10245;//请求某个约拍报名人列表
     int REQUEST_BAOMING_YUEPAI_USERSUCCESS = 10257; //成功返回选择报名人中报名人列表
+    int REQUEST_SELECT_YUEPAIUSER = 10904; //选择约拍对象
+    int REQUEST_SELECT_YUEPAIUSER_SUCCESS = 10920; //选择约拍对象成功
 
 }
