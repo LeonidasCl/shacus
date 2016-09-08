@@ -125,7 +125,7 @@
                     android:layout_height="@dimen/course_image_size"
                     android:text="风景"
                     android:gravity="center"
-                    android:background="#aacecece"
+                    android:background="#2acecece"
                     android:textColor="#ffffff"/>
             </RelativeLayout>
             <RelativeLayout
@@ -145,7 +145,7 @@
                     android:layout_height="@dimen/course_image_size"
                     android:text="人文"
                     android:gravity="center"
-                    android:background="#aacecece"
+                    android:background="#2acecece"
                     android:textColor="#ffffff"/>
             </RelativeLayout>
             <RelativeLayout
@@ -165,7 +165,7 @@
                     android:layout_height="@dimen/course_image_size"
                     android:text="后期"
                     android:gravity="center"
-                    android:background="#aacecece"
+                    android:background="#2acecece"
                     android:textColor="#ffffff"/>
             </RelativeLayout>
         </TableRow>
@@ -187,7 +187,7 @@
                     android:layout_height="@dimen/course_image_size"
                     android:text="器材"
                     android:gravity="center"
-                    android:background="#aacecece"
+                    android:background="#2acecece"
                     android:textColor="#ffffff"/>
             </RelativeLayout>
             <RelativeLayout
@@ -207,7 +207,7 @@
                     android:layout_height="@dimen/course_image_size"
                     android:text="技巧"
                     android:gravity="center"
-                    android:background="#aacecece"
+                    android:background="#2acecece"
                     android:textColor="#ffffff"/>
             </RelativeLayout>
             <RelativeLayout
@@ -227,7 +227,7 @@
                     android:layout_height="@dimen/course_image_size"
                     android:text="人像"
                     android:gravity="center"
-                    android:background="#aacecece"
+                    android:background="#2acecece"
                     android:textColor="#ffffff"/>
             </RelativeLayout>
         </TableRow>
