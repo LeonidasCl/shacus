@@ -3,6 +3,8 @@ package com.example.pc.shacus.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,35 +21,50 @@ import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.CommonPagerAdapter;
 import com.example.pc.shacus.Adapter.CourseListAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.FinishedCourseFragment;
 import com.example.pc.shacus.Fragment.UndoCourseFragment;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 孙启凡
  */
 //课程界面（二级）
 
-public class CoursesActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface,TabLayout.OnTabSelectedListener{
+public class CoursesActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface,TabLayout.OnTabSelectedListener,View.OnClickListener{
 
     private ImageButton returnButton;
     private ImageButton imageButton1;
     private ViewPager mPager;
+    private int itemid;
+    private ACache aCache;
+    private NetRequest netRequest;
+    String userId = null;
+    String authkey = null;
 
-
+    UserModel user = null;
+    String url=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +86,19 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
             }
         });
 
+
+        aCache=ACache.get(this);
+
+
+        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        netRequest=new NetRequest(this,this);
+
+
+
+
+        user = loginModel.getUserModel();
+        userId = user.getId();
+        authkey = user.getAuth_key();
         TabLayout tabLayout = (TabLayout)findViewById(R.id.discover_tab_bar);
         mPager = (ViewPager) findViewById(R.id.discover_viewPager);
         ArrayList<Fragment> fragments = new ArrayList<>();
@@ -115,6 +146,39 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
 
         @Override
         public void requestFinish (String result, String requestUrl)throws JSONException {
+
+            if(requestUrl.equals(CommonUrl.courseInfo)){//返回收藏信息
+                JSONObject object = new JSONObject(result);
+                int code = Integer.valueOf(object.getString("code"));
+                Message msg = new Message();
+
+                switch (code){
+                    case StatusCode.REQUEST_UNDO_FAIL:
+                    {
+                        msg.what=StatusCode.REQUEST_UNDO_FAIL;
+                        handler.sendMessage(msg);
+                        break;
+                    }
+
+                    case StatusCode.REQUEST_DETAIL_SECCESS: {
+                        JSONObject object1 = object.getJSONObject("contents");
+                        JSONObject object2=object1.getJSONObject("course");
+                        url = object2.getString("Curl");
+                        msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
+                        handler.sendMessage(msg);
+                        break;
+                    }
+                    case StatusCode.REQUSET_DETAIL_INVALID:
+                    {
+                        msg.what=StatusCode.REQUSET_DETAIL_INVALID;
+                        handler.sendMessage(msg);
+                        break;
+
+                    }
+                }
+
+
+            }
 //
         }
 
@@ -124,7 +188,21 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         }
 
 
-//    @Override
-//    public void onClick(View v) {
-//    }
+    @Override
+    public void onClick(View v) {
+        List list = new ArrayList();
+        list = (List) v.getTag();
+        int i = (int) list.get(0);
+        if( i == 2){
+            int position = (int) list.get(1);
+            Intent intent = new Intent(CoursesActivity.this,OrdersActivity.class);
+
+
+            // intent.putExtra("detail",courseItemList1.get(position).getItemid());
+
+
+            startActivity(intent);
+
+        }
+    }
 }
