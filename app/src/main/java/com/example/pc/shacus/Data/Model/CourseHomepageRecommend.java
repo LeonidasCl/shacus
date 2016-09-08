@@ -7,6 +7,7 @@ public class CourseHomepageRecommend {
     private String Ctitle;
     private String CimageUrl;
     private String Cid;
+    private String Curl;
 
     public String getCtitle() {
         return Ctitle;
@@ -30,5 +31,13 @@ public class CourseHomepageRecommend {
 
     public void setCid(String cid) {
         Cid = cid;
+    }
+
+    public String getCurl() {
+        return Curl;
+    }
+
+    public void setCurl(String curl) {
+        Curl = curl;
     }
 }

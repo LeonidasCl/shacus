@@ -67,13 +67,13 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
                         recommendText= (TextView) view.findViewById(R.id.recommendCourse_Text);
                         recommendImage= (ImageView) view.findViewById(R.id.recommendCourse_image);
                         recommendText.setText(courseHomepageRecommend.get(i).getCtitle());
-                        recommendImage.setTag(i);
                         recommendImage.setOnClickListener(CourseFragment.this);
                         Glide.with(CourseFragment.this.getActivity())
                                 .load(courseHomepageRecommend.get(i).getCimageUrl()).centerCrop()
                                 .placeholder(R.drawable.holder)
                                 .error(R.drawable.loading_error)
                                 .into(recommendImage);
+                        recommendImage.setTag(i);
                         recommendLine.addView(view);
                     }//修改更多类型图
                     for (int i = 0; i < courseHomepageModel.size(); i++) {
@@ -159,7 +159,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
             case R.id.recommendCourse_image:
                 Intent intent=new Intent(CourseFragment.this.getActivity(), CourseWebViewActivity.class);
                 int i= (int) v.getTag();
-                intent.putExtra("detail",courseHomepageRecommend.get(i).getCimageUrl());
+                intent.putExtra("detail",courseHomepageRecommend.get(i).getCurl());
                 startActivity(intent);
                 break;
             case R.id.btn_moreType1:
@@ -193,6 +193,9 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
                 startActivity(intent6);
                 break;
             case R.id.btn_moreRecommend:
+                Intent intent7=new Intent(CourseFragment.this.getActivity(),OtherCourseActivity.class);
+                intent7.putExtra("tid","7");
+                startActivity(intent7);
                 break;
             case R.id.myCourse_image:
                 Intent intent8=new Intent(CourseFragment.this.getActivity(), CoursesActivity.class);

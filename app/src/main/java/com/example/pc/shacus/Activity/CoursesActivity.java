@@ -74,11 +74,11 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         imageButton1=(ImageButton)findViewById(R.id.imagebutton);
 
         returnButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-          finish();
-      }
-  });
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         imageButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,48 +144,48 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
     }
 
 
-        @Override
-        public void requestFinish (String result, String requestUrl)throws JSONException {
+    @Override
+    public void requestFinish (String result, String requestUrl)throws JSONException {
 
-            if(requestUrl.equals(CommonUrl.courseInfo)){//返回收藏信息
-                JSONObject object = new JSONObject(result);
-                int code = Integer.valueOf(object.getString("code"));
-                Message msg = new Message();
+        if(requestUrl.equals(CommonUrl.courseInfo)){//返回收藏信息
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            Message msg = new Message();
 
-                switch (code){
-                    case StatusCode.REQUEST_UNDO_FAIL:
-                    {
-                        msg.what=StatusCode.REQUEST_UNDO_FAIL;
-                        handler.sendMessage(msg);
-                        break;
-                    }
-
-                    case StatusCode.REQUEST_DETAIL_SECCESS: {
-                        JSONObject object1 = object.getJSONObject("contents");
-                        JSONObject object2=object1.getJSONObject("course");
-                        url = object2.getString("Curl");
-                        msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
-                        handler.sendMessage(msg);
-                        break;
-                    }
-                    case StatusCode.REQUSET_DETAIL_INVALID:
-                    {
-                        msg.what=StatusCode.REQUSET_DETAIL_INVALID;
-                        handler.sendMessage(msg);
-                        break;
-
-                    }
+            switch (code){
+                case StatusCode.REQUEST_UNDO_FAIL:
+                {
+                    msg.what=StatusCode.REQUEST_UNDO_FAIL;
+                    handler.sendMessage(msg);
+                    break;
                 }
 
+                case StatusCode.REQUEST_DETAIL_SECCESS: {
+                    JSONObject object1 = object.getJSONObject("contents");
+                    JSONObject object2=object1.getJSONObject("course");
+                    url = object2.getString("Curl");
+                    msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUSET_DETAIL_INVALID:
+                {
+                    msg.what=StatusCode.REQUSET_DETAIL_INVALID;
+                    handler.sendMessage(msg);
+                    break;
 
+                }
             }
+
+
+        }
 //
-        }
+    }
 
-        @Override
-        public void exception (IOException e, String requestUrl){
+    @Override
+    public void exception (IOException e, String requestUrl){
 
-        }
+    }
 
 
     @Override
@@ -195,14 +195,45 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         int i = (int) list.get(0);
         if( i == 2){
             int position = (int) list.get(1);
-            Intent intent = new Intent(CoursesActivity.this,OrdersActivity.class);
+            itemid=(int)list.get(2);
+            Message msg = new Message();
+            msg.what = StatusCode.REQUEST_DETAIL_COURSE;
+            handler.sendMessage(msg);
 
-
-            // intent.putExtra("detail",courseItemList1.get(position).getItemid());
-
-
-            startActivity(intent);
 
         }
+
     }
+    private Handler handler=new Handler(){
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what==StatusCode.REQUSET_FINISHED_FAIL){
+                CommonUtils.getUtilInstance().showToast(APP.context, "请求失败！");
+            }
+
+            if (msg.what==StatusCode.REQUEST_DETAIL_COURSE){
+                LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+                user = loginModel.getUserModel();
+                userId = user.getId();
+                authkey = user.getAuth_key();
+                Map map1=new HashMap();
+                map1.put("uid",userId);
+                map1.put("authkey",authkey);
+                map1.put("type",StatusCode.REQUEST_DETAIL_COURSE);
+                map1.put("cid", itemid);
+                netRequest.httpRequest(map1, CommonUrl.courseInfo);
+            }
+            if (msg.what==StatusCode.REQUEST_DETAIL_SECCESS){
+                Intent intent = new Intent(CoursesActivity.this,CourseWebViewActivity.class);
+                intent.putExtra("detail", url);
+                startActivity(intent);
+
+            }
+            if (msg.what==StatusCode.REQUSET_DETAIL_INVALID){
+                CommonUtils.getUtilInstance().showToast(APP.context, "教程不存在！");
+            }
+        }
+    };
+
 }
