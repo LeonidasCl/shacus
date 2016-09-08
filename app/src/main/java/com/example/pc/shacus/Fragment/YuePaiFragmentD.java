@@ -318,6 +318,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                         PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
                         Log.d("LQQQQQ", info.getString("APid"));
                         list.add(photo);
+
                     }
                     bootCounter+=array.length();
                     model.setPhotoList(list);
