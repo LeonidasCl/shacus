@@ -226,7 +226,8 @@ private Handler handler=new Handler(){
                 }
                 case StatusCode.REQUEST_DETAIL_SECCESS: {
                     JSONObject object1 = object.getJSONObject("contents");
-                    url = object1.getString("Curl");
+                    JSONObject object2=object1.getJSONObject("course");
+                    url = object2.getString("Curl");
                     msg.what=StatusCode.REQUEST_DETAIL_SECCESS;
                     handler.sendMessage(msg);
                     Log.d("oooooooooo","ppppppppp");
