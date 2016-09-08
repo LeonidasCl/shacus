@@ -230,7 +230,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
 
         }
 //
-    }
+    //}
 
     @Override
     public void exception (IOException e, String requestUrl){
@@ -238,7 +238,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
     }
 
 private int itemCollect;
-    ImageView collect;
+ImageView collect;
     @Override
     public void onClick(View v) {
         List list = new ArrayList();
