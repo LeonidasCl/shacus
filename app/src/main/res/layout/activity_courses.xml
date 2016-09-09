@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="我的课程"
             android:textSize="20dp"
+            android:textColor="#ffffff"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:layout_weight="1" />
@@ -33,8 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imagebutton"
+            android:src="@mipmap/ic_launcher"
             android:layout_gravity="center_vertical"
-            android:background="@color/gold"/>
+            android:background="@color/gold"
+            android:visibility="invisible"/>
     </LinearLayout>
 
     <android.support.design.widget.TabLayout

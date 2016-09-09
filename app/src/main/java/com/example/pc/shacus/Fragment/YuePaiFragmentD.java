@@ -75,17 +75,37 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch(msg.what){
-                case 10231:
+                case StatusCode.REQUEST_YUEPAI_GRAPH_LIST_SUCCESS:
                     personAdapter.notifyDataSetChanged();
                     getYuePaiFlag=true;
                     break;
-                case 10253:
+                case StatusCode.REQUEST_YUEPAI_MODEL_LIST_SUCCESS:
+                    personAdapter.notifyDataSetChanged();
+                    getYuePaiFlag=true;
+                    break;
+                case StatusCode.REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS:
+                    personAdapter.notifyDataSetChanged();
+                    getYuePaiFlag=true;
+                    break;
+                case StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS:
                     personAdapter.notifyDataSetChanged();
                     getYuePaiFlag=true;
                     break;
             }
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bootData(isGrapher ? GRAPHER : MODEL);
+        refreshLayout.setRefreshing(true);
+        bootCounter = 0;
+        personAdapter.refresh(new ArrayList<PhotographerModel>());
+        personAdapter.notifyDataSetChanged();
+        refreshLayout.setRefreshing(false);
+        refreshing = true;
+    }
 
     public YuePaiFragmentD(){
         isGrapher=true;
@@ -132,6 +152,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             public boolean onTouch(View v, MotionEvent event) {
                 if (isGrapher){
                 }else {
+                    getYuePaiFlag=false;
                     isGrapher = true;
                     button_grapher.setImageResource(R.drawable.button_grapher_down);
                     button_model.setImageResource(R.drawable.button_model_up);
@@ -151,6 +172,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (isGrapher) {
+                    getYuePaiFlag=false;
                     isGrapher = false;
                     button_grapher.setImageResource(R.drawable.button_grapher_up);
                     button_model.setImageResource(R.drawable.button_model_down);
@@ -232,8 +254,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                         JSONObject json = new JSONObject(result);
                         String code = json.getString("code");
                         Log.d("LQQQQQQ", "code:" + code);
-                        JSONArray array = json.getJSONArray("contents");
-                        if (code.equals("10253")) {
+                        if (code.equals("10253")&&isGrapher) {
+                            JSONArray array = json.getJSONArray("contents");
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
                                 Gson gson = new Gson();
@@ -244,7 +266,22 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             bootCounter += array.length();
                             personAdapter.add(list);
                             Message msg = handler.obtainMessage();
-                            msg.what = 10253;
+                            msg.what = StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS;
+                            handler.sendMessage(msg);
+                        }
+                        if (code.equals("10253")&&!isGrapher) {
+                            JSONArray array = json.getJSONArray("contents");
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject info = array.getJSONObject(i);
+                                Gson gson = new Gson();
+                                PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
+                                Log.d("LQQQQQ", info.getString("APid"));
+                                list.add(photo);
+                            }
+                            bootCounter += array.length();
+                            personAdapter.add(list);
+                            Message msg = handler.obtainMessage();
+                            msg.what = StatusCode.REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS;
                             handler.sendMessage(msg);
                         } else if(code.equals("10262")){
                             Log.d("LQQQQQ", "加载失败");
@@ -267,7 +304,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
                     Log.d("LQQQQQQQQQ", "request map");
                 } else if (type == MODEL) {
-
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("type","10244");
+                    map.put("authkey", data.getAuth_key());
+                    map.put("uid", data.getId());
+                    map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
+                    requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
+                    Log.d("LQQQQQQQQQ", "request map");
                 }
 
                 return list;
@@ -325,7 +368,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
-                    msg.what=10231;
+                    msg.what=StatusCode.REQUEST_YUEPAI_GRAPH_LIST_SUCCESS;
                     handler.sendMessage(msg);
                 }else if (code.equals("10252")) {
                     for (int i = 0; i < array.length(); i++) {
@@ -340,9 +383,11 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
-                    msg.what=10235;
+                    msg.what=StatusCode.REQUEST_YUEPAI_MODEL_LIST_SUCCESS;
                     handler.sendMessage(msg);
-                }else if(code.equals("10261"));
+                }
+                else if(code.equals("10261")){}
+                else if(code.equals("10262")){}
 
             }
 
