@@ -70,7 +70,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
                         recommendImage.setOnClickListener(CourseFragment.this);
                         Glide.with(CourseFragment.this.getActivity())
                                 .load(courseHomepageRecommend.get(i).getCimageUrl()).centerCrop()
-                                .placeholder(R.drawable.holder)
+//                                .placeholder(R.drawable.holder)
                                 .error(R.drawable.loading_error)
                                 .into(recommendImage);
                         recommendImage.setTag(i);
@@ -80,7 +80,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
                         ImageView image=tag.get(i);
                         Glide.with(CourseFragment.this.getActivity())
                                 .load(courseHomepageModel.get(i).getCTimageurl()).centerCrop()
-                                .placeholder(R.drawable.holder)
+//                                .placeholder(R.drawable.holder)
                                 .error(R.drawable.loading_error)
                                 .into(image);
                         image.setOnClickListener(CourseFragment.this);

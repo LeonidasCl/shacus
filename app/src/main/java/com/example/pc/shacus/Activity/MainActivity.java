@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actbar.setDisplayShowTitleEnabled(false);
 
 
-       textName=(TextView)findViewById(R.id.m_toolbar_title);
+        textName=(TextView)findViewById(R.id.m_toolbar_title);
         textName.setText("未登录");
 
         Window window = getWindow();
@@ -155,25 +157,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        //获取登录状态添加到侧滑栏信息
-        if (user!=null) {
-            ACache acache=ACache.get(this);
-            ImageView userImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
-            TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
-            ImageView userLevel = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
-            TextView userSign = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
-            userName.setText(user.getNickName());
-            userSign.setText(user.getSign());
-
-            // 和设置缓存中
-            SettingDataModel setModel = new SettingDataModel();
-            setModel.setMessageInform(false);
-            setModel.setPhoneVisible(false);
-            setModel.setUserPhone(user.getPhone());
-            setModel.setUserID(user.getId());
-            acache.put("settingModel", setModel);
-        }
-
 
         fragmentTrs=fragmentMgr.beginTransaction();
         btn_yuepai.setSelected(true);
@@ -198,6 +181,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e(TAG, "-----onError-----" + errorCode);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //获取登录状态添加到侧滑栏信息
+        if (user!=null) {
+            ACache acache=ACache.get(this);
+            ImageView userImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
+            TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
+            ImageView userLevel = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
+            TextView userSign = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
+            userName.setText(user.getNickName());
+            userSign.setText(user.getSign());
+
+            Glide.with(getApplicationContext())
+                    .load(user.getHeadImage()).centerCrop()
+//                    .placeholder(R.drawable.holder)
+                    .error(R.drawable.loading_error)
+                    .into(userImage);
+
+            Glide.with(this)
+                    .load(user.getHeadImage()).centerCrop()
+//                    .placeholder(R.drawable.holder)
+                    .error(R.drawable.loading_error)
+                    .into(btnAvartar);
+
+            // 和设置缓存中
+            SettingDataModel setModel = new SettingDataModel();
+            setModel.setMessageInform(false);
+            setModel.setPhoneVisible(false);
+            setModel.setUserPhone(user.getPhone());
+            setModel.setUserID(user.getId());
+            acache.put("settingModel", setModel);
+        }
 
     }
 

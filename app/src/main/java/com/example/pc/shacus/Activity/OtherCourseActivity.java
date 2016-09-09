@@ -130,7 +130,7 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
             Map map=new HashMap();
             map.put("uid",userId);
             map.put("authkey",authkey);
-            map.put("type","11009");
+            map.put("type",StatusCode.REQUEST_COURSE_MORE_COURSES);
             netRequest.httpRequest(map,CommonUrl.courseHomePage);
 
         }else {
