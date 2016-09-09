@@ -20,7 +20,7 @@ public interface StatusCode {
     //请求登录的请求码
     int REQUEST_LOGIN=10106;
     //登录请求类别成功的返回码
-    int REQUEST_LOGIN_SUCCESS =10101 ;
+    int REQUEST_LOGIN_SUCCESS =10111 ;
     //请求访问他人个人主页请求码
      int RECIEVE_VISIT_REJECT=10600;
     //获取访问他人个人主页的权限

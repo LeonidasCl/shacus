@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pc.shacus.APP;
@@ -23,6 +25,7 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.View.Custom.CourseDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,12 +61,14 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
 
     UserModel user = null;
     String url=null;
-
+    private FrameLayout loading4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_othercourse);
 
+        loading4 = (FrameLayout)findViewById(R.id.wait_loading_layout);
+        loading4.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
         String type = intent.getStringExtra("tid");
         tid=type;
@@ -144,15 +149,24 @@ private Handler handler=new Handler(){
     @Override
     public void handleMessage(Message msg) {
         if(msg.what==StatusCode.REQUEST_KIND_SECCESS){
+
             initInfo();
+            try {
+                Thread.sleep(2 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+      //      sendMessageDelayed(msg,10000);
+            loading4.setVisibility(View.GONE);
         }
         if(msg.what==StatusCode.REQUEST_COURSE_MORE_COURSES_SUCCESS){
             initInfo();
         }
         if (msg.what==StatusCode.REQUEST_KIND_FAIL){
-            CommonUtils.getUtilInstance().showToast(APP.context, "请求失败！");
+            CommonUtils.getUtilInstance().showToast(APP.context, "请求失败");
         }
         if (msg.what==StatusCode.REQUEST_KIND_NOMORE){
+
             CommonUtils.getUtilInstance().showToast(APP.context, "没有更多了！");
         }
         if (msg.what==StatusCode.REQUEST_DETAIL_COURSE){
@@ -177,6 +191,7 @@ private Handler handler=new Handler(){
 
         }
         if (msg.what==StatusCode.REQUSET_DETAIL_INVALID){
+
             CommonUtils.getUtilInstance().showToast(APP.context, "教程不存在！");
         }
         if (msg.what==StatusCode.REQUEST_DISCOLLECT_COURSE){
@@ -190,38 +205,37 @@ private Handler handler=new Handler(){
             map1.put("uid",userId);
             map1.put("authkey",authkey);
             map1.put("cid", itemid);
-            map1.put("type",StatusCode.REQUEST_DISCOLLECT_COURSE);
+            map1.put("type", StatusCode.REQUEST_DISCOLLECT_COURSE);
             netRequest.httpRequest(map1, CommonUrl.courseFav);
+            finish();
+            Intent intent=new Intent(OtherCourseActivity.this,OtherCourseActivity.class);
+            intent.putExtra("tid",tid);
+            startActivity(intent);
         }
         if (msg.what==StatusCode.REQUEST_DISCOLLECT_SUCCESS){
-            aCache = ACache.get(OtherCourseActivity.this);
-            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
-            netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
-            user = loginModel.getUserModel();
-            userId = user.getId();
-            authkey = user.getAuth_key();
-            Map map=new HashMap();
-            map.put("uid",userId);
-            map.put("authkey", authkey);
-            map.put("type", StatusCode.REQUEST_KIND_COURSE);
-            map.put("tid",tid);
-            netRequest.httpRequest(map, CommonUrl.courseInfo);
-            initInfo();
+
+            finish();
+            Intent intent=new Intent(OtherCourseActivity.this,OtherCourseActivity.class);
+            startActivity(intent);
         }
         if (msg.what==StatusCode.REQUEST_DISCOLLECT_ALREADY){
-            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "已取消过收藏");
+            CommonUtils.getUtilInstance().showToast(APP.context, "已取消过收藏");
         }
         if (msg.what==StatusCode.REQUEST_DISCOLLECT_EVER){
-            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "你没有收藏过次课程");
+
+           // CommonUtils.getUtilInstance().showToast(APP.context, "你没有收藏过次课程");
         }
         if(msg.what==StatusCode.REQUEST_SEVER_FAIL){
-            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "服务器错误");
+
+            CommonUtils.getUtilInstance().showToast(APP.context, "服务器错误");
         }
         if(msg.what==StatusCode.REQUEST_COURSE_INVALID){
-            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "该教程无效");
+
+            CommonUtils.getUtilInstance().showToast(APP.context, "该教程无效");
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_AUTHKEYWRONG){
-            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "授权码不正确");
+
+            CommonUtils.getUtilInstance().showToast(APP.context, "授权码不正确");
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_COURSE){
             aCache = ACache.get(OtherCourseActivity.this);
@@ -234,26 +248,18 @@ private Handler handler=new Handler(){
             map1.put("uid",userId);
             map1.put("authkey",authkey);
             map1.put("cid", itemid);
-            map1.put("type",StatusCode.REQUEST_COLLECT_COURSE);
+            map1.put("type", StatusCode.REQUEST_COLLECT_COURSE);
             netRequest.httpRequest(map1, CommonUrl.courseFav);
+            finish();
+            Intent intent=new Intent(OtherCourseActivity.this,OtherCourseActivity.class);
+            intent.putExtra("tid",tid);
+            startActivity(intent);
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_SUCCESS){
-            aCache = ACache.get(OtherCourseActivity.this);
-            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
-            netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
-            user = loginModel.getUserModel();
-            userId = user.getId();
-            authkey = user.getAuth_key();
-            Map map=new HashMap();
-            map.put("uid",userId);
-            map.put("authkey", authkey);
-            map.put("type", StatusCode.REQUEST_KIND_COURSE);
-            map.put("tid",tid);
-            netRequest.httpRequest(map, CommonUrl.courseInfo);
-            initInfo();
+
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_ALREADY){
-            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "你已收藏过此课程");
+            CommonUtils.getUtilInstance().showToast(APP.context, "已收藏过此课程");
         }
         }
 
@@ -263,7 +269,7 @@ private Handler handler=new Handler(){
 
         layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView1.setLayoutManager(layoutManager1);
-
+      //  recyclerView1.addItemDecoration(new CourseDecoration(this, CourseDecoration.VERTICAL_LIST));
         courseListAdapter1 = new CourseListAdapter(courseItemList1, OtherCourseActivity.this);
         recyclerView1.setAdapter(courseListAdapter1);
 
@@ -416,6 +422,8 @@ private Handler handler=new Handler(){
     }
 
 private int itemCollect;
+    ImageView collect;
+    ImageView cancel;
 
     @Override
     public void onClick(View v) {
@@ -432,13 +440,20 @@ private int itemCollect;
 
         if(i == 1) {
             int position = (int) list.get(1);
-            itemCollect = courseItemList1.get(position).getCollet();
-            if (courseItemList1.get(position).getCollet() == 1) {
+            itemid=(int)list.get(2);
+            itemCollect=(int)list.get(3);
+            collect=(ImageView)list.get(4);
+            cancel=(ImageView)list.get(5);
+            if (itemCollect == 1) {
+
+                //    collect.setImageResource(R.drawable.button_pop_down);
                 Message msg = new Message();
                 msg.what = StatusCode.REQUEST_DISCOLLECT_COURSE;
                 handler.sendMessage(msg);
             }
-            if(courseItemList1.get(position).getCollet()==0){
+            if(itemCollect == 0){
+
+                //  collect.setImageResource(R.drawable.button_model_up);
                 Message msg = new Message();
                 msg.what = StatusCode.REQUEST_COLLECT_COURSE;
                 handler.sendMessage(msg);

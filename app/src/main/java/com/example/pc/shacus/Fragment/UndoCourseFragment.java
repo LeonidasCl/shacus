@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.CourseWebViewActivity;
@@ -29,6 +30,7 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.View.Custom.CourseDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +55,7 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
 
     private int itemid;
 
+    private FrameLayout loading6;
     private ACache aCache;
     private NetRequest netRequest;
     String userId = null;
@@ -66,6 +69,7 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
         View view=inflater.inflate(R.layout.fragment_undocourse,container,false);
         aCache=ACache.get(getActivity());
 
+        loading6=(FrameLayout)view.findViewById(R.id.wait_loading_layout);
         recyclerView1=(RecyclerView)view.findViewById(R.id.undorecyclerView);
         courseItemList1 = new ArrayList<>();
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
@@ -90,11 +94,19 @@ private Handler handler=new Handler(){
     @Override
     public void handleMessage(Message msg) {
         if(msg.what==StatusCode.REQUEST_UNDO_SUCCESS){
+
             initInfo();
-        }
-        if (msg.what==StatusCode.REQUEST_UNDO_FAIL){
-            CommonUtils.getUtilInstance().showToast(APP.context, "请求失败！");
-        }
+           // sendMessageDelayed(msg,10000);
+            try {
+                Thread.sleep(2 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        loading6.setVisibility(View.GONE);
+    }
+    if (msg.what==StatusCode.REQUEST_UNDO_FAIL){
+        CommonUtils.getUtilInstance().showToast(APP.context, "请求失败！");
+    }
         if (msg.what==StatusCode.REQUEST_DETAIL_COURSE){
             LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
             user = loginModel.getUserModel();
@@ -140,7 +152,7 @@ private Handler handler=new Handler(){
 
              courseListAdapter1 = new CourseListAdapter(courseItemList1, getActivity());
         recyclerView1.setAdapter(courseListAdapter1);
-
+     //   recyclerView1.addItemDecoration(new CourseDecoration(getActivity(), CourseDecoration.VERTICAL_LIST));
         layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView1.setLayoutManager(layoutManager1);
 
