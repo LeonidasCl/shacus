@@ -185,6 +185,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        //提供用户信息信息信息
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+            @Override
+            public UserInfo getUserInfo(String s) {
+                ACache cache = ACache.get(getApplicationContext());
+                LoginDataModel loginModel = (LoginDataModel) cache.getAsObject("loginModel");
+                String uid = loginModel.getUserModel().getId();
+                String nickname = loginModel.getUserModel().getNickName();
+                String avatar = loginModel.getUserModel().getHeadImage();
+                return new UserInfo(uid, nickname, Uri.parse(avatar));
+            }
+        }, true);
+
     }
 
     @Override
@@ -221,19 +234,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setModel.setUserID(user.getId());
             acache.put("settingModel", setModel);
         }
-
-        //提供用户信息信息信息
-        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
-            @Override
-            public UserInfo getUserInfo(String s){
-                ACache cache=ACache.get(getApplicationContext());
-                LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
-                String uid=loginModel.getUserModel().getId();
-                String nickname=loginModel.getUserModel().getNickName();
-                String avatar=loginModel.getUserModel().getHeadImage();
-                return new UserInfo(uid, nickname, Uri.parse(avatar));
-            }
-        },true);
 
     }
 
