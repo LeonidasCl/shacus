@@ -22,7 +22,8 @@ public interface StatusCode {
     //手动登录的请求码
     int REQUEST_LOGIN=10106;
     //登录请求类别成功的返回码
-    int REQUEST_LOGIN_SUCCESS =10111;
+    int REQUEST_LOGIN_SUCCESS =10111 ;
+
     //请求访问他人个人主页请求码
      int RECIEVE_VISIT_REJECT=10600;
     //获取访问他人个人主页的权限
@@ -169,7 +170,22 @@ public interface StatusCode {
     int REQUEST_COURSE_HOMEPAGE_SUCCESS=11010;//获取教程首页
     int REQUEST_COURSE_HOMEPAGE_TAG_SUCCESS=110102;//获取教程首页tag
 
-    int REQUEST_COURSE_MORE_COURSES_SUCCESS=11091;//获取更多课程返回成功
+    int REQUEST_COURSE_MORE_COURSES=11101;
+    int REQUEST_COURSE_MORE_COURSES_SUCCESS=11110;//获取更多课程返回成功
+
+
+    int REQUEST_YUEPAI_GRAPH_LIST=10231;//获得所有摄影师发布的未关闭的最新6个约拍
+    int REQUEST_YUEPAI_MODEL_LIST=10235;//获得所有模特发布的未关闭的最新6个约拍
+    int REQUEST_YUEPAI_MORE_GRAPH_LIST=10243;//拿到更多6个摄影师发布的约拍 (new)
+    int REQUEST_YUEPAI_MORE_MODEL_LIST=10244;//拿到更多6个模特发布的约拍(new)
+    int REQUEST_YUEPAI_GRAPH_LIST_SUCCESS=10251;//成功
+    int REQUEST_YUEPAI_MODEL_LIST_SUCCESS=10252;
+    int REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS=102532;
+    int REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS=102533;
+
+    int REQUEST_YUEPAI_COMMAND_ERROR=10260;//请求错误
+    int YUEPAI_NO_MORE_LIST=10262;//没有更多约拍
+    int YUEPAI_NO_LIST=10261;//没有找到约拍记录
 
     int CANCEL_HUODONG = 10307;
     int REQUEST_CANCEL_HUODONG_SUCCESS = 10325;

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.CoursesModel;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -37,7 +38,7 @@ import java.util.Map;
  */
 
 
-public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.RecyclerHolderView> implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
+public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.RecyclerHolderView> {
 
 
     private List<CoursesModel> courseModelList;
@@ -57,6 +58,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         RecyclerHolderView viewHolder = new RecyclerHolderView(view);
 
 
+
         return viewHolder;
     }
 
@@ -72,24 +74,28 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         //在分类和已完成教程中可以收藏和取消收藏
 //        if (courseModelList.get(position).getKind()==1||courseModelList.get(position).getKind()==3) {
             if (courseModelList.get(position).getCollet() == 1) {
-                holder.collectItem.setImageResource(R.drawable.button_pop_down);
-                holder.collectItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.collectItem.setImageResource(R.drawable.button_model_up);
-                    }
-                });
+                holder.collectItem.setVisibility(View.VISIBLE);
+                holder.cancel.setVisibility(View.INVISIBLE);
+//                holder.collectItem.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        holder.cancel.setVisibility(View.VISIBLE);
+//                        holder.collectItem.setVisibility(View.INVISIBLE);
+//                    }
+//                });
             } else {
-                holder.collectItem.setImageResource(R.drawable.button_model_up);
-                holder.collectItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.collectItem.setImageResource(R.drawable.button_model_up);
-                    }
-                });
-            }
+                holder.cancel.setVisibility(View.VISIBLE);
+                holder.collectItem.setVisibility(View.INVISIBLE);
+//                holder.cancel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        holder.collectItem.setVisibility(View.VISIBLE);
+//                        holder.cancel.setVisibility(View.INVISIBLE);
+//                    }
+//                });
+       //     }
 
-      //  }
+       }
 
         //在课程表中标注已完成和未完成
         if (courseModelList.get(position).getKind()==2) {
@@ -107,7 +113,10 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         list1.add(courseModelList.get(position).getItemid());
         list1.add(courseModelList.get(position).getCollet());
         list1.add(holder.collectItem);
+        list1.add(holder.cancel);
         holder.collectItem.setTag(list1);
+        holder.cancel.setTag(list1);
+        holder.cancel.setOnClickListener((View.OnClickListener) context);
         holder.collectItem.setOnClickListener((View.OnClickListener) context);
         List list2 = new ArrayList();
         list2.add(2);
@@ -126,20 +135,6 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         return courseModelList.size();
     }
 
-    @Override
-    public void requestFinish(String result, String requestUrl) throws JSONException {
-
-    }
-
-    @Override
-    public void exception(IOException e, String requestUrl) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
 
     public static class RecyclerHolderView extends RecyclerView.ViewHolder{
 
@@ -147,9 +142,11 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         TextView title;
         TextView read;
         ImageView collectItem;
+        ImageView cancel;
 
         RelativeLayout relativeLayout;
         TextView seeNum;
+        android.support.v7.widget.CardView cardView;
 
 
         public RecyclerHolderView(View itemView) {
@@ -159,10 +156,12 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
             read = (TextView) itemView.findViewById(R.id.ItemViewNum);
             collectItem=(ImageView)itemView.findViewById(R.id.CollectItem);
             seeNum=(TextView)itemView.findViewById(R.id.ItemSeeNum);
+            cancel = (ImageView) itemView.findViewById(R.id.cancelCollectItem);
             relativeLayout=(RelativeLayout)itemView.findViewById(R.id.relativeLayout4);
-            String[] stringcolor={"#ECF5FF","#FFECF5","#ECF5FF","#ECECFF","#FFFCEC","#FFE6D9","#F2E6E6","#F3F3FA","#D1E9E9","#F5FFE8"};
-            int index=(int)(Math.random()*stringcolor.length);
-            relativeLayout.setBackgroundColor(Color.parseColor(stringcolor[index]));
+            cardView=(android.support.v7.widget.CardView)itemView.findViewById(R.id.cardview1);
+          //  String[] stringcolor={"#ECF5FF","#FFECF5","#ECF5FF","#ECECFF","#FFFCEC","#FFE6D9","#F2E6E6","#F3F3FA","#D1E9E9","#F5FFE8"};
+          //  int index=(int)(Math.random()*stringcolor.length);
+          //  cardView.setCardBackgroundColor(Color.parseColor(stringcolor[index]));
         }
     }
 }

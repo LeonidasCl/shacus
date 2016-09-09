@@ -662,9 +662,9 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
     private FilterMenu attachMenu(FilterMenuLayout filterMenu) {
         return new FilterMenu.Builder(this)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
-                .addItem(R.drawable.ic_action_info)
+                .addItem(R.drawable.baoming2)
+                .addItem(R.drawable.quxiaobaoming2)
+                .addItem(R.drawable.shoucang)
                 .attach(filterMenu)
                 .withListener(listener)
                 .build();

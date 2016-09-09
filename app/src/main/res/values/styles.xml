@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/gold</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:listDivider">@drawable/divider</item>
+        <item name="android:windowAnimationStyle">@style/Animation</item>
     </style>
 
     <style name="AppTheme.CreateActivity" parent="Theme.AppCompat">
@@ -30,6 +31,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="AppTheme.CoursesActivity" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/Animation</item>
+        <item name="android:windowBackground">@color/ee_white</item>
+    </style>
+
 
     <style name="Vita.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -140,4 +146,19 @@
 
     <style name="Vita.ActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+
+    <style name="Animation">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+        <item name="android:taskOpenEnterAnimation">@null</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+    </style>
 </resources>

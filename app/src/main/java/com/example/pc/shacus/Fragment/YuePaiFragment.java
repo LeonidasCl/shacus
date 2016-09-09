@@ -274,8 +274,9 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
         //requestFragment.httpRequest(map, CommonUrl.getYuepaiNavigateurl);
         for (int j=0;j<i;j++){
             ImageView view=mSideZoomBanner.getItemImageView(j);
+            view.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(YuePaiFragment.this)
-                    .load(navigationBar.get(j).getImgurl())
+                    .load(navigationBar.get(j).getImgurl()).centerCrop()
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.holder)
                     .into(view);

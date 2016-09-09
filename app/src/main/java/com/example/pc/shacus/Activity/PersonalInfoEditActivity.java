@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
@@ -22,6 +23,7 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.AutoHint;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.View.CircleImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +37,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
 
     private ImageButton btn_back;
     private EditText userName,userAddress,userPhoneNumber,userEmail;
-    private ImageView userImage;
+    private CircleImageView userImage;
     private TextView btn_finish;
     UserModel dataModel;
     private NetRequest netRequest;
@@ -51,7 +53,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         userEmail= (EditText) findViewById(R.id.textData_UserEmail);
         userAddress= (EditText) findViewById(R.id.textData_UserAddress);
         userPhoneNumber= (EditText) findViewById(R.id.textData_UserPhoneNumber);
-        userImage= (ImageView) findViewById(R.id.user_image);
+        userImage= (CircleImageView) findViewById(R.id.imageData_UserImage);
 
         netRequest=new NetRequest(this,this);
 
@@ -70,6 +72,12 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         getUserPhoneNumber().setText(dataModel.getPhone());
         getUserEmail().setText(dataModel.getMailBox());
         getUserAddress().setText(dataModel.getLocation());
+
+        Glide.with(this)
+                .load(dataModel.getHeadImage()).centerCrop()
+                .placeholder(R.drawable.holder)
+                .error(R.drawable.loading_error)
+                .into(getUserImage());
 
     }
 
@@ -196,4 +204,9 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
     public void exception(IOException e, String requestUrl) {
 
     }
+
+    public CircleImageView getUserImage() {
+        return userImage;
+    }
+
 }

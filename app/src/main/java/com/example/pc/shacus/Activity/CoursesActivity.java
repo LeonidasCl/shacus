@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -17,11 +18,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.CommonPagerAdapter;
 import com.example.pc.shacus.Adapter.CourseListAdapter;
@@ -55,12 +58,14 @@ import java.util.Map;
 
 public class CoursesActivity extends AppCompatActivity implements  NetworkCallbackInterface.NetRequestIterface,TabLayout.OnTabSelectedListener,View.OnClickListener{
 
+
     private ImageButton returnButton;
     private ImageButton imageButton1;
     private ViewPager mPager;
     private int itemid;
     private ACache aCache;
     private NetRequest netRequest;
+    private NetRequest netRequest1;
     String userId = null;
     String authkey = null;
 
@@ -71,6 +76,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
+
         returnButton=(ImageButton)findViewById(R.id.return1);
         imageButton1=(ImageButton)findViewById(R.id.imagebutton);
 
@@ -202,6 +208,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
                     }
                     case StatusCode.REQUEST_COURSE_INVALID:
                     {
+
                         msg.what=StatusCode.REQUEST_COURSE_INVALID;
                         handler.sendMessage(msg);
                         break;
@@ -239,6 +246,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
 
 private int itemCollect;
 ImageView collect;
+    ImageView cancel;
     @Override
     public void onClick(View v) {
         List list = new ArrayList();
@@ -258,12 +266,17 @@ ImageView collect;
             itemid=(int)list.get(2);
             itemCollect=(int)list.get(3);
             collect=(ImageView)list.get(4);
+            cancel=(ImageView)list.get(5);
             if (itemCollect == 1) {
+
+            //    collect.setImageResource(R.drawable.button_pop_down);
                 Message msg = new Message();
                 msg.what = StatusCode.REQUEST_DISCOLLECT_COURSE;
                 handler.sendMessage(msg);
             }
             if(itemCollect == 0){
+
+              //  collect.setImageResource(R.drawable.button_model_up);
                 Message msg = new Message();
                 msg.what = StatusCode.REQUEST_COLLECT_COURSE;
                 handler.sendMessage(msg);
@@ -312,27 +325,35 @@ ImageView collect;
                 map1.put("uid",userId);
                 map1.put("authkey",authkey);
                 map1.put("cid", itemid);
-                map1.put("type",StatusCode.REQUEST_DISCOLLECT_COURSE);
+                map1.put("type", StatusCode.REQUEST_DISCOLLECT_COURSE);
                 netRequest.httpRequest(map1, CommonUrl.courseFav);
+                finish();
+                Intent intent=new Intent(CoursesActivity.this,CoursesActivity.class);
+                startActivity(intent);
+
+
+
+
             }
             if (msg.what==StatusCode.REQUEST_DISCOLLECT_SUCCESS){
-             collect.setImageResource(R.drawable.button_model_up);
-                setContentView(R.layout.activity_courses);
+
+
             }
             if (msg.what==StatusCode.REQUEST_DISCOLLECT_ALREADY){
-                CommonUtils.getUtilInstance().showToast(CoursesActivity.this, "已取消过收藏");
+                CommonUtils.getUtilInstance().showToast(APP.context, "已取消过收藏");
             }
             if (msg.what==StatusCode.REQUEST_DISCOLLECT_EVER){
-                CommonUtils.getUtilInstance().showToast(CoursesActivity.this, "你没有收藏过次课程");
+                CommonUtils.getUtilInstance().showToast(APP.context, "你没有收藏过次课程");
+
             }
             if(msg.what==StatusCode.REQUEST_SEVER_FAIL){
-                CommonUtils.getUtilInstance().showToast(CoursesActivity.this, "服务器错误");
+                CommonUtils.getUtilInstance().showToast(APP.context, "服务器错误");
             }
             if(msg.what==StatusCode.REQUEST_COURSE_INVALID){
-                CommonUtils.getUtilInstance().showToast(CoursesActivity.this, "该教程无效");
+                CommonUtils.getUtilInstance().showToast(APP.context, "该教程无效");
             }
             if(msg.what==StatusCode.REQUEST_COLLECT_AUTHKEYWRONG){
-                CommonUtils.getUtilInstance().showToast(CoursesActivity.this, "授权码不正确");
+                CommonUtils.getUtilInstance().showToast(APP.context, "授权码不正确");
             }
             if(msg.what==StatusCode.REQUEST_COLLECT_COURSE){
                 aCache = ACache.get(CoursesActivity.this);
@@ -347,13 +368,16 @@ ImageView collect;
                 map1.put("cid", itemid);
                 map1.put("type",StatusCode.REQUEST_COLLECT_COURSE);
                 netRequest.httpRequest(map1, CommonUrl.courseFav);
+                finish();
+                Intent intent=new Intent(CoursesActivity.this,CoursesActivity.class);
+                startActivity(intent);
+
             }
             if(msg.what==StatusCode.REQUEST_COLLECT_SUCCESS){
-                collect.setImageResource(R.drawable.button_pop_down);
-                setContentView(R.layout.activity_courses);
+
             }
             if(msg.what==StatusCode.REQUEST_COLLECT_ALREADY){
-                CommonUtils.getUtilInstance().showToast(CoursesActivity.this, "你已收藏过此课程");
+                CommonUtils.getUtilInstance().showToast(APP.context, "已收藏过此课程");
             }
         }
     };

@@ -29,6 +29,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.View.CircleImageView;
 
 import org.json.JSONException;
@@ -271,12 +272,15 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                             String authkey = content1.getAuth_key();
                             request1=new NetRequest(OtherUserActivity.this,OtherUserActivity.this);
 
+
+
                             Map map1=new HashMap();
                             map1.put("uid", userId);
                             map1.put("authkey", authkey);
                             map1.put("followerid", otherId);
                             map1.put("type",10401);
                             request1.httpRequest(map1, CommonUrl.getFollowInfo);
+                            CommonUtils.getUtilInstance().showToast(APP.context, "已关注该用户");
                             initView();
                         }
                     });
@@ -301,11 +305,16 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                             map2.put("followerid", otherId);
                             map2.put("type",10402);
                             request2.httpRequest(map2, CommonUrl.getFollowInfo);
+                            CommonUtils.getUtilInstance().showToast(APP.context, "已取消关注");
+
                             initView();
                         }
                     });
 
 
+                }
+                if(msg.what==223){
+                    CommonUtils.getUtilInstance().showToast(APP.context, "加载失败");
                 }
             }
         };
@@ -415,6 +424,8 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             }
             if (code == StatusCode.RECIEVE_VISIT_REJECT) {
                 Log.d("aaaaa", "失败");
+                msg.what =223;
+                myHandler.sendMessage(msg);
             }
 
         }
