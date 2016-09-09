@@ -95,6 +95,18 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         }
     };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        bootData(isGrapher ? GRAPHER : MODEL);
+        refreshLayout.setRefreshing(true);
+        bootCounter = 0;
+        personAdapter.refresh(new ArrayList<PhotographerModel>());
+        personAdapter.notifyDataSetChanged();
+        refreshLayout.setRefreshing(false);
+        refreshing = true;
+    }
+
     public YuePaiFragmentD(){
         isGrapher=true;
     }

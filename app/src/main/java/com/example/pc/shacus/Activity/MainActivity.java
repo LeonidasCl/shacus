@@ -198,15 +198,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userName.setText(user.getNickName());
             userSign.setText(user.getSign());
 
-            Glide.with(this)
+            Glide.with(getApplicationContext())
                     .load(user.getHeadImage()).centerCrop()
-                    .placeholder(R.drawable.holder)
+//                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(userImage);
 
             Glide.with(this)
                     .load(user.getHeadImage()).centerCrop()
-                    .placeholder(R.drawable.holder)
+//                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(btnAvartar);
 

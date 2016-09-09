@@ -123,9 +123,14 @@ public class HuodongItemAdapter extends BaseAdapter{
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(mainPicture);
+            Glide.with(activity)
+                    .load(item.getUserimageurl()).centerCrop()
+//                    .placeholder(R.drawable.holder)
+                    .error(R.drawable.loading_error)
+                    .into(userIamgeSrc);
             Resources res=activity.getResources();
             Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);
-            userIamgeSrc.setImageDrawable(usrimg);
+//            userIamgeSrc.setImageDrawable(usrimg);
             //Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
             praiseNum.setText(String.valueOf(item.getAClikenumber()));
             joinNum.setText(String.valueOf(item.getACregistN()));

@@ -88,7 +88,7 @@
             android:id="@+id/myCourse_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text= "如何了解你的摄影风格"
+            android:text= "管理我的课程"
             android:textColor="#ffffff"
             android:padding="5dp"
             android:textSize="12sp"
@@ -117,13 +117,12 @@
                     android:layout_height="@dimen/course_image_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/p3"
                     />
                 <TextView
                     android:id="@+id/text_tag1"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
-                    android:text="风景"
+                    android:text="loading.."
                     android:gravity="center"
                     android:background="#2acecece"
                     android:textColor="#ffffff"/>
@@ -137,13 +136,12 @@
                     android:layout_height="@dimen/course_image_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/p1"
                     />
                 <TextView
                     android:id="@+id/text_tag2"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
-                    android:text="人文"
+                    android:text="loading.."
                     android:gravity="center"
                     android:background="#2acecece"
                     android:textColor="#ffffff"/>
@@ -157,13 +155,12 @@
                     android:layout_height="@dimen/course_image_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/p2"
                     />
                 <TextView
                     android:id="@+id/text_tag3"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
-                    android:text="后期"
+                    android:text="loading.."
                     android:gravity="center"
                     android:background="#2acecece"
                     android:textColor="#ffffff"/>
@@ -179,13 +176,12 @@
                     android:layout_height="@dimen/course_image_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/start_logo"
                     />
                 <TextView
                     android:id="@+id/text_tag4"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
-                    android:text="器材"
+                    android:text="loading.."
                     android:gravity="center"
                     android:background="#2acecece"
                     android:textColor="#ffffff"/>
@@ -199,13 +195,12 @@
                     android:layout_height="@dimen/course_image_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/ic_launcher"
                     />
                 <TextView
                     android:id="@+id/text_tag5"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
-                    android:text="技巧"
+                    android:text="loading.."
                     android:gravity="center"
                     android:background="#2acecece"
                     android:textColor="#ffffff"/>
@@ -219,13 +214,12 @@
                     android:layout_height="@dimen/course_image_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:src="@drawable/user_image"
                     />
                 <TextView
                     android:id="@+id/text_tag6"
                     android:layout_width="@dimen/course_image_size"
                     android:layout_height="@dimen/course_image_size"
-                    android:text="人像"
+                    android:text="loading.."
                     android:gravity="center"
                     android:background="#2acecece"
                     android:textColor="#ffffff"/>

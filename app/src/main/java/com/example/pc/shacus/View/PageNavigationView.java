@@ -70,7 +70,7 @@ public class PageNavigationView extends TouchMoveView {
 		UserModel user=model.getUserModel();
 		Glide.with(APP.context)
 				.load(user.getHeadImage()).centerCrop()
-				.placeholder(R.drawable.user_image)
+//				.placeholder(R.drawable.user_image)
 				.error(R.drawable.personal_default_photo)
 				.into(imgview);
 		tvname.setText(user.getNickName());
