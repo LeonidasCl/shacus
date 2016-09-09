@@ -92,6 +92,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * 创建约拍界面
@@ -185,7 +186,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     //Map<String, Object> map=(Map<String, Object>)msg.obj;
                     progressDlg.dismiss();
                     Map map=new HashMap<>();
-                    map.put("ap_type",YUEPAI_TYPE==1?"1":"2");
+                    map.put("ap_type",YUEPAI_TYPE==1?"1":"0");
                     map.put("auth_key",user.getAuth_key());
                     map.put("title",theme_title_edit.getText().toString());
                     map.put("type", StatusCode.REQUEST_SEND_YUEPAI);
@@ -792,7 +793,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         for (int i=0;i<uploadImgUrlList.size();i++){
             String[] ext=uploadImgUrlList.get(i).split("\\.");
             String extention="."+ext[ext.length-1];
-            String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+extention;
+            String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+ new Random(System.nanoTime()).toString()+extention;
             imgList.add(filename);
             list.add(String.valueOf("\""+filename+"\""));
         }

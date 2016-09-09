@@ -39,7 +39,7 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
         initialWidgets();//初始化控件
     }
 
-    private void checkPreference() {
+    private void checkPreference() {//preference在这里仅做一用：监测是否为首次打开应用
                 SharedPreferences settings = getSharedPreferences("setting", 0);
                 SharedPreferences.Editor editor = settings.edit();
                 int time = settings.getInt("time", 0);
@@ -141,7 +141,7 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_guide_skip) {
-            startActivity(new Intent(GuideActivity.this, MainActivity.class));
+            startActivity(new Intent(GuideActivity.this, LoginActivity.class));
             finish();
         }
     }

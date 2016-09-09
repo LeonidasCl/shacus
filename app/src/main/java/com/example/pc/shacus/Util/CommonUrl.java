@@ -25,7 +25,7 @@ public class CommonUrl {
 	public static final String courseInfo = url+"course/ask";//获取我的课程
     public static final String courseFav = url+"course/fav";//收藏与取消收藏课程
 	public static final String courseHomePage=url+"course/homepage";//教程首页
-
+	public static final String finishHuodong=url+"user/indent";
 	public static final String getHuodongList=url+"Activity/ask";
 	public static String joinYuepai=url+"appointment/regist";//约拍报名
 	public static String joinHuodong=url+"activity/register";//约拍报名

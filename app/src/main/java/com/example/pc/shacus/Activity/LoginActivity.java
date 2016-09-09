@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     private ImageView loginbtnimg;
     private CountDownTimer timeCount;
     private String phone;
+    private int pflag=0;//是否在guide里点击了注册按钮的flag
     private int eventFlag=1;//1为登录 2为忘记密码 3为验证注册 4为验证注册通过 5为提交注册通过
     TranslateAnimation animationHide=new TranslateAnimation(Animation.RELATIVE_TO_SELF,
             0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
@@ -67,10 +68,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed(){
         super.onBackPressed();
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+        //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        //finish();
     }
 
     @Override
@@ -87,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 break;
             case StatusCode.STATUS_REGISTER:
                 eventFlag=3;
+                pflag=1;
                 break;
         }
 
@@ -237,9 +239,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 }
             }
         });
-        if (eventFlag==3)
-            signup.performClick();
-        timeCount=new CountDownTimer(60000,1000) {
+        //if (eventFlag==1)
+          //  signup.performClick();
+        timeCount=new CountDownTimer(60000,1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 //btn_verifycode.setBackgroundColor(getResources().getColor(R.drawable.shape_verifycode));
@@ -280,6 +282,11 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
               }
           }
         };
+
+        if (pflag==1){
+            eventFlag=666;
+          signup.performClick();
+        }
     }
 
     @Override
@@ -295,13 +302,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 ACache cache=ACache.get(LoginActivity.this);
                 cache.put("loginModel",loginModel,ACache.TIME_WEEK*2);
             }else {
-                //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content.toString());Looper.loop();
+                Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "登录失败");Looper.loop();
                 loginProgressDlg.cancel();//进度条取消
-                String str=object.getString("contents");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("result","登录失败:"+str);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
                 return;
             }
 
