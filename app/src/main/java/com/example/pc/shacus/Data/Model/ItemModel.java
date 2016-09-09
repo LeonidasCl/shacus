@@ -15,6 +15,25 @@ public class ItemModel implements Serializable{
     private int registNum;
     private String title;
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    private int index;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    private int userId;
     private int commentNum;
     private String detial;
 

@@ -113,6 +113,10 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     loading1.setVisibility(View.VISIBLE);
                     index = StatusCode.REQUEST_FAVOR_YUEPAI;
                     initFavorInfo();
+                }else if(position == 1){
+                    loading2.setVisibility(View.VISIBLE);
+                    index = StatusCode.REQUEST_FAVOR_DONGTAI;
+                    initFavorInfo();
                 }
                 //else index =
             }
@@ -130,10 +134,12 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     viewPager.setCurrentItem(0);
                     index = StatusCode.REQUEST_FAVOR_YUEPAI;
                     loading1.setVisibility(View.VISIBLE);
-                }else if (tabId.equals("huodong")){
+                    updateTab(mTabHost);
+                }else if (tabId.equals("dongtai")){
                     viewPager.setCurrentItem(1);
-
-                    //index =
+                    index = StatusCode.REQUEST_FAVOR_DONGTAI;
+                    loading2.setVisibility(View.VISIBLE);
+                    updateTab(mTabHost);
                 }/*else{
                     viewPager.setCurrentItem(2);
                 }*/
@@ -162,14 +168,14 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             {
                 //选中
                 //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
-                view.setBackgroundColor(Color.parseColor("#aa000000"));
+                view.setBackgroundColor(Color.parseColor("#44000000"));
 
             }
             else
             {
                 //不选中
                 //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
-                view.setBackgroundColor(Color.parseColor("#ee000000"));
+                view.setBackgroundColor(Color.parseColor("#1A1A1A"));
             }
         }
     }
@@ -186,9 +192,9 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 //        viewContainter.add(view3);
         loading1 = (FrameLayout) view_1.findViewById(R.id.wait_loading_layout);
         loading2 = (FrameLayout) view_2.findViewById(R.id.wait_loading_layout);
-        loading2.setVisibility(View.INVISIBLE);
 
         recyclerView1 = (RecyclerView) view_1.findViewById(R.id.recyclerView);
+        recyclerView2 = (RecyclerView) view_2.findViewById(R.id.recyclerView);
 
         initFavorInfo();
 
@@ -210,6 +216,10 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         //mTabHost.addTab(mTabHost.newTabSpec("works").setContent(R.id.favoritem_works).setIndicator("作品"));
         mTabHost.setCurrentTab(0);
         //初始化Tab的颜色，和字体的颜色
+        for (int i = 0;i < mTabHost.getTabWidget().getChildCount();i++){
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(Color.parseColor("#ffffff"));
+        }
         updateTab(mTabHost);
     }
 
@@ -234,8 +244,15 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         switch (index){
             case StatusCode.REQUEST_FAVOR_YUEPAI:
             {
-                map.put("type",StatusCode.REQUEST_FAVOR_YUEPAI);
+                map.put("type", StatusCode.REQUEST_FAVOR_YUEPAI);
                 netRequest.httpRequest(map, CommonUrl.getFavorInfo);
+                break;
+            }
+            case StatusCode.REQUEST_FAVOR_DONGTAI:
+            {
+                map.put("type", StatusCode.REQUEST_FAVOR_DONGTAI);
+                netRequest.httpRequest(map,CommonUrl.aboutFavorDongTai);
+                break;
             }
         }
 
@@ -244,12 +261,13 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            Message message = new Message();
             switch (msg.what){
                 case StatusCode.REQUEST_FAVORYUEPAI_NONE:{
                     TextView textView = (TextView) view_1.findViewById(R.id.none_item);
                     textView.setVisibility(View.VISIBLE);
                     recyclerView1.setVisibility(View.INVISIBLE);
-                    textView.setText("没有收藏~快去“发现”看看吧");
+                    textView.setText("没有收藏~快去“约拍”看看吧");
                     loading1.setVisibility(View.GONE);
                     break;
                 }
@@ -262,8 +280,8 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 
                     recyclerViewAdapter1 = new RecyclerViewAdapter(favorItemList1,FavoritemActivity.this);
                     recyclerView1.setAdapter(recyclerViewAdapter1);
-                    loading1.setVisibility(View.GONE);
-
+                    message.what = 100;
+                    this.sendMessageDelayed(message, 500);
                     break;
                 }
                 case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS:
@@ -272,8 +290,37 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     break;
                 }
                 case 88:{
-                    loading1.setVisibility(View.GONE);
                     CommonUtils.getUtilInstance().showToast(APP.context, "网络请求超时，请重试");
+                    break;
+                }
+                case 100:{
+                    loading1.setVisibility(View.GONE);
+                    break;
+                }
+                case StatusCode.REQUEST_FAVOR_DONGTAI_SUCCESS:
+                {
+                    view_2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+                    layoutManager2 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
+                    recyclerView2.setLayoutManager(layoutManager2);
+                    recyclerViewAdapter2 = new RecyclerViewAdapter(favorItemList2,FavoritemActivity.this);
+                    recyclerView2.setAdapter(recyclerViewAdapter2);
+                    message.what = 200;
+                    this.sendMessageDelayed(message,500);
+                    loading2.setVisibility(View.GONE);
+                    break;
+                }
+                case 200:
+                {
+                    loading2.setVisibility(View.GONE);
+                    break;
+                }
+                case StatusCode.REQUEST_FAVOR_DONGTAI_NONE:
+                {
+                    TextView textView = (TextView) view_2.findViewById(R.id.none_item);
+                    textView.setVisibility(View.VISIBLE);
+                    recyclerView2.setVisibility(View.INVISIBLE);
+                    textView.setText("没有收藏~快去“首页”看看吧");
+                    loading2.setVisibility(View.GONE);
                     break;
                 }
             }
@@ -336,12 +383,12 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
-        if(requestUrl.equals(CommonUrl.getFavorInfo)){//返回收藏信息
+        Message msg = new Message();
+        if (requestUrl.equals(CommonUrl.getFavorInfo)) {//返回收藏信息
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            Message msg = new Message();
-            switch (code){
-                case StatusCode.REQUEST_FAVORYUEPAI_NONE:{//用户未收藏任何约拍
+            switch (code) {
+                case StatusCode.REQUEST_FAVORYUEPAI_NONE: {//用户未收藏任何约拍
                     msg.what = StatusCode.REQUEST_FAVORYUEPAI_NONE;
                     handler.sendMessage(msg);
                     break;
@@ -349,8 +396,8 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS://请求收藏的约拍成功
                 {
                     JSONArray content = object.getJSONArray("contents");
-                    if(content.length() != 0){
-                        for(int i = 0;i < content.length();i++){
+                    if (content.length() != 0) {
+                        for (int i = 0; i < content.length(); i++) {
                             JSONObject favor = content.getJSONObject(i);
                             ItemModel itemModel = new ItemModel();
                             itemModel.setTitle(favor.getString("APtitle"));
@@ -365,8 +412,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                         msg.what = StatusCode.REQUEST_FAVORYUEPAI_SUCCESS;
                         handler.sendMessage(msg);
                         break;
-                    }
-                    else{
+                    } else {
                         msg.what = StatusCode.REQUEST_FAVORYUEPAI_NONE;
                         handler.sendMessage(msg);
                         break;
@@ -381,8 +427,44 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 }
             }
 
-        }
+        } else if (requestUrl.equals(CommonUrl.aboutFavorDongTai)) {
+            JSONObject object = new JSONObject(result);
+            Log.d("ooooooooooooo",object.toString());
+            int code = Integer.valueOf(object.getString("code"));
+            switch (code) {
+                case StatusCode.REQUEST_FAVOR_DONGTAI_SUCCESS: {
+                    JSONArray content = object.getJSONArray("contents");
+                    if (content.length() != 0) {
+                        for (int i = 0; i < content.length(); i++) {
+                            JSONObject favor = content.getJSONObject(i);
+                            ItemModel itemModel = new ItemModel();
+                            itemModel.setTitle(favor.getString("Ttitle"));
+                            itemModel.setId(favor.getInt("Tid"));
+                            itemModel.setUserImage(favor.getString("Tsponsorimg"));
+                            itemModel.setStartTime(favor.getString("TsponsT"));
+                            itemModel.setLikeNum(favor.getInt("TlikeN"));
+                            itemModel.setImage(favor.getString("TIimgurl"));
+                            itemModel.setRegistNum(favor.getInt("TcommentN"));
+                            favorItemList2.add(itemModel);
+                        }
+                        if(favorItemList2.size() == 0){
+                            msg.what = 555;
+                            handler.sendMessage(msg);
+                        }else{
+                            msg.what = StatusCode.REQUEST_FAVOR_DONGTAI_SUCCESS;
+                            handler.sendMessage(msg);
+                        }
+                        break;
+                    }
+                }
+                case StatusCode.REQUEST_FAVOR_DONGTAI_NONE:{
+                    msg.what = StatusCode.REQUEST_FAVOR_DONGTAI_NONE;
+                    handler.sendMessage(msg);
+                    break;
+                }
+            }
 
+        }
     }
 
     @Override

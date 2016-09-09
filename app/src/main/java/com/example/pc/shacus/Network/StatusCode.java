@@ -20,7 +20,7 @@ public interface StatusCode {
     //请求登录的请求码
     int REQUEST_LOGIN=10106;
     //登录请求类别成功的返回码
-    int REQUEST_LOGIN_SUCCESS =10101 ;
+    int REQUEST_LOGIN_SUCCESS =10111 ;
     //请求访问他人个人主页请求码
      int RECIEVE_VISIT_REJECT=10600;
     //获取访问他人个人主页的权限
@@ -163,10 +163,19 @@ public interface StatusCode {
     int REQUEST_ALLDONGTAI = 12001; //返回所有发布的动态
     int REQUEST_ALLDONGTAI_SUCCESS = 12013; //请求动态成功
     int REQUESTT_ALLDONGTAI_ERROR = 12012;//用户身份认证失败
+    int REQUEST_FAVOR_DONGTAI = 12004; //请求所有收藏的动态
+    int REQUEST_FAVOR_DONGTAI_SUCCESS = 12401; //请求所有收藏的动态成功
+    int REQUEST_FAVOR_DONGTAI_NONE = 12402; //没有收藏的动态
+    int REQUEST_ADD_FAVORDONGTAI = 12002; //收藏动态
+    int REQUEST_CANCEL_FAVORDONGTAI = 12003; //取消收藏动态
+    int REQUEST_CANCEL_FAVORDONGTAI_SUCCESS = 12301;//取消收藏成功
+    int REQUEST_ADD_FAVORDONGTAI_SUCCESS = 12021;//添加收藏成功
+    int REQUEST_FAVORDONGTAI_SUCCESS = 00001;//请求所有收藏动态成功
 
     int REQUEST_COURSE_HOMEPAGE_SUCCESS=11010;//获取教程首页
     int REQUEST_COURSE_HOMEPAGE_TAG_SUCCESS=110102;//获取教程首页tag
 
     int REQUEST_COURSE_MORE_COURSES_SUCCESS=11091;//获取更多课程返回成功
+    int REQUEST_HUODONGLIST_SUCCESS = 10371; //活动报名人返回成功
 
 }

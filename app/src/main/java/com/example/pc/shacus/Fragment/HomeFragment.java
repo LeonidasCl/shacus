@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
         listView = (ListView) view.findViewById(R.id.first_listview);
         netRequest = new NetRequest(this,getActivity());
         aCache = ACache.get(getActivity());
-        for(int i = 0; i < 10; i++){
+        /*for(int i = 0; i < 10; i++){
             ItemModel itemModel = new ItemModel();
             itemModel.setLikeNum(11);
             itemModel.setCommentNum(12);
@@ -63,10 +63,10 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
             itemModel.setStartTime("2016-9-8");
             itemModelList.add(itemModel);
         }
-        firstPageAdapter = new FirstPageAdapter(itemModelList,activity);
+        firstPageAdapter = new FirstPageAdapter(itemModelList,this);
 
-        listView.setAdapter(firstPageAdapter);
-        //initInfo();
+        listView.setAdapter(firstPageAdapter);*/
+        initInfo();
         return view;
     }
 
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
             switch (msg.what){
                 case StatusCode.REQUEST_ALLDONGTAI_SUCCESS://成功返回所有动态
                 {
-                    firstPageAdapter = new FirstPageAdapter(itemModelList,getActivity());
+                    firstPageAdapter = new FirstPageAdapter(itemModelList,HomeFragment.this);
                     listView.setAdapter(firstPageAdapter);
                     break;
                 }
@@ -97,17 +97,28 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                     CommonUtils.getUtilInstance().showToast(APP.context, "请重新登陆");
                     break;
                 }
+                case StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS:
+                {
+                    CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
+                    break;
+                }
+                case StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS:
+                {
+                    CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏");
+                    initInfo();
+                    break;
+                }
             }
         }
     };
 
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
+        Message message = new Message();
         if (requestUrl.equals(CommonUrl.allDongtai)){
             JSONObject object = new JSONObject(result);
             int code  = Integer.valueOf(object.getString("code"));
             Log.d("aaaaaaaaaaaa",object.toString());
-            Message message = new Message();
             switch (code){
                 case StatusCode.REQUEST_ALLDONGTAI_SUCCESS: //
                 {
@@ -122,6 +133,9 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                         itemModel.setDetial(dongTai.getString("Tcontent"));
                         itemModel.setStartTime(dongTai.getString("TsponsT"));
                         itemModel.setUserImage(dongTai.getString("Tsponsorimg"));
+                        itemModel.setId(dongTai.getInt("Tid"));
+                        itemModel.setUserId(dongTai.getInt("Tsponsorid"));
+                        itemModel.setIndex(dongTai.getInt("TIisfavorite"));
                         itemModelList.add(itemModel);
                     }
                     message.what = StatusCode.REQUEST_ALLDONGTAI_SUCCESS;
@@ -131,6 +145,22 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                 case  StatusCode.REQUESTT_ALLDONGTAI_ERROR:
                 {
                     message.what = StatusCode.REQUESTT_ALLDONGTAI_ERROR;
+                    handler.sendMessage(message);
+                    break;
+                }
+            }
+        }else if(requestUrl.equals(CommonUrl.aboutFavorDongTai)){
+            Log.d("aaaaaaaaaaaa","收藏动态");
+            JSONObject object = new JSONObject(result);
+            int code  = Integer.valueOf(object.getString("code"));
+            switch (code){
+                case StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS:{
+                    message.what = StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS;
+                    handler.sendMessage(message);
+                    break;
+                }
+                case StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS:{
+                    message.what = StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS;
                     handler.sendMessage(message);
                     break;
                 }
