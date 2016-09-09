@@ -1026,23 +1026,6 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 return;
             }
 
-            Message msg=handler.obtainMessage();
-            msg.what= StatusCode.REQUEST_FAILURE;
-            msg.obj=object.getString("contents");
-            handler.sendMessage(msg);
-            return;
-        }
-
-        if (requestUrl.equals(CommonUrl.finishHuodong)){
-            JSONObject object = new JSONObject(result);
-            int code = Integer.valueOf(object.getString("code"));
-            if (code==StatusCode.REQUEST_FINISH_HUODONG_SUCCESS){
-                Message msg=handler.obtainMessage();
-                msg.what= StatusCode.REQUEST_FINISH_HUODONG_SUCCESS;
-                handler.sendMessage(msg);
-                return;
-            }
-
             if (code==StatusCode.REQUEST_FINISH_JOIN_HUODONG_SUCCESS){
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_FINISH_JOIN_HUODONG_SUCCESS;
@@ -1050,12 +1033,20 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 return;
             }
 
+            if (code==StatusCode.REQUEST_FINISH_HUODONG_SUCCESS){
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FINISH_HUODONG_SUCCESS;
+                handler.sendMessage(msg);
+                return;
+            }
+
             Message msg=handler.obtainMessage();
             msg.what= StatusCode.REQUEST_FAILURE;
             msg.obj=object.getString("contents");
             handler.sendMessage(msg);
             return;
         }
+
     }
 
     @Override
