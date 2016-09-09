@@ -179,7 +179,84 @@ private Handler handler=new Handler(){
         if (msg.what==StatusCode.REQUSET_DETAIL_INVALID){
             CommonUtils.getUtilInstance().showToast(APP.context, "教程不存在！");
         }
-    }
+        if (msg.what==StatusCode.REQUEST_DISCOLLECT_COURSE){
+            aCache = ACache.get(OtherCourseActivity.this);
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map1=new HashMap();
+            map1.put("uid",userId);
+            map1.put("authkey",authkey);
+            map1.put("cid", itemid);
+            map1.put("type",StatusCode.REQUEST_DISCOLLECT_COURSE);
+            netRequest.httpRequest(map1, CommonUrl.courseFav);
+        }
+        if (msg.what==StatusCode.REQUEST_DISCOLLECT_SUCCESS){
+            aCache = ACache.get(OtherCourseActivity.this);
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map=new HashMap();
+            map.put("uid",userId);
+            map.put("authkey", authkey);
+            map.put("type", StatusCode.REQUEST_KIND_COURSE);
+            map.put("tid",tid);
+            netRequest.httpRequest(map, CommonUrl.courseInfo);
+            initInfo();
+        }
+        if (msg.what==StatusCode.REQUEST_DISCOLLECT_ALREADY){
+            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "已取消过收藏");
+        }
+        if (msg.what==StatusCode.REQUEST_DISCOLLECT_EVER){
+            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "你没有收藏过次课程");
+        }
+        if(msg.what==StatusCode.REQUEST_SEVER_FAIL){
+            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "服务器错误");
+        }
+        if(msg.what==StatusCode.REQUEST_COURSE_INVALID){
+            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "该教程无效");
+        }
+        if(msg.what==StatusCode.REQUEST_COLLECT_AUTHKEYWRONG){
+            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "授权码不正确");
+        }
+        if(msg.what==StatusCode.REQUEST_COLLECT_COURSE){
+            aCache = ACache.get(OtherCourseActivity.this);
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map1=new HashMap();
+            map1.put("uid",userId);
+            map1.put("authkey",authkey);
+            map1.put("cid", itemid);
+            map1.put("type",StatusCode.REQUEST_COLLECT_COURSE);
+            netRequest.httpRequest(map1, CommonUrl.courseFav);
+        }
+        if(msg.what==StatusCode.REQUEST_COLLECT_SUCCESS){
+            aCache = ACache.get(OtherCourseActivity.this);
+            LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+            netRequest = new NetRequest(OtherCourseActivity.this,OtherCourseActivity.this);
+            user = loginModel.getUserModel();
+            userId = user.getId();
+            authkey = user.getAuth_key();
+            Map map=new HashMap();
+            map.put("uid",userId);
+            map.put("authkey", authkey);
+            map.put("type", StatusCode.REQUEST_KIND_COURSE);
+            map.put("tid",tid);
+            netRequest.httpRequest(map, CommonUrl.courseInfo);
+            initInfo();
+        }
+        if(msg.what==StatusCode.REQUEST_COLLECT_ALREADY){
+            CommonUtils.getUtilInstance().showToast(OtherCourseActivity.this, "你已收藏过此课程");
+        }
+        }
+
 };
     //获得收藏信息
     private void initInfo() {
@@ -253,6 +330,54 @@ private Handler handler=new Handler(){
                     handler.sendMessage(msg);
                     break;
                 }
+                case StatusCode.REQUEST_DISCOLLECT_SUCCESS:
+                {
+                    msg.what=StatusCode.REQUEST_DISCOLLECT_SUCCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_DISCOLLECT_ALREADY:
+                {
+                    msg.what=StatusCode.REQUEST_DISCOLLECT_ALREADY;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_DISCOLLECT_EVER:
+                {
+                    msg.what=StatusCode.REQUEST_DISCOLLECT_EVER;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_SEVER_FAIL:
+                {
+                    msg.what=StatusCode.REQUEST_SEVER_FAIL;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_COURSE_INVALID:
+                {
+                    msg.what=StatusCode.REQUEST_COURSE_INVALID;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_COLLECT_AUTHKEYWRONG:
+                {
+                    msg.what=StatusCode.REQUEST_COLLECT_AUTHKEYWRONG;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_COLLECT_SUCCESS:
+                {
+                    msg.what=StatusCode.REQUEST_COLLECT_SUCCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_COLLECT_ALREADY:
+                {
+                    msg.what=StatusCode.REQUEST_COLLECT_ALREADY;
+                    handler.sendMessage(msg);
+                    break;
+                }
             }
 
         }
@@ -290,7 +415,7 @@ private Handler handler=new Handler(){
 
     }
 
-
+private int itemCollect;
 
     @Override
     public void onClick(View v) {
@@ -303,8 +428,21 @@ private Handler handler=new Handler(){
             Message msg = new Message();
             msg.what = StatusCode.REQUEST_DETAIL_COURSE;
             handler.sendMessage(msg);
+        }
 
-
+        if(i == 1) {
+            int position = (int) list.get(1);
+            itemCollect = courseItemList1.get(position).getCollet();
+            if (courseItemList1.get(position).getCollet() == 1) {
+                Message msg = new Message();
+                msg.what = StatusCode.REQUEST_DISCOLLECT_COURSE;
+                handler.sendMessage(msg);
+            }
+            if(courseItemList1.get(position).getCollet()==0){
+                Message msg = new Message();
+                msg.what = StatusCode.REQUEST_COLLECT_COURSE;
+                handler.sendMessage(msg);
+            }
         }
 
     }

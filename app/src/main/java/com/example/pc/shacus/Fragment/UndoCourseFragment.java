@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,11 +50,11 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
     private CourseListAdapter courseListAdapter1;
     List<CoursesModel> courseItemList1;
     RecyclerView.LayoutManager layoutManager1;
-    CoursesModel coursesModel=new CoursesModel();
+
     private int itemid;
 
     private ACache aCache;
-    private NetRequest  netRequest;
+    private NetRequest netRequest;
     String userId = null;
     String authkey = null;
 
@@ -65,11 +66,10 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
         View view=inflater.inflate(R.layout.fragment_undocourse,container,false);
         aCache=ACache.get(getActivity());
 
-        netRequest=new NetRequest(this,getActivity());
         recyclerView1=(RecyclerView)view.findViewById(R.id.undorecyclerView);
         courseItemList1 = new ArrayList<>();
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
-
+        netRequest=new NetRequest(this,getActivity());
         Map map = new HashMap<>();
 
 
@@ -129,6 +129,10 @@ private Handler handler=new Handler(){
         if (msg.what==StatusCode.REQUSET_DETAIL_INVALID){
             CommonUtils.getUtilInstance().showToast(APP.context, "教程不存在！");
         }
+        if(msg.what==StatusCode.REQUEST_DISCOLLECT_COURSE){
+
+
+        }
     }
 };
 
@@ -158,7 +162,7 @@ private Handler handler=new Handler(){
                     for(int i=0;i<content.length();i++){
                         Log.d("wwwwwwwwwwwww","fffffff");
                         JSONObject course = content.getJSONObject(i);
-
+                        CoursesModel coursesModel=new CoursesModel();
                         coursesModel.setSee(course.getInt("Csee"));
                         coursesModel.setTitle(course.getString("Ctitle"));
                         coursesModel.setReadNum(course.getInt("CwatchN"));
@@ -227,6 +231,10 @@ private Handler handler=new Handler(){
         }
         if (i==1){
             int position = (int) list.get(1);
+            itemid=courseItemList1.get(position).getItemid();
+            Message msg = new Message();
+            msg.what = StatusCode.REQUEST_DISCOLLECT_COURSE;
+            handler.sendMessage(msg);
 
         }
 

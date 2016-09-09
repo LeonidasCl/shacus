@@ -30,7 +30,7 @@
 
     <Button
         android:background="@drawable/shape_round"
-        android:textColor="@color/aa_black"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:id="@+id/followingbtn"
         android:layout_alignParentEnd="true"

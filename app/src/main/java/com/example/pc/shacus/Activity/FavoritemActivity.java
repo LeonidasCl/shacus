@@ -162,14 +162,14 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             {
                 //选中
                 //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
-                view.setBackgroundColor(Color.parseColor("#55E6BF66"));
+                view.setBackgroundColor(Color.parseColor("#aa000000"));
 
             }
             else
             {
                 //不选中
                 //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
-                view.setBackgroundColor(Color.parseColor("#E6BF66"));
+                view.setBackgroundColor(Color.parseColor("#ee000000"));
             }
         }
     }

@@ -115,7 +115,7 @@
                         android:text="@string/rank_join"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="5dp"/>
+                        android:layout_marginEnd="2dp"/>
 
                 </RelativeLayout>
             </LinearLayout>

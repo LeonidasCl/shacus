@@ -87,7 +87,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         }
     };
 
-    public YuePaiFragmentD() {
+    public YuePaiFragmentD(){
         isGrapher=true;
     }
 

@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +35,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import io.rong.imkit.RongIM;
 
 /**
  * Created by 启凡 on 2016/9/3.
@@ -87,13 +87,12 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
     float scaleHeight;
     ContextMenu menu;
 
+    private Activity actvt;
     ACache aCache;
     LoginDataModel loginModel;
     private String type = null;
     String otherId="1";
     private void initObject() throws JSONException{
-
-
 
     }
 
@@ -106,6 +105,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_otheruser);
+
 
         Intent intent = getIntent();
         type = intent.getStringExtra("id");
@@ -143,7 +143,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         String userId = content.getId();
         String authkey = content.getAuth_key();
 
-
+        actvt=this;
         Map map=new HashMap();
         map.put("uid", userId);
         map.put("authkey", authkey);
@@ -232,8 +232,11 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
             @Override
             public void onClick(View v) {
                 //私信
-                Intent intent6 = new Intent(OtherUserActivity.this, ChatActivity.class);
-                startActivity(intent6);
+               // Intent intent6 = new Intent(OtherUserActivity.this, ConversationActivity.class);
+                //intent6.putExtra("uid",otherId);
+                //startActivity(intent6);
+                //RongIM.getInstance().startPrivateChat(OtherUserActivity.this, otherId, "title");
+                RongIM.getInstance().startPrivateChat(actvt, otherId, "title");
             }
         });
         image3.setOnClickListener(new View.OnClickListener() {

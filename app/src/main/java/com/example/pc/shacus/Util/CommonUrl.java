@@ -23,6 +23,7 @@ public class CommonUrl {
 
 	public static final String getOrdersInfo = url + "user/indent"; //获取用户订单
 	public static final String courseInfo = url+"course/ask";//获取我的课程
+    public static final String courseFav = url+"course/fav";//收藏与取消收藏课程
 	public static final String courseHomePage=url+"course/homepage";//教程首页
 
 	public static final String getHuodongList=url+"Activity/ask";
@@ -33,4 +34,5 @@ public class CommonUrl {
 	public static String favouriteYuepai=url+"user/favorite";
 
 	public static final String askYuepai = url+ "appointment/ask"; //获得约拍系列信息
+	public static final String allDongtai = url + "trend/Trendspost"; //获得所有动态
 }

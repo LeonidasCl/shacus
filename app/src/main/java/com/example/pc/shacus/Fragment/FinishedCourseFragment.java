@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -85,6 +86,13 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
 
         return view;
     }
+    @Override
+
+    public void onAttach(Activity activity) {
+
+        super.onAttach(activity);
+
+    }
 private Handler handler=new Handler(){
     @Override
     public void handleMessage(Message msg) {
@@ -125,7 +133,7 @@ private Handler handler=new Handler(){
         layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView1.setLayoutManager(layoutManager1);
         recyclerView1.addItemDecoration(new CourseDecoration(getActivity(), CourseDecoration.VERTICAL_LIST));
-        courseListAdapter1 = new CourseListAdapter(courseItemList1, getActivity());
+        courseListAdapter1 = new CourseListAdapter(courseItemList1,getActivity());
         recyclerView1.setAdapter(courseListAdapter1);
 
     }

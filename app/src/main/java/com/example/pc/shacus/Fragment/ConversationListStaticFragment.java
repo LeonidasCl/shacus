@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -78,82 +79,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//孙启凡 2016.08.29
-//用户个人界面（一级）
-public class UserFragment extends Fragment implements  NetworkCallbackInterface.NetRequestIterface {
+import io.rong.imkit.RongIM;
+import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 
-private Button bo;
-    private Button oo;
-    private NetRequest requestFragment1;
-
-    @Override
-    public void exception(IOException e, String requestUrl) {
-        //处理网络请求的异常信息，一般用不到
-    }
+public class ConversationListStaticFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.conversationlist,container,false);
 
-        final View view = inflater.inflate(R.layout.fragment_user, container, false);
-        requestFragment1=new NetRequest(this,getContext());
-        bo=(Button)view.findViewById(R.id.denglu);
-        oo=(Button)view.findViewById(R.id.paga);
-        bo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ConversationListFragment fragment = (ConversationListFragment) getChildFragmentManager().findFragmentById(R.id.conversationlist);
 
-                Intent ii=new Intent(getActivity(),CoursesActivity.class);
-                startActivity(ii);
-//
-//                Map map=new HashMap();
-//                map.put("phone","15951726659");
-//                map.put("password","000000");
-//                map.put("askCode",StatusCode.REQUEST_LOGIN);
-//
-//                requestFragment1.httpRequest(map, CommonUrl.loginAccount);
-            }
-        });
-        oo.setOnClickListener(new View.OnClickListener() {
-            @Override
+        Uri uri = Uri.parse("rong://" + getActivity().getApplicationInfo().packageName).buildUpon()
+                .appendPath("conversationlist")
+                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
+                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")
+                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")
+                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
+                .build();
 
-                    public void onClick(View v) {
-                        Intent intent6 = new Intent(getActivity(), OtherCourseActivity.class);
-                        startActivity(intent6);
-                    }
-
-        });
-        return view;
-    }
-
-//    private List<Map<String, Object>> init() {
-//        List<Map<String, Object>> lst = new ArrayList<>();
-//        for (int i = 0; i < data.length; i++) {
-//            Map<String, Object> item = new HashMap<>();
-//            item.put("item1", image1[i]);
-//            item.put("item2", data[i]);
-//            item.put("item3", R.drawable.a);
-//            lst.add(item);
-//        }
-//        return lst;
-//    }
-
-
-
-    @Override
-    public void requestFinish(String result, String requestUrl) throws JSONException {
-        //在这里接收所有网络请求
-        JSONObject object = new JSONObject(result);
-        int code = Integer.valueOf(object.getString("code"));
-        Log.d("ssssssssss",object.toString());
-
-
-
-
-
-
-
+        fragment.setUri(uri);
+        return  view;
     }
 
 }

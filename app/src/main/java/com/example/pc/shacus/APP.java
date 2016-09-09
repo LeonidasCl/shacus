@@ -13,6 +13,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.io.File;
 
+import io.rong.imkit.RongIM;
+
 /**
  *
  * Created by pc on 2016/4/21.
@@ -23,12 +25,14 @@ public class APP extends Application {
 
 
 
-    @Override public void onCreate() {
+    @Override public void onCreate(){
         super.onCreate();
         context = this;
         applicationContext = this;
         getScreenDimension();
         initImageLoader(this);
+
+        RongIM.init(this);
     }
 
     public static String cache_image_path, photo_path;
