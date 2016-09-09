@@ -63,7 +63,7 @@ public class RateActivity extends Activity implements RatingBar.OnRatingBarChang
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-        ratingTv.setText("评分："+ratingBar.getProgress());
+        ratingTv.setText("评分"+ratingBar.getProgress());
     }
 
     @Override

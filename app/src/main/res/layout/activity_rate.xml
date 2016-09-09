@@ -15,20 +15,18 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="星级："
+            android:text="评分"
             android:id="@+id/starTextView"
-            android:textSize="20sp"
-            android:gravity="center_vertical"
-            android:layout_weight="1"/>
+            android:textSize="18sp"
+            android:gravity="center_vertical"/>
 
             <RatingBar
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/ratingBar"
                 android:numStars="5"
-                android:layout_weight="3"
                 style="@style/appRatingBar" />
 
     </LinearLayout>
@@ -58,10 +56,12 @@
             android:id="@+id/btn_rate"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:text="提交"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btn_cancel"
+            android:text="稍后再评"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
