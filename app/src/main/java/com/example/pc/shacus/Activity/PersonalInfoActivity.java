@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
@@ -97,6 +98,11 @@ public class PersonalInfoActivity extends AppCompatActivity implements NetworkCa
         getPhoneNumber().setText(dataModel.getPhone());
         getEmail().setText(dataModel.getMailBox());
         getAddress().setText(dataModel.getLocation());
+        Glide.with(this)
+                .load(dataModel.getHeadImage()).centerCrop()
+                .placeholder(R.drawable.holder)
+                .error(R.drawable.loading_error)
+                .into(getUserImage());
     }
     public TextView getUserName() {
         return userName;
