@@ -48,6 +48,8 @@ import com.example.pc.shacus.View.CircleImageView;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //管理Fragment
     private FragmentManager fragmentMgr = this.getSupportFragmentManager();
     private FragmentTransaction fragmentTrs;
-
+    private NetRequest request;
     //四个功能项Fragment
     private HomeFragment mainFragmentNavigation;
     private YuePaiFragment yuePaiFragment;
@@ -167,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTrs.commit();
 
 
+
         RongIM.connect(user.getChattoken(), new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
@@ -185,18 +188,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        //提供用户信息信息信息
-        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
-            @Override
-            public UserInfo getUserInfo(String s) {
-                ACache cache = ACache.get(getApplicationContext());
-                LoginDataModel loginModel = (LoginDataModel) cache.getAsObject("loginModel");
-                String uid = loginModel.getUserModel().getId();
-                String nickname = loginModel.getUserModel().getNickName();
-                String avatar = loginModel.getUserModel().getHeadImage();
-                return new UserInfo(uid, nickname, Uri.parse(avatar));
-            }
-        }, true);
+        //MainActivity.OnCreate(此时已登录)
+
 
     }
 
@@ -207,12 +200,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //获取登录状态添加到侧滑栏信息
         if (user!=null) {
             ACache acache=ACache.get(this);
+            LoginDataModel model=(LoginDataModel)acache.getAsObject("loginModel");
+            user=model.getUserModel();
             ImageView userImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
             TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
             ImageView userLevel = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
             TextView userSign = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
             userName.setText(user.getNickName());
             userSign.setText(user.getSign());
+            textName.setText(user.getNickName());
 
             Glide.with(getApplicationContext())
                     .load(user.getHeadImage()).centerCrop()
@@ -439,24 +435,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
             finish();
-            NetRequest netRequest=new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
-                @Override
-                public void requestFinish(String result, String requestUrl) throws JSONException {
-
-                }
-
-                @Override
-                public void exception(IOException e, String requestUrl) {
-
-                }
-            }, this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
 }

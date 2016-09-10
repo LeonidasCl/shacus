@@ -1,6 +1,7 @@
 package com.example.pc.shacus.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.R;
 
@@ -56,7 +58,7 @@ public class JoinUserGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
         if (null == convertView) {
@@ -74,6 +76,14 @@ public class JoinUserGridAdapter extends BaseAdapter {
 //                .placeholder(R.drawable.user_image)
                 .error(R.drawable.user_image)
                 .into(holder.ibv);
+        holder.ibv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(context, OtherUserActivity.class);
+                in.putExtra("id", usrlist.get(position).getId());
+                context.startActivity(in);
+            }
+        });
 
         return convertView;
     }

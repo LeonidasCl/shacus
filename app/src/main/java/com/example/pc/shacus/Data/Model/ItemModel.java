@@ -15,6 +15,8 @@ public class ItemModel implements Serializable{
     private int registNum;
     private String title;
 
+    private int index;
+
     public int getIndex() {
         return index;
     }
@@ -23,7 +25,9 @@ public class ItemModel implements Serializable{
         this.index = index;
     }
 
-    private int index;
+    private int userId;
+    private int commentNum;
+    private String detial;
 
     public int getUserId() {
         return userId;
@@ -32,10 +36,6 @@ public class ItemModel implements Serializable{
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-    private int userId;
-    private int commentNum;
-    private String detial;
 
     private String type;
 

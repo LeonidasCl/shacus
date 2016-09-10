@@ -43,6 +43,7 @@ import java.util.logging.LogRecord;
  * licl 2016.9.3
  * 重写的排行榜fragment
  */
+//lq修改
 public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     private Activity yuepai;
@@ -63,6 +64,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     private int maxRecords = 400;
 
     private boolean getYuePaiFlag=false;
+    private boolean mainScrollControl=true;
 
     private NetRequest netRequest;
 
@@ -211,27 +213,28 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
                 //停止的时候必然会调用这里，滑动到顶端的时候必然停止，所以在这里用判断top来实现showHeader
-                ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
-                int firstVisibleItem = absListView.getFirstVisiblePosition();
-                boolean onTop = firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() == 0;
-//                Log.d("LQ1111", "firstVisibleItem" + firstVisibleItem + "absListView.getChildAt(0)" + absListView.getChildAt(0) + "" +
-//                        "\nabsListView.getChildAt(0).getTop()" + absListView.getChildAt(0).getTop());
-                if (onTop && -layoutParam.topMargin == mSideZoomBanner.getHeight()) {//showHeader
-                    ValueAnimator anim = ValueAnimator.ofInt(-mSideZoomBanner.getHeight(), 0);
-                    anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
-                            Log.d("LQQQQQQ", "onAnimationUpdate: ");
-                            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
-                            layoutParams.topMargin = (Integer) animation.getAnimatedValue();
-                            mSideZoomBanner.setLayoutParams(layoutParams);
-                            mSideZoomBanner.invalidate();
-                        }
-                    });
-                    anim.setDuration(150);
-                    anim.start();
-                }
+//                ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
+//                int firstVisibleItem = absListView.getFirstVisiblePosition();
+//                boolean onTop = firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() < -150;
+//                Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
+//                        "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop()+
+//                        "\nlayoutParam.topMargin:"+layoutParam.topMargin+"\n mSideZoomBanner.getHeight():"+ mSideZoomBanner.getHeight());
+//                if (onTop && -layoutParam.topMargin == mSideZoomBanner.getHeight()) {//showHeader
+//                    ValueAnimator anim = ValueAnimator.ofInt(-mSideZoomBanner.getHeight(), 0);
+//                    anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                        @Override
+//                        public void onAnimationUpdate(ValueAnimator animation) {
+//                            //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
+//                            Log.d("LQQQQQQ", "onAnimationUpdate: ");
+//                            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
+//                            layoutParams.topMargin = (Integer) animation.getAnimatedValue();
+//                            mSideZoomBanner.setLayoutParams(layoutParams);
+//                            mSideZoomBanner.invalidate();
+//                        }
+//                    });
+//                    anim.setDuration(150);
+//                    anim.start();
+//                }
             }
 
             @Override
@@ -240,6 +243,52 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     loadData(isGrapher ? GRAPHER : MODEL);
                     Log.d("LQQQQQQQQQ", "personAdapter.notifyDataSetChanged();");
                     getYuePaiFlag = false;
+                }
+                if (!mainScrollControl && firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() > -20) {
+                    ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
+                Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
+                        "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());
+                    if (-layoutParam.topMargin == mSideZoomBanner.getHeight()) {//showHeader
+                        ValueAnimator anim = ValueAnimator.ofInt(-mSideZoomBanner.getHeight(), 0);
+                        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
+                                Log.d("LQQQQQQ", "onAnimationUpdate: ");
+                                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
+                                layoutParams.topMargin = (Integer) animation.getAnimatedValue();
+                                mSideZoomBanner.setLayoutParams(layoutParams);
+                                mSideZoomBanner.invalidate();
+                                mainScrollControl = true;
+                            }
+                        });
+                        anim.setDuration(150);
+                        anim.start();
+                    }
+                }
+
+
+//                    Log.e("logout.topmargin", layoutParam.topMargin + "");
+                if (mainScrollControl && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() < -280 && absListView.getChildAt(0).getTop() != 0) {//hide
+                    ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
+                    Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
+                            "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());
+                    if (layoutParam.topMargin >= 0) {
+                        ValueAnimator anim = ValueAnimator.ofInt(0, -mSideZoomBanner.getHeight());
+                        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
+                                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
+                                layoutParams.topMargin = (Integer) animation.getAnimatedValue();
+                                mSideZoomBanner.setLayoutParams(layoutParams);
+                                mSideZoomBanner.invalidate();
+                                mainScrollControl = false;
+                            }
+                        });
+                        anim.setDuration(300);
+                        anim.start();
+                    }
                 }
             }
 
@@ -254,7 +303,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                         JSONObject json = new JSONObject(result);
                         String code = json.getString("code");
                         Log.d("LQQQQQQ", "code:" + code);
-                        if (code.equals("10253")&&isGrapher) {
+                        if (code.equals("10253") && isGrapher) {
                             JSONArray array = json.getJSONArray("contents");
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
@@ -269,7 +318,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             msg.what = StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS;
                             handler.sendMessage(msg);
                         }
-                        if (code.equals("10253")&&!isGrapher) {
+                        if (code.equals("10253") && !isGrapher) {
                             JSONArray array = json.getJSONArray("contents");
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
@@ -283,7 +332,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             Message msg = handler.obtainMessage();
                             msg.what = StatusCode.REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS;
                             handler.sendMessage(msg);
-                        } else if(code.equals("10262")){
+                        } else if (code.equals("10262")) {
                             Log.d("LQQQQQ", "加载失败");
                         }
 
@@ -305,7 +354,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     Log.d("LQQQQQQQQQ", "request map");
                 } else if (type == MODEL) {
                     Map<String, Object> map = new HashMap<>();
-                    map.put("type","10244");
+                    map.put("type", "10244");
                     map.put("authkey", data.getAuth_key());
                     map.put("uid", data.getId());
                     map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
