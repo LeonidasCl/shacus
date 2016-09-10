@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.pc.shacus.R;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 
@@ -25,6 +26,7 @@ public class ConversationListStaticFragment extends Fragment {
         if(debugFlag){
          view= inflater.inflate(R.layout.conversationlist,container,false);
         debugFlag=false;}
+
 
         fragment = (ConversationListFragment) getChildFragmentManager().findFragmentById(R.id.conversationlist);
         Uri uri = Uri.parse("rong://" + getActivity().getApplicationInfo().packageName).buildUpon()
@@ -43,13 +45,6 @@ public class ConversationListStaticFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         debugFlag=true;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-//        android.support.v4.app.FragmentManager fragmentManager=this.getChildFragmentManager();
-//        fragmentManager.beginTransaction().remove(fragment).commit();
     }
 
 }

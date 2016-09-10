@@ -200,6 +200,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                     map.put("content",theme_desc_edit.getText().toString());
                     map.put("maxp", "0");
                     map.put("minp", "1");
+                    map.put("images", finalImgList);
                     progressDlg=ProgressDialog.show(getActivity(), "发布活动", "正在创建活动", true, true, new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialogInterface) {
@@ -271,6 +272,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
     private UserModel user;
     private int apId;
     private ArrayList<String> imgList;
+    private ArrayList<String> finalImgList;
 
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){
@@ -782,24 +784,24 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                     }
                 },null));
     }
+//发第一次请求，仅请求活动立项
 
-
-    public void saveThemeInfo(String usrname,String auth_key,String title){//发第一次请求，仅请求活动立项
+    public void saveThemeInfo(String usrname,String auth_key,String title){
         Map<String, Object>map=new HashMap<String, Object>();
-        List<String> list=new ArrayList<>();
+        finalImgList=new ArrayList<>();
         imgList=new ArrayList<>();
         for (int i=0;i<uploadImgUrlList.size();i++){
             String[] ext=uploadImgUrlList.get(i).split("\\.");
             String extention="."+ext[ext.length-1];
             String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+new Random(System.nanoTime()).toString()+extention;
             imgList.add(filename);
-            list.add(String.valueOf("\""+filename+"\""));
+            finalImgList.add(String.valueOf("\"" + filename + "\""));
         }
         map.put("username",usrname);
         map.put("auth_key",auth_key);
         map.put("title",title);
         map.put("type",StatusCode.REQUEST_CREATE_HUODONG);
-        map.put("images", list);
+        map.put("images", finalImgList);
         requestFragment.httpRequest(map, CommonUrl.createActivityInfo);
     }
 

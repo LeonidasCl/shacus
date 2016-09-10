@@ -35,4 +35,5 @@ public class CommonUrl {
 
 	public static final String askYuepai = url+ "appointment/ask"; //获得约拍系列信息
 	public static final String allDongtai = url + "trend/Trendspost"; //获得所有动态
+	public static String getOtherUser=url+"user/info";
 }

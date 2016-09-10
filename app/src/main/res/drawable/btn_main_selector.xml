@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/fabu2" android:state_selected="true"/>
-    <item android:drawable="@drawable/fabu"/>
+    <item android:drawable="@drawable/button_maintab1b" android:state_selected="true"/>
+    <item android:drawable="@drawable/button_maintab1"/>
 
 </selector>

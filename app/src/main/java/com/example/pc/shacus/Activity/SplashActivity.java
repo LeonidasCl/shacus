@@ -58,6 +58,11 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
     }
 
     @Override
+    public int getFrontImageResource() {
+        return R.drawable.start_logo2;
+    }
+
+    @Override
     public Class getNextActivityClass() {
         if (splashFlag==0)
             return LoginActivity.class;

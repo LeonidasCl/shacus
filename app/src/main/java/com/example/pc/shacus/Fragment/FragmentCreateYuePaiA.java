@@ -205,6 +205,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     map.put("price",price.equals("")?"free":"none");
                     map.put("contents",theme_desc_edit.getText().toString());
                     map.put("ap_allowed", "0");
+                    map.put("imgs", finalImgList);
                     progressDlg=ProgressDialog.show(getActivity(), "发布约拍", "正在创建约拍", true, true, new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialogInterface) {
@@ -273,6 +274,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         }
     };
+    private ArrayList<String> finalImgList;
 
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){
@@ -576,7 +578,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
 
     }
     //加监听，等到view完全显示了再去做调整
-    public void onViewCreated(final View view, Bundle saved) {
+    public void onViewCreated(final View view, Bundle saved){
         super.onViewCreated(view, saved);
         final ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -756,7 +758,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
             }
         });
         progressDlg.setMax(101);
-        uploadmgr.put(data, key, token, new UpCompletionHandler() {
+        uploadmgr.put(data, key, token, new UpCompletionHandler(){
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
                 //完成，发信息给业务服务器
@@ -785,23 +787,24 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 },null));
     }
 
-
-    public void saveThemeInfo(String usrname,String auth_key,String title){//发第一次请求，仅请求约拍立项
+    //发第一次请求，仅请求约拍立项
+    public void saveThemeInfo(String usrname,String auth_key,String title){
         Map<String, Object>map=new HashMap<String, Object>();
-        List<String> list=new ArrayList<>();
+        finalImgList.clear();
+        finalImgList=new ArrayList<>();
         imgList=new ArrayList<>();
         for (int i=0;i<uploadImgUrlList.size();i++){
             String[] ext=uploadImgUrlList.get(i).split("\\.");
             String extention="."+ext[ext.length-1];
             String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+ new Random(System.nanoTime()).toString()+extention;
             imgList.add(filename);
-            list.add(String.valueOf("\""+filename+"\""));
+            finalImgList.add(String.valueOf("\""+filename+"\""));
         }
         map.put("phone",usrname);
         map.put("auth_key",auth_key);
         map.put("title",title);
         map.put("type",YUEPAI_TYPE==1?StatusCode.REQUEST_CREATE_YUEPAIA:StatusCode.REQUEST_CREATE_YUEPAIB);
-        map.put("imgs", list);
+        map.put("imgs", finalImgList);
         requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);
     }
 

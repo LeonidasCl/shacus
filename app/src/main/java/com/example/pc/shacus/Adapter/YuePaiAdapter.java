@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Activity.MainActivity;
+import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Activity.YuePaiDetailActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -124,6 +125,14 @@ public class YuePaiAdapter extends BaseAdapter{
 //                    .placeholder(R.drawable.user_image)
                     .error(R.drawable.loading_error)
                     .into(userIamgeSrc);
+//            userIamgeSrc.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent in = new Intent(activity, OtherUserActivity.class);
+//                    in.putExtra("id",item.getUserimg());
+//                    activity.startActivity(in);
+//                }
+//            });
             APTitle.setText(item.getAPtitle());
             APstartT.setText(item.getAPstartT());
             String mainimg=item.getAPimgurl();

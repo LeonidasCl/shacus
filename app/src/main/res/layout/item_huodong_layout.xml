@@ -100,22 +100,23 @@
                 android:layout_width="48dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_height="48dp"
-                android:layout_margin="8dp"
+
                 android:src="@drawable/btn_detail_selector"
                 android:background="#00000000"
                 android:scaleType="centerInside"
-                />
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/huodong_praise_num"/>
 
             <TextView
                 android:id="@+id/huodong_praise_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/aa_black"
+                android:textColor="#ffffff"
                 android:text="@string/yuepai_piarse_num"
                 android:layout_gravity="right|center_vertical"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/huodong_praise"/>
+                android:layout_alignParentEnd="true"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -128,8 +129,8 @@
                 android:layout_width="48dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_height="48dp"
-                android:src="@drawable/btn_detail_selector"
-                android:layout_margin="8dp"
+                android:src="@drawable/join_detail"
+                android:layout_margin="12dp"
                 android:background="#00000000"
                 android:scaleType="centerInside"
                 />
@@ -139,11 +140,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/aa_black"
+                android:textColor="#ffffff"
+                android:paddingStart="30dp"
                 android:text="@string/yuepai_join_num"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/huodong_join"
-                android:layout_marginStart="5dp"/>
+                android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
 
