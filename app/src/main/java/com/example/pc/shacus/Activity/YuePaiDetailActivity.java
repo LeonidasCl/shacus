@@ -92,10 +92,10 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         if (data.getACstatus()==0){
                             Map map=new HashMap();
                             map.put("type",StatusCode.CANCEL_YUEPAI);
-                            map.put("acid",data.getACid());
-                            map.put("uid",userModel.getId());
+                            map.put("apid",data.getAPid());
+                            map.put("userid",userModel.getId());
                             map.put("authkey",userModel.getAuth_key());
-                            request.httpRequest(map,CommonUrl.createActivityInfo);
+                            request.httpRequest(map,CommonUrl.createYuePaiInfo);
                 }
                     }
                 }

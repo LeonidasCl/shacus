@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
             -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
 
+
     @Override
     public void onBackPressed(){
         super.onBackPressed();
@@ -104,14 +105,14 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     //检查输入格式，发弹窗请求到handler，并发网络请求
                     String usrnm = username.getText().toString();
                     String pwd = password.getText().toString();
-                    if (!usrnm.equals("") && !pwd.equals("")) {
+                    if (!usrnm.equals("") && !pwd.equals("")){
                         map.put("phone", usrnm);
                         map.put("password", pwd);
                         map.put("askCode", StatusCode.REQUEST_LOGIN);
                         loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
                         requestFragment.httpRequest(map, CommonUrl.loginAccount);
                     }else {
-                        CommonUtils.getUtilInstance().showToast(LoginActivity.this, "用户名或密码不能为空");
+                        CommonUtils.getUtilInstance().showToast(LoginActivity.this, "用户名和密码不能为空");
                         return;
                     }
                 }
@@ -268,7 +269,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             public void handleMessage(Message msg){
                 if (msg.what==StatusCode.REQUEST_FAILURE){
                     //Looper.prepare();
-                    CommonUtils.getUtilInstance().showToast(APP.context, "网络请求失败！");
+                    CommonUtils.getUtilInstance().showToast(APP.context, (String)msg.obj);
                     loginProgressDlg.cancel();
                     //Looper.loop();
                     //finish();
@@ -307,8 +308,12 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 ACache cache=ACache.get(LoginActivity.this);
                 cache.put("loginModel",loginModel,ACache.TIME_WEEK*2);
             }else {
-                Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "登录失败");Looper.loop();
-                loginProgressDlg.cancel();//进度条取消
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "登录失败");Looper.loop();
+                //loginProgressDlg.cancel();//进度条取消
+                Message msg=mHandler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FAILURE;
+                msg.obj=object.getString("contents");
+                mHandler.sendMessage(msg);
                 return;
             }
 
@@ -322,7 +327,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
         }
 
 
-        if (requestUrl.equals(CommonUrl.registerAccount)) {//返回了注册请求
+        if (requestUrl.equals(CommonUrl.registerAccount)){//返回了注册请求
             try {
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
@@ -368,8 +373,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         eventFlag=3;
                     else
                         eventFlag=4;
-                    loginProgressDlg.cancel();//进度条取消
-                    Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, object.getString("contents"));Looper.loop();
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FAILURE;
+                    msg.obj=object.getString("contents");
+                    mHandler.sendMessage(msg);
                     return;
                 }
             } catch (JSONException e) {
@@ -382,6 +389,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     public void exception(IOException e, String requestUrl){
         Message msg=new Message();
         msg.what=StatusCode.REQUEST_FAILURE;
+        msg.obj="网络请求失败";
         mHandler.sendMessage(msg);
     }
 }
