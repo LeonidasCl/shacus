@@ -69,10 +69,11 @@ public interface StatusCode {
     int REQUEST_DONE_SUCCESS = 10394; //请求已完成成功
 
     int REQUEST_FAVOR_YUEPAI = 10541; //请求所有收藏的约拍
+    int REQUEST_FAVOR_HUODONG = 10542; //请求所有收藏的活动
 
     int REQUEST_ADD_FAVORYUEPAI = 10501; //请求添加收藏
 
-    int REQUEST_FAVOR_HUODONG = 10502; //请求收藏的活动
+
     int REQUEST_FAVOR_ZUOPIN = 10503; //请求收藏的作品
     int REQUEST_FAVOR_JIAOCHENG = 10504; //请求收藏的教程
     int REQUEST_CANCEL_FAVORYUEPAI = 10510; //取消收藏约拍
@@ -83,6 +84,8 @@ public interface StatusCode {
     //int REQUEST_CANCEL_FAVORJIAOCHENG = 10
 
     int REQUEST_FAVORYUEPAI_SUCCESS = 10550; //请求所有收藏约拍成功
+    int REQUEST_FAVORHUODONG_SUCCESS = 10551; //请求所有收藏的活动成功
+
     int REQUEST_OTHERUSER_INFO=10801;
     int REQUEST_HUODONG_SUCCESS=10313;
     int REQUEST_HUODONG_SUCCEED = 10323;

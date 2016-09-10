@@ -85,8 +85,6 @@ public class YuePaiAdapter extends BaseAdapter{
         PhotographerModel item = getItem(i);
         viewHolder.setValues(item);
 
-
-
         return view;
     }
 
