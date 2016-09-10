@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Activity.YuePaiDetailActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.HuoDongItemModel;
@@ -128,8 +129,16 @@ public class HuodongItemAdapter extends BaseAdapter{
 //                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(userIamgeSrc);
+//            userIamgeSrc.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent in = new Intent(activity, OtherUserActivity.class);
+//                    in.putExtra("id", item.getACid());
+//                    activity.startActivity(in);
+//                }
+//            });
             Resources res=activity.getResources();
-            Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);
+           // Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);
 //            userIamgeSrc.setImageDrawable(usrimg);
             //Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
             praiseNum.setText(String.valueOf(item.getAClikenumber()));
@@ -137,6 +146,12 @@ public class HuodongItemAdapter extends BaseAdapter{
             userName.setText(item.getACtitle()+"");
             setTime.setText(item.getACstartT());
             describe.setText(item.getACcontent());
+
+            if (item.getUserliked()==0)
+                huodongPraise.setSelected(false);
+            else
+                huodongPraise.setSelected(true);
+
 
             final Handler handler=new Handler(){
                 @Override
