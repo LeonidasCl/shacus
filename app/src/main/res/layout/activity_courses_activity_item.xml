@@ -72,7 +72,7 @@
         <ImageView
             android:visibility="invisible"
             android:id="@+id/cancelCollectItem"
-            android:src="@drawable/weishoucang"
+            android:src="@drawable/shoucang"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@color/transparent"
@@ -101,7 +101,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@color/transparent"
-                    android:src="@drawable/peoplenum"
+                    android:src="@drawable/shoucang"
                     android:id="@+id/imageView"
                     android:layout_alignParentBottom="true"
                     android:layout_toEndOf="@id/ItemCollectNum"/>
