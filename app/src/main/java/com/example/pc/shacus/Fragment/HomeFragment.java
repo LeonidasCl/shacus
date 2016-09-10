@@ -41,7 +41,7 @@ import java.util.Map;
 * */
 
 public class HomeFragment extends Fragment implements NetworkCallbackInterface.NetRequestIterface{
-    private List<ItemModel> itemModelList = new ArrayList<>();
+    private List<ItemModel> itemModelList;
     private ListView listView;
     private NetRequest netRequest;
     private ACache aCache;
@@ -71,6 +71,7 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
     }
 
     private void initInfo(){
+        itemModelList = new ArrayList<>();
         Map map = new HashMap<>();
         LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
         UserModel content = loginDataModel.getUserModel();
@@ -90,6 +91,7 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                 {
                     firstPageAdapter = new FirstPageAdapter(itemModelList,HomeFragment.this);
                     listView.setAdapter(firstPageAdapter);
+                    firstPageAdapter.notifyDataSetChanged();
                     break;
                 }
                 case StatusCode.REQUESTT_ALLDONGTAI_ERROR: //用户身份认证失败
@@ -97,19 +99,6 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                     CommonUtils.getUtilInstance().showToast(APP.context, "请重新登陆");
                     break;
                 }
-                /*case StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS:
-                {
-                    initInfo();
-                    CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
-                    break;
-                }
-                case StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS:
-                {
-                    initInfo();
-                    CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏");
-                    initInfo();
-                    break;
-                }*/
             }
         }
     };
@@ -120,7 +109,6 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
         if (requestUrl.equals(CommonUrl.allDongtai)){
             JSONObject object = new JSONObject(result);
             int code  = Integer.valueOf(object.getString("code"));
-            Log.d("aaaaaaaaaaaa",object.toString());
             switch (code){
                 case StatusCode.REQUEST_ALLDONGTAI_SUCCESS: //
                 {
@@ -151,23 +139,7 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                     break;
                 }
             }
-        }/*else if(requestUrl.equals(CommonUrl.aboutFavorDongTai)){
-            Log.d("aaaaaaaaaaaa","收藏动态");
-            JSONObject object = new JSONObject(result);
-            int code  = Integer.valueOf(object.getString("code"));
-            switch (code){
-                case StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS:{
-                    message.what = StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS;
-                    handler.sendMessage(message);
-                    break;
-                }
-                case StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS:{
-                    message.what = StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS;
-                    handler.sendMessage(message);
-                    break;
-                }
-            }
-        }*/
+        }
 
     }
 

@@ -79,6 +79,11 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
     private FrameLayout loading1;
     private FrameLayout loading2;
 
+    UserModel content = null;
+    Map map = new HashMap<>();
+    String userId = null;
+    String authkey = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +91,13 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 
         netRequest = new NetRequest(FavoritemActivity.this,FavoritemActivity.this);
         aCache = ACache.get(FavoritemActivity.this);
+        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+
+        content = loginModel.getUserModel();
+        userId = content.getId();
+        authkey = content.getAuth_key();
+        map.put("authkey",authkey);
+        map.put("uid",userId);
 
         //初始化TabHost
         initTabHost();
@@ -228,24 +240,13 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         favorItemList1 = new ArrayList<>();
         favorItemList2 = new ArrayList<>();
 
-        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
-        UserModel content = null;
-        Map map = new HashMap<>();
-        String userId = null;
-        String authkey = null;
-
-        content = loginModel.getUserModel();
-        userId = content.getId();
-        authkey = content.getAuth_key();
-        map.put("authkey",authkey);
-        map.put("uid",userId);
-
 
         switch (index){
             case StatusCode.REQUEST_FAVOR_YUEPAI:
             {
                 map.put("type", StatusCode.REQUEST_FAVOR_YUEPAI);
                 netRequest.httpRequest(map, CommonUrl.getFavorInfo);
+                Log.d("sssssssssss", "aaaaa");
                 break;
             }
             case StatusCode.REQUEST_FAVOR_DONGTAI:
@@ -263,6 +264,23 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         public void handleMessage(Message msg) {
             Message message = new Message();
             switch (msg.what){
+                case StatusCode.REQUEST_FAVORHUODONG_SUCCESS:
+                {
+                    Log.d("ssssssssss","cccccc");
+                    if(favorItemList1.size() == 0){
+                        message.what = StatusCode.REQUEST_FAVORYUEPAI_NONE;
+                        this.sendMessage(message);
+                    }else {
+                        view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
+                        layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
+                        recyclerView1.setLayoutManager(layoutManager1);
+                        recyclerViewAdapter1 = new RecyclerViewAdapter(favorItemList1,FavoritemActivity.this);
+                        recyclerView1.setAdapter(recyclerViewAdapter1);
+                        message.what = 100;
+                        this.sendMessageDelayed(message, 500);
+                    }
+                    break;
+                }
                 case StatusCode.REQUEST_FAVORYUEPAI_NONE:{
                     TextView textView = (TextView) view_1.findViewById(R.id.none_item);
                     textView.setVisibility(View.VISIBLE);
@@ -273,15 +291,9 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 }
                 case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS:
                 {
-
-                    view_1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_recyclerview_container,null);
-                    layoutManager1 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
-                    recyclerView1.setLayoutManager(layoutManager1);
-
-                    recyclerViewAdapter1 = new RecyclerViewAdapter(favorItemList1,FavoritemActivity.this);
-                    recyclerView1.setAdapter(recyclerViewAdapter1);
-                    message.what = 100;
-                    this.sendMessageDelayed(message, 500);
+                    map.put("type", StatusCode.REQUEST_FAVOR_HUODONG);
+                    netRequest.httpRequest(map, CommonUrl.getFavorInfo);
+                    Log.d("sssssssssss","bbbbb");
                     break;
                 }
                 case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS:
@@ -305,8 +317,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     recyclerViewAdapter2 = new RecyclerViewAdapter(favorItemList2,FavoritemActivity.this);
                     recyclerView2.setAdapter(recyclerViewAdapter2);
                     message.what = 200;
-                    this.sendMessageDelayed(message,500);
-                    loading2.setVisibility(View.GONE);
+                    this.sendMessageDelayed(message, 500);
                     break;
                 }
                 case 200:
@@ -321,6 +332,11 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     recyclerView2.setVisibility(View.INVISIBLE);
                     textView.setText("没有收藏~快去“首页”看看吧");
                     loading2.setVisibility(View.GONE);
+                    break;
+                }
+                case StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS:
+                {
+                    CommonUtils.getUtilInstance().showToast(APP.context, "已取消收藏");
                     break;
                 }
             }
@@ -342,13 +358,31 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             String userId = content.getId();
             String authkey = content.getAuth_key();
 
-            map.put("uid",userId);
+            map.put("uid", userId);
             map.put("authkey", authkey);
-            map.put("type",StatusCode.REQUEST_CANCEL_FAVORYUEPAI);
-            map.put("typeid",favorItemList1.get(tag).getId());
-            netRequest.httpRequest(map, CommonUrl.getFavorInfo);
-            favorItemList1.remove(tag);
-            recyclerViewAdapter1.notifyDataSetChanged();
+
+            if(index == StatusCode.REQUEST_FAVOR_YUEPAI){
+                if(favorItemList1.get(tag).getType().equals("yuepai")){
+                    //取消收藏的约拍
+                    map.put("type", StatusCode.REQUEST_CANCEL_FAVORYUEPAI);
+                    map.put("typeid", favorItemList1.get(tag).getId());
+                }else if(favorItemList1.get(tag).getType().equals("huodong")){
+                    //取消收藏的活动
+                    Log.d("aaaaaaa","取消活动");
+                    map.put("type",StatusCode.REQUEST_CANCEL_FAVORHUODONG);
+                    map.put("typeid", favorItemList1.get(tag).getId());
+                }
+                netRequest.httpRequest(map, CommonUrl.getFavorInfo);
+                favorItemList1.remove(tag);
+                recyclerViewAdapter1.notifyDataSetChanged();
+            }else if(index == StatusCode.REQUEST_FAVOR_DONGTAI){
+                //取消收藏的动态
+                map.put("type",StatusCode.REQUEST_CANCEL_FAVORDONGTAI);
+                map.put("trendid",favorItemList2.get(tag).getId());
+                netRequest.httpRequest(map, CommonUrl.aboutFavorDongTai);
+                favorItemList2.remove(tag);
+                recyclerViewAdapter2.notifyDataSetChanged();
+            }
         }
     }
 
@@ -387,37 +421,49 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
         if (requestUrl.equals(CommonUrl.getFavorInfo)) {//返回收藏信息
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
+            Log.d("sssssssssssssss",object.toString());
             switch (code) {
-                case StatusCode.REQUEST_FAVORYUEPAI_NONE: {//用户未收藏任何约拍
-                    msg.what = StatusCode.REQUEST_FAVORYUEPAI_NONE;
-                    handler.sendMessage(msg);
-                    break;
-                }
                 case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS://请求收藏的约拍成功
                 {
                     JSONArray content = object.getJSONArray("contents");
-                    if (content.length() != 0) {
-                        for (int i = 0; i < content.length(); i++) {
-                            JSONObject favor = content.getJSONObject(i);
-                            ItemModel itemModel = new ItemModel();
-                            itemModel.setTitle(favor.getString("APtitle"));
-                            itemModel.setId(favor.getInt("APid"));
-                            itemModel.setUserImage(favor.getString("Userimg"));
-                            itemModel.setStartTime(favor.getString("APstartT"));
-                            itemModel.setLikeNum(favor.getInt("APlikeN"));
-                            itemModel.setImage(favor.getString("APimgurl"));
-                            itemModel.setRegistNum(favor.getInt("APregistN"));
-                            favorItemList1.add(itemModel);
-                        }
-                        msg.what = StatusCode.REQUEST_FAVORYUEPAI_SUCCESS;
-                        handler.sendMessage(msg);
-                        break;
-                    } else {
-                        msg.what = StatusCode.REQUEST_FAVORYUEPAI_NONE;
-                        handler.sendMessage(msg);
-                        break;
+                    for (int i = 0; i < content.length(); i++) {
+                        JSONObject favor = content.getJSONObject(i);
+                        ItemModel itemModel = new ItemModel();
+                        itemModel.setTitle(favor.getString("APtitle"));
+                        itemModel.setId(favor.getInt("APid"));
+                        itemModel.setUserImage(favor.getString("Userimg"));
+                        itemModel.setStartTime(favor.getString("APstartT"));
+                        itemModel.setLikeNum(favor.getInt("APlikeN"));
+                        itemModel.setImage(favor.getString("APimgurl"));
+                        itemModel.setRegistNum(favor.getInt("APregistN"));
+                        itemModel.setType("yuepai");
+                        favorItemList1.add(itemModel);
                     }
-
+                    msg.what = StatusCode.REQUEST_FAVORYUEPAI_SUCCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_FAVORHUODONG_SUCCESS://请求所有收藏的活动成功
+                {
+                    Log.d("sssssssssssssss","活动"+object.toString());
+                    JSONObject jsonObject = object.getJSONObject("contents");
+                    JSONArray content = jsonObject.getJSONArray("activity");
+                    for (int i = 0; i < content.length(); i++) {
+                        JSONObject favor = content.getJSONObject(i);
+                        ItemModel itemModel = new ItemModel();
+                        itemModel.setTitle(favor.getString("ACtitle"));
+                        itemModel.setId(favor.getInt("ACid"));
+                        itemModel.setUserImage(favor.getString("Userimageurl"));
+                        itemModel.setStartTime(favor.getString("ACstartT"));
+                        itemModel.setLikeNum(favor.getInt("AClikenumber"));
+                        itemModel.setImage(favor.getString("AClurl"));
+                        itemModel.setRegistNum(favor.getInt("ACregistN"));
+                        itemModel.setType("huodong");
+                        favorItemList1.add(itemModel);
+                    }
+                    msg.what = StatusCode.REQUEST_FAVORHUODONG_SUCCESS;
+                    handler.sendMessage(msg);
+                    break;
                 }
                 case StatusCode.REQUEST_CANCELYUEPAI_SUCCESS://请求取消收藏约拍成功
                 {
@@ -459,6 +505,11 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 }
                 case StatusCode.REQUEST_FAVOR_DONGTAI_NONE:{
                     msg.what = StatusCode.REQUEST_FAVOR_DONGTAI_NONE;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                case StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS:{
+                    msg.what = StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS;
                     handler.sendMessage(msg);
                     break;
                 }

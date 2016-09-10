@@ -7,42 +7,42 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="20"
-            android:layout_height="match_parent"></LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_weight="10"></LinearLayout>
 
-        <ImageButton
+
+        <ImageView
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:id="@+id/button_grapher"
             android:layout_width="0dp"
-            android:layout_weight="20"
+            android:layout_weight="40"
+            android:scaleType="centerInside"
             android:layout_height="match_parent"
-            android:background="@drawable/button_grapher_down"/>
+            android:src="@drawable/button_grapher_down"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="15"
-            android:layout_height="match_parent"></LinearLayout>
 
-        <ImageButton
+
+        <ImageView
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:id="@+id/button_model"
             android:layout_width="0dp"
-            android:layout_weight="20"
+            android:layout_weight="40"
             android:layout_height="match_parent"
-            android:background="@drawable/button_model_up"/>
+            android:scaleType="centerInside"
+            android:src="@drawable/button_model_up"/>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="20"
-            android:layout_height="match_parent"></LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_weight="10"></LinearLayout>
+
 
     </LinearLayout>
 
@@ -51,17 +51,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="84">
+        android:layout_height="wrap_content">
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dividerHeight="5dp"
             android:id="@+id/rank_list"
-            android:divider="#ffffff"
-
-            />
+            android:divider="#ffffff"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

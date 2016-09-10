@@ -8,35 +8,32 @@
     android:layout_width="match_parent"
     android:layout_height="10dp"
     android:background="@color/transparent"/>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview1"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardElevation="3dp"
-        android:layout_marginTop="2dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 <RelativeLayout
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="top"
     android:id="@+id/relativeLayout4"
     android:descendantFocusability="blocksDescendants"
-    android:background="@color/transparent">
+    android:background="#50ffffff">
 
         <ImageView
             android:id="@+id/ItemVideo"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:scaleType="fitXY"
-            android:background="@null"
-            android:src="@drawable/p3" />
+            android:background="@null" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:background="#2a000000">
+        android:background="#99323232"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
     <TextView
         android:id="@+id/ItemName"
         android:text="xxxx(视频教程)"
@@ -44,56 +41,90 @@
         android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="33dp"
-        android:layout_alignBottom="@+id/ItemSeeNum" />
-
-    <ImageView
-        android:visibility="invisible"
-        android:id="@+id/CollectItem"
-        android:src="@drawable/shoucang1"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@color/transparent"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/ItemSeeNum" />
-    <ImageView
-        android:visibility="invisible"
-        android:id="@+id/cancelCollectItem"
-        android:src="@drawable/shoucang"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@color/transparent"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/ItemSeeNum" />
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:src="@drawable/watch"
-        android:id="@+id/imageView"
-        android:layout_toStartOf="@+id/ItemViewNum"
-        android:layout_alignTop="@+id/ItemViewNum" />
-
-    <TextView
-        android:id="@+id/ItemViewNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="111111"
-        android:textColor="#ffffff"
-        android:layout_marginRight="10sp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-    <TextView
-        android:id="@+id/ItemSeeNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
         android:layout_centerVertical="true"
-        android:textColor="#ffffff"
-        android:layout_alignStart="@+id/imageView" />
-</RelativeLayout>
+        android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/cancelCollectItem"
+            android:src="@drawable/shoucang"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/transparent"
+            android:layout_alignBottom="@+id/ItemName"
+            android:layout_alignStart="@+id/CollectItem" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/CollectItem"
+            android:src="@drawable/shoucang1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/transparent"
+            android:layout_marginEnd="42dp"
+            android:layout_alignTop="@+id/cancelCollectItem"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
-    </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="#30000000">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="             "/>
+            <TextView
+                android:id="@+id/ItemViewNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="10"
+                android:layout_gravity="center"
+                android:textColor="#ffffff"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人已观看"
+                android:textSize="17dp"
+                android:layout_gravity="center"
+                android:textColor="#ffffff" />
+            </LinearLayout>
+            <View
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:layout_gravity="center_horizontal"
+                />
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/ItemSeeNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:text="已完成"
+                    android:layout_marginRight="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp"

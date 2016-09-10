@@ -70,7 +70,8 @@
                 android:layout_height="48dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/join_detail"
-                android:background="#00000000"/>
+                android:background="#00000000"
+                android:clickable="false"/>
 
             <TextView
                 android:id="@+id/APregistN"

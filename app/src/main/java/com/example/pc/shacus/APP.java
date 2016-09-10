@@ -46,7 +46,7 @@ import io.rong.message.RichContentMessage;
 public class APP extends Application {
 
     public static Context context;
-    private int requestFlag=1;
+
 
     @Override public void onCreate(){
         super.onCreate();
@@ -101,8 +101,7 @@ public class APP extends Application {
                     return new UserInfo(uid, nickname, Uri.parse(avatar));
                 }
                 else{//if#1 不是自己，要向业务服务器请求
-                    if (requestFlag==1){
-                        requestFlag=0;
+
                     Map map = new HashMap();
                     //向业务服务器发请求
                     map.put("uid", uid);
@@ -124,7 +123,7 @@ public class APP extends Application {
                                     String avatar=content.getString("uheadimage");
                                     //把用户信息传回给融云
                                     RongIM.getInstance().refreshUserInfoCache(new UserInfo(id, nickname, Uri.parse(avatar)));
-                                    requestFlag=1;
+
                                     return;
                                 }else{//请求失败
 
@@ -134,11 +133,11 @@ public class APP extends Application {
                         @Override
                         public void exception(IOException e, String requestUrl) {}
                     }, APP.context).httpRequest(map, CommonUrl.getOtherUser);
-                    }
+
                 }//end if#1
                 return null;
             }//end getUserInfo
-        }, false);//end setUserInfoProvider
+        }, true);//end setUserInfoProvider
 
     }//end APP.OnCreate()
 
