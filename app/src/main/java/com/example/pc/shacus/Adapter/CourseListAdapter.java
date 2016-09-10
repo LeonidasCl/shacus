@@ -23,10 +23,9 @@ import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
-import com.example.pc.shacus.R;
 
 import org.json.JSONException;
-
+import com.example.pc.shacus.R;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,8 +70,8 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
                 .into(holder.imageView);
         holder.title.setText(courseModelList.get(position).getTitle());
         holder.read.setText(Integer.toString(courseModelList.get(position).getReadNum()));
-        //在分类和已完成教程中可以收藏和取消收藏
-//        if (courseModelList.get(position).getKind()==1||courseModelList.get(position).getKind()==3) {
+        //在分类和列表教程中可以收藏和取消收藏
+       if (courseModelList.get(position).getKind()==2||courseModelList.get(position).getKind()==3) {
             if (courseModelList.get(position).getCollet() == 1) {
                 holder.collectItem.setVisibility(View.VISIBLE);
                 holder.cancel.setVisibility(View.INVISIBLE);
@@ -93,7 +92,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
 //                        holder.cancel.setVisibility(View.INVISIBLE);
 //                    }
 //                });
-       //     }
+            }
 
        }
 
@@ -101,10 +100,10 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         if (courseModelList.get(position).getKind()==2) {
             if (courseModelList.get(position).getSee() == 1) {
                 holder.seeNum.setText("已看完");
-                holder.seeNum.setTextColor(Color.BLUE);
+                holder.seeNum.setTextColor(Color.WHITE);
             } else {
                 holder.seeNum.setText("未完成");
-                holder.seeNum.setTextColor(Color.RED);
+                holder.seeNum.setTextColor(Color.WHITE);
             }
         }
         List list1 = new ArrayList();
@@ -158,10 +157,6 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
             seeNum=(TextView)itemView.findViewById(R.id.ItemSeeNum);
             cancel = (ImageView) itemView.findViewById(R.id.cancelCollectItem);
             relativeLayout=(RelativeLayout)itemView.findViewById(R.id.relativeLayout4);
-            cardView=(android.support.v7.widget.CardView)itemView.findViewById(R.id.cardview1);
-          //  String[] stringcolor={"#ECF5FF","#FFECF5","#ECF5FF","#ECECFF","#FFFCEC","#FFE6D9","#F2E6E6","#F3F3FA","#D1E9E9","#F5FFE8"};
-          //  int index=(int)(Math.random()*stringcolor.length);
-          //  cardView.setCardBackgroundColor(Color.parseColor(stringcolor[index]));
         }
     }
 }
