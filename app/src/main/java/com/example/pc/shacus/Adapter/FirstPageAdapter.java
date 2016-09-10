@@ -41,7 +41,7 @@ import java.util.Map;
  * 崔颖华
  * Created by cuicui on 2016/9/8.
  */
-public class FirstPageAdapter extends BaseAdapter {
+public class FirstPageAdapter extends  BaseAdapter{
     List<ItemModel> itemList;
     ViewHolder viewHolder;
     HomeFragment context;

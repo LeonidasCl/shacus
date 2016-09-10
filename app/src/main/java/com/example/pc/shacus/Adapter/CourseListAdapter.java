@@ -70,8 +70,9 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
                 .into(holder.imageView);
         holder.title.setText(courseModelList.get(position).getTitle());
         holder.read.setText(Integer.toString(courseModelList.get(position).getReadNum()));
+        holder.collectNum.setText(Integer.toString(courseModelList.get(position).getLikeNum()));
         //在分类和列表教程中可以收藏和取消收藏
-       if (courseModelList.get(position).getKind()==2||courseModelList.get(position).getKind()==3) {
+      //  if (courseModelList.get(position).getKind()==2||courseModelList.get(position).getKind()==3) {
             if (courseModelList.get(position).getCollet() == 1) {
                 holder.collectItem.setVisibility(View.VISIBLE);
                 holder.cancel.setVisibility(View.INVISIBLE);
@@ -92,9 +93,9 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
 //                        holder.cancel.setVisibility(View.INVISIBLE);
 //                    }
 //                });
-            }
+         //   }
 
-       }
+        }
 
         //在课程表中标注已完成和未完成
         if (courseModelList.get(position).getKind()==2) {
@@ -113,6 +114,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         list1.add(courseModelList.get(position).getCollet());
         list1.add(holder.collectItem);
         list1.add(holder.cancel);
+        list1.add(holder.collectNum);
         holder.collectItem.setTag(list1);
         holder.cancel.setTag(list1);
         holder.cancel.setOnClickListener((View.OnClickListener) context);
@@ -142,6 +144,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         TextView read;
         ImageView collectItem;
         ImageView cancel;
+        TextView collectNum;
 
         RelativeLayout relativeLayout;
         TextView seeNum;
@@ -151,12 +154,13 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         public RecyclerHolderView(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.ItemVideo);
-            title = (TextView) itemView.findViewById(R.id.ItemName);
-            read = (TextView) itemView.findViewById(R.id.ItemViewNum);
+            title = (TextView) itemView.findViewById(R.id.ItemName1);
+            read = (TextView) itemView.findViewById(R.id.ItemViewNum1);
             collectItem=(ImageView)itemView.findViewById(R.id.CollectItem);
             seeNum=(TextView)itemView.findViewById(R.id.ItemSeeNum);
             cancel = (ImageView) itemView.findViewById(R.id.cancelCollectItem);
             relativeLayout=(RelativeLayout)itemView.findViewById(R.id.relativeLayout4);
+            collectNum=(TextView)itemView.findViewById(R.id.ItemCollectNum);
         }
     }
 }

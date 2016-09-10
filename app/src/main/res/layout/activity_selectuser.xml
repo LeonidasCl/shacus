@@ -53,7 +53,8 @@
             android:layout_height="match_parent"
             android:dividerHeight="1dp"
             android:divider="@color/gray_color_99999a"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:listSelector="@color/transparent">
         </ListView>
 
     </LinearLayout>
