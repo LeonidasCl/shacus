@@ -32,7 +32,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements NetworkCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_info);
+        setContentView(R.layout.test);
         //初始化
         btn_edit= (TextView) findViewById(R.id.btn_edit);
         btn_back= (ImageButton) findViewById(R.id.btn_back);

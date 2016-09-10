@@ -304,7 +304,7 @@ private Handler handler=new Handler(){
                         coursesModel.setItemid(course.getInt("Cid"));
                         coursesModel.setValid(course.getInt("Cvalid"));
                         coursesModel.setCollet(course.getInt("Cfav"));
-                        coursesModel.setLikeNum(course.getInt("Cliked"));
+                        coursesModel.setLikeNum(course.getInt("CfavN"));
 
                         coursesModel.setKind(2);
                         courseItemList1.add(coursesModel);
@@ -410,7 +410,7 @@ private Handler handler=new Handler(){
                     coursesModel.setItemid(course.getInt("Cid"));
                     coursesModel.setValid(course.getInt("Cvalid"));
                     coursesModel.setCollet(course.getInt("Cfav"));
-                    coursesModel.setLikeNum(course.getInt("Cliked"));
+                    coursesModel.setLikeNum(course.getInt("CfavN"));
 
                     coursesModel.setKind(2);
                     courseItemList1.add(coursesModel);

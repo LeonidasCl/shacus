@@ -16,7 +16,7 @@ public class CoursesModel  implements Serializable {
     private int likeNum;
     private int collet;
     private int valid;
-    //private String courseurl;
+    private String courseurl;
 
     public int getKind() {
         return kind;
@@ -93,13 +93,13 @@ public class CoursesModel  implements Serializable {
         this.likeNum = likeNum;
     }
 
-//    public String getCourseurl() {
-//        return courseurl;
-//    }
-//
-//    public void setCourseurl(String courseurl) {
-//        this.courseurl = courseurl;
-//    }
+    public String getCourseurl() {
+        return courseurl;
+    }
+
+    public void setCourseurl(String courseurl) {
+        this.courseurl = courseurl;
+    }
 
 
 }
