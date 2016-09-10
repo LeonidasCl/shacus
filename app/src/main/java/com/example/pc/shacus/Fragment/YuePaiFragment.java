@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -211,32 +212,16 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
            private float downY;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-            int firstVisibleItem = rankFrag.getListView().getFirstVisiblePosition();
-            boolean onTop = firstVisibleItem == 0 &&rankFrag.getListView().getChildAt(0) != null && rankFrag.
-                    getListView().getChildAt(0).getTop() == 0;
+                int firstVisibleItem = rankFrag.getListView().getFirstVisiblePosition();
+                ListView absListView=rankFrag.getListView();
+//                    Log.d("LQ22222", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + rankFrag.getListView().getChildAt(0) + "" +
+//                            "\nabsListView.getChildAt(0).getTop():" + rankFrag.getListView().getChildAt(0).getTop());
 //                Log.w("logout.gettop",rankFrag.getListView().getChildAt(0).getTop()+"");
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams)mSideZoomBanner.getLayoutParams();
-                        Log.e("logout.topmargin",layoutParam.topMargin+"");
-                        if (layoutParam.topMargin>=0&&!onTop){//hide
-                            ValueAnimator anim=ValueAnimator.ofInt(0,-mSideZoomBanner.getHeight());
-                            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                @Override
-                                public void onAnimationUpdate(ValueAnimator animation) {
-                                    //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
-                                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
-                                    layoutParams.topMargin = (Integer) animation.getAnimatedValue();
-                                    mSideZoomBanner.setLayoutParams(layoutParams);
-                                    mSideZoomBanner.invalidate();
-                                }
-                            });
-                            anim.setDuration(300);
-                            anim.start();
-                            break;
-                        }
                         break;
                     case MotionEvent.ACTION_UP:
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Activity.MainActivity;
@@ -96,8 +97,8 @@ public class YuePaiAdapter extends BaseAdapter{
         TextView APTitle;
         TextView APstartT;
         ImageView mainPicture;
-        ImageButton APlike;
-        ImageButton APjoin;
+        RelativeLayout APlike;
+        RelativeLayout APjoin;
         TextView praiseNum;
         TextView joinNum;
 
@@ -107,8 +108,8 @@ public class YuePaiAdapter extends BaseAdapter{
             APTitle =(TextView)view.findViewById(R.id.APtitle);
             APstartT =(TextView)view.findViewById(R.id.APstartT);
             mainPicture=(ImageView)view.findViewById(R.id.APimgurl);
-            APlike =(ImageButton)view.findViewById(R.id.APlikeBtn);
-            APjoin =(ImageButton)view.findViewById(R.id.APjoinBtn);
+            APlike = (RelativeLayout) view.findViewById(R.id.APlikeBtn);
+            APjoin = (RelativeLayout) view.findViewById(R.id.APjoinBtn);
             praiseNum=(TextView)view.findViewById(R.id.APlikeN);
             joinNum =(TextView)view.findViewById(R.id.APregistN);
         }
@@ -126,6 +127,13 @@ public class YuePaiAdapter extends BaseAdapter{
                     .into(userIamgeSrc);
             APTitle.setText(item.getAPtitle());
             APstartT.setText(item.getAPstartT());
+            String []time=item.getAPstartT().split("T");
+            String str="";
+            for (int i = 0; i < time.length; i++) {
+                str+=time[i];
+                str+="  ";
+            }
+            APstartT.setText(str);
             String mainimg=item.getAPimgurl();
             Glide.with(activity)
                     .load(mainimg)
@@ -208,7 +216,18 @@ public class YuePaiAdapter extends BaseAdapter{
                 public void onClick(View view) {
                     Intent intent = new Intent(activity, YuePaiDetailActivity.class);
                     intent.putExtra("detail",item.getAPid());
-                    intent.putExtra("type","yuepai");
+                    intent.putExtra("type", "yuepai");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    activity.startActivity(intent);
+                }
+
+            });
+            mainPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, YuePaiDetailActivity.class);
+                    intent.putExtra("detail", item.getAPid());
+                    intent.putExtra("type", "yuepai");
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     activity.startActivity(intent);
                 }

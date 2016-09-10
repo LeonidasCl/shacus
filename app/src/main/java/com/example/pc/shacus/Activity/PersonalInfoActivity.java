@@ -100,7 +100,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements NetworkCa
         getAddress().setText(dataModel.getLocation());
         Glide.with(this)
                 .load(dataModel.getHeadImage()).centerCrop()
-                .placeholder(R.drawable.holder)
+//                .placeholder(R.drawable.holder)
                 .error(R.drawable.loading_error)
                 .into(getUserImage());
     }

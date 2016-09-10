@@ -100,15 +100,20 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     @Override
                     public void onClick(View v) {
                         Map map = new HashMap();
-                if (eventFlag==1){
-                //检查输入格式，发弹窗请求到handler，并发网络请求
-                String usrnm=username.getText().toString();
-                String pwd=password.getText().toString();
-                map.put("phone",usrnm);
-                map.put("password",pwd);
-                map.put("askCode",StatusCode.REQUEST_LOGIN);
-                loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
-                requestFragment.httpRequest(map, CommonUrl.loginAccount);
+                if (eventFlag==1) {
+                    //检查输入格式，发弹窗请求到handler，并发网络请求
+                    String usrnm = username.getText().toString();
+                    String pwd = password.getText().toString();
+                    if (!usrnm.equals("") && !pwd.equals("")) {
+                        map.put("phone", usrnm);
+                        map.put("password", pwd);
+                        map.put("askCode", StatusCode.REQUEST_LOGIN);
+                        loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
+                        requestFragment.httpRequest(map, CommonUrl.loginAccount);
+                    }else {
+                        CommonUtils.getUtilInstance().showToast(LoginActivity.this, "用户名或密码不能为空");
+                        return;
+                    }
                 }
                 if (eventFlag==2){
                     return;
