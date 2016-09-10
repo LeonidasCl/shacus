@@ -790,6 +790,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
     //发第一次请求，仅请求约拍立项
     public void saveThemeInfo(String usrname,String auth_key,String title){
         Map<String, Object>map=new HashMap<String, Object>();
+        if (finalImgList!=null)
         finalImgList.clear();
         finalImgList=new ArrayList<>();
         imgList=new ArrayList<>();

@@ -788,6 +788,8 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
 
     public void saveThemeInfo(String usrname,String auth_key,String title){
         Map<String, Object>map=new HashMap<String, Object>();
+        if (finalImgList!=null)
+            finalImgList.clear();
         finalImgList=new ArrayList<>();
         imgList=new ArrayList<>();
         for (int i=0;i<uploadImgUrlList.size();i++){

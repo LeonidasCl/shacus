@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -52,8 +53,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     final int MODEL = 1;
     final int INIT=2;
 
-    private ImageButton button_grapher;
-    private ImageButton button_model;
+    private ImageView button_grapher;
+    private ImageView button_model;
     boolean isGrapher;//是否显示摄影师
 
     boolean refreshing=false;
@@ -131,8 +132,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         refreshing=false;
         rankView = inflater.inflate(R.layout.fragment_rank, container, false);
         cache= ACache.get(getActivity());
-        button_grapher = (ImageButton) rankView.findViewById(R.id.button_grapher);
-        button_model = (ImageButton) rankView.findViewById(R.id.button_model);
+        button_grapher = (ImageView) rankView.findViewById(R.id.button_grapher);
+        button_model = (ImageView) rankView.findViewById(R.id.button_model);
 
         personAdapter = new YuePaiAdapter(yuepai,bootData(INIT));
         listView = (ListView) rankView.findViewById(R.id.rank_list);
