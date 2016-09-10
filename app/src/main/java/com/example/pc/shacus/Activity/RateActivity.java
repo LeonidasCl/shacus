@@ -48,6 +48,7 @@ public class RateActivity extends Activity implements RatingBar.OnRatingBarChang
                 CommonUtils.getUtilInstance().showLongToast(APP.context, "评分完成");
                 finish();
                 Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+                intent.putExtra("page","3");
                 startActivity(intent);
             }
         });
