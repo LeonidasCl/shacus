@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -67,7 +68,6 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 finish();
             }
         });
@@ -80,9 +80,20 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
             index = StatusCode.REQUEST_BAOMING_YUEPAI_USER;
             id = intent.getIntExtra("apid", -1);
         }else if(type.equals("huodong")){
-            //
+            index = StatusCode.REQUEST_HUODONG_DETAIL;
             id = intent.getIntExtra("acid",-1);
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                UserModel next = userModelList.get(position);
+                Intent intent = new Intent(SelectUserActivity.this, OtherUserActivity.class);
+                intent.putExtra("id", next.getId());
+                startActivity(intent);
+            }
+        });
+
         initUserInfo();
     }
 
@@ -108,9 +119,13 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         if(index == StatusCode.REQUEST_BAOMING_YUEPAI_USER){
             map.put("type", StatusCode.REQUEST_BAOMING_YUEPAI_USER);
             map.put("apid", id);
-        }//else
+            netRequest.httpRequest(map, CommonUrl.askYuepai);
+        }else if(index == StatusCode.REQUEST_HUODONG_DETAIL){
+            map.put("type",StatusCode.REQUEST_HUODONG_DETAIL);
+            map.put("ACid",id);
+            netRequest.httpRequest(map, CommonUrl.getHuodongList);
+        }
         Log.d("aaaaa", String.valueOf(id));
-        netRequest.httpRequest(map, CommonUrl.askYuepai);
 
     }
 
@@ -132,7 +147,14 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     intent.putExtra("type","selectuser");
                     intent.putExtra("result","success");
+                    finish();
                     startActivity(intent);
+                }
+                case StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS:
+                {
+                    userDetailAdapter = new UserDetailAdapter(SelectUserActivity.this,userModelList);
+                    listView.setAdapter(userDetailAdapter);
+                    break;
                 }
             }
         }
@@ -161,6 +183,32 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                     }
                     Log.d("sssssss",object.toString());
                     msg.what = StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS;
+                    handler.sendMessage(msg);
+                    break;
+                }
+            }
+        }
+        else if(requestUrl.equals(CommonUrl.getHuodongList)){
+            JSONObject object = new JSONObject(result);
+            int code  = Integer.valueOf(object.getString("code"));
+            Log.d("aaaaaaa",object.toString());
+            switch (code){
+                case StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS:
+                {
+                    JSONArray jsonArray = object.getJSONArray("contents");
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    JSONArray detail = jsonObject.getJSONArray("ACregister");
+                    for (int i = 0; i < detail.length();i++){
+                        JSONObject user = detail.getJSONObject(i);
+                        UserModel userModel = new UserModel();
+                        userModel.setHeadImage(user.getString("UserImage"));
+                        userModel.setSign(user.getString("sign"));
+                        userModel.setId(user.getString("Userid"));
+                        userModel.setNickName(user.getString("alais"));
+                        userModelList.add(userModel);
+                    }
+                    Log.d("sssssss",object.toString());
+                    msg.what = StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS;
                     handler.sendMessage(msg);
                     break;
                 }

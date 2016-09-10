@@ -50,27 +50,21 @@
                 android:layout_height="30dp"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
-                android:background="@color/gray_color_99999a"
-                android:layout_alignBottom="@+id/APimgurl"
+                android:background="@color/four_black"
                 android:layout_centerHorizontal="true">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="6"></LinearLayout>
-
                 <RelativeLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="3">
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1">
                     <ImageButton
                         android:id="@+id/item_like_btn"
                         android:layout_width="48dp"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:layout_height="48dp"
-                        android:layout_margin="8dp"
+                        android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:background="#00000000"
                         android:src="@drawable/praise"
                         android:scaleType="centerInside"
@@ -81,25 +75,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:layout_marginLeft="55dp"
                         android:textColor="@android:color/white"
                         android:text="@string/rank_piarse_num"
                         android:layout_gravity="right|center_vertical"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/APlikeBtn"/>
+                        android:layout_toRightOf="@+id/item_like_btn"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="3">
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1">
                     <ImageButton
                         android:contentDescription="@string/contentDescribe"
                         android:id="@+id/item_regist_btn"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_margin="8dp"
+                        android:layout_margin="5dp"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:scaleType="centerInside"
@@ -112,10 +105,10 @@
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:textColor="@android:color/white"
+                        android:layout_gravity="right|center_vertical"
                         android:text="@string/rank_join"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="2dp"/>
+                        android:layout_toRightOf="@+id/item_regist_btn"/>
 
                 </RelativeLayout>
             </LinearLayout>

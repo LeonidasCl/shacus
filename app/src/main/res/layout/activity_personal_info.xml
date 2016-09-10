@@ -33,7 +33,7 @@
         <TextView
             android:id="@+id/btn_edit"
             android:text="编辑"
-            android:textColor="@color/ee_black"
+            android:textColor="#ffffff"
             android:textSize="@dimen/sp_16"
             android:layout_width="80dp"
             android:layout_height="match_parent"

@@ -200,12 +200,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //获取登录状态添加到侧滑栏信息
         if (user!=null) {
             ACache acache=ACache.get(this);
+            LoginDataModel model=(LoginDataModel)acache.getAsObject("loginModel");
+            user=model.getUserModel();
             ImageView userImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
             TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
             ImageView userLevel = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
             TextView userSign = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
             userName.setText(user.getNickName());
             userSign.setText(user.getSign());
+            textName.setText(user.getNickName());
 
             Glide.with(getApplicationContext())
                     .load(user.getHeadImage()).centerCrop()

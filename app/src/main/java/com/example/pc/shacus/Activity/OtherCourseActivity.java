@@ -161,6 +161,12 @@ private Handler handler=new Handler(){
         }
         if(msg.what==StatusCode.REQUEST_COURSE_MORE_COURSES_SUCCESS){
             initInfo();
+            try {
+                Thread.sleep(2 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            loading4.setVisibility(View.GONE);
         }
         if (msg.what==StatusCode.REQUEST_KIND_FAIL){
             CommonUtils.getUtilInstance().showToast(APP.context, "请求失败");
@@ -213,7 +219,7 @@ private Handler handler=new Handler(){
             startActivity(intent);
         }
         if (msg.what==StatusCode.REQUEST_DISCOLLECT_SUCCESS){
-
+            CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏成功");
             finish();
             Intent intent=new Intent(OtherCourseActivity.this,OtherCourseActivity.class);
             startActivity(intent);
@@ -256,7 +262,7 @@ private Handler handler=new Handler(){
             startActivity(intent);
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_SUCCESS){
-
+            CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_ALREADY){
             CommonUtils.getUtilInstance().showToast(APP.context, "已收藏过此课程");

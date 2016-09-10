@@ -191,6 +191,10 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
         mTabHost.addTab(mTabHost.newTabSpec("tab3").setContent(R.id.order_tab3).setIndicator("已完成"));
         mTabHost.setCurrentTab(0);
         //初始化Tab的颜色，和字体的颜色
+        for (int i = 0;i < mTabHost.getTabWidget().getChildCount();i++){
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(Color.parseColor("#ffffff"));
+        }
         updateTab(mTabHost);
 
     }
@@ -203,14 +207,14 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             {
                 //选中
                 //view.setBackground(getResources().getDrawable(R.drawable.nepal));//选中后的背景
-                view.setBackgroundColor(Color.parseColor("#aa000000"));
+                view.setBackgroundColor(Color.parseColor("#44000000"));
 
             }
             else
             {
                 //不选中
                 //view.setBackground(getResources().getDrawable(R.drawable.sea));//非选择的背景
-                view.setBackgroundColor(Color.parseColor("#ee000000"));
+                view.setBackgroundColor(Color.parseColor("#1a1a1a"));
             }
         }
     }
@@ -289,6 +293,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            Message message = new Message();
             switch (msg.what){
                 case StatusCode.REQUEST_REGIST_SUCCESS:
                 {
@@ -297,7 +302,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerView1.setLayoutManager(layoutManager1);
                     recyclerViewAdapter1 = new RecyclerViewAdapter(ordersItemList1,OrdersActivity.this);
                     recyclerView1.setAdapter(recyclerViewAdapter1);
-                    loading1.setVisibility(View.GONE);
+                    message.what = 100;
+                    this.sendMessageDelayed(message, 500);
                     break;
                 }
                 case  StatusCode.REQUEST_DOING_SUCCESS:
@@ -307,7 +313,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerView2.setLayoutManager(layoutManager2);
                     recyclerViewAdapter2 = new RecyclerViewAdapter(ordersItemList2,OrdersActivity.this);
                     recyclerView2.setAdapter(recyclerViewAdapter2);
-                    loading2.setVisibility(View.GONE);
+                    message.what = 200;
+                    this.sendMessageDelayed(message, 500);
                     break;
                 }
                 case  StatusCode.REQUEST_DONE_SUCCESS:
@@ -317,7 +324,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerView3.setLayoutManager(layoutManager3);
                     recyclerViewAdapter3 = new RecyclerViewAdapter(ordersItemList3,OrdersActivity.this);
                     recyclerView3.setAdapter(recyclerViewAdapter3);
-                    loading3.setVisibility(View.GONE);
+                    message.what = 300;
+                    this.sendMessageDelayed(message, 500);
                     break;
                 }
                 case StatusCode.REQUEST_ORDER_ERROR:
@@ -339,7 +347,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 {
                     TextView textView = (TextView) view_2.findViewById(R.id.none_item);
                     textView.setVisibility(View.VISIBLE);
-                    recyclerView1.setVisibility(View.INVISIBLE);
+                    recyclerView2.setVisibility(View.INVISIBLE);
                     textView.setText("暂无正在进行的活动~快去“发现”看看吧");
                     loading2.setVisibility(View.GONE);
                     break;
@@ -348,13 +356,25 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                 {
                     TextView textView = (TextView) view_3.findViewById(R.id.none_item);
                     textView.setVisibility(View.VISIBLE);
-                    recyclerView1.setVisibility(View.INVISIBLE);
+                    recyclerView3.setVisibility(View.INVISIBLE);
                     textView.setText("暂无已完成");
                     loading3.setVisibility(View.GONE);
                     break;
                 }
                 case 88:{
                     CommonUtils.getUtilInstance().showToast(APP.context, "网络请求超时，请重试");
+                    break;
+                }
+                case 100:{
+                    loading1.setVisibility(View.GONE);
+                    break;
+                }
+                case 200:{
+                    loading2.setVisibility(View.GONE);
+                    break;
+                }
+                case 300:{
+                    loading3.setVisibility(View.GONE);
                     break;
                 }
             }
@@ -482,6 +502,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     }
 
                     if(index != 3){
+                        Log.d("aaaaaaaa",ordersItemList1.toString());
                         msg.what = StatusCode.REQUEST_REGIST_SUCCESS;
                         handler.sendMessage(msg);
                         break;
