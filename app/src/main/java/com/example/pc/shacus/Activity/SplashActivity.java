@@ -25,16 +25,25 @@ import java.util.Map;
 public class SplashActivity extends BaseSplashActivity implements NetworkCallbackInterface.NetRequestIterface {
 
     private NetRequest requestFragment;
+    private int splashFlag=0;//动画页面FLAG,以是否登录判断进哪个Activity
 
     @Override
     public void initNetworkData() {
-//        ACache cache=ACache.get(APP.context);
-//        LoginDataModel temp= (LoginDataModel) cache.getAsObject("loginModel");
-//        UserModel data=temp.getUserModel();
-//        requestFragment = new NetRequest(this, APP.context);
-//        Map map = new HashMap();
-//
-//        requestFragment.httpRequest(map, CommonUrl.loginAccount);
+        ACache cache=ACache.get(APP.context);
+        LoginDataModel login= (LoginDataModel) cache.getAsObject("loginModel");
+        if (login==null){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        UserModel data=login.getUserModel();
+        requestFragment = new NetRequest(this, APP.context);
+        Map map = new HashMap();
+        map.put("uid",data.getId());
+        map.put("authkey",data.getAuth_key());
+        map.put("askCode",StatusCode.REQUEST_AUTO_LOGIN);
+        requestFragment.httpRequest(map, CommonUrl.loginAccount);
     }
 
 
@@ -50,13 +59,18 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
 
     @Override
     public Class getNextActivityClass() {
-        return MainActivity.class;
+        if (splashFlag==0)
+            return LoginActivity.class;
+        if (splashFlag==1)
+            return MainActivity.class;
+        else
+            return null;
     }
 
     @Override
     public void requestFinish(String result, String requestUrl) {
 
-        if (requestUrl.equals(CommonUrl.loginAccount)) {//返回登录请求
+        if (requestUrl.equals(CommonUrl.loginAccount)){//返回登录请求
             try {
                 JSONObject object = null;
 
@@ -65,28 +79,27 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
                 int code = Integer.valueOf(object.getString("code"));
 
                 if (code== StatusCode.REQUEST_LOGIN_SUCCESS){
+                    splashFlag=1;
                     Gson gson=new Gson();
                     LoginDataModel loginModel=gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(),LoginDataModel.class);
                     ACache cache=ACache.get(APP.context);
                     cache.put("loginModel",loginModel,ACache.TIME_WEEK*2);
                 }else {
-                    //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, content.toString());Looper.loop();
-                    String str=object.getString("contents");
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("result","登录失败:"+str);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
+//                    String str=object.getString("contents");
+//                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                    intent.putExtra("result","自动登录失败:"+str+"\n请手动登录");
+//                    startActivity(intent);
+//                    finish();
                     return;
                     }
-                } catch (JSONException e) {
+                } catch (JSONException e){
                 e.printStackTrace();
             }
-
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("result", "登录成功");
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
-            finish();
+//
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            intent.putExtra("result", "登录成功");
+//            startActivity(intent);
+//            finish();
             return;
         }
     }

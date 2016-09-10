@@ -96,6 +96,9 @@
             android:name=".Activity.TagAddActivity"
             android:theme="@android:style/Theme.Holo.Dialog"/>
 
+        <activity
+            android:name=".Activity.RateActivity"
+            android:theme="@android:style/Theme.Holo.Dialog"/>
         <activity android:name=".Activity.PersonalInfoActivity"/>
         <activity android:name=".Activity.PersonalInfoEditActivity"/>
         <activity

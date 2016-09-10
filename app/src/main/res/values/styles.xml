@@ -17,9 +17,17 @@
     </style>
 
 
+    <style name="appRatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/icon_rating</item>
+        <item name="android:indeterminateDrawable">@drawable/icon_rating</item>
+        <item name="android:minHeight">57dip</item>
+        <item name="android:maxHeight">57dip</item>
+    </style>
+
+
     <style name="AppTheme.YuePaiDetailActivity" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/ee_white</item>
-        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#ffffff</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
