@@ -138,7 +138,7 @@ public class HuodongItemAdapter extends BaseAdapter{
 //                }
 //            });
             Resources res=activity.getResources();
-            Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);
+           // Drawable usrimg=res.getDrawable(R.drawable.personal_default_photo);
 //            userIamgeSrc.setImageDrawable(usrimg);
             //Drawable mainpic=res.getDrawable(R.drawable.huodong_loading);
             praiseNum.setText(String.valueOf(item.getAClikenumber()));
@@ -146,6 +146,12 @@ public class HuodongItemAdapter extends BaseAdapter{
             userName.setText(item.getACtitle()+"");
             setTime.setText(item.getACstartT());
             describe.setText(item.getACcontent());
+
+            if (item.getUserliked()==0)
+                huodongPraise.setSelected(false);
+            else
+                huodongPraise.setSelected(true);
+
 
             final Handler handler=new Handler(){
                 @Override
