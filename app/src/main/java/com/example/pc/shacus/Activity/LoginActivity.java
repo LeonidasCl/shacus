@@ -67,11 +67,17 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
             -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
 
+//    @Override
+//    public void onBackPressed(){
+//        super.onBackPressed();
+//        //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//        finish();
+//    }
+
     @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-        //startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        //finish();
+    protected void onRestart() {
+        super.onRestart();
+        finish();
     }
 
     @Override

@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //将这个toolbar设置为actionBar
         setSupportActionBar(toolbar);
         cache=ACache.get(this);
-
         actbar=getSupportActionBar();
         if (actbar!=null)
         actbar.setDisplayShowTitleEnabled(false);
@@ -435,6 +434,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
             finish();
+            return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);

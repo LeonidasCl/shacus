@@ -102,7 +102,6 @@
             android:src="@drawable/personal_default_photo"
             />
         <RelativeLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
@@ -111,11 +110,12 @@
                 android:focusableInTouchMode="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:text="@string/title_holder"
                 android:textColor="@color/ee_black"
                 android:layout_marginStart="5dp"
-                android:layout_above="@+id/APstartT"/>
+                android:layout_above="@+id/APstartT"
+                android:layout_marginBottom="-5dp"/>
             <TextView
                 android:id="@+id/APstartT"
                 android:layout_gravity="bottom"

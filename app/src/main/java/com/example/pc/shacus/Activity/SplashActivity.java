@@ -2,6 +2,7 @@ package com.example.pc.shacus.Activity;
 
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
