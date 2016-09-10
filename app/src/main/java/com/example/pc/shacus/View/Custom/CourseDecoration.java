@@ -1,7 +1,7 @@
 package com.example.pc.shacus.View.Custom;
 
 /**
- * Created by 启凡 on 2016/9/7.
+ * Created by 孙启凡 on 2016/9/7.
  */
 import android.content.Context;
 import android.content.res.TypedArray;

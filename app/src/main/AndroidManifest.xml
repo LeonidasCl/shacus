@@ -49,12 +49,14 @@
             android:name=".Activity.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
+
+        <intent-filter>
                 <action android:name="android.intent.action.LOGINACTIVITY"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activity.SplashActivity"
             android:label="@string/app_name"
@@ -76,11 +78,12 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
+
         <activity android:name=".Activity.SignInActivity"/>
         <activity android:name=".Activity.ChatActivity"/>
         <activity android:name=".Activity.FollowActivity"/>
         <activity android:name=".Activity.FavoritemActivity"/>
-        <activity android:name=".Activity.CoursesActivity"/>
         <activity android:name=".Activity.WorksActiviy"/>
         <activity android:name=".Activity.OrdersActivity"/>
         <activity android:name=".Activity.ShareActivity"/>
@@ -88,10 +91,13 @@
         <activity android:name=".Activity.CoursesActivity_item"/>
         <activity android:name=".Activity.OrdersItemActivity"/>
         <activity android:name=".Activity.OtherUserActivity"/>
-        <activity android:name=".Activity.OtherCourseActivity"/>
         <activity android:name=".Activity.SelectUserActivity"/>
         <activity
             android:name=".Activity.TagAddActivity"
+            android:theme="@android:style/Theme.Holo.Dialog"/>
+
+        <activity
+            android:name=".Activity.RateActivity"
             android:theme="@android:style/Theme.Holo.Dialog"/>
         <activity android:name=".Activity.PersonalInfoActivity"/>
         <activity android:name=".Activity.PersonalInfoEditActivity"/>
@@ -106,7 +112,7 @@
             android:theme="@style/Theme.AppCompat"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
-            <intent-filter>
+        <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
@@ -115,8 +121,24 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.CoursesActivity"
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme.CoursesActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.COURSESACTIVITY"/>
 
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+        </activity>
+        <activity android:name=".Activity.OtherCourseActivity"
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme.CoursesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.COURSESACTIVITY"/>
 
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

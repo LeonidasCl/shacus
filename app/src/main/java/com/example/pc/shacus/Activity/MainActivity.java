@@ -1,6 +1,7 @@
 package com.example.pc.shacus.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -25,6 +26,8 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
 import com.bumptech.glide.Glide;
+import io.rong.imlib.model.UserInfo;
+
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -128,11 +131,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //initLocalData();
 
         initNetworkData();
-        try {
-            isLogin=manageLogin();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+        isLogin=manageLogin();
+
         initView();
         //这个是父布局，也就是这个Activity的根布局
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
@@ -158,13 +159,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+
         fragmentTrs=fragmentMgr.beginTransaction();
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
 
 
-        RongIM.connect(user.getChattoken(), new RongIMClient.ConnectCallback(){
+        RongIM.connect(user.getChattoken(), new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
                 Log.e(TAG, "-----onTokenIncorrect-----");
@@ -181,6 +184,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e(TAG, "-----onError-----" + errorCode);
             }
         });
+
+        //提供用户信息信息信息
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+            @Override
+            public UserInfo getUserInfo(String s) {
+                ACache cache = ACache.get(getApplicationContext());
+                LoginDataModel loginModel = (LoginDataModel) cache.getAsObject("loginModel");
+                String uid = loginModel.getUserModel().getId();
+                String nickname = loginModel.getUserModel().getNickName();
+                String avatar = loginModel.getUserModel().getHeadImage();
+                return new UserInfo(uid, nickname, Uri.parse(avatar));
+            }
+        }, true);
 
     }
 
@@ -225,11 +241,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        try {
+
             isLogin=manageLogin();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         String hint=intent.getStringExtra("result");
         CommonUtils.getUtilInstance().showToast(APP.context, hint);
         yuePaiFragment.getRankFrag().doRefresh();
@@ -245,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private boolean manageLogin() throws JSONException {
+    private boolean manageLogin(){
         ACache cache=ACache.get(MainActivity.this);
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         user=loginModel.getUserModel();

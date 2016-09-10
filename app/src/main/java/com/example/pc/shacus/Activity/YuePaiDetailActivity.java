@@ -1,5 +1,7 @@
 package com.example.pc.shacus.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -84,9 +86,18 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 if (isSponsor==1){//是自己发布的
                     if (position==0){
                         CommonUtils.getUtilInstance().showToast(getApplicationContext(),"不能报名自己发布的约拍");
-                }if (position==1){
-                    //取消约拍
                 }
+                    if (position==1){
+                    //取消约拍
+                        if (data.getACstatus()==0){
+                            Map map=new HashMap();
+                            map.put("type",StatusCode.CANCEL_YUEPAI);
+                            map.put("acid",data.getACid());
+                            map.put("uid",userModel.getId());
+                            map.put("authkey",userModel.getAuth_key());
+                            request.httpRequest(map,CommonUrl.createActivityInfo);
+                }
+                    }
                 }
                 if (isSponsor==0){//是别人发布的
                     if (position==0){
@@ -121,9 +132,20 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (isSponsor==1){//是自己发布的
                     if (position==0){
-                        CommonUtils.getUtilInstance().showToast(getApplicationContext(),"不能报名自己发布的约拍");
-                    }if (position==1){
-                        //取消约拍
+                        CommonUtils.getUtilInstance().showToast(getApplicationContext(),"不能报名自己发布的活动");
+                    }
+                    if (position==1){
+                        //取消活动
+                        if (data.getACstatus()==0){
+                            Map map=new HashMap();
+                            map.put("type",StatusCode.CANCEL_HUODONG);
+                            map.put("acid",data.getACid());
+                            map.put("uid",userModel.getId());
+                            map.put("authkey",userModel.getAuth_key());
+                            request.httpRequest(map,CommonUrl.createActivityInfo);
+                        }else {
+                            CommonUtils.getUtilInstance().showToast(getApplicationContext(),"该活动已开始或已结束，无法取消");
+                        }
                     }
                 }
                 if (isSponsor==0){//是别人发布的
@@ -176,6 +198,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     private int viewpagerPosition;
     private TextView position_in_total;
     private boolean isBigImageShow=false;
+    private YuePaiDetailActivity self;
 
 
 
@@ -197,6 +220,8 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
         String uid=userModel.getId();
+
+        self=this;
 
         Map map=new HashMap();
         map.put("authkey", authKey);
@@ -230,6 +255,42 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (msg.what==StatusCode.REQUEST_FAILURE){
                     CommonUtils.getUtilInstance().showToast(APP.context, (String) msg.obj);
+                    //finish();
+                    return;
+                }
+
+                if (msg.what==StatusCode.REQUEST_FINISH_YUEPAI_SUCCESS){
+                    CommonUtils.getUtilInstance().showLongToast(APP.context, "约拍完成！请给对方作出评价！");
+                    finish();
+                    Intent intent = new Intent(YuePaiDetailActivity.this, RateActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                if (msg.what==StatusCode.REQUEST_FINISH_HUODONG_SUCCESS){
+                    CommonUtils.getUtilInstance().showLongToast(APP.context, "活动成功结束！");
+                    finish();
+                    Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                if (msg.what==StatusCode.REQUEST_FINISH_JOIN_HUODONG_SUCCESS){
+                    CommonUtils.getUtilInstance().showLongToast(APP.context, "已经终止报名！");
+                    finish();
+                    Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                if (msg.what==StatusCode.REQUEST_CANCEL_HUODONG_SUCCESS){
+                    CommonUtils.getUtilInstance().showLongToast(APP.context, "取消成功！该活动已经无效！");
+                    finish();
+                    return;
+                }
+
+                if (msg.what==StatusCode.REQUEST_CANCEL_YUEPAI_SUCCESS){
+                    CommonUtils.getUtilInstance().showLongToast(APP.context, "取消成功！该约拍已经无效！");
                     finish();
                     return;
                 }
@@ -247,7 +308,6 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (msg.what== StatusCode.PRAISE_HUODONG_SUCCESS){
                     btn_praise.setSelected(true);
-                    //praiseNum=(TextView)findViewById(R.id.tv_praise_num);
                     praiseNum.setText(data.getAClikenumber()+"");
                 }
 
@@ -288,13 +348,14 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 }
 
 
-                if (msg.what==StatusCode.REQUEST_DETAIL_SUCCESS){
+                if (msg.what==StatusCode.REQUEST_YUEPAI_DETAIL_SUCCESS){
 
                     data=(YuePaiDataModel)msg.obj;
                     isSponsor=data.getAP_issponsor();
                     selectJoinUser=(Button)findViewById(R.id.btn_select_join);
                     if (isSponsor==1){
-                        selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                        if (data.getAPstatus()==0){//0:报名中
+                        selectJoinUser.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View view){
                                 Intent intent=new Intent(getApplicationContext(),SelectUserActivity.class);
@@ -312,6 +373,44 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                                 startActivity(intent);
                             }
                         });
+                        selectJoinUser.setText("选择报名用户");
+                        }
+                        if (data.getAPstatus()==1){//1:已选择报名人，可以完成
+                            selectJoinUser.setOnClickListener(new View.OnClickListener(){
+                                @Override
+                                public void onClick(View view){
+                                    new AlertDialog.Builder(self).setTitle("完成约拍")
+                                            .setMessage("确定完成约拍吗？" +"\n此操作不可撤销！")
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which){//确定按钮响应事件
+                                                    ACache aCache = ACache.get(self);
+                                                    LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                                                    UserModel content = loginDataModel.getUserModel();
+                                                    String myid = content.getId();
+                                                    String authkey = content.getAuth_key();
+                                                    int apid = data.getAPid();
+                                                    Map map=new HashMap();
+                                                    map.put("apid",apid);
+                                                    map.put("authkey",authkey);
+                                                    map.put("uid", myid);
+                                                    map.put("type", StatusCode.REQUEST_FINISH_YUEPAI);
+                                                    dialog.dismiss();
+                                                    request.httpRequest(map, CommonUrl.getOrdersInfo);
+                                                }
+                                            }).setNegativeButton("不", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                                }
+                            });
+                            selectJoinUser.setText("完成约拍");
+                        }
+                        if (data.getAPstatus()==2){//1:已正常结束
+                            selectJoinUser.setVisibility(View.GONE);
+                        }
                     }
                     if (isSponsor==0){
                         selectJoinUser.setVisibility(View.GONE);
@@ -385,6 +484,83 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     isSponsor=data.getAC_issponsor();
                     selectJoinUser=(Button)findViewById(R.id.btn_select_join);
                     if (isSponsor==1){
+                        if (data.getACstatus()==0){
+                        /*selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent=new Intent(getApplicationContext(),SelectUserActivity.class);
+                                if (typo.equals("yuepai"))
+                                {
+                                    intent.putExtra("apid",data.getAPid());
+                                    intent.putExtra("type","yuepai");
+                                    intent.putExtra("title",data.getAPtitle());
+                                }
+                                else {
+                                    intent.putExtra("acid",data.getACid());
+                                    intent.putExtra("type","huodong");
+                                    intent.putExtra("title",data.getACtitle());
+                                }
+                                startActivity(intent);
+                            }
+                        });
+                        selectJoinUser.setText("查看报名用户");*/
+                            selectJoinUser.setOnClickListener(new View.OnClickListener(){
+                                @Override
+                                public void onClick(View view) {
+                                    ACache aCache = ACache.get(self);
+                                    LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                                    UserModel content = loginDataModel.getUserModel();
+                                    String myid = content.getId();
+                                    String authkey = content.getAuth_key();
+                                    int acid = data.getACid();
+                                    Map map=new HashMap();
+                                    map.put("acid",acid);
+                                    map.put("authkey",authkey);
+                                    map.put("uid", myid);
+                                    map.put("type", StatusCode.REQUEST_FINISH_JOIN_HUODONG);
+                                    request.httpRequest(map, CommonUrl.finishHuodong);
+                                }
+                            });
+                            selectJoinUser.setText("结束报名");
+                        }
+                        if (data.getACstatus()==1){
+                            selectJoinUser.setOnClickListener(new View.OnClickListener(){
+                                @Override
+                                public void onClick(View view){
+                                    new AlertDialog.Builder(self).setTitle("完成活动")
+                                            .setMessage("确定完成活动吗？" +"\n此操作不可撤销！")
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which){//确定按钮响应事件
+                                                    ACache aCache = ACache.get(self);
+                                                    LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                                                    UserModel content = loginDataModel.getUserModel();
+                                                    String myid = content.getId();
+                                                    String authkey = content.getAuth_key();
+                                                    int acid = data.getACid();
+                                                    Map map=new HashMap();
+                                                    map.put("acid",acid);
+                                                    map.put("authkey",authkey);
+                                                    map.put("uid", myid);
+                                                    map.put("type", StatusCode.REQUEST_FINISH_HUODONG);
+                                                    dialog.dismiss();
+                                                    request.httpRequest(map, CommonUrl.finishHuodong);
+                                                }
+                                            }).setNegativeButton("不", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                                }
+                            });
+                            selectJoinUser.setText("完成活动");
+                        }
+                        if (data.getACstatus()==2){
+                            selectJoinUser.setVisibility(View.GONE);
+                        }
+                    }
+                    if (isSponsor==0){
                         selectJoinUser.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -405,9 +581,6 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         });
                         selectJoinUser.setText("查看报名用户");
                     }
-                    if (isSponsor==0){
-                        selectJoinUser.setText("查看报名用户");
-                    }
 
                     horizontalScrollView = (HorizontalScrollView) findViewById(R.id.join_user_scroll);
                     gridView = (GridView) findViewById(R.id.grid_join_user_scroll);
@@ -425,7 +598,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         btn_praise.setSelected(false);
                     else
                         btn_praise.setSelected(true);
-                    btn_praise.setOnClickListener(new View.OnClickListener() {
+                    btn_praise.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view) {
                             //点赞
@@ -508,8 +681,60 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 selectJoinUser.setText("完成约拍");
                 selectJoinUser.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-
+                    public void onClick(View view){
+                        if (typo.equals("yuepai")){
+                        new AlertDialog.Builder(self).setTitle("完成约拍")
+                                .setMessage("确定完成约拍吗？" +"\n此操作不可撤销！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which){//确定按钮响应事件
+                                        ACache aCache = ACache.get(self);
+                                        LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                                        UserModel content = loginDataModel.getUserModel();
+                                        String myid = content.getId();
+                                        String authkey = content.getAuth_key();
+                                        int apid = data.getAPid();
+                                        Map map=new HashMap();
+                                        map.put("apid",apid);
+                                        map.put("authkey",authkey);
+                                        map.put("uid", myid);
+                                        map.put("type", StatusCode.REQUEST_FINISH_YUEPAI);
+                                        dialog.dismiss();
+                                        request.httpRequest(map, CommonUrl.getOrdersInfo);
+                                    }
+                                }).setNegativeButton("不", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                        }else {
+                            new AlertDialog.Builder(self).setTitle("完成活动")
+                                    .setMessage("确定完活动拍吗？" +"\n此操作不可撤销！")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which){//确定按钮响应事件
+                                            ACache aCache = ACache.get(self);
+                                            LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                                            UserModel content = loginDataModel.getUserModel();
+                                            String myid = content.getId();
+                                            String authkey = content.getAuth_key();
+                                            int acid = data.getACid();
+                                            Map map=new HashMap();
+                                            map.put("acid",acid);
+                                            map.put("authkey",authkey);
+                                            map.put("uid", myid);
+                                            map.put("type", StatusCode.REQUEST_FINISH_HUODONG);
+                                            dialog.dismiss();
+                                            request.httpRequest(map, CommonUrl.finishHuodong);
+                                        }
+                                    }).setNegativeButton("不", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }
                     }
                 });
             }
@@ -583,14 +808,14 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         if (requestUrl.equals(CommonUrl.getYuePaiInfo)){
           JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-             if (code==StatusCode.REQUEST_DETAIL_SUCCESS){
+             if (code==StatusCode.REQUEST_YUEPAI_DETAIL_SUCCESS){
                 JSONObject content=object.getJSONObject("contents");
                 Gson hson=new Gson();
                  if (type==StatusCode.REQUEST_YUEPAI_DETAIL)
                  {
                     YuePaiDataModel data=hson.fromJson(content.toString(), YuePaiDataModel.class);
                     Message msg=handler.obtainMessage();
-                    msg.what= StatusCode.REQUEST_DETAIL_SUCCESS;
+                    msg.what= StatusCode.REQUEST_YUEPAI_DETAIL_SUCCESS;
                     msg.obj=data;
                     handler.sendMessage(msg);
                      return;
@@ -684,7 +909,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_JOIN_YUEPAI_SUCCESS;
                 //msg.obj=object.getString("contents");
-                data.setAPregistN(Integer.valueOf(joinNum.getText().toString()) +1);
+                data.setAPregistN(Integer.valueOf(joinNum.getText().toString()) + 1);
                 handler.sendMessage(msg);
                 return;
             }
@@ -692,7 +917,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             if (code==StatusCode.CANCEL_JOIN_SUCCESS){
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.CANCEL_JOIN_SUCCESS;
-                data.setAPregistN(Integer.valueOf(joinNum.getText().toString()) -1);
+                data.setAPregistN(Integer.valueOf(joinNum.getText().toString()) - 1);
                 handler.sendMessage(msg);
                 return;
             }
@@ -755,6 +980,73 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             handler.sendMessage(msg);
             return;
         }
+
+        if (requestUrl.equals(CommonUrl.createActivityInfo)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code==StatusCode.REQUEST_CANCEL_HUODONG_SUCCESS){
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_CANCEL_HUODONG_SUCCESS;
+                handler.sendMessage(msg);
+                return;
+            }
+
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
+            return;
+        }
+
+
+        if (requestUrl.equals(CommonUrl.createYuePaiInfo)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code==StatusCode.REQUEST_CANCEL_YUEPAI_SUCCESS){
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_CANCEL_YUEPAI_SUCCESS;
+                handler.sendMessage(msg);
+                return;
+            }
+
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
+            return;
+        }
+
+        if (requestUrl.equals(CommonUrl.getOrdersInfo)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code==StatusCode.REQUEST_FINISH_YUEPAI_SUCCESS){
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FINISH_YUEPAI_SUCCESS;
+                handler.sendMessage(msg);
+                return;
+            }
+
+            if (code==StatusCode.REQUEST_FINISH_JOIN_HUODONG_SUCCESS){
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FINISH_JOIN_HUODONG_SUCCESS;
+                handler.sendMessage(msg);
+                return;
+            }
+
+            if (code==StatusCode.REQUEST_FINISH_HUODONG_SUCCESS){
+                Message msg=handler.obtainMessage();
+                msg.what= StatusCode.REQUEST_FINISH_HUODONG_SUCCESS;
+                handler.sendMessage(msg);
+                return;
+            }
+
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
+            return;
+        }
+
     }
 
     @Override
@@ -798,7 +1090,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             }
 
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            public void onPageScrolled(int arg0, float arg1, int arg2){
 
             }
         });
@@ -819,7 +1111,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     }
 
     @Override
-    public void onDismissBigPhoto() {
+    public void onDismissBigPhoto(){
         display_big_image_layout.setVisibility(View.GONE);
         isBigImageShow=false;
     }

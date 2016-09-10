@@ -90,6 +90,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by pc on 2016/7/26.
@@ -790,7 +791,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
         for (int i=0;i<uploadImgUrlList.size();i++){
             String[] ext=uploadImgUrlList.get(i).split("\\.");
             String extention="."+ext[ext.length-1];
-            String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+extention;
+            String filename=user.getPhone()+"/"+uploadImgUrlList.get(i).hashCode()+new Random(System.nanoTime()).toString()+extention;
             imgList.add(filename);
             list.add(String.valueOf("\""+filename+"\""));
         }
