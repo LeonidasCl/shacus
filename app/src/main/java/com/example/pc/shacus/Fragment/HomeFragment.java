@@ -97,17 +97,19 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                     CommonUtils.getUtilInstance().showToast(APP.context, "请重新登陆");
                     break;
                 }
-                case StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS:
+                /*case StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS:
                 {
+                    initInfo();
                     CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
                     break;
                 }
                 case StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS:
                 {
+                    initInfo();
                     CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏");
                     initInfo();
                     break;
-                }
+                }*/
             }
         }
     };
@@ -149,7 +151,7 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                     break;
                 }
             }
-        }else if(requestUrl.equals(CommonUrl.aboutFavorDongTai)){
+        }/*else if(requestUrl.equals(CommonUrl.aboutFavorDongTai)){
             Log.d("aaaaaaaaaaaa","收藏动态");
             JSONObject object = new JSONObject(result);
             int code  = Integer.valueOf(object.getString("code"));
@@ -165,7 +167,7 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
                     break;
                 }
             }
-        }
+        }*/
 
     }
 

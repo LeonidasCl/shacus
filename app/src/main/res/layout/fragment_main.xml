@@ -11,14 +11,16 @@
             android:scrollbars="none"
             android:id="@+id/first_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="495dp"
             android:divider="@color/gray_color_99999a"
             android:dividerHeight="1dp">
 
         </ListView>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
+            android:text="wwwwwwwwwwwww"
+            android:textColor="@color/transparent"
             android:background="@color/transparent"
             />
 

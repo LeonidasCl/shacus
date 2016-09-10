@@ -212,7 +212,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
          * setCount()       每个Tab的标签页布局
          */
         mTabHost.addTab(mTabHost.newTabSpec("yuepai").setContent(R.id.favoritem_tab1).setIndicator("约拍"));
-        mTabHost.addTab(mTabHost.newTabSpec("huodong").setContent(R.id.favoritem_tab2).setIndicator("作品"));
+        mTabHost.addTab(mTabHost.newTabSpec("dongtai").setContent(R.id.favoritem_tab2).setIndicator("动态"));
         //mTabHost.addTab(mTabHost.newTabSpec("works").setContent(R.id.favoritem_works).setIndicator("作品"));
         mTabHost.setCurrentTab(0);
         //初始化Tab的颜色，和字体的颜色
