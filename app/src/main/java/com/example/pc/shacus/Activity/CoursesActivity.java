@@ -336,7 +336,7 @@ ImageView collect;
 
             }
             if (msg.what==StatusCode.REQUEST_DISCOLLECT_SUCCESS){
-
+                CommonUtils.getUtilInstance().showToast(APP.context, "已取消收藏");
 
             }
             if (msg.what==StatusCode.REQUEST_DISCOLLECT_ALREADY){
@@ -374,7 +374,7 @@ ImageView collect;
 
             }
             if(msg.what==StatusCode.REQUEST_COLLECT_SUCCESS){
-
+                CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
             }
             if(msg.what==StatusCode.REQUEST_COLLECT_ALREADY){
                 CommonUtils.getUtilInstance().showToast(APP.context, "已收藏过此课程");
