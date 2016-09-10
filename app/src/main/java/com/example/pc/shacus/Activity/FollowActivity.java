@@ -244,6 +244,7 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
                         userModel.setHeadImage(following.getString("uimgurl"));
                         userModel.setId(following.getString("uid"));
                         userModel.setNickName(following.getString("ualais"));
+                        userModel.setSign(following.getString("usign").substring(0,10) + "···");
                         userList.add(userModel);
                     }
                     msg.what = StatusCode.REQUEST_FOLLOWING_SUCCESS;

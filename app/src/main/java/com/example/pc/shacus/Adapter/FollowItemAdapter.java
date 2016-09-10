@@ -122,11 +122,11 @@ public class FollowItemAdapter extends BaseAdapter{
         UserModel userModel = followlist.get(position);
         if(type.equals("following"))
             viewHolder.usersignatureText.setText(userModel.getSign());
+
         viewHolder.userNameText.setText(userModel.getNickName());
         //获取用户头像
         Glide.with(activity)
                 .load(followlist.get(position).getHeadImage())
-                .placeholder(R.drawable.holder)
                 .error(R.drawable.holder)
                 .into(viewHolder.userImageSrc);
 

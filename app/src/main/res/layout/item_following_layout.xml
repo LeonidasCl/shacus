@@ -16,6 +16,7 @@
         app:border_color="#00000000"/>
 
     <TextView
+        android:textColor="@color/ee_black"
         android:textSize="16sp"
         android:text="我的好友"
         android:layout_width="wrap_content"
@@ -34,11 +35,11 @@
         android:text="我的签名"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/following_user_image"
-        android:layout_alignBottom="@+id/following_user_image"/>
+        android:layout_alignBottom="@+id/following_user_image" />
 
     <Button
-        android:textColor="@color/white"
-        android:background="@drawable/shape_round"
+        android:textColor="@color/ee_black"
+        android:background="@drawable/shape_button"
         android:text="已关注"
         android:textSize="14sp"
         android:id="@+id/followedbtn"
