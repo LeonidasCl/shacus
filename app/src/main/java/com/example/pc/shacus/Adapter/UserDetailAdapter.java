@@ -76,7 +76,6 @@ public class UserDetailAdapter extends BaseAdapter{
 
             Glide.with(selectUserActivity)
                     .load(userModelList.get(position).getHeadImage()).fitCenter()
-                    .placeholder(R.drawable.holder)
                     .into(viewHolder.userImageSrc);
             viewHolder.userNameText.setText(userModelList.get(position).getNickName());
             viewHolder.usersignatureText.setText(userModelList.get(position).getSign());

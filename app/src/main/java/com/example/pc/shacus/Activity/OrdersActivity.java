@@ -312,7 +312,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerViewAdapter1 = new RecyclerViewAdapter(ordersItemList1,OrdersActivity.this);
                     recyclerView1.setAdapter(recyclerViewAdapter1);
                     message.what = 100;
-                    this.sendMessageDelayed(message, 500);
+                    this.sendMessageDelayed(message, 1000);
                     break;
                 }
                 case  StatusCode.REQUEST_DOING_SUCCESS:
@@ -323,7 +323,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerViewAdapter2 = new RecyclerViewAdapter(ordersItemList2,OrdersActivity.this);
                     recyclerView2.setAdapter(recyclerViewAdapter2);
                     message.what = 200;
-                    this.sendMessageDelayed(message, 500);
+                    this.sendMessageDelayed(message, 1000);
                     break;
                 }
                 case  StatusCode.REQUEST_DONE_SUCCESS:
@@ -334,7 +334,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     recyclerViewAdapter3 = new RecyclerViewAdapter(ordersItemList3,OrdersActivity.this);
                     recyclerView3.setAdapter(recyclerViewAdapter3);
                     message.what = 300;
-                    this.sendMessageDelayed(message, 500);
+                    this.sendMessageDelayed(message,1000);
                     break;
                 }
                 case StatusCode.REQUEST_ORDER_ERROR:
@@ -604,6 +604,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setType(myat.getString("yuepai"));
                             ordersItemList3.add(ordersModel);
                         }
                     }else index++;
@@ -620,6 +621,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setType(myat.getString("yuepai"));
                             ordersItemList3.add(ordersModel);
                         }
 
@@ -636,6 +638,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setStartTime(myat.getString("ACstartT"));
                             ordersModel.setLikeNum(myat.getInt("AClikeN"));
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
+                            ordersModel.setType(myat.getString("huodong"));
                             ordersItemList3.add(ordersModel);
                         }
                     }else index++;

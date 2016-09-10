@@ -29,8 +29,8 @@
         android:layout_toEndOf="@+id/follower_user_image" />
 
     <Button
-        android:background="@drawable/shape_round"
-        android:textColor="@color/white"
+        android:background="@drawable/shape_button"
+        android:textColor="@color/ee_black"
         android:textSize="14sp"
         android:id="@+id/followingbtn"
         android:layout_alignParentEnd="true"

@@ -277,7 +277,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                         recyclerViewAdapter1 = new RecyclerViewAdapter(favorItemList1,FavoritemActivity.this);
                         recyclerView1.setAdapter(recyclerViewAdapter1);
                         message.what = 100;
-                        this.sendMessageDelayed(message, 500);
+                        this.sendMessageDelayed(message, 1000);
                     }
                     break;
                 }
@@ -317,7 +317,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     recyclerViewAdapter2 = new RecyclerViewAdapter(favorItemList2,FavoritemActivity.this);
                     recyclerView2.setAdapter(recyclerViewAdapter2);
                     message.what = 200;
-                    this.sendMessageDelayed(message, 500);
+                    this.sendMessageDelayed(message, 1000);
                     break;
                 }
                 case 200:
