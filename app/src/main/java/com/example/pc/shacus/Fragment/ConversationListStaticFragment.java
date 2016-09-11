@@ -22,7 +22,7 @@ public class ConversationListStaticFragment extends Fragment {
     View view;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if(debugFlag){
          view= inflater.inflate(R.layout.conversationlist,container,false);
         debugFlag=false;}
@@ -31,7 +31,7 @@ public class ConversationListStaticFragment extends Fragment {
         fragment = (ConversationListFragment) getChildFragmentManager().findFragmentById(R.id.conversationlist);
         Uri uri = Uri.parse("rong://" + getActivity().getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
-                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
+                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false")//设置私聊会话是否聚合显示
                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
