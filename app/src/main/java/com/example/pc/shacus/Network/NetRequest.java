@@ -36,6 +36,7 @@ public class NetRequest {
 	public void httpRequest(Map<String, Object> map, final String requestUrl) {
 		if (!CommonUtils.getUtilInstance().isConnectingToInternet(context)) {
 			Toast.makeText(context, context.getString(R.string.internet_fail_connect),Toast.LENGTH_LONG).show();
+			netRequestIterface.exception(null, requestUrl);
 			return;
 		}
 
