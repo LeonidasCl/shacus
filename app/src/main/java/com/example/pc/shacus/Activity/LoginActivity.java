@@ -274,8 +274,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             public void handleMessage(Message msg){
                 if (msg.what==StatusCode.REQUEST_FAILURE){
                     //Looper.prepare();
-                    CommonUtils.getUtilInstance().showToast(APP.context, (String)msg.obj);
                     loginProgressDlg.cancel();
+                    CommonUtils.getUtilInstance().showToast(APP.context, (String)msg.obj);
                     //Looper.loop();
                     //finish();
                     return;
