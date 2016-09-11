@@ -245,7 +245,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     Log.d("LQQQQQQQQQ", "personAdapter.notifyDataSetChanged();");
                     getYuePaiFlag = false;
                 }
-                if (!mainScrollControl && firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() > -20) {
+                if (!mainScrollControl && firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() > -10) {
                     ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
                 Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
                         "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());
@@ -270,7 +270,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
 
 //                    Log.e("logout.topmargin", layoutParam.topMargin + "");
-                if (mainScrollControl && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() < -280 && absListView.getChildAt(0).getTop() != 0) {//hide
+                if (mainScrollControl && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() < -290 && absListView.getChildAt(0).getTop() != 0) {//hide
                     ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
                     Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
                             "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());

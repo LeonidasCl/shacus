@@ -31,19 +31,43 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="110dp"
+
         android:background="#99323232"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ItemName1"
+            android:textSize="28dp"
+            android:text="222222222222"
+            android:textColor="#ffffff"
+            android:layout_marginStart="26dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"/>
     <TextView
+        android:visibility="invisible"
         android:id="@+id/ItemName"
         android:text="xxxx(视频教程)"
         android:textSize="30sp"
         android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/ItemSeeNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="已完成"
+            android:textSize="15dp"
+            android:layout_alignBottom="@id/ItemName"
+            android:layout_alignStart="@+id/imageView" />
+
+
+
 
         <ImageView
             android:visibility="invisible"
@@ -52,8 +76,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@color/transparent"
-            android:layout_alignBottom="@+id/ItemName"
-            android:layout_alignStart="@+id/CollectItem" />
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@id/ItemName"/>
 
         <ImageView
             android:visibility="invisible"
@@ -62,69 +86,53 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@color/transparent"
-            android:layout_marginEnd="42dp"
-            android:layout_alignTop="@+id/cancelCollectItem"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignBottom="@+id/ItemCollectNum"
+            android:layout_toEndOf="@+id/ItemName1" />
+        <TextView
+            android:id="@+id/ItemCollectNum"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="111"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/CollectItem" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/shoucang"
+                    android:id="@+id/imageView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toEndOf="@id/ItemCollectNum"/>
+
+
+
+        <TextView
+            android:id="@+id/ItemViewNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="100"
+            android:textColor="@color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/imageView" />
+        <TextView
+            android:id="@+id/ItemViewNum1"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="10"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="true"
+          android:layout_toEndOf="@id/imageView" />
+
 
     </RelativeLayout>
 
 </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:background="#30000000">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="             "/>
-            <TextView
-                android:id="@+id/ItemViewNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17dp"
-                android:text="10"
-                android:layout_gravity="center"
-                android:textColor="#ffffff"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="人已观看"
-                android:textSize="17dp"
-                android:layout_gravity="center"
-                android:textColor="#ffffff" />
-            </LinearLayout>
-            <View
-                android:layout_width="1dip"
-                android:layout_height="match_parent"
-                android:background="#ffffff"
-                android:layout_gravity="center_horizontal"
-                />
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/ItemSeeNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:text="已完成"
-                    android:layout_marginRight="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
-            </RelativeLayout>
-        </LinearLayout>
     </LinearLayout>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp"

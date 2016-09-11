@@ -1,6 +1,7 @@
 package com.example.pc.shacus.Activity;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.Util.DisplayUtil;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
 
@@ -92,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //将这个toolbar设置为actionBar
         setSupportActionBar(toolbar);
         cache=ACache.get(this);
-
         actbar=getSupportActionBar();
         if (actbar!=null)
         actbar.setDisplayShowTitleEnabled(false);
@@ -129,8 +130,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             window.setStatusBarColor(getResources().getColor(R.color.gold));
             //设置导航栏颜色
             window.setNavigationBarColor(getResources().getColor(R.color.gold));
+
         }
         //initLocalData();
+//        Point pt=DisplayUtil.getWindowSize(this);
+//        int x=DisplayUtil.px2dip(this,pt.x);
+//        int y=DisplayUtil.px2dip(this,pt.y);
 
         initNetworkData();
 
@@ -164,6 +169,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         fragmentTrs=fragmentMgr.beginTransaction();
+//        conversationListStaticFragment = new ConversationListStaticFragment();
+//        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
+        conversationListStaticFragment = new ConversationListStaticFragment();
+        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
+        fragmentTrs.hide(conversationListStaticFragment);
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
@@ -435,6 +445,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
             finish();
+            return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
