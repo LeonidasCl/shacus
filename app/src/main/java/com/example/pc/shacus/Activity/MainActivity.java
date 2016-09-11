@@ -46,6 +46,7 @@ import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.DisplayUtil;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import org.json.JSONException;
 
@@ -199,7 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         //MainActivity.OnCreate(此时已登录)
-
+//        TencentLocationRequest request = TencentLocationRequest.create();
+//        request.toString();
 
     }
 
