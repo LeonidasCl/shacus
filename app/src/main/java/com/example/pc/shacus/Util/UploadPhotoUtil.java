@@ -40,9 +40,6 @@ public class UploadPhotoUtil<MultipartEntity> {
 
         String fileString = "";
         try {
-            Log.d("gaolei",
-                    "file.length()------------------------"
-                            + new Date(System.currentTimeMillis()));
             Bitmap bitmap = trasformToZoomBitmapAndLessMemory(filePath);// ת��ͼƬ
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(CompressFormat.PNG, 100, bos);

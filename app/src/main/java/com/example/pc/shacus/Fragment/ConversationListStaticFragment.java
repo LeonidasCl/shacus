@@ -20,14 +20,11 @@ public class ConversationListStaticFragment extends Fragment {
     ConversationListFragment fragment;
     boolean debugFlag;
     View view;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if(debugFlag){
          view= inflater.inflate(R.layout.conversationlist,container,false);
         debugFlag=false;}
-
-
         fragment = (ConversationListFragment) getChildFragmentManager().findFragmentById(R.id.conversationlist);
         Uri uri = Uri.parse("rong://" + getActivity().getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
@@ -40,11 +37,9 @@ public class ConversationListStaticFragment extends Fragment {
         fragment.setUri(uri);
         return  view;
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         debugFlag=true;
     }
-
 }
