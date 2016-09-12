@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textName.setText(user.getNickName());
 
             MenuItem PersonInfo= (MenuItem) navigationView.getMenu().findItem(R.id.nav_personalInfo);
+            PersonInfo.setIcon(R.drawable.personal);
             navigationView.setNavigationItemSelectedListener(this);
             Resources resources=getBaseContext().getResources();
             ColorStateList csl=resources.getColorStateList(R.color.ee_white);
@@ -458,9 +459,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.nav_orderList) {
             Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_message) {
-
-        } else if (id == R.id.nav_myConcern) {
+        }  else if (id == R.id.nav_myConcern) {
             Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
             intent.putExtra("user","myself");
             intent.putExtra("activity","following");
