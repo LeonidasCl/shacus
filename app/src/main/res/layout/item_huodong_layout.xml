@@ -36,15 +36,15 @@
         <TextView
             android:id="@+id/huodong_settime"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingEnd="10dp"
+            android:paddingEnd="5dp"
             android:maxLines="1"
             android:textSize="12sp"
             android:textColor="#000000"
             android:text="@string/huodong_settime"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/huodong_username"/>
 
     </RelativeLayout>
 

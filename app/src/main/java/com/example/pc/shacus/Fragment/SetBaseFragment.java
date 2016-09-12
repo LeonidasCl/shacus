@@ -163,17 +163,18 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         final EditText UN=new EditText(this.getActivity());
         UN.setMaxLines(1);
         UN.setText("");
-//        UN.setFocusable(true);
-//        UN.setFocusableInTouchMode(true);
-//        UN.requestFocus();
-//        //自动弹出键盘
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            public void run() {
-//                InputMethodManager inputManager = (InputMethodManager) UN.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                inputManager.showSoftInput(UN, 0);
-//            }
-//        }, 500);
+        UN.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        UN.setFocusable(true);
+        UN.setFocusableInTouchMode(true);
+        UN.requestFocus();
+        //自动弹出键盘
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                InputMethodManager inputManager = (InputMethodManager) UN.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(UN, 0);
+            }
+        }, 500);
 
 
         switch (i) {
@@ -186,7 +187,6 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //修改旧密码
-                                UN.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                 if(UN.getText().toString().equals("")||UN.getText().toString().length()<6)
                                 {
                                     Message msg=handler.obtainMessage();
@@ -215,7 +215,6 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //输入新密码
-                                UN.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                 if(UN.getText().toString().equals("")||UN.getText().toString().length()<6)
                                 {
                                     Message msg=handler.obtainMessage();
@@ -240,7 +239,6 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //确认新密码
-                                UN.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                 if (UN.getText().toString().equals("") || UN.getText().toString().length() < 6) {
                                     Message msg = handler.obtainMessage();
                                     msg.what = StatusCode.STATUS_ERROR;

@@ -9,7 +9,7 @@
             />
         <item
             android:id="@+id/nav_orderList"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/orders"
             android:title="我的订单"/>
         <item
             android:id="@+id/nav_myConcern"
@@ -27,6 +27,10 @@
             android:id="@+id/nav_Setting"
             android:icon="@drawable/setting"
             android:title="设置"/>
+        <item
+            android:id="@+id/nav_sharing"
+            android:icon="@drawable/share"
+            android:title="分享"/>
         <item
             android:id="@+id/nav_Logout"
             android:icon="@drawable/exit"

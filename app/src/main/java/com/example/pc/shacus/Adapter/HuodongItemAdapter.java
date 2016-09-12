@@ -144,7 +144,13 @@ public class HuodongItemAdapter extends BaseAdapter{
             praiseNum.setText(String.valueOf(item.getAClikenumber()));
             joinNum.setText(String.valueOf(item.getACregistN()));
             userName.setText(item.getACtitle()+"");
-            setTime.setText(item.getACstartT());
+            String []time=item.getACstartT().split("T");
+            String str="";
+            for (int i = 0; i < time.length; i++) {
+                str+=time[i];
+                str+="  ";
+            }
+            setTime.setText(str);
             describe.setText(item.getACcontent());
 
             if (item.getUserliked()==0)

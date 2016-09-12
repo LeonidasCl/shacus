@@ -65,6 +65,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //Author:LQ
 //Time:9.1
@@ -152,7 +154,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                 case TAKE_PICTURE:
                     //在这里处理，获取拍到的图
                     Bitmap bitmap= UploadPhotoUtil.getInstance()
-                            .trasformToZoomBitmapAndLessMemory(takePictureUrl);
+                            .trasformToZoomPhotoAndLessMemory(takePictureUrl);
                     BitmapDrawable bd=new BitmapDrawable(getResources(),bitmap);
                     addPicture=bd;
                     userImage.setImageDrawable(addPicture);
@@ -166,7 +168,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                         CommonUtils.getUtilInstance().showToast(PersonalInfoEditActivity.this,"不支持此格式的上传");
                         break;
                     }
-                    Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(photo_local_file_path);
+                    Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomPhotoAndLessMemory(photo_local_file_path);
                     addPicture=new BitmapDrawable(getResources(), bitmap2);
                     takePictureUrl=photo_local_file_path;
                     userImage.setImageDrawable(addPicture);
@@ -251,6 +253,13 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                 //传入数据
                 if(userName.getText().toString().equals("")||userEmail.getText().toString()=="") {
                     Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+                Pattern regex = Pattern.compile(check);
+                Matcher matcher = regex.matcher(userEmail.getText());
+                if(!matcher.matches()){
+                    Toast.makeText(this, "邮箱格式不正确", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 String result=checkChange();

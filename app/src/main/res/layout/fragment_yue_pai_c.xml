@@ -28,7 +28,6 @@
             indexview:pageNavigationViewLayoutId="@layout/page_navigation_view_layout"
             indexview:contentHeadViewLayoutId="@layout/content_head_view_layout"
             indexview:contentViewLayoutId="@layout/content_view_layout">
-
         </com.example.pc.shacus.View.MoveHideView>
 
     </android.support.percent.PercentFrameLayout>

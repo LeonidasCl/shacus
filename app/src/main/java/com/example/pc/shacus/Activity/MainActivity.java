@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -229,12 +233,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userSign.setText(user.getSign());
             textName.setText(user.getNickName());
 
-            MenuItem PersonInfo= (MenuItem) navigationView.getMenu().findItem(R.id.nav_personalInfo);
-            PersonInfo.setIcon(R.drawable.personal);
-            navigationView.setNavigationItemSelectedListener(this);
-            Resources resources=getBaseContext().getResources();
-            ColorStateList csl=resources.getColorStateList(R.color.ee_white);
-            navigationView.setItemTextColor(csl);
+//            MenuItem PersonInfo= navigationView.getMenu().findItem(R.id.nav_personalInfo);
+//            Drawable ico=PersonInfo.getIcon();
+//            ico.setAlpha(Color.BLUE);
+//            navigationView.setNavigationItemSelectedListener(this);
+//            Resources resources=getBaseContext().getResources();
+//            ColorStateList csl=resources.getColorStateList(R.color.ee_white);
+//            navigationView.setItemTextColor(csl);
 //            navigationView.setItemBackground(this.getResources().getDrawable(R.drawable.blackblack));
             Glide.with(getApplicationContext())
                     .load(user.getHeadImage()).centerCrop()
@@ -476,6 +481,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (id == R.id.nav_Setting) {
             Intent intent=new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent);
+        }else if(id==R.id.nav_sharing){
+            Intent intent=new Intent(getApplicationContext(),ShareActivity.class);
             startActivity(intent);
         } else if(id==R.id.nav_Logout){
             //登出请求

@@ -31,7 +31,7 @@
             android:id="@+id/relativeLayout">
             <ImageButton
                 android:id="@+id/btn_back"
-                android:background="@drawable/downarrow"
+                android:background="@drawable/button_back"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"/>
