@@ -77,6 +77,8 @@
     <style name="MatchMatch">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <!-- 指示点背景 -->
+        <item name="banner_pointDrawable">@drawable/guide_banner_selector_point_hollow</item>
     </style>
 
     <!-- 约拍导航页面的style -->

@@ -683,7 +683,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             String result=intent.getStringExtra("result");
             if (result.equals("success")){
                 selectJoinUser.setText("完成约拍");
-                selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                selectJoinUser.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
                         if (typo.equals("yuepai")){
@@ -949,7 +949,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     handler.sendMessage(msg);
                     return;
                 }
-            }else {
+            }else{
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_FAILURE;
                 msg.obj=object.getString("contents");
