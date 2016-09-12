@@ -174,7 +174,11 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                         JSONObject user = content.getJSONObject(i);
                         UserModel userModel = new UserModel();
                         userModel.setHeadImage(user.getString("uimage"));
-                        userModel.setSign(user.getString("usign").substring(0,10) + "···");
+                        String str = user.getString("sign");
+                        if (str.length()>10){
+                            str = str.substring(0,10) + "···";
+                        }
+                        userModel.setSign(str);
                         userModel.setId(user.getString("uid"));
                         userModel.setNickName(user.getString("ualais"));
                         if(user.getInt("uchoosed")==1) userModel.setIndex(true);
@@ -200,7 +204,11 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                         JSONObject user = detail.getJSONObject(i);
                         UserModel userModel = new UserModel();
                         userModel.setHeadImage(user.getString("headImage"));
-                        userModel.setSign(user.getString("sign").substring(0,10) + "···");
+                        String str = user.getString("sign");
+                        if (str.length()>10){
+                            str = str.substring(0,10) + "···";
+                        }
+                        userModel.setSign(str);
                         userModel.setId(user.getString("id"));
                         userModel.setNickName(user.getString("alais"));
                         userModelList.add(userModel);

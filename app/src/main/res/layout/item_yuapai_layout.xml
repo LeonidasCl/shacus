@@ -18,7 +18,6 @@
         android:scaleType="centerInside"
         android:layout_gravity="center_horizontal"
         app:layout_marginBottomPercent="16%"
-
         />
 
     <TextView
