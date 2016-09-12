@@ -15,9 +15,9 @@
         android:orientation="horizontal">
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/button_back"
             android:id="@+id/return1"
             android:background="@color/gold"/>
         <TextView

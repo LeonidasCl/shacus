@@ -103,7 +103,7 @@ public class HuodongItemAdapter extends BaseAdapter{
         TextView userName;
         TextView setTime;
         TextView describe;
-        ImageButton huodongJoin;
+        ImageView huodongJoin;
         ImageButton huodongPraise;
 
         public ViewHolder(View view) {
@@ -114,7 +114,7 @@ public class HuodongItemAdapter extends BaseAdapter{
             userName=(TextView)view.findViewById(R.id.huodong_username);
             setTime=(TextView)view.findViewById(R.id.huodong_settime);
             describe=(TextView)view.findViewById(R.id.huodong_describe);
-            huodongJoin=(ImageButton)view.findViewById(R.id.huodong_join);
+            huodongJoin=(ImageView)view.findViewById(R.id.huodong_mainimg);
             huodongPraise=(ImageButton)view.findViewById(R.id.huodong_praise);
         }
 

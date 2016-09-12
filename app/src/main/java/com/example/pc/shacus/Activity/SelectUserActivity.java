@@ -200,7 +200,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                         JSONObject user = detail.getJSONObject(i);
                         UserModel userModel = new UserModel();
                         userModel.setHeadImage(user.getString("headImage"));
-                        userModel.setSign(user.getString("usign").substring(0,10) + "···");
+                        userModel.setSign(user.getString("sign").substring(0,10) + "···");
                         userModel.setId(user.getString("id"));
                         userModel.setNickName(user.getString("alais"));
                         userModelList.add(userModel);
