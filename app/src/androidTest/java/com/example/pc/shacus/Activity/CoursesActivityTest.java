@@ -1,3 +1,4 @@
+/*
 package com.example.pc.shacus.Activity;
 
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -19,9 +20,11 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+*/
 /**
  * Created by LQ on 2016/8/29.
- */
+ *//*
+
 @RunWith(AndroidJUnit4.class)
 public class CoursesActivityTest {
 
@@ -39,4 +42,4 @@ public class CoursesActivityTest {
 //        onView(withId(R.id.listView_course)).perform(click());
 //        Thread.sleep(25000);
 //    }
-}
+}*/

@@ -20,12 +20,16 @@ import android.widget.Toast;
 
 import com.example.pc.shacus.Adapter.CardAdapter;
 import com.example.pc.shacus.Data.Model.YuePaiDataModel;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.View.Custom.CardView;
 import com.example.pc.shacus.View.Custom.MatrixView;
 import com.example.pc.shacus.View.FloatMenu.FilterMenu;
 import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +38,7 @@ import java.util.List;
  * 约拍子界面A（二级页面，约拍模特）
  * Created by pc on 2016/7/13.
  */
-public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickListener {
+public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickListener,NetworkCallbackInterface.NetRequestIterface {
 
     private ListView headerlist;
     public static final int HEADLIST_NUM=17;
@@ -43,6 +47,7 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
             R.drawable.p0,
             R.drawable.getnew,
             R.drawable.p1,
+
             R.drawable.p2,
             R.drawable.p2
             ,R.drawable.p3,
@@ -215,6 +220,16 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 
     public void setEventflag(int eventflag) {
         this.eventflag = eventflag;
+    }
+
+    @Override
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+
+    }
+
+    @Override
+    public void exception(IOException e, String requestUrl) {
+
     }
 
 

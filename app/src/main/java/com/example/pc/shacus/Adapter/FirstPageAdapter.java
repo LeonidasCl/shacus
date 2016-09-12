@@ -118,11 +118,9 @@ public class FirstPageAdapter extends  BaseAdapter{
         public void setValues(final ItemModel itemModel){
             Glide.with(context)
                     .load(itemModel.getImage()).fitCenter()
-                    .placeholder(R.drawable.test)
                     .into(viewHolder.bigImage);
             Glide.with(context)
                     .load(itemModel.getUserImage()).fitCenter()
-                    .placeholder(R.drawable.holder)
                     .into(viewHolder.userImage);
             detial.setText(itemModel.getDetial());
             liken.setText(Integer.toString(itemModel.getLikeNum()));
@@ -130,15 +128,26 @@ public class FirstPageAdapter extends  BaseAdapter{
             time.setText(itemModel.getStartTime());
             title.setText(itemModel.getTitle());
 
+            if(itemModel.getIndex() == 1){
+                //已收藏
+                likebtn.setImageResource(R.drawable.likedafter);
+            }else if (itemModel.getIndex() == 0){
+                //未收藏
+                likebtn.setImageResource(R.drawable.heart);
+            }
+
             final Handler handler = new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     if (msg.what == StatusCode.REQUEST_ADD_FAVORDONGTAI_SUCCESS){
                         liken.setText(String.valueOf(itemModel.getLikeNum()));
+
+                        likebtn.setImageResource(R.drawable.likedafter);
                         CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
                     }else if(msg.what == StatusCode.REQUEST_CANCEL_FAVORDONGTAI_SUCCESS){
                         liken.setText(String.valueOf(itemModel.getLikeNum()));
+                        likebtn.setImageResource(R.drawable.heart);
                         CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏");
                     }
                 }
@@ -190,9 +199,11 @@ public class FirstPageAdapter extends  BaseAdapter{
                     map.put("trendid", itemModel.getId());
                     if(itemModel.getIndex() == 1){
                         //已收藏
+                        likebtn.setImageResource(R.drawable.likedafter);
                         map.put("type", StatusCode.REQUEST_CANCEL_FAVORDONGTAI);
                     }else if (itemModel.getIndex() == 0){
                         //未收藏
+                        likebtn.setImageResource(R.drawable.heart);
                         map.put("type", StatusCode.REQUEST_ADD_FAVORDONGTAI);
                     }
                     netRequest.httpRequest(map, CommonUrl.aboutFavorDongTai);

@@ -271,6 +271,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     CommonUtils.getUtilInstance().showLongToast(APP.context, "活动成功结束！");
                     finish();
                     Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+                    intent.putExtra("page","3");
                     startActivity(intent);
                     return;
                 }
@@ -279,6 +280,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     CommonUtils.getUtilInstance().showLongToast(APP.context, "已经终止报名！");
                     finish();
                     Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+                    intent.putExtra("page","2");
                     startActivity(intent);
                     return;
                 }
