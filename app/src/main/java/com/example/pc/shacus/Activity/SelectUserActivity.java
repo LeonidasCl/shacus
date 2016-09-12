@@ -145,8 +145,8 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                     /*发intent*/
                     Intent intent = new Intent(SelectUserActivity.this, YuePaiDetailActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    intent.putExtra("type","selectuser");
-                    intent.putExtra("result","success");
+                    intent.putExtra("type","yuepai");
+                    intent.putExtra("detail",String.valueOf(id));
                     finish();
                     startActivity(intent);
                 }

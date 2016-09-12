@@ -40,9 +40,6 @@ public class UploadPhotoUtil<MultipartEntity> {
 
         String fileString = "";
         try {
-            Log.d("gaolei",
-                    "file.length()------------------------"
-                            + new Date(System.currentTimeMillis()));
             Bitmap bitmap = trasformToZoomBitmapAndLessMemory(filePath);// ת��ͼƬ
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(CompressFormat.PNG, 100, bos);
@@ -73,7 +70,7 @@ public class UploadPhotoUtil<MultipartEntity> {
     }
 
     /* 如果有些手机拍照反转，读取角度*/
-    public int readPictureDegree(String path) {
+    public int readPictureDegree(String path){
         int degree = 0;
         try {
             ExifInterface exifInterface = new ExifInterface(path);

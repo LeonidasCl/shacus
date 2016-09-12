@@ -11,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.UploadPhotoUtil;
@@ -50,12 +52,13 @@ public class ImageDisplayFragment extends Fragment implements OnClickListener{
 		//拿到放入的图片地址
 		String imageUrl=getArguments().getString("url");
 
-		if(showNetImg){
-		CommonUtils.getUtilInstance().displayNetworkImage(imageUrl, display_big_image);
-		}else{
-			Bitmap bitmap= UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(imageUrl);
-			display_big_image.setImageDrawable(new BitmapDrawable(getActivity().getResources(),bitmap));
-		}
+//		if(showNetImg){
+//		CommonUtils.getUtilInstance().displayNetworkImage(imageUrl, display_big_image);
+//		}else{
+//			Bitmap bitmap= UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(imageUrl);
+//			display_big_image.setImageDrawable(new BitmapDrawable(getActivity().getResources(),bitmap));
+//		}
+		Glide.with(APP.context).load(imageUrl).into(display_big_image);
 	}
 
 	@Override

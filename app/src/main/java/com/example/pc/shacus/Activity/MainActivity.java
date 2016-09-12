@@ -178,20 +178,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-
-        fragmentTrs=fragmentMgr.beginTransaction();
-//        conversationListStaticFragment = new ConversationListStaticFragment();
-//        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
-        conversationListStaticFragment = new ConversationListStaticFragment();
-        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
-        fragmentTrs.hide(conversationListStaticFragment);
-        btn_yuepai.setSelected(true);
-        toYuePai();
-        fragmentTrs.commit();
-
-
-
         RongIM.connect(user.getChattoken(), new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
@@ -209,6 +195,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e(TAG, "-----onError-----" + errorCode);
             }
         });
+
+        fragmentTrs=fragmentMgr.beginTransaction();
+        conversationListStaticFragment = new ConversationListStaticFragment();
+        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
+        fragmentTrs.hide(conversationListStaticFragment);
+        btn_yuepai.setSelected(true);
+        toYuePai();
+        fragmentTrs.commit();
+
+
+
+
 
         //MainActivity.OnCreate(此时已登录)
 //        TencentLocationRequest request = TencentLocationRequest.create();

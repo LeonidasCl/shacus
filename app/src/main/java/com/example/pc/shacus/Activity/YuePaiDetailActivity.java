@@ -337,7 +337,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     return;
                 }
 
-                if (msg.what== StatusCode.CANCEL_JOIN_SUCCESS){//取消约拍报名
+                if (msg.what== StatusCode.CANCEL_JOIN_YUEPAI_SUCCESS){//取消约拍报名
                     CommonUtils.getUtilInstance().showToast(APP.context, "取消报名成功");
                     joinNum.setText(data.getAPregistN()+"");
                     return;
@@ -652,10 +652,10 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         @Override
         public void onClickBannerItem(int position){
                     if(typo.equals("yuepai"))
-                        showImageViewPager(position, data.getAPimgurl(), data.getAPimgurl(), "local", "upload");
+                        showImageViewPager(position, data.getAPimgurl(), data.getAPimgurl(), "net", "upload");
                     else
-                        showImageViewPager(position, data.getACimageurl(), data.getACimageurl(), "local", "upload");
-                    viewpagerPosition = position - 1;
+                        showImageViewPager(position, data.getACimageurl(), data.getACimageurl(), "nte", "upload");
+                    viewpagerPosition = position ;
                 }
             }
         );
@@ -916,9 +916,9 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 return;
             }
 
-            if (code==StatusCode.CANCEL_JOIN_SUCCESS){
+            if (code==StatusCode.CANCEL_JOIN_YUEPAI_SUCCESS){
                 Message msg=handler.obtainMessage();
-                msg.what= StatusCode.CANCEL_JOIN_SUCCESS;
+                msg.what= StatusCode.CANCEL_JOIN_YUEPAI_SUCCESS;
                 data.setAPregistN(Integer.valueOf(joinNum.getText().toString()) - 1);
                 handler.sendMessage(msg);
                 return;
@@ -1105,7 +1105,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         }else{
             image_viewpager.setCurrentItem(position - 1);
 
-            position_in_total.setText((position)+"/"+urlList.size());
+            position_in_total.setText((position+1)+"/"+urlList.size());
             isBigImageShow=true;
 
         }

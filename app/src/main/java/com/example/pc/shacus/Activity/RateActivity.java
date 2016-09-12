@@ -56,7 +56,11 @@ public class RateActivity extends Activity implements RatingBar.OnRatingBarChang
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CommonUtils.getUtilInstance().showLongToast(APP.context, "请到订单中进行评价");
                 finish();
+                Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+                intent.putExtra("page","3");
+                startActivity(intent);
             }
         });
 
