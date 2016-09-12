@@ -681,7 +681,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             String result=intent.getStringExtra("result");
             if (result.equals("success")){
                 selectJoinUser.setText("完成约拍");
-                selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                selectJoinUser.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
                         if (typo.equals("yuepai")){
