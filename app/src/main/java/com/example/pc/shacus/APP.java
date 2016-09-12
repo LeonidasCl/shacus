@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.SOSOLocationActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.RongCloudEvent;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -32,12 +34,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.LocationMessage;
-import io.rong.message.RichContentMessage;
 
 /**
  *
@@ -73,6 +73,14 @@ public class APP extends Application {
 
             @Override
             public boolean onMessageClick(Context context, View view, Message message) {
+
+                        if (message.getContent() instanceof LocationMessage) {
+            Intent intent = new Intent(context, SOSOLocationActivity.class);
+            intent.putExtra("location", message.getContent());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+
                 return false;
             }
 
@@ -138,6 +146,7 @@ public class APP extends Application {
                 return null;
             }//end getUserInfo
         }, true);//end setUserInfoProvider
+        RongCloudEvent.init(this);
 
     }//end APP.OnCreate()
 
@@ -145,25 +154,7 @@ public class APP extends Application {
     public static File cacheImageDir, photoDir;
     private static APP instance;
     public static int screenWidth, screenHeight;
-    public static String loginShare = "";
     public static Context applicationContext;
-    private String myName, myPhoto;
-
-    public String getMyName() {
-        return myName;
-    }
-
-    public void setMyName(String myName) {
-        this.myName = myName;
-    }
-
-    public String getMyPhoto() {
-        return myPhoto;
-    }
-
-    public void setMyPhoto(String myPhoto) {
-        this.myPhoto = myPhoto;
-    }
 
     public static synchronized APP getInstance() {
         if (instance == null) {
@@ -231,4 +222,15 @@ public class APP extends Application {
         super.onTerminate();
     }
 
+
+
+    private static RongIM.LocationProvider.LocationCallback mLastLocationCallback;
+
+    public static RongIM.LocationProvider.LocationCallback getLastLocationCallback() {
+        return mLastLocationCallback;
+    }
+
+    public static void setLastLocationCallback(RongIM.LocationProvider.LocationCallback lastLocationCallback) {
+        mLastLocationCallback = lastLocationCallback;
+    }
 }

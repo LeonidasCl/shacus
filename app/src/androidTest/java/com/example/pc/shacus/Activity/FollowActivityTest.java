@@ -1,3 +1,4 @@
+/*
 package com.example.pc.shacus.Activity;
 
 import android.support.test.rule.ActivityTestRule;
@@ -14,9 +15,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.*;
 
+*/
 /**
  * Created by cuicui on 2016/8/30.
- */
+ *//*
+
 
 public class FollowActivityTest {
 
@@ -34,4 +37,4 @@ public class FollowActivityTest {
         Thread.sleep(2000);
     }
 
-}
+}*/

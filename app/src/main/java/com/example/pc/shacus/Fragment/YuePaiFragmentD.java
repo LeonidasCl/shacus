@@ -152,7 +152,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     private void setListener(){
         button_grapher.setOnTouchListener(new View.OnTouchListener(){
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event){
                 if (isGrapher){
                 }else {
                     getYuePaiFlag=false;
@@ -345,7 +345,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
                 }, APP.context);
 
-                if (type == GRAPHER) {
+                if (type == GRAPHER){
                     Map<String, Object> map = new HashMap<>();
                     map.put("type", "10243");
                     map.put("authkey", data.getAuth_key());

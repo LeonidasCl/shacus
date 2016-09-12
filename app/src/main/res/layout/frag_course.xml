@@ -71,7 +71,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/downarrow"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

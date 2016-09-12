@@ -214,8 +214,8 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                     Map<String, String> map2=(HashMap<String, String>)msg.obj;
                     picToAdd=uploadImgUrlList.size();
                     if(uploadImgUrlList.size()>0){
-                        for(int i=0;picToAdd>0;picToAdd--,i++){
-                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(picToAdd-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
+                        for(int i=0,j=picToAdd;j>0;j--,i++ ){
+                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(j-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
                         }
                     }
                     show_upload_pic_layout.setVisibility(View.VISIBLE);
@@ -392,8 +392,8 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
         requestFragment=new NetRequest(this,getActivity());
         mTagContainerLayout = (TagContainerLayout) root.findViewById(R.id.tag_layout_huodong);
         List<String> list1 = new ArrayList<String>();
-        list1.add("Java");list1.add("C++");
-        list1.add("C#");list1.add("PHP");
+        list1.add("古典");list1.add("街拍");
+        list1.add("私房");list1.add("朋克风");
         mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
             public void onTagClick(final int position, String text) {
@@ -767,6 +767,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                         map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
                         map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
                         map.put("type",1);*/
+                        picToAdd-=1;
                         if (picToAdd == 0) {
                             Message msg = handler.obtainMessage();
                             msg.obj = map;

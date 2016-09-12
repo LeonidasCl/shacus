@@ -7,37 +7,29 @@
     tools:context="com.example.pc.shacus.Activity.ShareActivity"
     android:orientation="vertical"
     android:gravity="top"
-    android:background="#d6d4d4">
+    android:background="@color/ee_white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:background="#ffffff"
-        android:layout_marginTop="2dp">
-        <Button
+        android:background="@color/gold">
+        <ImageButton
             android:id="@+id/btn_back"
-            android:background="@drawable/downarrow"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:background="@drawable/button_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="5dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="邀请奖励"
+            android:text="分享"
+            android:textColor="#ffffff"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textSize="20sp" />
     </RelativeLayout>
 
-
-
-    <ImageView
-        android:id="@+id/shareBarCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,20 +38,52 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/shareBarCode"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"/>
+
 
     <TextView
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="分享给你的好友，赢取奖励吧~"
+        android:text="喜欢我们的app吗？分享给你的朋友吧~"
         android:layout_margin="40dp"
         android:layout_gravity="center"
-        android:textSize="25sp" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#ffffff"
-        android:text="分享给好友"/>
-
+        android:textColor="@color/ee_black"
+        android:textSize="14sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="官网"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#1500ff"
+            android:layout_gravity="center|bottom"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="|"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center|bottom"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务条款"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#1500ff"
+            android:layout_gravity="center|bottom"/>
+    </LinearLayout>
 </LinearLayout>

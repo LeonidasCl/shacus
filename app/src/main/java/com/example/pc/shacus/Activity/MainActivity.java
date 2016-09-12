@@ -1,10 +1,18 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +20,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +57,7 @@ import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.DisplayUtil;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import org.json.JSONException;
 
@@ -166,20 +178,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-
-        fragmentTrs=fragmentMgr.beginTransaction();
-//        conversationListStaticFragment = new ConversationListStaticFragment();
-//        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
-        conversationListStaticFragment = new ConversationListStaticFragment();
-        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
-        fragmentTrs.hide(conversationListStaticFragment);
-        btn_yuepai.setSelected(true);
-        toYuePai();
-        fragmentTrs.commit();
-
-
-
         RongIM.connect(user.getChattoken(), new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
@@ -198,8 +196,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        //MainActivity.OnCreate(此时已登录)
+        fragmentTrs=fragmentMgr.beginTransaction();
+        conversationListStaticFragment = new ConversationListStaticFragment();
+        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
+        fragmentTrs.hide(conversationListStaticFragment);
+        btn_yuepai.setSelected(true);
+        toYuePai();
+        fragmentTrs.commit();
 
+
+
+
+
+        //MainActivity.OnCreate(此时已登录)
+//        TencentLocationRequest request = TencentLocationRequest.create();
+//        request.toString();
 
     }
 
@@ -220,6 +231,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userSign.setText(user.getSign());
             textName.setText(user.getNickName());
 
+//            MenuItem PersonInfo= navigationView.getMenu().findItem(R.id.nav_personalInfo);
+//            Drawable ico=PersonInfo.getIcon();
+//            ico.setAlpha(Color.BLUE);
+//            navigationView.setNavigationItemSelectedListener(this);
+//            Resources resources=getBaseContext().getResources();
+//            ColorStateList csl=resources.getColorStateList(R.color.ee_white);
+//            navigationView.setItemTextColor(csl);
+//            navigationView.setItemBackground(this.getResources().getDrawable(R.drawable.blackblack));
             Glide.with(getApplicationContext())
                     .load(user.getHeadImage()).centerCrop()
 //                    .placeholder(R.drawable.holder)
@@ -231,6 +250,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(btnAvartar);
+//            //设置侧滑栏文字信息
+//            this.getLayoutInflater().setFactory(
+//                    new android.view.LayoutInflater.Factory(){
+//                        @Override
+//                        public View onCreateView(String name, Context context, AttributeSet attrs) {
+//                            if(name.equalsIgnoreCase("com.android.internal.view.menu.IconMenuItemView")
+//                                    || name.equalsIgnoreCase("com.android.internal.view.menu.ActionMenuItemView")){
+//                                try {
+//                                    LayoutInflater inflater=getLayoutInflater();
+//                                    final View view=inflater.createView(name,null,attrs);
+//                                    new Handler().post(new Runnable() {
+//                                        public void run() {
+//                                            // 设置背景图片
+//                                            view.setBackgroundResource(R.color.ee_white);
+//                                        }
+//                                    });
+//                                } catch (ClassNotFoundException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                            return null;
+//                        }
+//                    }
+//            );
+
 
             // 和设置缓存中
             SettingDataModel setModel = new SettingDataModel();
@@ -420,9 +464,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.nav_orderList) {
             Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_message) {
-
-        } else if (id == R.id.nav_myConcern) {
+        }  else if (id == R.id.nav_myConcern) {
             Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
             intent.putExtra("user","myself");
             intent.putExtra("activity","following");
@@ -437,6 +479,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (id == R.id.nav_Setting) {
             Intent intent=new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent);
+        }else if(id==R.id.nav_sharing){
+            Intent intent=new Intent(getApplicationContext(),ShareActivity.class);
             startActivity(intent);
         } else if(id==R.id.nav_Logout){
             //登出请求

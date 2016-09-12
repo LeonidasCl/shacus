@@ -146,7 +146,7 @@ public class YuePaiAdapter extends BaseAdapter{
                     .load(mainimg)
                     .centerCrop()
                     .placeholder(R.drawable.holder)
-                    .error(R.drawable.p1)
+                    .error(R.drawable.loading_error)
                     .into(mainPicture);
             //mainPicture.setImageDrawable(mainimg);
             praiseNum.setText(String.valueOf(item.getAPlikeN()));

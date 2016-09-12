@@ -12,9 +12,9 @@
         android:background="@color/gold">
         <ImageButton
             android:id="@+id/btn_back"
-            android:background="@drawable/downarrow"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
+            android:background="@drawable/button_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
             android:layout_centerVertical="true"/>
         <TextView

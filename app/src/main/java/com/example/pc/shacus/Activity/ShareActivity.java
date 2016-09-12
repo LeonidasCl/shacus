@@ -3,6 +3,8 @@ package com.example.pc.shacus.Activity;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -18,25 +20,28 @@ import java.util.Hashtable;
 //Author:LQ
 //time:8.30
 //分享界面（二级）
-public class ShareActivity extends AppCompatActivity  implements  NetworkCallbackInterface.NetRequestIterface{
+public class ShareActivity extends AppCompatActivity  implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
     private ImageView shareBarCode;
+    private ImageButton btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
+        btn_back= (ImageButton) findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(this);
 
 
         shareBarCode= (ImageView) findViewById(R.id.shareBarCode);
-        String url="http://bbs.ngacn.cc/thread.php?fid=188";
+        String url="http://shacus.cn";
         create2DBarCodeBitmap(url);
     }
 
     //创建二维码
     private Bitmap create2DBarCodeBitmap(String url) {
         try {
-            int QR_WIDTH=500,QR_HEIGHT=500;
+            int QR_WIDTH=600,QR_HEIGHT=600;
             //判断URL合法性
             if (url == null || "".equals(url) || url.length() < 1)
             {
@@ -46,6 +51,9 @@ public class ShareActivity extends AppCompatActivity  implements  NetworkCallbac
             hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
             //图像矩阵转换
             BitMatrix bitMatrix = new QRCodeWriter().encode(url, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT, hints);
+            bitMatrix=deleteWhite(bitMatrix);
+            QR_HEIGHT=bitMatrix.getHeight();
+            QR_WIDTH=bitMatrix.getWidth();
             int[] pixels = new int[QR_WIDTH * QR_HEIGHT];
             //下面这里按照二维码的算法，生成二维码的图片
             for (int y = 0; y < QR_HEIGHT; y++)
@@ -74,6 +82,22 @@ public class ShareActivity extends AppCompatActivity  implements  NetworkCallbac
         return null;
     }
 
+    private BitMatrix deleteWhite(BitMatrix bitMatrix) {
+        int[] rec = bitMatrix.getEnclosingRectangle();
+        int resWidth = rec[2] + 1;
+        int resHeight = rec[3] + 1;
+
+        BitMatrix resMatrix = new BitMatrix(resWidth, resHeight);
+        resMatrix.clear();
+        for (int i = 0; i < resWidth; i++) {
+            for (int j = 0; j < resHeight; j++) {
+                if (bitMatrix.get(i + rec[0], j + rec[1]))
+                    resMatrix.set(i, j);
+            }
+        }
+        return resMatrix;
+    }
+
     @Override
     public void requestFinish(String result, String requestUrl) {
 
@@ -82,5 +106,14 @@ public class ShareActivity extends AppCompatActivity  implements  NetworkCallbac
     @Override
     public void exception(IOException e, String requestUrl) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_back:
+                finish();
+                break;
+        }
     }
 }
