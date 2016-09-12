@@ -134,13 +134,13 @@ public class YuePaiAdapter extends BaseAdapter{
 //            });
             APTitle.setText(item.getAPtitle());
             APstartT.setText(item.getAPstartT());
-            String []time=item.getAPstartT().split("T");
+            /*String []time=item.getAPstartT().split("T");
             String str="";
             for (int i = 0; i < time.length; i++) {
                 str+=time[i];
                 str+="  ";
-            }
-            APstartT.setText(str);
+            }*/
+            APstartT.setText(item.getAPstartT()+"");
             String mainimg=item.getAPimgurl();
             Glide.with(activity)
                     .load(mainimg)
