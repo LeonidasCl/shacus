@@ -122,7 +122,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
             netRequest.httpRequest(map, CommonUrl.askYuepai);
         }else if(index == StatusCode.REQUEST_HUODONG_DETAIL){
             map.put("type",StatusCode.REQUEST_HUODONG_DETAIL);
-            map.put("ACid",id);
+            map.put("acid",id);
             netRequest.httpRequest(map, CommonUrl.getHuodongList);
         }
         Log.d("aaaaa", String.valueOf(id));
@@ -174,14 +174,13 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                         JSONObject user = content.getJSONObject(i);
                         UserModel userModel = new UserModel();
                         userModel.setHeadImage(user.getString("uimage"));
-                        userModel.setSign(user.getString("usign"));
+                        userModel.setSign(user.getString("usign").substring(0,10) + "···");
                         userModel.setId(user.getString("uid"));
                         userModel.setNickName(user.getString("ualais"));
                         if(user.getInt("uchoosed")==1) userModel.setIndex(true);
                         else userModel.setIndex(false);
                         userModelList.add(userModel);
                     }
-                    Log.d("sssssss",object.toString());
                     msg.what = StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS;
                     handler.sendMessage(msg);
                     break;
@@ -191,7 +190,6 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         else if(requestUrl.equals(CommonUrl.getHuodongList)){
             JSONObject object = new JSONObject(result);
             int code  = Integer.valueOf(object.getString("code"));
-            Log.d("aaaaaaa",object.toString());
             switch (code){
                 case StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS:
                 {
@@ -201,13 +199,12 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                     for (int i = 0; i < detail.length();i++){
                         JSONObject user = detail.getJSONObject(i);
                         UserModel userModel = new UserModel();
-                        userModel.setHeadImage(user.getString("UserImage"));
-                        userModel.setSign(user.getString("sign"));
-                        userModel.setId(user.getString("Userid"));
+                        userModel.setHeadImage(user.getString("headImage"));
+                        userModel.setSign(user.getString("usign").substring(0,10) + "···");
+                        userModel.setId(user.getString("id"));
                         userModel.setNickName(user.getString("alais"));
                         userModelList.add(userModel);
                     }
-                    Log.d("sssssss",object.toString());
                     msg.what = StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS;
                     handler.sendMessage(msg);
                     break;

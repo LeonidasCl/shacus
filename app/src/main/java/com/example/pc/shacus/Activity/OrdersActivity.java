@@ -169,6 +169,8 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
             mTabHost.setCurrentTab(0);
         }else if (page.equals("3")){
             mTabHost.setCurrentTab(2);
+        }else if(page.equals("2")){
+            mTabHost.setCurrentTab(1);
         }
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.orders_backbtn);
@@ -572,7 +574,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setStartTime(myat.getString("ACstartT"));
                             ordersModel.setLikeNum(myat.getInt("AClikeN"));
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
-                            ordersModel.setType("activity");
+                            ordersModel.setType("huodong");
                             ordersItemList2.add(ordersModel);
                         }
                     }else index++;
@@ -604,7 +606,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType(myat.getString("yuepai"));
+                            ordersModel.setType("yuepai");
                             ordersItemList3.add(ordersModel);
                         }
                     }else index++;
@@ -621,7 +623,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setLikeNum(myat.getInt("APlikeN"));
                             ordersModel.setUserImage(myat.getString("Userimg"));
                             ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType(myat.getString("yuepai"));
+                            ordersModel.setType("yuepai");
                             ordersItemList3.add(ordersModel);
                         }
 
@@ -638,7 +640,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                             ordersModel.setStartTime(myat.getString("ACstartT"));
                             ordersModel.setLikeNum(myat.getInt("AClikeN"));
                             ordersModel.setRegistNum(myat.getInt("ACregistN"));
-                            ordersModel.setType(myat.getString("huodong"));
+                            ordersModel.setType("huodong");
                             ordersItemList3.add(ordersModel);
                         }
                     }else index++;

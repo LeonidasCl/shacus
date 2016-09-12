@@ -1,3 +1,4 @@
+/*
 package com.example.pc.shacus.Activity;
 
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -18,9 +19,11 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+*/
 /**
  * Created by pc on 2016/4/24.
- */
+ *//*
+
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
 
@@ -38,4 +41,4 @@ public class LoginActivityTest {
 
     }
 
-}
+}*/
