@@ -245,8 +245,8 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
                         userModel.setId(following.getString("uid"));
                         userModel.setNickName(following.getString("ualais"));
                         String str = following.getString("usign");
-                        if (str.length()>10){
-                            str = str.substring(0,10) + "···";
+                        if (str.length()>12){
+                            str = str.substring(0,12) + "...";
                         }
                         userModel.setSign(str);
                         userList.add(userModel);
