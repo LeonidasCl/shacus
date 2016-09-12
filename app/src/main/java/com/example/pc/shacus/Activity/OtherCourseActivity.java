@@ -61,14 +61,14 @@ public class OtherCourseActivity  extends AppCompatActivity implements  NetworkC
 
     UserModel user = null;
     String url=null;
-    private FrameLayout loading4;
+    //private FrameLayout loading4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_othercourse);
 
-        loading4 = (FrameLayout)findViewById(R.id.wait_loading_layout);
-        loading4.setVisibility(View.VISIBLE);
+      //  loading4 = (FrameLayout)findViewById(R.id.wait_loading_layout);
+       // loading4.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
         String type = intent.getStringExtra("tid");
         tid=type;
@@ -151,22 +151,22 @@ private Handler handler=new Handler(){
         if(msg.what==StatusCode.REQUEST_KIND_SECCESS){
 
             initInfo();
-            try {
-                Thread.sleep(2 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(2 * 1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
       //      sendMessageDelayed(msg,10000);
-            loading4.setVisibility(View.GONE);
+         //   loading4.setVisibility(View.GONE);
         }
         if(msg.what==StatusCode.REQUEST_COURSE_MORE_COURSES_SUCCESS){
             initInfo();
-            try {
-                Thread.sleep(2 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            loading4.setVisibility(View.GONE);
+//            try {
+//                Thread.sleep(2 * 1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+          //  loading4.setVisibility(View.GONE);
         }
         if (msg.what==StatusCode.REQUEST_KIND_FAIL){
             CommonUtils.getUtilInstance().showToast(APP.context, "请求失败");
@@ -213,13 +213,14 @@ private Handler handler=new Handler(){
             map1.put("cid", itemid);
             map1.put("type", StatusCode.REQUEST_DISCOLLECT_COURSE);
             netRequest.httpRequest(map1, CommonUrl.courseFav);
+            CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏成功");
             finish();
             Intent intent=new Intent(OtherCourseActivity.this,OtherCourseActivity.class);
             intent.putExtra("tid",tid);
             startActivity(intent);
         }
         if (msg.what==StatusCode.REQUEST_DISCOLLECT_SUCCESS){
-            CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏成功");
+
             finish();
             Intent intent=new Intent(OtherCourseActivity.this,OtherCourseActivity.class);
             startActivity(intent);
@@ -256,13 +257,14 @@ private Handler handler=new Handler(){
             map1.put("cid", itemid);
             map1.put("type", StatusCode.REQUEST_COLLECT_COURSE);
             netRequest.httpRequest(map1, CommonUrl.courseFav);
+            CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
             finish();
             Intent intent=new Intent(OtherCourseActivity.this,OtherCourseActivity.class);
             intent.putExtra("tid",tid);
             startActivity(intent);
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_SUCCESS){
-            CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功");
+
         }
         if(msg.what==StatusCode.REQUEST_COLLECT_ALREADY){
             CommonUtils.getUtilInstance().showToast(APP.context, "已收藏过此课程");

@@ -55,7 +55,7 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
 
     private int itemid;
 
-    private FrameLayout loading6;
+   // private FrameLayout loading6;
     private ACache aCache;
     private NetRequest netRequest;
     String userId = null;
@@ -69,7 +69,7 @@ public class UndoCourseFragment extends Fragment implements NetworkCallbackInter
         View view=inflater.inflate(R.layout.fragment_undocourse,container,false);
         aCache=ACache.get(getActivity());
 
-        loading6=(FrameLayout)view.findViewById(R.id.wait_loading_layout);
+     //   loading6=(FrameLayout)view.findViewById(R.id.wait_loading_layout);
         recyclerView1=(RecyclerView)view.findViewById(R.id.undorecyclerView);
         courseItemList1 = new ArrayList<>();
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
@@ -97,12 +97,12 @@ private Handler handler=new Handler(){
 
             initInfo();
            // sendMessageDelayed(msg,10000);
-            try {
-                Thread.sleep(2 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        loading6.setVisibility(View.GONE);
+//            try {
+//                Thread.sleep(2 * 1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+       // loading6.setVisibility(View.GONE);
     }
     if (msg.what==StatusCode.REQUEST_UNDO_FAIL){
         CommonUtils.getUtilInstance().showToast(APP.context, "请求失败！");
@@ -181,7 +181,7 @@ private Handler handler=new Handler(){
                         coursesModel.setImage(course.getString("CimageUrl"));
                         coursesModel.setItemid(course.getInt("Cid"));
                         coursesModel.setValid(course.getInt("Cvalid"));
-                        coursesModel.setLikeNum(course.getInt("Cliked"));
+                        coursesModel.setLikeNum(course.getInt("CfavN"));
                         coursesModel.setCollet(1);
                         coursesModel.setKind(2);
                         courseItemList1.add(coursesModel);

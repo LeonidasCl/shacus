@@ -115,6 +115,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Re
         list1.add(holder.collectItem);
         list1.add(holder.cancel);
         list1.add(holder.collectNum);
+        list1.add(courseModelList.get(position).getKind());
         holder.collectItem.setTag(list1);
         holder.cancel.setTag(list1);
         holder.cancel.setOnClickListener((View.OnClickListener) context);

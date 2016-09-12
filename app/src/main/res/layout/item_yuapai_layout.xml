@@ -33,6 +33,7 @@
        	 />
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/yuepai_time"
         android:singleLine="true"
         android:layout_width="wrap_content"

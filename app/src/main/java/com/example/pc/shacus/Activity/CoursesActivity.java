@@ -69,6 +69,8 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
     String userId = null;
     String authkey = null;
 
+    private UndoCourseFragment undoCourseFragment;
+    private FinishedCourseFragment finishedCourseFragment;
     UserModel user = null;
     String url=null;
 
@@ -100,6 +102,8 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
         netRequest=new NetRequest(this,this);
 
+        undoCourseFragment=new UndoCourseFragment();
+        finishedCourseFragment=new FinishedCourseFragment();
 
 
 
@@ -109,8 +113,8 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         TabLayout tabLayout = (TabLayout)findViewById(R.id.discover_tab_bar);
         mPager = (ViewPager) findViewById(R.id.discover_viewPager);
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new UndoCourseFragment());
-        fragments.add(new FinishedCourseFragment());
+        fragments.add(undoCourseFragment);
+        fragments.add(finishedCourseFragment);
         CommonPagerAdapter adapter = new CommonPagerAdapter(getSupportFragmentManager(), fragments);
         mPager.setAdapter(adapter);
 
@@ -120,7 +124,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
         tab = tabLayout.newTab();
         tab.setText("完成课程");
         tabLayout.addTab(tab);
-        tabLayout.setTabTextColors(Color.WHITE, Color.BLACK);
+        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
         tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
 
 
@@ -247,6 +251,7 @@ public class CoursesActivity extends AppCompatActivity implements  NetworkCallba
 private int itemCollect;
 ImageView collect;
     ImageView cancel;
+    int kind;
     @Override
     public void onClick(View v) {
         List list = new ArrayList();
@@ -267,6 +272,7 @@ ImageView collect;
             itemCollect=(int)list.get(3);
             collect=(ImageView)list.get(4);
             cancel=(ImageView)list.get(5);
+            kind=(int)list.get(7);
             if (itemCollect == 1) {
 
             //    collect.setImageResource(R.drawable.button_pop_down);
@@ -315,6 +321,7 @@ ImageView collect;
                 CommonUtils.getUtilInstance().showToast(APP.context, "教程不存在！");
             }
             if (msg.what==StatusCode.REQUEST_DISCOLLECT_COURSE){
+                CommonUtils.getUtilInstance().showToast(APP.context, "取消收藏成功！");
                 aCache = ACache.get(CoursesActivity.this);
                 LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
                 netRequest = new NetRequest(CoursesActivity.this,CoursesActivity.this);
@@ -323,14 +330,26 @@ ImageView collect;
                 authkey = user.getAuth_key();
                 Map map1=new HashMap();
                 map1.put("uid",userId);
-                map1.put("authkey",authkey);
+                map1.put("authkey", authkey);
                 map1.put("cid", itemid);
                 map1.put("type", StatusCode.REQUEST_DISCOLLECT_COURSE);
                 netRequest.httpRequest(map1, CommonUrl.courseFav);
+//                finishedCourseFragment.notify();
+//
                 finish();
                 Intent intent=new Intent(CoursesActivity.this,CoursesActivity.class);
                 startActivity(intent);
-
+                if (kind==2) {
+//                    undoCourseFragment.onResume();
+//                    finish();
+//                    Intent intent = new Intent(CoursesActivity.this, undoCourseFragment.getActivity().getClass());
+//                    startActivity(intent);
+                }else {
+//                    finishedCourseFragment.onResume();
+//                    finish();
+//                    Intent intent = new Intent(CoursesActivity.this, finishedCourseFragment.getActivity().getClass());
+//                    startActivity(intent);
+                }
 
 
 
@@ -356,6 +375,7 @@ ImageView collect;
                 CommonUtils.getUtilInstance().showToast(APP.context, "授权码不正确");
             }
             if(msg.what==StatusCode.REQUEST_COLLECT_COURSE){
+                CommonUtils.getUtilInstance().showToast(APP.context, "收藏成功！");
                 aCache = ACache.get(CoursesActivity.this);
                 LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
                 netRequest = new NetRequest(CoursesActivity.this,CoursesActivity.this);

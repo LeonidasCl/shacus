@@ -369,7 +369,7 @@ public class CardView extends FrameLayout {
 		@Override
 		public void onClick(View v) {
 			if (mListener != null) {
-				mListener.onCardClick(v,-1);
+				mListener.onCardClick(v,0);
 			}
 		}
 	};

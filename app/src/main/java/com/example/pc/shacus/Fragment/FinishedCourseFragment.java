@@ -55,7 +55,7 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
 
     private ACache aCache;
     private NetRequest netRequest;
-    private FrameLayout loading5;
+ //   private FrameLayout loading5;
     String userId = null;
     String authkey = null;
     UserModel user = null;
@@ -66,7 +66,7 @@ public class FinishedCourseFragment extends Fragment implements NetworkCallbackI
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_finishedcourse,container,false);
         recyclerView1= (RecyclerView) view.findViewById(R.id.finishrecyclerView);
-        loading5 = (FrameLayout) view.findViewById(R.id.wait_loading_layout);
+     //   loading5 = (FrameLayout) view.findViewById(R.id.wait_loading_layout);
         aCache = ACache.get(getActivity());
         courseItemList1 = new ArrayList<>();
         netRequest = new NetRequest(this,getActivity());
@@ -101,12 +101,12 @@ private Handler handler=new Handler(){
         if(msg.what==StatusCode.REQUSET_FINISHED_SUCCESS){
 
             initInfo();
-            try {
-                Thread.sleep(1 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            loading5.setVisibility(View.GONE);
+//            try {
+//                Thread.sleep(1 * 1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            loading5.setVisibility(View.GONE);
         }
         if (msg.what==StatusCode.REQUSET_FINISHED_FAIL){
             CommonUtils.getUtilInstance().showToast(APP.context, "请求失败！");
@@ -169,7 +169,7 @@ private Handler handler=new Handler(){
                         coursesModel.setItemid(course.getInt("Cid"));
                         coursesModel.setValid(course.getInt("Cvalid"));
                         coursesModel.setCollet(course.getInt("Cfav"));
-                        coursesModel.setLikeNum(course.getInt("Cliked"));
+                        coursesModel.setLikeNum(course.getInt("CfavN"));
                         coursesModel.setKind(1);
                         courseItemList1.add(coursesModel);
                     }

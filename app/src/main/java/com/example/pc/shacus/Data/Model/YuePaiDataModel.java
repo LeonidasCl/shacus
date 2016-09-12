@@ -53,7 +53,35 @@ public class YuePaiDataModel implements Serializable {
     private int ACscore;
     private int ACclosed;
     private String ACcontent;
+    private String image;
 
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    private int rank;
+
+    public String getImagecard() {
+        return imagecard;
+    }
+
+    public void setImagecard(String imagecard) {
+        this.imagecard = imagecard;
+    }
+
+    private String imagecard;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getAPtitle() {
         return APtitle;

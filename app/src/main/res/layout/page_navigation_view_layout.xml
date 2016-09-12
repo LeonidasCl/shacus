@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/huodong_background"/>
+        />
     <com.example.pc.shacus.View.CircleImageView
         android:contentDescription="@string/app_name"
         android:id="@+id/huodong_header_avatar"

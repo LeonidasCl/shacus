@@ -6,8 +6,8 @@
     android:orientation="vertical">
     <TextView
     android:layout_width="match_parent"
-    android:layout_height="10dp"
-    android:background="@color/transparent"/>
+    android:layout_height="5dp"
+    android:background="#99cecece"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +40,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/ItemName1"
             android:textSize="28dp"
-            android:text="222222222222"
             android:textColor="#ffffff"
             android:layout_marginStart="26dp"
             android:layout_alignParentStart="true"
@@ -48,7 +47,7 @@
     <TextView
         android:visibility="invisible"
         android:id="@+id/ItemName"
-        android:text="xxxx(视频教程)"
+        android:text="2222222222"
         android:textSize="30sp"
         android:textColor="#ffffff"
         android:layout_width="wrap_content"
@@ -72,7 +71,7 @@
         <ImageView
             android:visibility="invisible"
             android:id="@+id/cancelCollectItem"
-            android:src="@drawable/shoucang"
+            android:src="@drawable/weishoucang"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@color/transparent"
@@ -87,7 +86,7 @@
             android:layout_height="30dp"
             android:background="@color/transparent"
             android:layout_alignBottom="@+id/ItemCollectNum"
-            android:layout_toEndOf="@+id/ItemName1" />
+            android:layout_toEndOf="@id/ItemName" />
         <TextView
             android:id="@+id/ItemCollectNum"
             android:layout_width="40dp"
@@ -101,7 +100,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@color/transparent"
-                    android:src="@drawable/shoucang"
+                    android:src="@drawable/peoplenum"
                     android:id="@+id/imageView"
                     android:layout_alignParentBottom="true"
                     android:layout_toEndOf="@id/ItemCollectNum"/>
@@ -135,6 +134,6 @@
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="5dp"
         android:background="@color/transparent"/>
 </LinearLayout>

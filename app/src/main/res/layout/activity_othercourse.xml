@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.pc.shacus.Activity.OtherCourseActivity"
-    android:background="@color/gray_color_99999a">
+    android:background="@color/ee_white">
 
    <LinearLayout
        android:orientation="vertical"
@@ -54,33 +54,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
    </LinearLayout>
-    <TextView
-        android:textSize="16sp"
-        android:gravity="center"
-        android:id="@+id/none_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/aa_black" />
-
-    <FrameLayout
-        android:id="@+id/wait_loading_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/loading_bg">
-        <com.example.pc.shacus.View.Custom.LoadingRotate
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal|center_vertical"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="140dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:text="@string/loading"
-            android:textColor="#EEEEEE"
-            android:textSize="20sp"/>
-
-    </FrameLayout>
 
 </FrameLayout>

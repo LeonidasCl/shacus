@@ -2,10 +2,14 @@ package com.example.pc.shacus.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,44 +22,44 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Adapter.CardAdapter;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Data.Model.YuePaiDataModel;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.View.Custom.CardView;
 import com.example.pc.shacus.View.Custom.MatrixView;
 import com.example.pc.shacus.View.FloatMenu.FilterMenu;
 import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 约拍子界面A（二级页面，约拍模特）
  * Created by pc on 2016/7/13.
  */
-public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickListener {
+public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterface.NetRequestIterface{
 
     private ListView headerlist;
     public static final int HEADLIST_NUM=17;
-    private int[] headerimg = new int[]{
-            R.drawable.p0,
-            R.drawable.p0,
-            R.drawable.getnew,
-            R.drawable.p1,
-            R.drawable.p2,
-            R.drawable.p2
-            ,R.drawable.p3,
-            R.drawable.p1,
-            R.drawable.p2,
-            R.drawable.p3,
-            R.drawable.p1,
-            R.drawable.p2,
-            R.drawable.p3,
-            R.drawable.getnew,
-            R.drawable.p0,
-            R.drawable.p0,
-            R.drawable.p0};
+    private String[] headerimg = new String[17];
 
     private Activity yuepai;
     List<YuePaiDataModel> yuepaiDatalist;
@@ -65,6 +69,13 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
     private ImageButton btn_previous;
     private ImageButton btn_next;
     private CardView cardView;
+    ACache aCache;
+    private NetRequest netRequest;
+    String userId=null;
+    String authkey=null;
+    UserModel user = null;
+    String imageurl;
+    int id;
 
     FilterMenu.OnMenuChangeListener listener = new FilterMenu.OnMenuChangeListener() {
         @Override
@@ -83,15 +94,26 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         }
     };
 
+    View view;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         yuepai=this.getActivity();
-        View view = inflater.inflate(R.layout.fragment_yue_pai_a, container, false);
+        view = inflater.inflate(R.layout.fragment_yue_pai_a, container, false);
+        netRequest = new NetRequest(this,getActivity());
         //FilterMenuLayout layout = (FilterMenuLayout) view.findViewById(R.id.filter_menu1);
         //attachMenu(layout);
-        initUI(view);
+
+        //获得约摸特还是摄影师
+        setEventflag(2);
+        yuepaiDatalist = new ArrayList<>();
+        aCache = ACache.get(getActivity());
+        LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        user = loginModel.getUserModel();
+        userId = user.getId();
+        authkey = user.getAuth_key();
+        initInfo();
 
         navibar=yuepai.findViewById(R.id.fragment_list);
         navibar.setVisibility(View.GONE);
@@ -113,8 +135,6 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
                 cardView.goDown();
             }
         });
-
-
         return view;
     }
 
@@ -130,15 +150,29 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
 //                    .build();
 //        }
 
+    private void initInfo(){
+        Map map=new HashMap();
+        map.put("uid",userId);
+        map.put("authkey", authkey);
+        if(eventflag == 2){
+            map.put("type", StatusCode.REQUEST_PAIHANG_PHOTOGRAPHER);
+            netRequest.httpRequest(map, CommonUrl.paiHangbang);
+        }else if(eventflag == 1){
+            map.put("type", StatusCode.REQUEST_PAIHANG_MODEL);
+            netRequest.httpRequest(map, CommonUrl.paiHangbang);
+        }
+    }
+
     private void initUI(View view) {
 
         //先把卡片绑定
         cardView = (CardView) view.findViewById(R.id.yuepai_cards_a);
-        cardView.setOnCardClickListener(this);
+       // cardView.setOnCardClickListener(this);
         cardView.setItemSpace(20);
         //再设置好适配器（这里建了内部类来做适配器）
         YuePaiCardAdapter adapter = new YuePaiCardAdapter(yuepai);
-        adapter.addAll(initData());
+        Log.d("aaaaaaaaaa",yuepaiDatalist.toString());
+        adapter.addAll(initData(yuepaiDatalist));
         cardView.setAdapter(adapter);
 
         FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -179,42 +213,85 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
                     }
                 }
                 if(position==2||position==13)
-                        Toast.makeText(yuepai,"重新获取网络数据",Toast.LENGTH_SHORT).show();
+                        initInfo();
             }
         });
 
         headerlist.bringToFront();
 
-
     }
-
 
     //点中某张卡片后
-    @Override
+ /*   @Override
     public void onCardClick(final View view, final int position) {
-        frag.show(view);
-    }
+//        frag.show(view);
+        Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+        intent.putExtra("id",String.valueOf(yuepaiDatalist.get(position).getAPid()));
+        startActivity(intent);
+    }*/
 
 
 
-    private List<YuePaiDataModel> initData() {
-        yuepaiDatalist = new ArrayList<>();
-        //模拟从网络获取数据
-        for (int i=0;i<10;i++)
-        {
-            YuePaiDataModel model=new YuePaiDataModel();
-            model.setAPtitle("用户" + i);
-            model.setAPcontent("这是活动"+i+"的描述不能少于十五字不能多于一百五十字但是点开之前只能显示两行");
-            model.setAPcreateT(new Date().toString());
-            model.setAPlocation("这是活动"+i+"的活动地点");
-            yuepaiDatalist.add(model);
-        }
-
-        return yuepaiDatalist;
+    private List<YuePaiDataModel> initData(List<YuePaiDataModel> temp) {
+        return temp;
     }
 
     public void setEventflag(int eventflag) {
         this.eventflag = eventflag;
+    }
+
+    private Handler handler=new Handler(){
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case StatusCode.REQUEST_PAIHANG_SUCCESS:
+                {
+                    initData(yuepaiDatalist);
+                    initUI(view);
+                }
+            }
+        }
+    };
+    @Override
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+        if(requestUrl.equals(CommonUrl.paiHangbang)) {//返回排行榜
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            Message msg = new Message();
+            Log.d("yyyy",String.valueOf(code));
+            switch (code) {
+                case StatusCode.REQUEST_PAIHANG_SUCCESS://请求排行榜成功
+                {
+                    JSONArray content = object.getJSONArray("content");
+                    Log.d("eeeeeeeeeeeeeeeeee", content.toString());
+                    for (int i = 0; i < content.length(); i++) {
+                        JSONObject data = content.getJSONObject(i);
+                        Log.d("eeeeeeeeeeee", data.toString());
+                        YuePaiDataModel yuePaiDataModel = new YuePaiDataModel();
+                        yuePaiDataModel.setAPtitle(data.getString("nickName"));
+                        yuePaiDataModel.setAPid(data.getInt("id"));
+                        yuePaiDataModel.setAPcontent(data.getString("sign"));
+                       // yuePaiDataModel.setAPlocation(data.getString("location"));
+                        yuePaiDataModel.setImage(data.getString("headImage"));
+                        yuePaiDataModel.setImagecard(data.getString("image"));
+                        yuePaiDataModel.setRank(data.getInt("rank"));
+                        Log.d("eeeeeeeeeeeeeeeeee", yuePaiDataModel.getImage().toString());
+                        headerimg[i+3] = data.getString("headImage");
+                        yuepaiDatalist.add(yuePaiDataModel);
+                    }
+                    msg.what = StatusCode.REQUEST_PAIHANG_SUCCESS;
+                    Log.d("jjjjjjjjjjjjjj",headerimg[3]);
+                    handler.sendMessage(msg);
+
+                    break;
+                }
+            }
+        }
+    }
+    @Override
+    public void exception(IOException e, String requestUrl) {
+
     }
 
 
@@ -230,8 +307,7 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         }
 
         @Override
-        protected View getCardView(int position,
-                                   View convertView, ViewGroup parent) {
+        protected View getCardView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(yuepai);
                 convertView = inflater.inflate(R.layout.item_yuapai_layout, parent, false);
@@ -242,13 +318,23 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
             TextView introduce = (TextView) convertView.findViewById(R.id.yuepai_introduce);
             TextView time = (TextView) convertView.findViewById(R.id.yuepai_time);
             TextView location = (TextView) convertView.findViewById(R.id.yuepai_location);
-
-            YuePaiDataModel model=getItem(position % yuepaiDatalist.size());
+            cardPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                    intent.putExtra("id",String.valueOf(yuepaiDatalist.get(position% yuepaiDatalist.size()).getAPid()));
+                    startActivity(intent);
+                }
+            });
+            Log.d("aaaaaaaaaa",String.valueOf(yuepaiDatalist.size()));
+            Log.d("qqqqqqqqqqqq",String.valueOf(position));
+            YuePaiDataModel model = getItem(position % yuepaiDatalist.size());
            //这里用Glide load一个imgview into到布局里，待写
             username.setText(model.getAPtitle());
             introduce.setText(model.getAPcontent());
-            time.setText(model.getAPcreateT().toString());
+//            time.setText(model.getAPcreateT().toString());
             location.setText(model.getAPlocation());
+            Picasso.with(getContext()).load(yuepaiDatalist.get(position%yuepaiDatalist.size()).getImagecard()).into(cardPic);
             return convertView;
         }
     }
@@ -264,16 +350,17 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
         @Override
         public int getCount() {
             return HEADLIST_NUM;
+         //   return Integer.MAX_VALUE;//无限加载
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return yuepaiDatalist.get(position%yuepaiDatalist.size());
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -284,8 +371,16 @@ public class YuePaiFragmentAB extends Fragment implements CardView.OnCardClickLi
                 convertView = m;
             }
             ImageView imageView = (ImageView) convertView.findViewById(R.id.yuepai_header_img);
-            imageView.setImageResource(headerimg[position % headerimg.length]);
-            imageView.setTag(position);
+            if (position<3||position>13){
+                imageView.setImageResource(R.drawable.holder);
+            }else {
+               // Picasso.with(getContext()).load(yuepaiDatalist.get((position)%yuepaiDatalist.size()).getImage()).into(imageView);
+               Picasso.with(getContext()).load(yuepaiDatalist.get((position+7) % yuepaiDatalist.size()).getImage()).into(imageView);
+              /*  Glide.with(getContext())
+                        .load(yuepaiDatalist.get(position%yuepaiDatalist.size()).getImage()).into(imageView);*/
+              //\  Log.d("hhhhhh",headerimg[position % headerimg.length]);
+            }
+           // imageView.setTag(position);
             return convertView;
         }
 
