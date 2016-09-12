@@ -1,10 +1,14 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +16,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -220,6 +227,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userSign.setText(user.getSign());
             textName.setText(user.getNickName());
 
+            MenuItem PersonInfo= (MenuItem) navigationView.getMenu().findItem(R.id.nav_personalInfo);
+            PersonInfo.setIcon(R.drawable.personal);
+            navigationView.setNavigationItemSelectedListener(this);
+            Resources resources=getBaseContext().getResources();
+            ColorStateList csl=resources.getColorStateList(R.color.ee_white);
+            navigationView.setItemTextColor(csl);
+//            navigationView.setItemBackground(this.getResources().getDrawable(R.drawable.blackblack));
             Glide.with(getApplicationContext())
                     .load(user.getHeadImage()).centerCrop()
 //                    .placeholder(R.drawable.holder)
@@ -231,6 +245,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(btnAvartar);
+//            //设置侧滑栏文字信息
+//            this.getLayoutInflater().setFactory(
+//                    new android.view.LayoutInflater.Factory(){
+//                        @Override
+//                        public View onCreateView(String name, Context context, AttributeSet attrs) {
+//                            if(name.equalsIgnoreCase("com.android.internal.view.menu.IconMenuItemView")
+//                                    || name.equalsIgnoreCase("com.android.internal.view.menu.ActionMenuItemView")){
+//                                try {
+//                                    LayoutInflater inflater=getLayoutInflater();
+//                                    final View view=inflater.createView(name,null,attrs);
+//                                    new Handler().post(new Runnable() {
+//                                        public void run() {
+//                                            // 设置背景图片
+//                                            view.setBackgroundResource(R.color.ee_white);
+//                                        }
+//                                    });
+//                                } catch (ClassNotFoundException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                            return null;
+//                        }
+//                    }
+//            );
+
 
             // 和设置缓存中
             SettingDataModel setModel = new SettingDataModel();
@@ -420,9 +459,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.nav_orderList) {
             Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_message) {
-
-        } else if (id == R.id.nav_myConcern) {
+        }  else if (id == R.id.nav_myConcern) {
             Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
             intent.putExtra("user","myself");
             intent.putExtra("activity","following");

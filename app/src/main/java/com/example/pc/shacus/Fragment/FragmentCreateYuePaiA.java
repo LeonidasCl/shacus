@@ -394,8 +394,8 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
         requestFragment=new NetRequest(this,getActivity());
         mTagContainerLayout = (TagContainerLayout) root.findViewById(R.id.tag_layout_yuepai);
         List<String> list1 = new ArrayList<String>();
-        list1.add("Java");list1.add("C++");
-        list1.add("C#");list1.add("PHP");
+        list1.add("古典");list1.add("街拍");
+        list1.add("私房");list1.add("朋克风");
         mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
             public void onTagClick(final int position, String text) {
