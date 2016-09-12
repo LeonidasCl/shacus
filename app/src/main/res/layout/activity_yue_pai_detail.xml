@@ -145,6 +145,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/detail_dd_content"
             android:textSize="12sp"
             android:layout_marginBottom="5dp"
             android:text="@string/detail_text_holder"/>
@@ -165,6 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:id="@+id/detail_dd_location"
                 android:layout_marginBottom="5dp"
                 android:text="@string/detail_text_location_holder"/>
         </LinearLayout>
@@ -185,6 +187,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
+                    android:id="@+id/detail_dd_joinEndT"
                     android:layout_marginBottom="5dp"
                     android:text="@string/detail_text_time_holder"/>
             </LinearLayout>
@@ -204,6 +207,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
+                    android:id="@+id/detail_dd_startT"
                     android:layout_marginBottom="5dp"
                     android:text="@string/detail_text_time_holder"/>
             </LinearLayout>
@@ -223,6 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
+                    android:id="@+id/detail_dd_endT"
                     android:layout_marginBottom="5dp"
                     android:text="@string/detail_text_time_holder"/>
             </LinearLayout>
@@ -243,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/detail_text_time_holder"/>
+                    android:text="免费"/>
             </LinearLayout>
 
             </LinearLayout>

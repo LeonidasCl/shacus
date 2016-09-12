@@ -489,23 +489,20 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 if (timeFlag) {
                     new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                             .setListener(startlistener)
+                            .setMinDate(new Date())
                             .setInitialDate(new Date())
-                                    //.setMinDate(new Date())
-                                    //.setMaxDate(enddate)
                             .setIs24HourTime(true)
                             .setTheme(SlideDateTimePicker.HOLO_DARK)
-                                    //.setIndicatorColor(Color.parseColor("E6BF66"))
                             .build()
                             .show();
                     return;
                 }
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(startlistener)
-                        .setInitialDate(new Date())
                         .setMinDate(new Date())
+                        .setInitialDate(new Date())
                         .setIs24HourTime(true)
                         .setTheme(SlideDateTimePicker.HOLO_DARK)
-                                //.setIndicatorColor(Color.parseColor("E6BF66"))
                         .build()
                         .show();
             }
@@ -521,8 +518,9 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 }
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(endlistener)
-                        .setInitialDate(startdate)
-                        .setMinDate(startdate)
+                        .setMinDate(new Date())
+                        .setInitialDate(new Date())
+                        .setIs24HourTime(true)
                         .build()
                         .show();
             }
@@ -539,9 +537,9 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
 
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(joinlistener)
-                        .setInitialDate(startdate)
-                        .setMinDate(startdate)
-                        .setMaxDate(enddate)
+                        .setMinDate(new Date())
+                        .setInitialDate(new Date())
+                        .setIs24HourTime(true)
                         .build()
                         .show();
             }
@@ -779,8 +777,8 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
         Date endT=end.parse(endTime.getText().toString());
         SimpleDateFormat endJoin = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
         Date endJoinT=endJoin.parse(joinEndTime.getText().toString());
-        if (!(startT.getTime()<endT.getTime()&&endJoinT.getTime()<endT.getTime()&&endJoinT.getTime()>startT.getTime())){
-            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请设置正确的时间顺序");
+        if (!(startT.getTime()<endT.getTime()&&endJoinT.getTime()<startT.getTime())){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请设置正确的时间顺序\n报名开始->开始->结束");
             return false;
         }
         if (location_edit.getText().toString().equals("")||location_edit.getText().length()>20){

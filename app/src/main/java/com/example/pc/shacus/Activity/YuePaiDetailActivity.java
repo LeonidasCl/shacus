@@ -199,7 +199,11 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     private TextView position_in_total;
     private boolean isBigImageShow=false;
     private YuePaiDetailActivity self;
-
+    private TextView tv_content;
+    private TextView tv_location;
+    private TextView tv_startT;
+    private TextView tv_endT;
+    private TextView tv_endJoinT;
 
 
     @Override
@@ -334,7 +338,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (msg.what== StatusCode.REQUEST_JOIN_YUEPAI_SUCCESS){
                     CommonUtils.getUtilInstance().showToast(APP.context, "报名成功");
-                    joinNum.setText(data.getAPregistN()+"");
+                    joinNum.setText(data.getAPregistN() + "");
                     finish();
                     return;
                 }
@@ -355,8 +359,18 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 if (msg.what==StatusCode.REQUEST_YUEPAI_DETAIL_SUCCESS){
 
                     data=(YuePaiDataModel)msg.obj;
+                    tv_content=(TextView)findViewById(R.id.detail_dd_content);
+                    tv_location=(TextView)findViewById(R.id.detail_dd_location);
+                    tv_startT=(TextView)findViewById(R.id.detail_dd_startT);
+                    tv_endT=(TextView)findViewById(R.id.detail_dd_endT);
+                    tv_endJoinT=(TextView)findViewById(R.id.detail_dd_joinEndT);
                     isSponsor=data.getAP_issponsor();
                     selectJoinUser=(Button)findViewById(R.id.btn_select_join);
+                    tv_content.setText(data.getAPcontent()+"");
+                    tv_location.setText(data.getAPlocation()+"");
+                    tv_startT.setText(data.getAPstartT()+"");
+                    tv_endT.setText(data.getAPendT()+"");
+                    tv_endJoinT.setText(data.getAPjoinT()+"");
                     if (isSponsor==1){
                         if (data.getAPstatus()==0){//0:报名中
                         selectJoinUser.setOnClickListener(new View.OnClickListener(){
@@ -485,8 +499,18 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                 if (msg.what== StatusCode.REQUEST_HUODONG_DETAIL_SUCCESS){
 
                     data=(YuePaiDataModel)msg.obj;
+                    tv_content=(TextView)findViewById(R.id.detail_dd_content);
+                    tv_location=(TextView)findViewById(R.id.detail_dd_location);
+                    tv_startT=(TextView)findViewById(R.id.detail_dd_startT);
+                    tv_endT=(TextView)findViewById(R.id.detail_dd_endT);
+                    tv_endJoinT=(TextView)findViewById(R.id.detail_dd_joinEndT);
                     isSponsor=data.getAC_issponsor();
                     selectJoinUser=(Button)findViewById(R.id.btn_select_join);
+                    tv_content.setText(data.getACcontent()+"");
+                    tv_location.setText(data.getAClocation()+"");
+                    tv_startT.setText(data.getACstartT()+"");
+                    tv_endT.setText(data.getACendT()+"");
+                    tv_endJoinT.setText(data.getACjoinT()+"");
                     if (isSponsor==1){
                         if (data.getACstatus()==0){
                         /*selectJoinUser.setOnClickListener(new View.OnClickListener() {
