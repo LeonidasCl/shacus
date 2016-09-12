@@ -195,7 +195,8 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/take_picture_layout_round_corner_bg"
                 android:orientation="vertical" >
-
+                <View style="@style/horizontal_divider" >
+                </View>
                 <TextView
                     android:id="@+id/take_picture"
                     android:layout_width="match_parent"
