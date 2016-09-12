@@ -41,7 +41,7 @@
             android:id="@+id/detail_praise"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/btn_find_selector"
+            android:src="@drawable/btn_praise_selector"
             android:background="#00000000"
             android:scaleType="centerInside"
             android:visibility="visible"/>
