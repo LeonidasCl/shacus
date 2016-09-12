@@ -205,8 +205,8 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                         UserModel userModel = new UserModel();
                         userModel.setHeadImage(user.getString("headImage"));
                         String str = user.getString("sign");
-                        if (str.length()>10){
-                            str = str.substring(0,10) + "···";
+                        if (str.length()>15){
+                            str = str.substring(0,15) + "···";
                         }
                         userModel.setSign(str);
                         userModel.setId(user.getString("id"));
