@@ -509,6 +509,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(endlistener)
                         .setInitialDate(startdate)
+                        .setIs24HourTime(true)
                         .setMinDate(startdate)
                         .build()
                         .show();
@@ -527,6 +528,7 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(joinlistener)
                         .setInitialDate(startdate)
+                        .setIs24HourTime(true)
                         .setMinDate(startdate)
                         .setMaxDate(enddate)
                         .build()

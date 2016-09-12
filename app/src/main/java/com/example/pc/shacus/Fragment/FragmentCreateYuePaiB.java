@@ -523,6 +523,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                         .setListener(endlistener)
                         .setInitialDate(startdate)
                         .setMinDate(startdate)
+                        .setIs24HourTime(true)
                         .build()
                         .show();
             }
@@ -541,6 +542,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                         .setListener(joinlistener)
                         .setInitialDate(startdate)
                         .setMinDate(startdate)
+                        .setIs24HourTime(true)
                         .setMaxDate(enddate)
                         .build()
                         .show();
