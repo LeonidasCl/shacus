@@ -66,7 +66,7 @@
                         android:layout_margin="5dp"
                         android:adjustViewBounds="true"
                         android:background="#00000000"
-                        android:src="@drawable/praise"
+                        android:src="@drawable/likedafter"
                         android:scaleType="centerInside"
                         android:contentDescription="@string/contentDescribe"/>
 
@@ -96,7 +96,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/btn_detail_selector"
+                        android:src="@drawable/baoming"
                         android:background="#00000000"/>
 
                     <TextView

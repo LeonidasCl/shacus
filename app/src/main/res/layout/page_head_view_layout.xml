@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray_holo_dark"
+    android:background="@color/ee_white"
     android:orientation="vertical">
 
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:queryHint="搜索活动..."
-        android:layout_marginTop="12dp"></SearchView>
+    <ImageButton
+        android:id="@+id/backup"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:src="@drawable/up"/>
 
 </LinearLayout>
