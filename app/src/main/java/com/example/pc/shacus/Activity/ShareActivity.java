@@ -23,13 +23,12 @@ import java.util.Hashtable;
 public class ShareActivity extends AppCompatActivity  implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
     private ImageView shareBarCode;
-    private ImageButton btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        btn_back= (ImageButton) findViewById(R.id.btn_back);
+        ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this);
 
 
@@ -47,7 +46,7 @@ public class ShareActivity extends AppCompatActivity  implements  NetworkCallbac
             {
                 return null;
             }
-            Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+            Hashtable<EncodeHintType, String> hints = new Hashtable<>();
             hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
             //图像矩阵转换
             BitMatrix bitMatrix = new QRCodeWriter().encode(url, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT, hints);

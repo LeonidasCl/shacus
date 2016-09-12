@@ -299,11 +299,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         yuePaiFragment.getRankFrag().doRefresh();
     }
 
-    @Override//不要忘记渲染APP动作条的overflow菜单
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_appbar, menu);
-        return true;
-    }
+//    @Override//不要忘记渲染APP动作条的overflow菜单
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_appbar, menu);
+//        return true;
+//    }
 
     private void initNetworkData(){
     }
