@@ -947,7 +947,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     handler.sendMessage(msg);
                     return;
                 }
-            }else {
+            }else{
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_FAILURE;
                 msg.obj=object.getString("contents");

@@ -3,6 +3,7 @@ package com.example.pc.shacus.Fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -84,6 +85,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -273,6 +275,9 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
     private int apId;
     private ArrayList<String> imgList;
     private ArrayList<String> finalImgList;
+    private EditText minp_edit;
+    private CheckBox checkbox_maxp;
+    private EditText maxp_edit;
 
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){
@@ -427,7 +432,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TagAddActivity.class);
-                intent.putExtra("type",2);
+                intent.putExtra("type", 2);
                 startActivity(intent);
             }
         });
@@ -464,6 +469,19 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 }
             }
         });
+        maxp_edit=(EditText)root.findViewById(R.id.theme_maxp_edit);
+        checkbox_maxp = (CheckBox) root.findViewById(R.id.checkbox_maxp);
+        checkbox_maxp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    maxp_edit.setVisibility(View.GONE);
+                }else {
+                    maxp_edit.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
         startTime=(TextView)root.findViewById(R.id.text_start_time);
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -484,7 +502,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                         .setListener(startlistener)
                         .setInitialDate(new Date())
-                                //.setMinDate(new Date())
+                        .setMinDate(new Date())
                         .setIs24HourTime(true)
                         .setTheme(SlideDateTimePicker.HOLO_DARK)
                                 //.setIndicatorColor(Color.parseColor("E6BF66"))
@@ -495,7 +513,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
         endTime=(TextView)root.findViewById(R.id.text_end_time);
         endTime.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 if (!timeFlag)
                 {
                     Toast.makeText(getContext(), "请先选择开始时间", Toast.LENGTH_SHORT).show();
@@ -523,6 +541,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                         .setListener(joinlistener)
                         .setInitialDate(startdate)
                         .setMinDate(startdate)
+                        .setMaxDate(enddate)
                         .build()
                         .show();
             }
@@ -533,6 +552,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
         upload.setVisibility(View.VISIBLE);
         theme_title_edit=(EditText)root.findViewById(R.id.theme_title_edit);
         theme_desc_edit=(EditText)root.findViewById(R.id.theme_desc_edit);
+        minp_edit=(EditText)root.findViewById(R.id.theme_minp_edit);
         delete_image=(ImageView)root.findViewById(R.id.delete_image);
         add_image_gridview=(ImgAddGridView)root.findViewById(R.id.add_image_gridview);
         add_image_gridview.setExpanded(true);
@@ -698,15 +718,15 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                     CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.publish_theme_after_login));
                     return;
                 }
-
-                String title=theme_title_edit.getText().toString();
-                if(title.equals("")){
-                    CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.input_theme_comment_title));
+                try {
+                    if (!checkInput())//检查用户输入
+                        return;
+                } catch (ParseException e) {
+                    e.printStackTrace();
                     return;
                 }
-                if(theme_desc_edit.getText().toString().length()==0){
-                    CommonUtils.getUtilInstance().showToast(getActivity(),getString(R.string.input_theme_comment_desc));
-                }
+                String title=theme_title_edit.getText().toString();
+
                 if(!addPic){
                     if(clearFormerUploadUrlList){
                         if(uploadImgUrlList.size()>0){
@@ -740,6 +760,58 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 addPicCount--;
                 break;
         }
+    }
+
+    private boolean checkInput() throws ParseException {
+
+
+        if (theme_title_edit.getText().toString().equals("")||theme_title_edit.getText().length()>20){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请正确输入标题（20字以内）");
+            return false;
+        }
+        if (mTagContainerLayout.getTags().size()==0){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请至少添加一个标签");
+            return false;
+        }
+        SimpleDateFormat start = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
+        Date startT=start.parse(startTime.getText().toString());
+        SimpleDateFormat end = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
+        Date endT=end.parse(endTime.getText().toString());
+        SimpleDateFormat endJoin = new SimpleDateFormat("yyyy/MM/dd E HH:mm");
+        Date endJoinT=endJoin.parse(joinEndTime.getText().toString());
+        if (!(startT.getTime()<endT.getTime()&&endJoinT.getTime()<endT.getTime()&&endJoinT.getTime()>startT.getTime())){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请设置正确的时间顺序");
+            return false;
+        }
+        if (location_edit.getText().toString().equals("")||location_edit.getText().length()>20){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请正确描述地点信息（20字以内）");
+            return false;
+        }
+        if (!checkbox_free.isChecked()&&price_edit.getText().toString().equals("")){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"非免费项目，请描述消费情况");
+            return false;
+        }
+        if (!checkbox_free.isChecked()&&price_edit.getText().length()>64){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"收费描述信息太长");
+            return false;
+        }
+        if (!checkbox_maxp.isChecked()&&maxp_edit.getText().length()==0){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请输入最大参加人数");
+            return false;
+        }
+        if (minp_edit.getText().toString().isEmpty()){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请输入最小参加人数");
+            return false;
+        }
+        if (theme_desc_edit.getText().length()<15){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请输入15字以上的详细描述");
+            return false;
+        }
+        if (uploadImgUrlList.size()<1){
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"请至少配上一张图片");
+            return false;
+        }
+        return true;
     }
 
     //上传图片(每一张调用一次这个函数)
@@ -835,6 +907,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 return;
             }
             if (code== StatusCode.REQUEST_HUODONG_SUCCEED){
+                if (progressDlg!=null)
                 progressDlg.dismiss();
                 //Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_huodong_succeed));Looper.loop();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -844,6 +917,7 @@ public class FragmentCreateYuePaiB extends Fragment implements View.OnClickListe
                 getActivity().finish();
                 return;
             }else {
+                if (progressDlg!=null)
                 progressDlg.dismiss();
                 Looper.prepare();
                 CommonUtils.getUtilInstance().showToast(getActivity(),object.getString("contents"));Looper.loop();
