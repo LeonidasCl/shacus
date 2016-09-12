@@ -3,7 +3,6 @@ package com.example.pc.shacus.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,8 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
@@ -50,9 +47,6 @@ import java.util.TimerTask;
     //time:8.29
 public class SetBaseFragment extends Fragment implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
 
-    private ImageButton btn_back;
-    private Switch phoneVisible,messageInform;
-    private View changePassword,versionUpdate,advice,cleanCache, functionIntroduction;
     private NetRequest netRequest;
     private SettingDataModel dataModel;
 
@@ -86,15 +80,15 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
 
     private void initData(View view) {
         //初始化各部件
-        phoneVisible= (Switch) view.findViewById(R.id.btn_phoneVisible);
-        messageInform= (Switch) view.findViewById(R.id.btn_messageInform);
+        Switch phoneVisible = (Switch) view.findViewById(R.id.btn_phoneVisible);
+        Switch messageInform = (Switch) view.findViewById(R.id.btn_messageInform);
 
-        btn_back= (ImageButton) view.findViewById(R.id.btn_back);
-        changePassword=view.findViewById(R.id.layout_changePassword);
-        versionUpdate=view.findViewById(R.id.layout_versionUpdate);
-        functionIntroduction=view.findViewById(R.id.layout_functionIntroduce);
-        advice=view.findViewById(R.id.layout_advice);
-        cleanCache=view.findViewById(R.id.layout_clearCache);
+        ImageButton btn_back = (ImageButton) view.findViewById(R.id.btn_back);
+        View changePassword = view.findViewById(R.id.layout_changePassword);
+        View versionUpdate = view.findViewById(R.id.layout_versionUpdate);
+        View functionIntroduction = view.findViewById(R.id.layout_functionIntroduce);
+        View advice = view.findViewById(R.id.layout_advice);
+        View cleanCache = view.findViewById(R.id.layout_clearCache);
 
         netRequest=new NetRequest(this,this.getActivity());
 

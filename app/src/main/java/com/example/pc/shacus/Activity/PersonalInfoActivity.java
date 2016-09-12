@@ -24,25 +24,22 @@ import java.io.IOException;
 //Time:9.1
 public class PersonalInfoActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
-    private ImageButton btn_back;
-    private Button btn_e;
     private TextView userName;
     private TextView phoneNumber;
     private TextView Email;
     private TextView Address;
-    private TextView btn_edit;
 
     private TextView sign;
     private ImageView userImage;
-    private UserModel dataModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
         //初始化
-        btn_e = (Button) findViewById(R.id.textData_Edit);
-        btn_edit= (TextView) findViewById(R.id.btn_edit);
-        btn_back= (ImageButton) findViewById(R.id.btn_back);
+        Button btn_e = (Button) findViewById(R.id.textData_Edit);
+        TextView btn_edit = (TextView) findViewById(R.id.btn_edit);
+        ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
         userImage= (ImageView) findViewById(R.id.imageData_UserImage);
         userName= (TextView) findViewById(R.id.textData_UserName);
         phoneNumber= (TextView) findViewById(R.id.textData_UserPhoneNumber);
@@ -108,7 +105,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements NetworkCa
     public  void  onResume(){
         super.onResume();
         ACache cache=ACache.get(PersonalInfoActivity.this);
-        dataModel= ((LoginDataModel) cache.getAsObject("loginModel")).getUserModel();
+        UserModel dataModel = ((LoginDataModel) cache.getAsObject("loginModel")).getUserModel();
         getUserName().setText(dataModel.getNickName());
         getPhoneNumber().setText(dataModel.getPhone());
         getEmail().setText(dataModel.getMailBox());

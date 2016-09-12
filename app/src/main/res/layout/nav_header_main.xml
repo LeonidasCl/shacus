@@ -40,7 +40,7 @@
             android:layout_height="20dp"
             android:visibility="invisible"/>
 
-    <TextView
+    <EditText
         android:id="@+id/text_userSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

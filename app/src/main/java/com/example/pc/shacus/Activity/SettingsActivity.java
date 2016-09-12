@@ -14,15 +14,13 @@ import com.example.pc.shacus.R;
 //设置页面（二级）
 public class SettingsActivity extends AppCompatActivity {
 
-    //使用Fragment调配设置界面
-    private SetBaseFragment baseFm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
 
-        baseFm=new SetBaseFragment();
+        SetBaseFragment baseFm = new SetBaseFragment();
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction tx = fm.beginTransaction();
         tx.add(R.id.frameLayout, baseFm, "BaseFragment");
