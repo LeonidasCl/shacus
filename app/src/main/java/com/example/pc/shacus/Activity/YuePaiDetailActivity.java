@@ -327,13 +327,15 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
 
                 if (msg.what== StatusCode.REQUEST_JOIN_HUODONG_SUCCESS){
                     CommonUtils.getUtilInstance().showToast(APP.context, "报名成功");
-                    joinNum.setText(data.getACregister().size()+"");
+                    joinNum.setText(data.getACregister().size() + "");
+                    finish();
                     return;
                 }
 
                 if (msg.what== StatusCode.REQUEST_JOIN_YUEPAI_SUCCESS){
                     CommonUtils.getUtilInstance().showToast(APP.context, "报名成功");
                     joinNum.setText(data.getAPregistN()+"");
+                    finish();
                     return;
                 }
 
