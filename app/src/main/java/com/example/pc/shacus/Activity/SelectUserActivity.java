@@ -174,7 +174,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                         JSONObject user = content.getJSONObject(i);
                         UserModel userModel = new UserModel();
                         userModel.setHeadImage(user.getString("uimage"));
-                        String str = user.getString("sign");
+                        String str = user.getString("usign");
                         if (str.length()>10){
                             str = str.substring(0,10) + "···";
                         }
