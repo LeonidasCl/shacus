@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion '24.0.2'
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.example.pc.shacus"
@@ -11,12 +12,19 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.activity_personal_info.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDirs = ['src/main/libs']
         }
     }
     packagingOptions {
@@ -26,14 +34,15 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('src/main/java/libs/core-3.2.1.jar')
-    compile files('src/main/java/libs/universal-image-loader-1.9.5.jar')
-    compile files('src/main/java/libs/gson-2.3.1.jar')
-    //testCompile 'junit:junit:4.12'
-    //testCompile 'org.mockito:mockito-core:1.10.19'
-    //androidTestCompile 'com.android.support.activity_personal_info.espresso:espresso-core:2.2.2'
-    //androidTestCompile 'com.android.support.activity_personal_info:runner:0.5'
-    //androidTestCompile 'com.android.support:support-annotations:24.2.0'
+    compile fileTree(dir: 'src/main/libs', include: ['*.jar'])
+    compile files('src/main/libs/core-3.2.1.jar')
+    compile files('src/main/libs/universal-image-loader-1.9.5.jar')
+    compile files('src/main/libs/gson-2.3.1.jar')
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support:support-annotations:24.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'cn.bingoogolapple:bga-banner:2.0.5@aar'
     compile 'com.android.support:support-v4:24.2.0'
@@ -47,4 +56,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile project(':IMKit')
+    compile files('src/main/libs/TencentLocationSDK_v4.4.6_r206631_151119_1441.jar')
+    compile files('src/main/libs/TencentMapSDK_Raster_v1.1.2.16281.jar')
+    compile files('src/main/libs/MiPush_SDK_Client_2_2_21.jar')
 }

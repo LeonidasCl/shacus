@@ -113,6 +113,6 @@ public class SplashActivity extends BaseSplashActivity implements NetworkCallbac
 
     @Override
     public void exception(IOException e, String requestUrl) {
-
+        finish();
     }
 }
