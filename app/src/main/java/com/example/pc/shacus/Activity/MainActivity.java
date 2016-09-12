@@ -280,15 +280,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case "10514":
                                 userSign.setText(cacheSign);
                                 cacheSign="";
-                                CommonUtils.getUtilInstance().showToast(MainActivity.this, "网络异常，修改失败");
+                                Log.d("LQQQQQ", "网络异常，修改失败 ");
                                 progressDlg.dismiss();
                                 signFlag=false;
                                 break;
                             default:
                                 userSign.setText(cacheSign);
                                 cacheSign="";
-                                CommonUtils.getUtilInstance().showToast(MainActivity.this, "网络异常，修改失败");
                                 progressDlg.dismiss();
+                                Log.d("LQQQQQ", "网络异常，修改失败 ");
                                 signFlag=false;
                                 break;
                         }
