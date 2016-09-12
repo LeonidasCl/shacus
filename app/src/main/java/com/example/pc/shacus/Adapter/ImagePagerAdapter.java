@@ -12,14 +12,14 @@ import java.util.List;
 
 public class ImagePagerAdapter extends FragmentStatePagerAdapter {
 	private List<String>list;
-	 public ImagePagerAdapter(FragmentManager fm,List<String> list) {
+	 public ImagePagerAdapter(FragmentManager fm,List<String> list){
 		super(fm);
 		this.list=list;
 
 	}
 	
 	@Override
-	public Fragment getItem(int position) {
+	public Fragment getItem(int position){
 
 		return new ImageDisplayFragment().create(list.get(position),position);
 	}

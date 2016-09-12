@@ -20,8 +20,8 @@
     <style name="appRatingBar" parent="Widget.AppCompat.RatingBar">
         <item name="android:progressDrawable">@drawable/icon_rating</item>
         <item name="android:indeterminateDrawable">@drawable/icon_rating</item>
-        <item name="android:minHeight">57dip</item>
-        <item name="android:maxHeight">57dip</item>
+        <item name="android:minHeight">25dip</item>
+        <item name="android:maxHeight">30dip</item>
     </style>
 
 
