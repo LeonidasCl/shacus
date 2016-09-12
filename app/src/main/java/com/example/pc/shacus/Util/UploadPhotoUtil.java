@@ -70,7 +70,7 @@ public class UploadPhotoUtil<MultipartEntity> {
     }
 
     /* 如果有些手机拍照反转，读取角度*/
-    public int readPictureDegree(String path) {
+    public int readPictureDegree(String path){
         int degree = 0;
         try {
             ExifInterface exifInterface = new ExifInterface(path);
