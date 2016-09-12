@@ -383,18 +383,18 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
         if (murl!=null){
                 Glide.with(APP.context)
                 .load(murl)
-                .error(R.drawable.holder)
                 .into(image3);
+
         }
                     // image3.setImageURI(http://img5.imgtn.bdimg.com/it/u=1268523085,477716560&fm=21&gp=0.jpg);
         if (followor == false) {
-            button5.setImageResource(R.drawable.praise);
+            button5.setImageResource(R.drawable.heart);
             /*Message msg = new Message();
             msg.what = 100;
             myHandler.sendMessage(msg);*/
 
         } else {
-            button5.setImageResource(R.drawable.praise_after);
+            button5.setImageResource(R.drawable.likedafter);
             /*Message msg = new Message();
             msg.what = 101;
             myHandler.sendMessage(msg);*/

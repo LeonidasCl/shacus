@@ -9,15 +9,17 @@
 
     <ImageView
         android:id="@+id/yuepai_card_pic"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_heightPercent="80%"
-        app:layout_widthPercent="95%"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="90dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:scaleType="centerInside"
         android:layout_gravity="center_horizontal"
-        app:layout_marginBottomPercent="15%"
-        app:layout_marginTopPercent="5%"
-        android:src="@drawable/yuepailoading"/>
+        app:layout_marginBottomPercent="16%"
+
+        />
 
     <TextView
         android:id="@+id/yuepai_location"
@@ -26,25 +28,25 @@
         android:layout_gravity="bottom"
         android:singleLine="true"
         app:layout_marginLeftPercent="10%"
-        app:layout_marginBottomPercent="5%"
+        app:layout_marginBottomPercent="1%"
         android:text="@string/inloading"
         android:textSize="14sp"
         android:textAppearance="?android:attr/textAppearanceMedium"
        	 />
 
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/yuepai_time"
-        android:singleLine="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_marginLeftPercent="10%"
-        app:layout_marginBottomPercent="10%"
-        android:text="@string/inloading"
-        android:textSize="14sp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
+    <!--<TextView-->
+        <!--android:visibility="invisible"-->
+        <!--android:id="@+id/yuepai_time"-->
+        <!--android:singleLine="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--app:layout_marginLeftPercent="10%"-->
+        <!--app:layout_marginBottomPercent="10%"-->
+        <!--android:text="@string/inloading"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--/>-->
 
     <TextView
         android:id="@+id/yuepai_username"
@@ -52,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:layout_marginLeftPercent="10%"
-        app:layout_marginBottomPercent="23%"
+        app:layout_marginBottomPercent="9%"
         android:text="@string/inloading"
         android:singleLine="true"
         android:textColor="@color/gold"
@@ -65,8 +67,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:layout_marginLeftPercent="8%"
-        app:layout_marginBottomPercent="16%"
+        app:layout_marginLeftPercent="10%"
+        app:layout_marginBottomPercent="5%"
         android:maxLines="2"
         android:text="@string/inloading"
         android:textSize="14sp"

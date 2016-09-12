@@ -1,6 +1,5 @@
 package com.example.pc.shacus.Fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
@@ -46,13 +45,8 @@ import java.util.List;
 public class CourseFragment extends Fragment implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
     //推荐列表
     private LinearLayout recommendLine;
-    //推荐图//六个小标签
-    private TextView recommendText;
-    private ImageView recommendImage;
     private List<TextView> tagsT=new ArrayList<>();
     private List<ImageView>tag=new ArrayList<>();
-    private Button moreRecommend;
-    private ImageView myCourseImage;
     private NetRequest netRequest;
     private Handler handler=new Handler(){
         @Override
@@ -64,8 +58,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
                     recommendLine.removeAllViews();
                     for (int i = 0; i < courseHomepageRecommend.size(); i++) {
                         View view=mInflater.inflate(R.layout.item_fragment_course,null);
-                        recommendText= (TextView) view.findViewById(R.id.recommendCourse_Text);
-                        recommendImage= (ImageView) view.findViewById(R.id.recommendCourse_image);
+                        TextView recommendText = (TextView) view.findViewById(R.id.recommendCourse_Text);
+                        ImageView recommendImage = (ImageView) view.findViewById(R.id.recommendCourse_image);
                         recommendText.setText(courseHomepageRecommend.get(i).getCtitle());
                         recommendImage.setOnClickListener(CourseFragment.this);
                         Glide.with(CourseFragment.this.getActivity())
@@ -86,8 +80,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
                         image.setOnClickListener(CourseFragment.this);
                         tagsT.get(i).setText(courseHomepageModel.get(i).getCTname());
                     }
-            }else if(msg.what==StatusCode.REQUEST_COURSE_HOMEPAGE_TAG_SUCCESS){
-
+            }else{
+                    Toast.makeText(getActivity(),"失败!",Toast.LENGTH_SHORT).show();
                 }
         }
     };
@@ -112,8 +106,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
         tagsT.add((TextView) view.findViewById(R.id.text_tag4));
         tagsT.add((TextView) view.findViewById(R.id.text_tag5));
         tagsT.add((TextView) view.findViewById(R.id.text_tag6));
-        moreRecommend= (Button) view.findViewById(R.id.btn_moreRecommend);
-        myCourseImage= (ImageView) view.findViewById(R.id.myCourse_image);
+        Button moreRecommend = (Button) view.findViewById(R.id.btn_moreRecommend);
+        ImageView myCourseImage = (ImageView) view.findViewById(R.id.myCourse_image);
 
         moreRecommend.setOnClickListener(this);
         myCourseImage.setOnClickListener(this);

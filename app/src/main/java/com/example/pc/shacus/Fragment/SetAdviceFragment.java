@@ -20,8 +20,6 @@ import com.example.pc.shacus.R;
 //time:8.30
 public class SetAdviceFragment extends Fragment implements View.OnClickListener{
 
-    private ImageButton btn_back;
-    private TextView sendMessage;
     private EditText connectWay,content;
     public SetAdviceFragment() {
         // Required empty public constructor
@@ -34,10 +32,10 @@ public class SetAdviceFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_set_advice, container, false);
         //初始化
-        btn_back= (ImageButton) view.findViewById(R.id.btn_back);
+        ImageButton btn_back = (ImageButton) view.findViewById(R.id.btn_back);
         connectWay= (EditText) view.findViewById(R.id.advice_connectType);
         content= (EditText) view.findViewById(R.id.advice_content);
-        sendMessage= (TextView) view.findViewById(R.id.btn_sendMessage);
+        TextView sendMessage = (TextView) view.findViewById(R.id.btn_sendMessage);
 
         //添加监听
 
@@ -61,10 +59,6 @@ public class SetAdviceFragment extends Fragment implements View.OnClickListener{
     //点击发送后的响应事件
     private void fsendMessage() {
 
-    }
-
-    public EditText getConnectWay() {
-        return connectWay;
     }
 
     public EditText getContent() {

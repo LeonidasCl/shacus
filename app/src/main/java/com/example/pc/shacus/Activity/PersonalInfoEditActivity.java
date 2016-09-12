@@ -24,13 +24,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +40,6 @@ import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
-import com.example.pc.shacus.Util.AutoHint;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.UploadPhotoUtil;
@@ -72,11 +67,8 @@ import java.util.regex.Pattern;
 //Time:9.1
 public class PersonalInfoEditActivity extends AppCompatActivity implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
 
-    private ImageButton btn_back;
     private EditText userName,userAddress,userPhoneNumber,userEmail;
     private CircleImageView userImage;
-    private TextView btn_finish;
-    private TextView take_picture,select_local_picture;
     private FrameLayout edit_photo_fullscreen_layout;
     UserModel dataModel;
     private NetRequest netRequest;
@@ -85,7 +77,6 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
     private final int NONE=0,TAKE_PICTURE=1,LOCAL_PICTURE=2,UPLOAD_TAKE_PICTURE=4,SAVE_THEME_IMAGE=5;
     private RelativeLayout edit_photo_outer_layout;
     private Intent intent;
-    private Drawable addPicture;
     private boolean headImageChanged=false;
     private ProgressDialog progressDlg;
 
@@ -156,7 +147,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                     Bitmap bitmap= UploadPhotoUtil.getInstance()
                             .trasformToZoomPhotoAndLessMemory(takePictureUrl);
                     BitmapDrawable bd=new BitmapDrawable(getResources(),bitmap);
-                    addPicture=bd;
+                    Drawable addPicture = bd;
                     userImage.setImageDrawable(addPicture);
                     headImageChanged=true;
                     break;
@@ -169,7 +160,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                         break;
                     }
                     Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomPhotoAndLessMemory(photo_local_file_path);
-                    addPicture=new BitmapDrawable(getResources(), bitmap2);
+                    addPicture =new BitmapDrawable(getResources(), bitmap2);
                     takePictureUrl=photo_local_file_path;
                     userImage.setImageDrawable(addPicture);
                     headImageChanged=true;
@@ -185,16 +176,16 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_personal_info_edit);
 
         //init
-        btn_back= (ImageButton) findViewById(R.id.btn_back);
-        btn_finish= (TextView) findViewById(R.id.btn_finish);
+        ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
+        TextView btn_finish = (TextView) findViewById(R.id.btn_finish);
         userName = (EditText) findViewById(R.id.textData_UserName);
         userEmail= (EditText) findViewById(R.id.textData_UserEmail);
         userAddress= (EditText) findViewById(R.id.textData_UserAddress);
         userPhoneNumber= (EditText) findViewById(R.id.textData_UserPhoneNumber);
         userImage= (CircleImageView) findViewById(R.id.imageData_UserImage);
 
-        take_picture= (TextView) findViewById(R.id.take_picture);
-        select_local_picture= (TextView) findViewById(R.id.select_local_picture);
+        TextView take_picture = (TextView) findViewById(R.id.take_picture);
+        TextView select_local_picture = (TextView) findViewById(R.id.select_local_picture);
         netRequest=new NetRequest(this,this);
 
         userPhoneNumber.setEnabled(false);
@@ -251,7 +242,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                 break;
             case R.id.btn_finish:
                 //传入数据
-                if(userName.getText().toString().equals("")||userEmail.getText().toString()=="") {
+                if(userName.getText().toString().equals("")||userEmail.getText().toString().equals("")) {
                     Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -346,7 +337,8 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
     private String checkChange() {
         String result="";
         //头像更改
-        if (false){result+="1";}else{result+="0";}
+        //此处待改，保留
+        result += "0";
         //其他更改
         if(!dataModel.getNickName().equals(String.valueOf(userName.getText()))){result+="1";}else{result+="0";}
         if(!dataModel.getPhone().equals(String.valueOf(userPhoneNumber.getText()))){result+="1";}else{result+="0";}
@@ -381,35 +373,48 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
             String code=jsonObject.getString("code");
             Log.d("LQQQQQ", code);
             Log.d("LQQQQQ", jsonObject.getString("contents"));
-            if(code.equals("10503")){
-                dataModel.setNickName(getUserName().getText().toString());}
-            else if(code.equals("10504")){
-                Log.d("LQQQQQQQ", "name fail");}
-            else if(code.equals("10505")){
-                dataModel.setPhone(getUserPhoneNumber().getText().toString());}
-            else if(code.equals("10506")){
-                Log.d("LQQQQQQQ", "num fail");}
-            else if(code.equals("10507")){
-                dataModel.setLocation(getUserAddress().getText().toString());}
-            else if(code.equals("10508")){
-                Log.d("LQQQQQQQ", "adress fail");}
-            else if(code.equals("10509")){
-                dataModel.setMailBox(getUserEmail().getText().toString());}
-            else if(code.equals("10510")){
-                Log.d("LQQQQQQQ", "email fail");}
+            switch (code) {
+                case "10503":
+                    dataModel.setNickName(getUserName().getText().toString());
+                    break;
+                case "10504":
+                    Log.d("LQQQQQQQ", "name fail");
+                    break;
+                case "10505":
+                    dataModel.setPhone(getUserPhoneNumber().getText().toString());
+                    break;
+                case "10506":
+                    Log.d("LQQQQQQQ", "num fail");
+                    break;
+                case "10507":
+                    dataModel.setLocation(getUserAddress().getText().toString());
+                    break;
+                case "10508":
+                    Log.d("LQQQQQQQ", "adress fail");
+                    break;
+                case "10509":
+                    dataModel.setMailBox(getUserEmail().getText().toString());
+                    break;
+                case "10510":
+                    Log.d("LQQQQQQQ", "email fail");
+                    break;
+            }
 
-            if (code.equals("10514")){
-                CommonUtils.getUtilInstance().showToast(PersonalInfoEditActivity.this,"获取上传认证失败");
-                return;
-            }else if(code.equals("10515")){
-                JSONArray token=jsonObject.getJSONArray("contents");
-                upToken=token.getString(0);//成功获取口令
-                handler.sendEmptyMessage(UPLOAD_TAKE_PICTURE);
-                return;
-            }else if(code.equals("66666")){//66666
-                progressDlg.dismiss();
-                String url=jsonObject.getString("contents");
-                dataModel.setHeadImage(url);
+            switch (code) {
+                case "10514":
+                    CommonUtils.getUtilInstance().showToast(PersonalInfoEditActivity.this, "获取上传认证失败");
+                    return;
+                case "10515":
+                    JSONArray token = jsonObject.getJSONArray("contents");
+                    upToken = token.getString(0);//成功获取口令
+
+                    handler.sendEmptyMessage(UPLOAD_TAKE_PICTURE);
+                    return;
+                case "66666": //66666
+                    progressDlg.dismiss();
+                    String url = jsonObject.getString("contents");
+                    dataModel.setHeadImage(url);
+                    break;
             }
             ACache cache=ACache.get(PersonalInfoEditActivity.this);
             LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
@@ -436,8 +441,6 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
     }
 
     /*************
-     * @param uri
-     * @return
      */
     //是否为外置存储器
     public static boolean isExternalStorageDocument(Uri uri){

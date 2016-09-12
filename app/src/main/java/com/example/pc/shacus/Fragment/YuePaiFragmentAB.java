@@ -106,7 +106,6 @@ public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterfa
         //attachMenu(layout);
 
         //获得约摸特还是摄影师
-        setEventflag(2);
         yuepaiDatalist = new ArrayList<>();
         aCache = ACache.get(getActivity());
         LoginDataModel loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
@@ -316,7 +315,7 @@ public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterfa
             ImageView cardPic=(ImageView)convertView.findViewById(R.id.yuepai_card_pic);
             TextView username = (TextView) convertView.findViewById(R.id.yuepai_username);
             TextView introduce = (TextView) convertView.findViewById(R.id.yuepai_introduce);
-            TextView time = (TextView) convertView.findViewById(R.id.yuepai_time);
+           // TextView time = (TextView) convertView.findViewById(R.id.yuepai_time);
             TextView location = (TextView) convertView.findViewById(R.id.yuepai_location);
             cardPic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -371,8 +370,8 @@ public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterfa
                 convertView = m;
             }
             ImageView imageView = (ImageView) convertView.findViewById(R.id.yuepai_header_img);
-            if (position<3||position>13){
-                imageView.setImageResource(R.drawable.holder);
+            if (position<3||position>12){
+                imageView.setImageResource(R.drawable.p0);
             }else {
                // Picasso.with(getContext()).load(yuepaiDatalist.get((position)%yuepaiDatalist.size()).getImage()).into(imageView);
                Picasso.with(getContext()).load(yuepaiDatalist.get((position+7) % yuepaiDatalist.size()).getImage()).into(imageView);

@@ -1,6 +1,8 @@
 package com.example.pc.shacus.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -23,12 +25,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,6 +57,7 @@ import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.DisplayUtil;
 import com.example.pc.shacus.Util.SystemBarTintManager;
@@ -60,6 +65,7 @@ import com.example.pc.shacus.View.CircleImageView;
 import com.tencent.map.geolocation.TencentLocationRequest;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -92,9 +98,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ACache cache;
     private CircleImageView btnAvartar;
     private TextView textName;
-
+    private EditText userSign;
+    private String cacheSign="";
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
+    private NetRequest netRequest;
+    private ProgressDialog progressDlg;
+    private boolean signFlag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,13 +230,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //获取登录状态添加到侧滑栏信息
         if (user!=null) {
-            ACache acache=ACache.get(this);
+            final ACache acache=ACache.get(this);
             LoginDataModel model=(LoginDataModel)acache.getAsObject("loginModel");
             user=model.getUserModel();
             ImageView userImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
             TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
             ImageView userLevel = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
-            TextView userSign = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
+            userSign = (EditText) navigationView.getHeaderView(0).findViewById(R.id.text_userSign);
             userName.setText(user.getNickName());
             userSign.setText(user.getSign());
             textName.setText(user.getNickName());
@@ -250,6 +260,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(btnAvartar);
+            //签名
+            netRequest=new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                @Override
+                public void requestFinish(String result, String requestUrl) throws JSONException {
+                    if(requestUrl.equals(CommonUrl.settingChangeNetUrl)){
+                        JSONObject js=new JSONObject(result);
+                        String code=js.getString("code");
+                        switch (code){
+                            case "10518":
+                                progressDlg.dismiss();
+                                Log.d("LQQQQQ", "修改成功 ");
+                                user.setSign(userSign.getText().toString());
+                                LoginDataModel data= (LoginDataModel) acache.getAsObject("loginModel");
+                                data.setUserModel(user);
+                                acache.put("loginModel", data);
+                                cacheSign=userSign.getText().toString();
+                                break;
+                            case "10514":
+                                userSign.setText(cacheSign);
+                                cacheSign="";
+                                Log.d("LQQQQQ", "网络异常，修改失败 ");
+                                progressDlg.dismiss();
+                                signFlag=false;
+                                break;
+                            default:
+                                userSign.setText(cacheSign);
+                                cacheSign="";
+                                progressDlg.dismiss();
+                                Log.d("LQQQQQ", "网络异常，修改失败 ");
+                                signFlag=false;
+                                break;
+                        }
+                    }
+                }
+
+                @Override
+                public void exception(IOException e, String requestUrl) {
+
+                }
+            }, MainActivity.this);
+            //设置签名监听事件
+            userSign.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(!signFlag){
+                        cacheSign=userSign.getText().toString();
+                        userSign.setText("");
+                        userSign.setText(cacheSign);
+                        signFlag=true;
+                    }else if(signFlag){
+                        userSign.setText(cacheSign);
+                        cacheSign="";
+                        signFlag=false;
+                    }
+                    Log.d("LQQQQQQ", "on FocusChange: ");
+                }
+            });
+            userSign.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if(userSign.getText().length()>30){
+                        userSign.setText(cacheSign);
+                        cacheSign="";
+                        signFlag=true;
+                        CommonUtils.getUtilInstance().showToast(MainActivity.this,"签名长度不能超过30");
+                    }else if(userSign.getText().length()<1){
+                        userSign.setText(cacheSign);
+                        cacheSign="";
+                        signFlag=true;
+                        CommonUtils.getUtilInstance().showToast(MainActivity.this,"签名长度不能为空");
+                    }else{
+                        HashMap map=new HashMap();
+                        map.put("uid",user.getId());
+                        map.put("authkey",user.getAuth_key());
+                        map.put("sign",userSign.getText().toString());
+                        map.put("type", "10517");
+                        netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
+                        progressDlg=ProgressDialog.show(MainActivity.this, "上传签名", "正在上传签名", true, true, new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                userSign.setText(cacheSign);
+                                CommonUtils.getUtilInstance().showToast(MainActivity.this,"取消更改");
+                            }
+                        });
+                        signFlag=true;
+                    }
+                    Log.d("LQQQQQQ", "onEditorAction: ");
+                    return false;
+                }
+            });
 //            //设置侧滑栏文字信息
 //            this.getLayoutInflater().setFactory(
 //                    new android.view.LayoutInflater.Factory(){
@@ -299,11 +399,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         yuePaiFragment.getRankFrag().doRefresh();
     }
 
-    @Override//不要忘记渲染APP动作条的overflow菜单
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_appbar, menu);
-        return true;
-    }
+//    @Override//不要忘记渲染APP动作条的overflow菜单
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_appbar, menu);
+//        return true;
+//    }
 
     private void initNetworkData(){
     }
