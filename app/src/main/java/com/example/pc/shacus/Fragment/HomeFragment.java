@@ -66,7 +66,6 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
         firstPageAdapter = new FirstPageAdapter(itemModelList,this);
 
         listView.setAdapter(firstPageAdapter);*/
-        initInfo();
         return view;
     }
 
@@ -81,6 +80,12 @@ public class HomeFragment extends Fragment implements NetworkCallbackInterface.N
         map.put("authkey", authkey);
         map.put("type", StatusCode.REQUEST_ALLDONGTAI);
         netRequest.httpRequest(map, CommonUrl.allDongtai);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initInfo();
     }
 
     private Handler handler = new Handler(){
