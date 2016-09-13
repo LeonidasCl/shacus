@@ -273,7 +273,7 @@ public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterfa
                         yuePaiDataModel.setAPtitle(data.getString("nickName"));
                         yuePaiDataModel.setAPid(data.getInt("id"));
                         yuePaiDataModel.setAPcontent(data.getString("sign"));
-                       // yuePaiDataModel.setAPlocation(data.getString("location"));
+                        yuePaiDataModel.setAPlocation(data.getString("location"));
                         yuePaiDataModel.setImage(data.getString("headImage"));
                         yuePaiDataModel.setImagecard(data.getString("image"));
                         yuePaiDataModel.setRank(data.getInt("rank"));
