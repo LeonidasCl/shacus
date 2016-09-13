@@ -20,8 +20,11 @@
         android:textColor="#ffffff"
         android:padding="5dp"
         android:textSize="12sp"
-        android:background="#aacecece"
         android:layout_centerInParent="true"
+        android:shadowColor="#aa000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
         />
 
 </RelativeLayout>
