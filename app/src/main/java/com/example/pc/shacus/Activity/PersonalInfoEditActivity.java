@@ -77,7 +77,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
     private final int NONE=0,TAKE_PICTURE=1,LOCAL_PICTURE=2,UPLOAD_TAKE_PICTURE=4,SAVE_THEME_IMAGE=5;
     private RelativeLayout edit_photo_outer_layout;
     private Intent intent;
-    private boolean headImageChanged=false;
+    private boolean headImageChanged=false,imagefinish=true;
     private ProgressDialog progressDlg;
 
     private Handler handler=new Handler(){
@@ -242,13 +242,13 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                 break;
             case R.id.btn_finish:
                 //传入数据
-                if(userName.getText().toString().equals("")||userEmail.getText().toString().equals("")) {
+                if(userName.getText().toString().equals("")) {
                     Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
                 Pattern regex = Pattern.compile(check);
-                Matcher matcher = regex.matcher(userEmail.getText());
+                Matcher matcher = regex.matcher(userEmail.getText().toString());
                 if(!matcher.matches()){
                     Toast.makeText(this, "邮箱格式不正确", Toast.LENGTH_SHORT).show();
                     break;
@@ -405,15 +405,16 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                     CommonUtils.getUtilInstance().showToast(PersonalInfoEditActivity.this, "获取上传认证失败");
                     return;
                 case "10515":
+                    imagefinish=false;
                     JSONArray token = jsonObject.getJSONArray("contents");
                     upToken = token.getString(0);//成功获取口令
-
                     handler.sendEmptyMessage(UPLOAD_TAKE_PICTURE);
                     return;
                 case "66666": //66666
                     progressDlg.dismiss();
                     String url = jsonObject.getString("contents");
                     dataModel.setHeadImage(url);
+                    imagefinish=true;
                     break;
             }
             ACache cache=ACache.get(PersonalInfoEditActivity.this);
@@ -421,7 +422,10 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
             model.setUserModel(dataModel);
             cache.put("loginModel", model);
         }
-        finish();
+        if(imagefinish)
+            finish();
+        else
+            return;
     }
 
     @Override

@@ -132,6 +132,7 @@
                 android:layout_margin="12dp"
                 android:background="#00000000"
                 android:scaleType="centerInside"
+                android:clickable="false"
                 />
 
             <TextView
