@@ -1,7 +1,7 @@
 package com.example.pc.shacus.Data.Model;
 
 /**
- * Created by lq on 2016/9/8.
+ * Created by 李前 on 2016/9/8.
  */
 public class CourseHomepageModel {
     private String CTid;

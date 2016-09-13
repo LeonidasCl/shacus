@@ -18,7 +18,7 @@ import com.example.pc.shacus.R;
 import java.util.List;
 
 /**
- * Created by pc on 2016/9/2.
+ * Created by 李嘉文 on 2016/9/2.
  */
 public class JoinUserGridAdapter extends BaseAdapter {
 

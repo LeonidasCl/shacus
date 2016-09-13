@@ -13,7 +13,10 @@ import com.example.pc.shacus.R;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
-
+/*
+* 李嘉文 会话列表
+* 参照融云二次开发
+* */
 
 public class ConversationListStaticFragment extends Fragment {
 

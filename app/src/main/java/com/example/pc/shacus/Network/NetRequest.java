@@ -21,7 +21,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
+/*
+* 李嘉文 网络请求工具类
+* */
 public class NetRequest {
 	private NetworkCallbackInterface.NetRequestIterface netRequestIterface;
 	private Context context;

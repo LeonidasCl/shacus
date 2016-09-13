@@ -41,7 +41,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
  * @author chiemy
- * 
+ * 李嘉文 大量修改
  */
 public class CardView extends FrameLayout {
 

@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * licl 2016.7.18
+ * 李嘉文 2016/8/28
  *
  */
 public class HuodongItemAdapter extends BaseAdapter{

@@ -6,7 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-
+/*
+* 上传图片列表pager
+* 李嘉文
+* */
 public class UploadViewPager extends ViewPager {
 
 	PointF downPoint = new PointF();

@@ -14,8 +14,9 @@ import com.example.pc.shacus.R;
 import io.rong.imkit.fragment.ConversationFragment;
 
 /**
- * Created by Bob on 15/7/28.
+ * Created by 融云 on 15/7/28.
  * fragmet 动态集成
+ * 李嘉文修改
  */
 public class ConversationDynamicFragment extends Fragment {
 

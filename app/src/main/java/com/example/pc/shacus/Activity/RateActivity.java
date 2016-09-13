@@ -20,7 +20,7 @@ import org.json.JSONException;
 import java.io.IOException;
 
 /**
- * Created by pc on 2016/9/9.
+ * Created by 李嘉文 on 2016/9/9.
  */
 public class RateActivity extends Activity implements RatingBar.OnRatingBarChangeListener, NetworkCallbackInterface.NetRequestIterface{
 

@@ -7,7 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.EditText;
-
+/*
+* 带图标的编辑框
+* 李嘉文
+* */
 public class IconEditView extends EditText {
       
     private final String nameSpace="http://com.licl.icontext";

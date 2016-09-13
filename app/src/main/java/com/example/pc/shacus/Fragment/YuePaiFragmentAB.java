@@ -55,7 +55,8 @@ import java.util.Map;
 
 /**
  * 约拍子界面A（二级页面，约拍模特）
- * Created by pc on 2016/7/13.
+ * 李嘉文
+ * Created by pc on 2016/8/23.
  */
 public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterface.NetRequestIterface{
 

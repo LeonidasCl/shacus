@@ -18,6 +18,8 @@ import android.widget.ImageView;
  *         It override ImageView's onDraw , so , some ImageView's origin function can not work: 1.
  *         DrawMatrix is disabled 2. CropToPadding is useless 3. It will be always work in
  *         CenterCrop mode!!!!!!
+ *
+ *         李嘉文 引入 修改
  * 
  */
 public class RoundImageView extends ImageView {

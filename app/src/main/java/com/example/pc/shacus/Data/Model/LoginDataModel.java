@@ -2,7 +2,9 @@ package com.example.pc.shacus.Data.Model;
 
 import java.io.Serializable;
 import java.util.List;
-
+/*
+* 李嘉文 注册数据模型
+* */
 public class LoginDataModel implements Serializable {
 
 	private UserModel userModel;

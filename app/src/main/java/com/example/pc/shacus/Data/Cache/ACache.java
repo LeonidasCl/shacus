@@ -52,7 +52,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * 引用自开源库 ASimpleCache
+ * 引用自开源库 ASimpleCache（已停止维护）
+ * 做了大量修改和添加
+ * 李嘉文2016/8/23
  */
 public class ACache {
     public static final int TIME_HOUR = 60 * 60;

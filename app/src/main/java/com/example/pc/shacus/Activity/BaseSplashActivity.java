@@ -16,7 +16,7 @@ import com.example.pc.shacus.Util.DisplayUtil;
 
 /**
  *
- * Created by pc on 2016/3/10.
+ * Created 李嘉文 on 2016/8/10.
  */
 public abstract class BaseSplashActivity extends AppCompatActivity {
 

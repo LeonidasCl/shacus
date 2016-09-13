@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by cuicui on 2016/9/7.
+ * Created by 崔颖华 on 2016/9/7.
  * 选择用户
  */
 public class SelectUserActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface{

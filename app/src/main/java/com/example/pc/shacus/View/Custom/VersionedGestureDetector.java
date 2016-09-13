@@ -12,7 +12,10 @@
  * limitations under the License.
  */
 package com.example.pc.shacus.View.Custom;
-
+/*
+* 按作者要求保留协议
+* 李嘉文 引入
+* */
 /*******************************************************************************
  * Copyright 2011, 2012 Chris Banes.
  *

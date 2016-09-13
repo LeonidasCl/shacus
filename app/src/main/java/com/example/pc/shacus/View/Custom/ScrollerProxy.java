@@ -34,7 +34,9 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.widget.OverScroller;
 import android.widget.Scroller;
-
+/*
+* 网络引入
+* */
 public abstract class ScrollerProxy {
 
 	public static ScrollerProxy getScroller(Context context) {

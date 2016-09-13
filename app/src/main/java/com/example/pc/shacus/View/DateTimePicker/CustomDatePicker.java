@@ -16,7 +16,8 @@ import java.lang.reflect.Field;
  * dividers.
  *
  * @author jjobes
- *
+ * 按作者要求保留协议 修改部分内容
+ * 李嘉文 引入
  */
 public class CustomDatePicker extends DatePicker
 {

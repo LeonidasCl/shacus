@@ -5,8 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * 页面头部View
- *
+ * 活动页面头部View
+ * 李嘉文
  */
 public class PageHeadView extends MoveView {
 

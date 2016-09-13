@@ -17,6 +17,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /*
 * 单条约拍项打开的页面
+* 李嘉文
 * */
 public class YuePaiDetailFragmentA extends Fragment {
 	private TextView tv;

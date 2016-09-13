@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 /**
- * Created by pc on 2016/9/1.
+ * Created by 李嘉文 on 2016/9/1.
  */
 public class ImgAddGridView extends GridView
 {

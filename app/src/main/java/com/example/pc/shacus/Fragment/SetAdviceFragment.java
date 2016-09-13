@@ -16,7 +16,7 @@ import com.example.pc.shacus.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-//Author:LQ
+//Author:李前
 //time:8.30
 public class SetAdviceFragment extends Fragment implements View.OnClickListener{
 

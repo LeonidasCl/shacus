@@ -97,7 +97,7 @@ import java.util.Random;
 
 /**
  * 创建约拍界面
- * Created by pc on 2016/8/26.
+ * Created by 李嘉文 on 2016/8/26.
  */
 public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListener, NetworkCallbackInterface.NetRequestIterface,
             NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{

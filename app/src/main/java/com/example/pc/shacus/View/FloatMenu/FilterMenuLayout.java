@@ -35,6 +35,8 @@ import java.util.List;
 
 /**
  * Created by linroid on 15/3/4.
+ *  * 按作者要求保留协议 修改部分内容
+ * 李嘉文 引入
  */
 public class FilterMenuLayout extends ViewGroup {
     public static final String TAG = "FilterMenuLayout";

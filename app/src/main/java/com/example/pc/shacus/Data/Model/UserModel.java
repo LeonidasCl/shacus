@@ -3,7 +3,7 @@ package com.example.pc.shacus.Data.Model;
 import java.io.Serializable;
 
 /**
- * Created by pc on 2016/3/7.
+ * Created by 李嘉文 on 2016/3/7.
  */
 public class UserModel implements Serializable{
     private String headImage;

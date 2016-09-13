@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 /**
- * Created by guohuanwen on 2015/10/6.
+ * Created by 李嘉文 on 2016/9/6.
  */
 public class LoadingRotate extends View {
     private Paint paint;

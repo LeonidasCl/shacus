@@ -12,6 +12,10 @@ import com.example.pc.shacus.R;
 
 import java.util.List;
 
+/*
+* 李嘉文 2016/8/26
+* */
+
 public class ImageAddGridViewAdapter extends BaseAdapter{
 
 	private List<Drawable>list;

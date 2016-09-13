@@ -3,7 +3,7 @@ package com.example.pc.shacus.Data.Model;
 import java.io.Serializable;
 
 /**
- * Created by cuicui on 2016/9/3.
+ * Created by 崔颖华 on 2016/9/3.
  */
 public class ItemModel implements Serializable{
 

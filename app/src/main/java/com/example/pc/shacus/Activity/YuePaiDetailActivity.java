@@ -53,6 +53,11 @@ import java.util.Map;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 
+/*
+* 约拍详情页
+* 李嘉文
+* */
+
 public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     HorizontalScrollView horizontalScrollView;

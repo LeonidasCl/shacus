@@ -18,6 +18,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
+/*
+* 上传图片辅助类
+* 李嘉文
+* */
+
 public class UploadPhotoUtil<MultipartEntity> {
 
     final static int BUFFER_SIZE = 1024;
@@ -129,7 +134,6 @@ public class UploadPhotoUtil<MultipartEntity> {
         //options.inPurgeable = true;
         //options.inInputShareable = true;
         options.inJustDecodeBounds = false;
-        Log.d("gaolei", "inSampleSize-----------------" + inSampleSize);
         int degree = readPictureDegree(file.getAbsolutePath());
         InputStream is = null;
         try {
@@ -157,7 +161,6 @@ public class UploadPhotoUtil<MultipartEntity> {
     public Bitmap trasformToZoomPhotoAndLessMemory(String url) {
         File file = new File(url);
 
-        Log.d("gaolei", "file.length()--------original-------------" + file.length());
         BitmapFactory.Options options = new BitmapFactory.Options();
         // 通过这个bitmap获取图片的宽和高
         options.inJustDecodeBounds = true;
@@ -181,11 +184,7 @@ public class UploadPhotoUtil<MultipartEntity> {
        // options.inInputShareable = true;
         // 注意这次要把options.inJustDecodeBounds 设为 false,这次图片是要读取出来的
         options.inJustDecodeBounds = false;
-
-        Log.d("gaolei", "inSampleSize-----------------" + inSampleSize);
         int degree = readPictureDegree(file.getAbsolutePath());
-        // Log.d("gaolei", "degree------------uploadImg--------------" +
-        // degree);
         InputStream is = null;
         try {
             is = new FileInputStream(url);

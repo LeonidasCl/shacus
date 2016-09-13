@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
+/*
+* 显示单位转换辅助类
+* 李嘉文 集成和修改
+* */
 public class DisplayUtil {
     private DisplayUtil() {
     }

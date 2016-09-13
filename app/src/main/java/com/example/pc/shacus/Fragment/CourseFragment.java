@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-//LQ
+//李前
 //9.5
 public class CourseFragment extends Fragment implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
     //推荐列表

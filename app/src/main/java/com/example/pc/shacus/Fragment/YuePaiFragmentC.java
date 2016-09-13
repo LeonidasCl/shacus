@@ -18,6 +18,8 @@ import com.example.pc.shacus.View.PageHeadView;
 
 /**
  * 活动列表界面(二级)
+ * 李嘉文
+ * 2016/8/24
  */
 public class YuePaiFragmentC extends Fragment {
 

@@ -10,7 +10,10 @@ import com.example.pc.shacus.R;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+/*
+* 排行榜适配器
+* 李嘉文2016/8/26
+* */
 public abstract class CardAdapter<T> extends BaseCardAdapter {
 	private final Context mContext;
 

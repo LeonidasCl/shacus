@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.logging.LogRecord;
 
 /**
- * licl 2016.9.3
+ * 李嘉文 2016.9.3
  * 重写的排行榜fragment
  */
 //lq修改

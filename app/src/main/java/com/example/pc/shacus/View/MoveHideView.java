@@ -12,7 +12,8 @@ import com.example.pc.shacus.R;
 
 /**
  * 活动列表页面
- * Created by pc on 2016/6/25.
+ * Created by 李嘉文 on 2016/8/25.
+ * 部分方法参考网络
  */
 public class MoveHideView extends FrameLayout implements TouchMoveView.TouchMoveListener {
 

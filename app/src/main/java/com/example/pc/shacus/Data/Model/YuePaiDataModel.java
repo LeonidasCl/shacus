@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by pc on 2016/7/13.
+ * Created by 李嘉文 on 2016/7/13.
  */
 public class YuePaiDataModel implements Serializable {
 

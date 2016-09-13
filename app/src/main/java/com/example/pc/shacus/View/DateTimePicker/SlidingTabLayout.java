@@ -33,6 +33,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 /**
+ *
+ *  * 按作者要求保留协议 修改部分内容
+ * 李嘉文 引入
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
  * <p>

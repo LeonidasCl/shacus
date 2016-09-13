@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * Created by LQ on 2016/9/2.
+ * Created by 李前 on 2016/9/2.
  */
 public class SettingDataModel implements Serializable{
     private String userPhone;

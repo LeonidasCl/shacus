@@ -23,6 +23,8 @@ import java.util.List;
 /**
  * Author: lujun(http://blog.lujun.co)
  * Date: 2015-12-30 17:14
+ *  * 按作者要求保留协议 修改部分内容
+ * 李嘉文 引入
  */
 public class TagContainerLayout extends ViewGroup {
 

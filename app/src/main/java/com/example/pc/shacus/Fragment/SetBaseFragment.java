@@ -40,7 +40,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-//Author:LQ
+//Author:李前
 //Time:8.29
     //change1:继续完成
     //worker:LQ

@@ -14,7 +14,10 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.pc.shacus.R;
-
+/*
+* 标签添加活动
+* 李嘉文
+* */
 public class TagAddActivity extends Activity {
 
     private ListView lv;

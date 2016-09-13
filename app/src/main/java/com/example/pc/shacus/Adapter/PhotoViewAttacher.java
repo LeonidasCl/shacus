@@ -53,7 +53,10 @@ import com.example.pc.shacus.View.Custom.ScrollerProxy;
 import com.example.pc.shacus.View.Custom.VersionedGestureDetector;
 
 import java.lang.ref.WeakReference;
-
+/*
+* 李嘉文
+* 大图处理工具类
+* */
 public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, VersionedGestureDetector.OnGestureListener,
 		GestureDetector.OnDoubleTapListener, ViewTreeObserver.OnGlobalLayoutListener {
 

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cuicui on 2016/9/3.
+ * Created by 崔颖华 on 2016/9/3.
  * 瀑布流布局适配器
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerHolderView>{

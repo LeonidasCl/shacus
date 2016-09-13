@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 /**
- *
+ *李嘉文
  */
 public class MoveView extends FrameLayout {
 

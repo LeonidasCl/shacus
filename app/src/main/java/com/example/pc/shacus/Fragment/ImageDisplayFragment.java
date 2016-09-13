@@ -17,7 +17,10 @@ import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.UploadPhotoUtil;
 import com.example.pc.shacus.View.Custom.PhotoView;
-
+/*
+* 大图页面
+* 李嘉文
+* */
 
 public class ImageDisplayFragment extends Fragment implements OnClickListener{
 

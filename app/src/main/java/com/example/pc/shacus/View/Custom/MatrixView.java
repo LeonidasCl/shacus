@@ -5,7 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
-
+/*
+* 一个活动页view
+* 从网络引入
+* */
 public class MatrixView extends LinearLayout {
     private int h = 0;
     private float fullAngelFactor = 30f;

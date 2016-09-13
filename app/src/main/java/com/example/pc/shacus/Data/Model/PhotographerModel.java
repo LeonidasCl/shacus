@@ -3,7 +3,7 @@ package com.example.pc.shacus.Data.Model;
 import java.io.Serializable;
 
 /**
- * Created by pc on 2016/9/2.
+ * Created by 李嘉文 on 2016/9/2.
  */
 
 //数据模型：摄影师发布的约拍

@@ -11,7 +11,8 @@ import com.example.pc.shacus.Util.SystemBarTintManager;
 
 
 /**
- * Created by Bob_ge on 15/7/26.
+ * Created by 融云 on 15/7/26.
+ * added by 李嘉文
  */
 public class BaseActivtiy extends ActionBarActivity {
 

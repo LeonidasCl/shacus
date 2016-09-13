@@ -34,7 +34,7 @@ import java.util.Map;
 
 
 /**
- * licl 2016.9.4
+ * 李嘉文 2016.9.4
  */
 public class YuePaiAdapter extends BaseAdapter{
 

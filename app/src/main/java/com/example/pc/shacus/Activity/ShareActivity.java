@@ -17,7 +17,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import java.io.IOException;
 import java.util.Hashtable;
 
-//Author:LQ
+//Author:李前
 //time:8.30
 //分享界面（二级）
 public class ShareActivity extends AppCompatActivity  implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{

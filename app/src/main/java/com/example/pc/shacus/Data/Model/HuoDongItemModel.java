@@ -3,8 +3,8 @@ package com.example.pc.shacus.Data.Model;
 import java.io.Serializable;
 
 /**
- *
- *
+ * 李嘉文 2016/9/5
+ * 活动数据模型
  */
 
 public class HuoDongItemModel implements Serializable{

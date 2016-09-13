@@ -37,6 +37,7 @@ import okhttp3.Cache;
 
 /**
  * 内容视图
+ * 李嘉文
  */
 public class ContentView extends TouchMoveView implements NetworkCallbackInterface.NetRequestIterface{
 

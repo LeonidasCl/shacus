@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  *
- * Created by pc on 2016/3/7.
+ * Created by 李嘉文 on 2016/3/7.
  */
 public class PictureModel  implements Serializable {
 

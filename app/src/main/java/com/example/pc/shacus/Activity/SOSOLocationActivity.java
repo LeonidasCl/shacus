@@ -41,7 +41,8 @@ import org.apache.http.Header;
 import io.rong.message.LocationMessage;
 
 /**
- * Created by DragonJ on 14/11/21.
+ * Created by 腾讯地图 on 14/11/21.
+ * 李嘉文修改
  */
 
 @SuppressLint("ClickableViewAccessibility")

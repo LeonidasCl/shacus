@@ -13,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.pc.shacus.R;
+/*
+* 李前 2016/8/31
+* */
 
 public class CourseWebViewActivity extends AppCompatActivity implements View.OnClickListener{
 

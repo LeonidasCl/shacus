@@ -32,6 +32,8 @@ import java.util.Date;
  * <p>This {@code DialogFragment} is managed by {@link SlideDateTimePicker}.</p>
  *
  * @author jjobes
+ *  * 按作者要求保留协议 修改部分内容
+ * 李嘉文 引入
  *
  */
 public class SlideDateTimeDialogFragment extends DialogFragment implements DateFragment.DateChangedListener,

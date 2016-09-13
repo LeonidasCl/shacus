@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 
 /**
  * 内容视图头部
+ * 李嘉文
  */
 public class ContentHeadView extends MoveView {
 

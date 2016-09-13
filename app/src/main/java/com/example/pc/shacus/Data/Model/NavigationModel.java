@@ -3,7 +3,7 @@ package com.example.pc.shacus.Data.Model;
 import java.io.Serializable;
 
 /**
- * Created by pc on 2016/9/3.
+ * Created by 李嘉文 on 2016/9/3.
  */
 public class NavigationModel implements Serializable {
 

@@ -13,6 +13,8 @@ import android.view.View;
 /**
  * Author: lujun(http://blog.lujun.co)
  * Date: 2015-12-31 11:47
+ *  * 按作者要求保留协议 修改部分内容
+ * 李嘉文 引入
  */
 public class TagView extends View {
 

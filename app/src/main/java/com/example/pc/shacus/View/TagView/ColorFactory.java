@@ -5,6 +5,8 @@ import android.graphics.Color;
 /**
  * Author: lujun(http://blog.lujun.co)
  * Date: 2016-1-4 23:20
+ *  * 按作者要求保留协议 修改部分内容
+ * 李嘉文 引入
  */
 public class ColorFactory {
 

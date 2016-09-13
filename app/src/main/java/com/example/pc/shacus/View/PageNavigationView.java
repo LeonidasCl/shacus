@@ -13,7 +13,9 @@ import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.R;
 
 /**
- * 导航按钮
+ * 李嘉文
+ * 导航布局
+ * 修改 李前
  */
 public class PageNavigationView extends TouchMoveView {
 

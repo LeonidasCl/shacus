@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/*
+* 李嘉文 2016/8/23
+* */
 public class SplashActivity extends BaseSplashActivity implements NetworkCallbackInterface.NetRequestIterface {
 
     private NetRequest requestFragment;

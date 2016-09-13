@@ -15,6 +15,7 @@ import com.example.pc.shacus.R;
 
 /**
  自定义Toast
+ 李嘉文 参考网络
  */
 public class CToast {
 	

@@ -47,7 +47,8 @@ import cn.bingoogolapple.bgabanner.BGABannerUtil;
 
 /**
  * 约拍主界面（一级）
- * Created by pc on 2016/7/7.
+ * 李嘉文
+ * Created by pc on 2016/8/7.
  */
 public class YuePaiFragment extends android.support.v4.app.Fragment implements NetworkCallbackInterface.NetRequestIterface{
 
