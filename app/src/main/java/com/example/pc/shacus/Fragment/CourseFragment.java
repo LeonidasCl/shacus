@@ -45,9 +45,10 @@ import java.util.List;
 public class CourseFragment extends Fragment implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
     //推荐列表
     private LinearLayout recommendLine;
-    private List<TextView> tagsT=new ArrayList<>();
-    private List<ImageView>tag=new ArrayList<>();
+    private List<TextView> tagsT;
+    private List<ImageView>tag;
     private NetRequest netRequest;
+    private View view;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -93,6 +94,15 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
         //9.5缺少布局文件
         //9.6已更正
         View view=inflater.inflate(R.layout.frag_course, container, false);
+        this.view=view;
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tag=new ArrayList<>();
+        tagsT=new ArrayList<>();
         recommendLine= (LinearLayout) view.findViewById(R.id.recommendCourse_Linear);
         tag.add((ImageView) view.findViewById(R.id.btn_moreType1));
         tag.add((ImageView) view.findViewById(R.id.btn_moreType2));
@@ -114,7 +124,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
 
         netRequest=new NetRequest(CourseFragment.this,CourseFragment.this.getActivity());
 
-       // initImage();//添加初始图片，避免加载时破坏布局
+        // initImage();//添加初始图片，避免加载时破坏布局
 
         LayoutInflater itemInflater=LayoutInflater.from(CourseFragment.this.getActivity());
         View itemView=itemInflater.inflate(R.layout.item_fragment_course, null);
@@ -122,9 +132,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
 
         initNet();
 
-        return view;
     }
-//
+    //
 //    private void initImage() {
 //        LayoutInflater mInflater=LayoutInflater.from(CourseFragment.this.getActivity());
 //
