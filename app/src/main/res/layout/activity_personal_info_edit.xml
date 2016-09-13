@@ -14,8 +14,6 @@
     android:background="@color/edit_photo_bg_color">
 
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"

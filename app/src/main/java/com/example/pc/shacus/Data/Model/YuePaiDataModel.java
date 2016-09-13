@@ -447,4 +447,9 @@ public class YuePaiDataModel implements Serializable {
     public void setUserliked(int userliked) {
         Userliked = userliked;
     }
+
+    @Override
+    public String toString() {
+        return getRank()+"";
+    }
 }

@@ -46,6 +46,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -279,6 +281,23 @@ public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterfa
                         headerimg[i+3] = data.getString("headImage");
                         yuepaiDatalist.add(yuePaiDataModel);
                     }
+                    Collections.sort(yuepaiDatalist, new Comparator<YuePaiDataModel>() {
+                        @Override
+                        public int compare(YuePaiDataModel o1, YuePaiDataModel o2) {
+                            if(o1.getRank()>o2.getRank()){
+                                return 1;
+                            }
+                            if (o1.getRank()==o2.getRank()){
+                                return 0;
+                            }
+                            else{
+                                return -1;
+                            }
+
+
+
+                        }
+                    });
                     msg.what = StatusCode.REQUEST_PAIHANG_SUCCESS;
                     Log.d("jjjjjjjjjjjjjj",headerimg[3]);
                     handler.sendMessage(msg);
@@ -333,7 +352,10 @@ public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterfa
             introduce.setText(model.getAPcontent());
 //            time.setText(model.getAPcreateT().toString());
             location.setText(model.getAPlocation());
-            Picasso.with(getContext()).load(yuepaiDatalist.get(position%yuepaiDatalist.size()).getImagecard()).into(cardPic);
+            Picasso.with(getContext())
+                    .load(yuepaiDatalist.get(position%yuepaiDatalist.size()).getImagecard())
+                    .error(R.drawable.p0)
+                    .into(cardPic);
             return convertView;
         }
     }
