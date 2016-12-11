@@ -2,7 +2,7 @@ package com.example.pc.shacus.Util;
 
 public class CommonUrl {
 
-	private static final String netUrl="http://114.215.94.95:800/";
+	private static final String netUrl="http://123.206.227.249:800/";
 
 	public static final String getYuepaiNavigateurl = netUrl+"xxxxxxxxxx/xxxxxxxx/";
 	public static final String url = netUrl;
