@@ -21,6 +21,7 @@
     <include layout="@layout/content_main" />
 </android.support.design.widget.CoordinatorLayout>
 
+    <!--侧滑菜单-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="300dp"

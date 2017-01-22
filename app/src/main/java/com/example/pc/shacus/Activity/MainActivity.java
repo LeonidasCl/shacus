@@ -39,10 +39,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.rong.imkit.RongIM;
+import io.rong.imlib.MessageTag;
 import io.rong.imlib.RongIMClient;
 
 import com.bumptech.glide.Glide;
+
+import io.rong.imlib.TypingMessage.TypingStatus;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.TextMessage;
+import io.rong.message.VoiceMessage;
 
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -68,7 +74,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /*
@@ -208,8 +216,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 Log.e(TAG, "-----onError-----" + errorCode);
+                Toast.makeText(MainActivity.this, "登录失败，请检查网络", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        /*RongIMClient.setTypingStatusListener(new RongIMClient.TypingStatusListener() {
+            @Override
+            public void onTypingStatusChanged(Conversation.ConversationType type, String targetId, Collection<TypingStatus> typingStatusSet) {
+                //当输入状态的会话类型和targetID与当前会话一致时，才需要显示
+                if (type.equals(mConversationType) && targetId.equals(mTargetId)) {
+                    //count表示当前会话中正在输入的用户数量，目前只支持单聊，所以判断大于0就可以给予显示了
+                    int count = typingStatusSet.size();
+                    if (count > 0) {
+                        Iterator iterator = typingStatusSet.iterator();
+                        TypingStatus status = (TypingStatus) iterator.next();
+                        String objectName = status.getTypingContentType();
+
+                        MessageTag textTag = TextMessage.class.getAnnotation(MessageTag.class);
+                        MessageTag voiceTag = VoiceMessage.class.getAnnotation(MessageTag.class);
+                        //匹配对方正在输入的是文本消息还是语音消息
+                        if (objectName.equals(textTag.value())) {
+                            //显示“对方正在输入”
+                            mHandler.sendEmptyMessage(SET_TEXT_TYPING_TITLE);
+                        } else if (objectName.equals(voiceTag.value())) {
+                            //显示"对方正在讲话"
+                            mHandler.sendEmptyMessage(SET_VOICE_TYPING_TITLE);
+                        }
+                    } else {
+                        //当前会话没有用户正在输入，标题栏仍显示原来标题
+                        mHandler.sendEmptyMessage(SET_TARGETID_TITLE);
+                    }
+                }
+            }
+        });*/
 
         fragmentTrs=fragmentMgr.beginTransaction();
         conversationListStaticFragment = new ConversationListStaticFragment();
@@ -218,10 +258,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
-
-
-
-
 
         //MainActivity.OnCreate(此时已登录)
 //        TencentLocationRequest request = TencentLocationRequest.create();

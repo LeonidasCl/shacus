@@ -33,31 +33,48 @@ android {
 }
 
 dependencies {
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile fileTree(dir: 'src/main/libs', include: ['*.jar'])
     compile files('src/main/libs/core-3.2.1.jar')
-    compile files('src/main/libs/universal-image-loader-1.9.5.jar')
-    compile files('src/main/libs/gson-2.3.1.jar')
+
+    //测试框架
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:24.2.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'cn.bingoogolapple:bga-banner:2.0.5@aar'
-    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+
+    //安卓自带
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support:percent:24.2.0'
-    compile 'com.chanven.lib:cptr:1.0.0'
-    compile 'com.qiniu:qiniu-android-sdk:7.2.+'
+    compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:cardview-v7:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile project(':IMKit')
+
+    //图片加载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile files('src/main/libs/universal-image-loader-1.9.5.jar')
+
+    //网络框架
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile files('src/main/libs/gson-2.3.1.jar')
+
+    //对象存储
+    compile 'com.qiniu:qiniu-android-sdk:7.2.+'
+
+    //即时通讯
+    compile project(':IMKit')
+    compile files('src/main/libs/MiPush_SDK_Client_2_2_21.jar')
+
+    //地理位置
     compile files('src/main/libs/TencentLocationSDK_v4.4.6_r206631_151119_1441.jar')
     compile files('src/main/libs/TencentMapSDK_Raster_v1.1.2.16281.jar')
-    compile files('src/main/libs/MiPush_SDK_Client_2_2_21.jar')
+
+    //第三方界面
+    compile 'cn.bingoogolapple:bga-banner:2.0.5@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.chanven.lib:cptr:1.0.0'
 }

@@ -141,6 +141,7 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Activity.CoursesActivity"
             android:screenOrientation="nosensor"
             android:theme="@style/AppTheme.CoursesActivity">
@@ -160,7 +161,16 @@
             </intent-filter>
         </activity>
 
-
+        <receiver
+            android:exported="true"
+            android:name=".Reciever.ShacusNotificationReceiver">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

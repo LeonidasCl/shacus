@@ -54,8 +54,6 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     private NetRequest requestFragment;
     private Handler mHandler;
     private ProgressDialog loginProgressDlg;
-    private int loginReturn;
-    private ImageView loginbtnimg;
     private CountDownTimer timeCount;
     private String phone;
     private int pflag=0;//是否在guide里点击了注册按钮的flag
@@ -103,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
         password=(TextView)findViewById(R.id.login_password);
         verifycode=(TextView)findViewById(R.id.register_verifycode);
         btn_login=(Button)findViewById(R.id.btn_login);
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        btn_login.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         Map map = new HashMap();
@@ -184,7 +182,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             }
         });
         requestFragment=new NetRequest(this,this);
-        loginbtnimg=(ImageView)findViewById(R.id.loginimgview);
+        ImageView loginbtnimg = (ImageView) findViewById(R.id.loginimgview);
         loginbtnimg.bringToFront();
         forgotpassword=(TextView)findViewById(R.id.btn_forgot);
         forgotpassword.setOnClickListener(new View.OnClickListener() {
