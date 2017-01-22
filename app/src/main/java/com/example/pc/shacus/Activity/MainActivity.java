@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,15 +31,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.MessageTag;
 import io.rong.imlib.RongIMClient;
 
@@ -252,9 +256,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });*/
 
         fragmentTrs=fragmentMgr.beginTransaction();
-        conversationListStaticFragment = new ConversationListStaticFragment();
+       /* conversationListStaticFragment = new ConversationListStaticFragment();
         fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
-        fragmentTrs.hide(conversationListStaticFragment);
+        fragmentTrs.hide(conversationListStaticFragment);*/
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();

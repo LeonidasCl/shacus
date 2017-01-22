@@ -161,6 +161,7 @@
             </intent-filter>
         </activity>
 
+
         <receiver
             android:exported="true"
             android:name=".Reciever.ShacusNotificationReceiver">
