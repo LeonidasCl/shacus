@@ -38,6 +38,8 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.LocationMessage;
+import io.rong.push.RongPushClient;
+import io.rong.push.common.RongException;
 
 /**
  *
@@ -54,7 +56,15 @@ public class APP extends Application {
         applicationContext = this;
         getScreenDimension();
         initImageLoader(this);
-
+        /*当前版本不做推送服务
+        try {
+            RongPushClient.checkManifest(this);
+            RongPushClient.registerGCM(this);
+            //注册小米推送
+            //RongPushClient.registerMiPush(this,null,null);
+        } catch (RongException e) {
+            e.printStackTrace();
+        }*/
         RongIM.init(this);
         RongIM.setConversationBehaviorListener(new RongIM.ConversationBehaviorListener() {
 

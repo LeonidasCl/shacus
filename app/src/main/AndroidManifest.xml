@@ -172,6 +172,7 @@
                 <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>
