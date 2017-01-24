@@ -16,7 +16,8 @@ import io.rong.imkit.fragment.ConversationFragment;
 /**
  * Created by 融云 on 15/7/28.
  * fragmet 动态集成
- * 李嘉文修改
+ * 李嘉文 16/9/12
+ * 单聊Activity中的Fragment
  */
 public class ConversationDynamicFragment extends Fragment {
 
@@ -27,11 +28,11 @@ public class ConversationDynamicFragment extends Fragment {
         ConversationFragment fragment = new ConversationFragment();
         Uri uri = Uri.parse("rong://" + getActivity().getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversation").appendPath(io.rong.imlib.model.Conversation.ConversationType.PRIVATE.getName().toLowerCase())
-                .appendQueryParameter("title", "hello").build();
+                .appendQueryParameter("title", "私信页面").build();
         fragment.setUri(uri);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        //xxx 为你要加载的 id
+
         transaction.add(R.id.rong_content, fragment);
         transaction.commit();
 

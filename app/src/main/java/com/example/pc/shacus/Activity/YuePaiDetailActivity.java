@@ -704,7 +704,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
 
         String type=intent.getStringExtra("type");
@@ -805,7 +805,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         gridView.setNumColumns(count);
     }
 
-    private List<UserModel> init() {
+   /* private List<UserModel> init() {
         List<UserModel> list=new ArrayList<>();
         for (int i=0;i<10;i++)
         {
@@ -815,7 +815,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
             list.add(user);
         }
         return  list;
-    }
+    }*/
 
     public List<? extends View> getPics(int count,List<String> imgs){
 

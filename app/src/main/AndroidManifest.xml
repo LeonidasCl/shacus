@@ -129,7 +129,7 @@
         <activity
             android:name="com.example.pc.shacus.Activity.ConversationDynamicFragmentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
         <intent-filter>
