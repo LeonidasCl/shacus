@@ -453,7 +453,7 @@ public class OtherUserActivity extends AppCompatActivity implements  NetworkCall
                 myHandler.sendMessage(msg);
             }
         }
-        }
+    }
 
 
 

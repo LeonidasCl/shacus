@@ -52,22 +52,22 @@
 
         <ImageButton
             android:contentDescription="@string/app_name"
-            android:id="@+id/button_find"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/btn_find_selector"
-            android:scaleType="centerInside"
-            android:background="#60000000"
-         />
-
-        <ImageButton
-            android:contentDescription="@string/app_name"
             android:id="@+id/button_user"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/btn_user_selector"
+            android:scaleType="centerInside"
+            android:background="#60000000"
+            />
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/button_find"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_find_selector"
             android:scaleType="centerInside"
             android:background="#60000000"
          />

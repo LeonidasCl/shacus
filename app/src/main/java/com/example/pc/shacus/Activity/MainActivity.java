@@ -1,5 +1,62 @@
 package com.example.pc.shacus.Activity;
 
+/**
+ * Created by cuicui on 2017/1/24.
+ */
+
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.SettingDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
+import com.example.pc.shacus.Fragment.MyDisplay;
+import com.example.pc.shacus.Fragment.HomeFragment;
+import com.example.pc.shacus.Fragment.YuePaiFragment;
+import com.example.pc.shacus.Network.NetRequest;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
+import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.Util.SystemBarTintManager;
+import com.example.pc.shacus.View.CircleImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -58,7 +115,7 @@ import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.SettingDataModel;
-import com.example.pc.shacus.Fragment.CourseFragment;
+import com.example.pc.shacus.Fragment.MyDisplay;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.HomeFragment;
 import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
@@ -102,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //四个功能项Fragment
     private HomeFragment mainFragmentNavigation;
     private YuePaiFragment yuePaiFragment;
-    private CourseFragment courseFragment;
+    private MyDisplay mydisplay;
     private ConversationListStaticFragment conversationListStaticFragment;
     private Toolbar toolbar;
     //Fragment切换按钮
@@ -135,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cache=ACache.get(this);
         actbar=getSupportActionBar();
         if (actbar!=null)
-        actbar.setDisplayShowTitleEnabled(false);
+            actbar.setDisplayShowTitleEnabled(false);
 
 
         textName=(TextView)findViewById(R.id.m_toolbar_title);
@@ -437,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-            isLogin=manageLogin();
+        isLogin=manageLogin();
 
         String hint=intent.getStringExtra("result");
         CommonUtils.getUtilInstance().showToast(APP.context, hint);
@@ -510,7 +567,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toMain(){
-     if(mainFragmentNavigation == null){
+        if(mainFragmentNavigation == null){
             mainFragmentNavigation = new HomeFragment();
             fragmentTrs.add(R.id.fl_content, mainFragmentNavigation);
         }else{
@@ -519,12 +576,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toFind(){
-        if(courseFragment == null){
-            courseFragment = new CourseFragment();
-            fragmentTrs.add(R.id.fl_content, courseFragment);
+        if(mydisplay == null){
+            mydisplay = new MyDisplay();
+            fragmentTrs.add(R.id.fl_content, mydisplay);
         }else{
             btn_course.setSelected(true);
-            fragmentTrs.show(courseFragment);
+            fragmentTrs.show(mydisplay);
         }
     }
 
@@ -555,8 +612,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(mainFragmentNavigation != null){
             fragmentTrs.hide(mainFragmentNavigation);
         }
-        if(courseFragment != null){
-            fragmentTrs.hide(courseFragment);
+        if(mydisplay != null){
+            fragmentTrs.hide(mydisplay);
         }
         if(conversationListStaticFragment != null){
             fragmentTrs.hide(conversationListStaticFragment);
@@ -598,7 +655,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //这里是导航侧边栏的回调
-   @Override
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -644,3 +701,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 }
+
+
+
