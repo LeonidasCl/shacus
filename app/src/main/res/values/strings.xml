@@ -107,4 +107,7 @@
     <string name="loading">加载中…</string>
     <string name="detail_join_num">报名人数：</string>
     <string name="appname">app</string>
+    <string name="chat_with_sponsor">与发起者聊天</string>
+    <string name="common_chat">私信</string>
+    <string name="layout_otheruser_chat">邀TA约拍</string>
 </resources>

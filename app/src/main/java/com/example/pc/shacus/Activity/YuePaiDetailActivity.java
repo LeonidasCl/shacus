@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,12 +12,14 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
+import io.rong.imkit.RongIM;
 
 /*
 * 约拍详情页
@@ -70,7 +74,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     private NetRequest request;
     private ImagePagerAdapter imagePagerAdapter;
     private UploadViewPager image_viewpager;
-
+    private Activity actvt;
 
     FilterMenu.OnMenuChangeListener listener = new FilterMenu.OnMenuChangeListener() {
         @Override
@@ -194,6 +198,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     private Button selectJoinUser;
     private ImageButton btn_praise;//点赞按钮
     private TextView btn_join;//报名人数
+    private TextView chat;//报名人数
     private int type;//种类（约拍或活动）
     private TextView praiseNum;//点赞数
     private TextView joinNum;//报名数
@@ -214,6 +219,8 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        actvt=this;
 
         request=new NetRequest(this,this);
         String aid=getIntent().getStringExtra("detail");
@@ -251,6 +258,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         image_viewpager=(UploadViewPager)findViewById(R.id.image_detail_viewpager);
         praiseNum=(TextView)findViewById(R.id.tv_praise_num);
         btn_praise=(ImageButton)findViewById(R.id.detail_praise);
+
 
         if (typo.equals("yuepai"))
         request.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -436,6 +444,16 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                         }
                     }
                     if (isSponsor==0){
+
+                        chat=(TextView)findViewById(R.id.btn_chat);
+                        RelativeLayout chatlayout=(RelativeLayout)findViewById(R.id.layout_chat);
+                        chatlayout.setVisibility(View.VISIBLE);
+                        chat.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                RongIM.getInstance().startPrivateChat(actvt, String.valueOf(data.getAPsponsorid()), "约拍咨询");
+                            }
+                        });
                         selectJoinUser.setVisibility(View.GONE);
                     }
 

@@ -78,7 +78,7 @@ public class ConversationDynamicFragmentActivity extends AppCompatActivity{
             }
         };
 
-        new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+        new NetRequest(new NetworkCallbackInterface.NetRequestIterface(){
             @Override
             public void requestFinish(String result, String requestUrl) throws JSONException {
                 if (requestUrl.equals(CommonUrl.getOtherUser)){//if#2 收到业务服务器回复

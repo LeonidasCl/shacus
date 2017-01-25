@@ -310,6 +310,23 @@
         app:fm_primaryDarkColor="#292929">
     </com.example.pc.shacus.View.FloatMenu.FilterMenuLayout>
 
+    <!-- 与发起者聊天按钮 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/layout_chat"
+        android:layout_alignParentBottom ="true"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ccE6BF66"
+            android:text="@string/chat_with_sponsor"
+            android:textColor="#ffffff"/>
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
