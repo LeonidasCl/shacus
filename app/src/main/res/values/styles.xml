@@ -16,6 +16,15 @@
 
     </style>
 
+    <style name="SingleImage">
+    <item name="android:scaleType">centerCrop</item>
+    <item name="android:background">@color/gold</item>
+    </style>
+    <style name="ImageContainer">
+    <item name="android:background">@color/white</item>
+    <item name="android:paddingRight">@dimen/default_padding</item>
+    </style>
+
 
     <style name="appRatingBar" parent="Widget.AppCompat.RatingBar">
         <item name="android:progressDrawable">@drawable/icon_rating</item>

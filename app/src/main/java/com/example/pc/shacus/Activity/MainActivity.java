@@ -27,7 +27,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -46,103 +45,16 @@ import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
-
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.InflateException;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import io.rong.imkit.RongIM;
-import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imlib.MessageTag;
-import io.rong.imlib.RongIMClient;
-
-import com.bumptech.glide.Glide;
-
-import io.rong.imlib.TypingMessage.TypingStatus;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.UserInfo;
-import io.rong.message.TextMessage;
-import io.rong.message.VoiceMessage;
-
-import com.example.pc.shacus.APP;
-import com.example.pc.shacus.Data.Cache.ACache;
-import com.example.pc.shacus.Data.Model.LoginDataModel;
-import com.example.pc.shacus.Data.Model.SettingDataModel;
-import com.example.pc.shacus.Fragment.MyDisplay;
-import com.example.pc.shacus.Data.Model.UserModel;
-import com.example.pc.shacus.Fragment.HomeFragment;
-import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
-import com.example.pc.shacus.Fragment.YuePaiFragment;
-import com.example.pc.shacus.Network.NetRequest;
-import com.example.pc.shacus.Network.NetworkCallbackInterface;
-import com.example.pc.shacus.Network.StatusCode;
-import com.example.pc.shacus.R;
-import com.example.pc.shacus.Util.CommonUrl;
-import com.example.pc.shacus.Util.CommonUtils;
-import com.example.pc.shacus.Util.DisplayUtil;
-import com.example.pc.shacus.Util.SystemBarTintManager;
-import com.example.pc.shacus.View.CircleImageView;
-import com.tencent.map.geolocation.TencentLocationRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /*
 * shacus项目组
-*
+* 一元复始，赛艇风声又一年
 * */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
@@ -258,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra("method", StatusCode.STATUS_LOGIN);
                     startActivity(intent);
                 }
-
             }
         });
 
@@ -551,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_find:
                 btn_course.setSelected(true);
-                toFind();
+                toMine();
                 break;
             case R.id.button_yuepai:
                 btn_yuepai.setSelected(true);
@@ -575,7 +486,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void toFind(){
+    private void toMine(){
+        //个人主页，1.23添加
         if(mydisplay == null){
             mydisplay = new MyDisplay();
             fragmentTrs.add(R.id.fl_content, mydisplay);
@@ -685,6 +597,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(id==R.id.nav_sharing){
             Intent intent=new Intent(getApplicationContext(),ShareActivity.class);
             startActivity(intent);
+        } else if(id==R.id.debug_photoset_detail){//临时照片集入口
+            Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
+            startActivity(intent);
+        } else if(id==R.id.debug_photos_detail){//临时个人照片入口
+            //Intent intent=new Intent(getApplicationContext(),ShareActivity.class);
+            //startActivity(intent);
         } else if(id==R.id.nav_Logout){
             //登出请求
             ACache cache=ACache.get(APP.context);
