@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 约拍子界面A（二级页面，约拍模特）
+ * 约拍子界面A（二级页面，原排行榜）
  * 李嘉文
  * Created by pc on 2016/8/23.
  */

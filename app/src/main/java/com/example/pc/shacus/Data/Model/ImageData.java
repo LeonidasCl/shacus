@@ -6,7 +6,12 @@ package com.example.pc.shacus.Data.Model;
 
 public class ImageData {
     private String imageUrl;
+    //宽高比
     private float aspectRatio;
+    //是否被选中
+    private boolean checked=false;
+    //是否可选
+    private  boolean checkable=false;
     private int width;
     private int height;
 
@@ -47,4 +52,19 @@ public class ImageData {
         return height;
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean isCheckable() {
+        return checkable;
+    }
+
+    public void setCheckable(boolean checkable) {
+        this.checkable = checkable;
+    }
 }

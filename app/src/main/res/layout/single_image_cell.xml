@@ -11,4 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+
+        <ImageView
+            android:id="@+id/photo_check"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:padding="4dp"
+            android:visibility="gone"
+            android:layout_gravity="top|end"
+            android:src="@drawable/def"/>
+
+
 </RelativeLayout>

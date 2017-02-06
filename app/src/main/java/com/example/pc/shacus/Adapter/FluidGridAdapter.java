@@ -37,7 +37,7 @@ public class FluidGridAdapter extends BaseAdapter {
     private int initialCellPadding = 5;
     private int cellBackgroundColor = 0;
 
-    public FluidGridAdapter(Context context, ArrayList<ImageData> imageDatas) {
+    public FluidGridAdapter(Context context, ArrayList<ImageData> imageDatas){
         this(context, imageDatas, -1);
     }
 
@@ -54,6 +54,10 @@ public class FluidGridAdapter extends BaseAdapter {
             this.desiredRowHeight = desiredRowHeight;
         }
         calculateScreenDimensions();
+        this.fluidPhotoRows = buildFluidPhotoRows(imageDatas);
+    }
+
+    public void refresh(ArrayList<ImageData> imageDatas){
         this.fluidPhotoRows = buildFluidPhotoRows(imageDatas);
     }
 
@@ -101,6 +105,12 @@ public class FluidGridAdapter extends BaseAdapter {
                 View singleCell = LayoutInflater.from(context).inflate(R.layout.single_image_cell, null);
                 RelativeLayout imageContainer = (RelativeLayout)singleCell.findViewById(R.id.image_container);
                 ImageView photo = (ImageView)singleCell.findViewById(R.id.photo);
+                ImageView photoCheck=(ImageView)singleCell.findViewById(R.id.photo_check);
+                //如果是可选的（编辑状态），将勾选设置为可见
+                if(getItem(position).getImageDatas().get(i).isCheckable())
+                    photoCheck.setVisibility(View.VISIBLE);
+                else
+                    photoCheck.setVisibility(View.GONE);
 
                 final ImageData imageData = getItem(position).getImageDatas().get(i);
                 if(cellBackgroundColor != 0) {
@@ -127,7 +137,7 @@ public class FluidGridAdapter extends BaseAdapter {
 
                     @Override
                     public void onClick(View v) {
-                        onSingleCellTapped(imageData);
+                        onSingleCellTapped(imageData,v);
                     }
                 });
 
@@ -144,7 +154,7 @@ public class FluidGridAdapter extends BaseAdapter {
      *
      * @param The image data of the cell being tapped on
      */
-    protected void onSingleCellTapped(ImageData imageData) {
+    protected void onSingleCellTapped(ImageData imageData,View v) {
     }
 
     /*
@@ -160,6 +170,14 @@ public class FluidGridAdapter extends BaseAdapter {
      * @param imageHolder the view that the image should be loaded into
      */
     protected void loadImageIntoView(String photoUrl, int cellWidth, int cellHeight, ImageView imageHolder) {
+    }
+    //设置是否可选中（编辑模式时可选中）
+    public void setPhotosCheckable(boolean checkable) {
+        for (int i=0;i<getCount();i++){
+            for(int j=0;j<getItem(i).getImageDatas().size();j++){
+                getItem(i).getImageDatas().get(j).setCheckable(checkable);
+            }
+        }
     }
 
     static class RowHolder {
@@ -183,7 +201,7 @@ public class FluidGridAdapter extends BaseAdapter {
     /*
      * build an array of rows that have images and dimensions of that row
      */
-    private ArrayList<FluidPhotoRow> buildFluidPhotoRows(ArrayList<ImageData> imageDatas) {
+    private ArrayList<FluidPhotoRow> buildFluidPhotoRows(ArrayList<ImageData> imageDatas){
         double photoRowWidth = 0;
         int i = 0;
 
