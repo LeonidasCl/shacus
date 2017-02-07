@@ -8,13 +8,22 @@ package com.example.pc.shacus.Activity;
  */
 
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Adapter.FluidGridAdapter;
+import com.example.pc.shacus.Adapter.ImagePagerAdapter;
+import com.example.pc.shacus.Adapter.PhotoViewAttacher;
+import com.example.pc.shacus.Adapter.UploadViewPager;
 import com.example.pc.shacus.Data.Model.ImageData;
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
-import android.app.Activity;
+import com.example.pc.shacus.Util.CommonUtils;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,10 +31,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import org.json.JSONException;
 
-public class PhotosetDetailActivity extends Activity {
+
+public class PhotosetDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     private TextView back,title,edit;
     private boolean isEditing=false;
@@ -35,6 +46,10 @@ public class PhotosetDetailActivity extends Activity {
     private Animation get_photo_layout_in_from_down;
     private Button button_delete;
     private Button button_upload;
+    private ImagePagerAdapter imagePagerAdapter;
+    private UploadViewPager image_viewpager;
+    private TextView position_in_total;
+    private RelativeLayout display_big_image_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +67,10 @@ public class PhotosetDetailActivity extends Activity {
 
         title=(TextView)findViewById(R.id.photoset_toolbar_title);
         title.setText("作品集标题");
-
+        image_viewpager=(UploadViewPager)findViewById(R.id.photoset_detail_viewpager);
         edit=(TextView)findViewById(R.id.photoset_toolbar_edit);
+        position_in_total=(TextView)findViewById(R.id.photoset_position_total);
+        display_big_image_layout=(RelativeLayout)findViewById(R.id.display_photoset_image);
 
         if (true){//如果是自己的作品集
             bottomMenu=(FrameLayout)findViewById(R.id.photoset_bottom);
@@ -79,6 +96,7 @@ public class PhotosetDetailActivity extends Activity {
                     //隐藏勾选框
                     fluidGridAdapter.setPhotosCheckable(false);
                     fluidGridAdapter.notifyDataSetChanged();
+                    //TODO 向服务器提交新列表
                     }
                 }
             });
@@ -87,9 +105,16 @@ public class PhotosetDetailActivity extends Activity {
             button_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
+                    boolean hasChoosed=false;
                     for (int index=0;index<imageDatas.size();index++){
-                        if (imageDatas.get(index).isChecked())
+                        if (imageDatas.get(index).isChecked()){
+                            hasChoosed=true;
                             imageDatas.remove(index);
+                        }
+                    }
+                    if (!hasChoosed){
+                        CommonUtils.getUtilInstance().showToast(PhotosetDetailActivity.this,"您没有选择任何图片");
+                        return;
                     }
                     //把新清单数据注入adapter
                     fluidGridAdapter.refresh(imageDatas);
@@ -97,11 +122,12 @@ public class PhotosetDetailActivity extends Activity {
                     fluidGridAdapter.setPhotosCheckable(true);
                     //通知adapter进行画面重绘
                     fluidGridAdapter.notifyDataSetChanged();
+                    CommonUtils.getUtilInstance().showToast(PhotosetDetailActivity.this,"删除成功");
                 }
             });
 
             button_upload=(Button)findViewById(R.id.photoset_upload);
-            button_upload.setOnClickListener(new View.OnClickListener() {
+            button_upload.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     //TODO 添加新图片
@@ -137,7 +163,8 @@ public class PhotosetDetailActivity extends Activity {
                 }
                 }else {//没有处于编辑模式
                     //TODO 打开看图模式
-                    Toast.makeText(PhotosetDetailActivity.this,"打开看图模式",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(PhotosetDetailActivity.this,"打开看图模式",Toast.LENGTH_SHORT).show();
+                    showImagePager(imageData.getImageUrl());
                 }
 
             }
@@ -161,25 +188,6 @@ public class PhotosetDetailActivity extends Activity {
     }
 
     protected ArrayList<ImageData> loadDevicePhotos() {
-        //String[] projection = { MediaStore.Images.Thumbnails._ID, MediaStore.Images.Thumbnails.DATA, MediaStore.Images.Thumbnails.HEIGHT,
-//                MediaStore.Images.Thumbnails.WIDTH };
-//        Cursor cursor = getContentResolver().query(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, projection, null, null, null);
-//        ArrayList<ImageData> imageDatas = new ArrayList<ImageData>();
-//        int photoHeightIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT);
-//        int photoWidthIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH);
-//        int fileLocationIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        while(cursor.moveToNext()) {
-//
-//            int photoHeight = cursor.getInt(photoHeightIndex);
-//            int photoWidth = cursor.getInt(photoWidthIndex);
-//            String fileLocation = cursor.getString(fileLocationIndex);
-//
-//            if(photoWidth > 0 && photoHeight > 0) {
-//                ImageData imageData = new ImageData(fileLocation, photoWidth, photoHeight);
-//                imageDatas.add(imageData);
-//            }
-//        }
-//        cursor.close();
         //测试数据
         imageDatas = new ArrayList<>();
         imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/faguangyepao.jpg", 800, 453));
@@ -197,10 +205,62 @@ public class PhotosetDetailActivity extends Activity {
         imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/03.jpg", 198, 191));
         imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p7.jpg", 458, 418));
         imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/07.jpg", 160,220));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
         imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/08.jpg", 480, 853));
+        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
+        //修复最后一张不显示bug
+        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
 
         return imageDatas;
+    }
+
+    private void showImagePager(String startPositionUrl) {
+        int position=-1;
+        for (int index=0;index<imageDatas.size()-1;index++){
+            if (imageDatas.get(index).getImageUrl().equals(startPositionUrl)){
+                position=index;
+                break;
+            }
+        }
+        List<String> list=new ArrayList<>();
+        final int size=imageDatas.size()-1;//在这里进行修复
+        for (int i=0;i<size;i++){
+            list.add(imageDatas.get(i).getImageUrl());
+        }
+        imagePagerAdapter=new ImagePagerAdapter(this.getSupportFragmentManager(),list);
+        image_viewpager.setAdapter(imagePagerAdapter);
+        display_big_image_layout.setVisibility(View.VISIBLE);
+        imagePagerAdapter.notifyDataSetChanged();
+        image_viewpager.setOffscreenPageLimit(imagePagerAdapter.getCount());
+        image_viewpager.setCurrentItem(position,true);
+        position_in_total.setText((position + 1) + "/" + size);
+        image_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                position_in_total.setText((position + 1) + "/" + size);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+        PhotoViewAttacher.setOnSingleTapToPhotoViewListener(this);
+    }
+
+    @Override
+    public void onDismissBigPhoto() {
+        display_big_image_layout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+
+    }
+
+    @Override
+    public void exception(IOException e, String requestUrl) {
+
     }
 
 }
