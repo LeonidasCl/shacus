@@ -1,10 +1,11 @@
 package com.example.pc.shacus.Activity;
 
+
 /**
  * Created by licl on 2017/2/4.
- * 作品集详情页可用操作：
- * - 向作品集添加图片：打开新activity添加图片后回到这个activity（相当于重新加载activity，要向服务器提交新上传的图片并下载新列表）
- * - 删除作品集的图片：点击编辑后可以从现有列表中删除，再点击由编辑按钮变换而成的完成按钮可以重新加载（只需要向服务器提交新列表，不用下载新列表）
+ * 个人照片详情页可用操作：
+ * - 向个人照片添加图片：打开新activity添加图片后回到这个activity（相当于重新加载activity，要向服务器提交新上传的图片并下载新列表）
+ * - 删除个人照片的图片：点击编辑后可以从现有列表中删除，再点击由编辑按钮变换而成的完成按钮可以重新加载（只需要向服务器提交新列表，不用下载新列表）
  */
 
 
@@ -50,7 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class PhotosetDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
+public class PhotoselfDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     private TextView back,title,edit;
     private boolean isEditing=false;
@@ -64,20 +65,19 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
     private UploadViewPager image_viewpager;
     private TextView position_in_total;
     private RelativeLayout display_big_image_layout;
-
     private Handler handler;
     private NetRequest request;
     private UserModel userModel;
     private ArrayList<String> imageBigDatas;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photos_detail);
+        setContentView(R.layout.activity_photoself_detail);
         request=new NetRequest(this,this);
         back=(TextView) findViewById(R.id.photoset_toolbar_back);
         back.setText("＜返回");
-        back.setOnClickListener(new View.OnClickListener(){
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -85,7 +85,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         });
 
         title=(TextView)findViewById(R.id.photoset_toolbar_title);
-        title.setText("作品集标题");
+        title.setText("个人照片");
         image_viewpager=(UploadViewPager)findViewById(R.id.photoset_detail_viewpager);
         edit=(TextView)findViewById(R.id.photoset_toolbar_edit);
         position_in_total=(TextView)findViewById(R.id.photoset_position_total);
@@ -96,7 +96,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
-                if (msg.what== StatusCode.PHOTOSET_SMALLIMG){
+                if (msg.what==StatusCode.PHOTOSELF_SMALLIMG){
 
                     if (true){//如果是自己的作品集
                         bottomMenu=(FrameLayout)findViewById(R.id.photoset_bottom);
@@ -109,7 +109,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     isEditing=true;
                                     //显示底部菜单
                                     bottomMenu.setVisibility(View.VISIBLE);
-                                    get_photo_layout_in_from_down = AnimationUtils.loadAnimation(PhotosetDetailActivity.this, R.anim.search_layout_in_from_down);
+                                    get_photo_layout_in_from_down = AnimationUtils.loadAnimation(PhotoselfDetailActivity.this, R.anim.search_layout_in_from_down);
                                     bottomMenu.startAnimation(get_photo_layout_in_from_down);
                                     //显示勾选框
                                     fluidGridAdapter.setPhotosCheckable(true);
@@ -122,12 +122,12 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
-                                    //TODO 发起更新图片请求完成删除
-                                    /*Map map=new HashMap();
+                                    //发起更新图片请求完成删除
+                                    Map map=new HashMap();
                                     map.put("authKey",userModel.getAuth_key());
                                     map.put("uid",userModel.getId());
                                     map.put("type",StatusCode.UPDATE_DELETE_IMG);
-                                    request.httpRequest(map, CommonUrl.imgSelfAndSets);*/
+                                    request.httpRequest(map,CommonUrl.imgSelfAndSets);
 
                                 }
                             }
@@ -146,7 +146,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     }
                                 }
                                 if (!hasChoosed){
-                                    CommonUtils.getUtilInstance().showToast(PhotosetDetailActivity.this,"您没有选择任何图片");
+                                    CommonUtils.getUtilInstance().showToast(PhotoselfDetailActivity.this,"您没有选择任何图片");
                                     return;
                                 }
                                 //把新清单数据注入adapter
@@ -155,7 +155,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                 fluidGridAdapter.setPhotosCheckable(true);
                                 //通知adapter进行画面重绘
                                 fluidGridAdapter.notifyDataSetChanged();
-                                CommonUtils.getUtilInstance().showToast(PhotosetDetailActivity.this,"删除成功");
+                                CommonUtils.getUtilInstance().showToast(PhotoselfDetailActivity.this,"删除成功");
                             }
                         });
 
@@ -184,16 +184,16 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     return;
                 }
 
-                if (msg.what==StatusCode.PHOTOSET_BIGIMG){
+                if (msg.what==StatusCode.PHOTOSELF_BIGIMG){
                     //将大图列表取回并存储
                     imageBigDatas =(ArrayList<String>) msg.obj;
                     return;
                 }
 
-                /*if (msg.what== StatusCode.UPDATE_DELETE_IMG){
+                if (msg.what== StatusCode.UPDATE_DELETE_IMG){
                     CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
                     return;
-                }*/
+                }
 
             }
         };
@@ -207,11 +207,11 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
-        map.put("type", StatusCode.PHOTOSET_SMALLIMG);
+        map.put("type", StatusCode.PHOTOSELF_SMALLIMG);
         //获取略缩图列表
         request.httpRequest(map, CommonUrl.imgSelfAndSets);
         map.remove("type");
-        map.put("type",StatusCode.PHOTOSET_BIGIMG);
+        map.put("type",StatusCode.PHOTOSELF_BIGIMG);
         //获取大图列表
         request.httpRequest(map, CommonUrl.imgSelfAndSets);
 
@@ -245,19 +245,11 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
             @Override
             protected void loadImageIntoView(String photoUrl, int cellWidth, int cellHeight, ImageView imageHolder){
                 //Picasso.with(PhotosetDetailActivity.this).load(new File(photoUrl)).resize(cellWidth, cellHeight).into(imageHolder);
-                Glide.with(PhotosetDetailActivity.this).load(photoUrl).override(cellWidth,cellHeight).into(imageHolder);
+                Glide.with(PhotoselfDetailActivity.this).load(photoUrl).override(cellWidth,cellHeight).into(imageHolder);
             }
         };
         ListView listview = (ListView)findViewById(R.id.fluid_list);
         listview.setAdapter(fluidGridAdapter);
-    }
-
-    private void setSelectState(String tag, boolean state) {
-        for (int index=0;index<imageDatas.size();index++){
-            if (imageDatas.get(index).getImageUrl().equals(tag)){
-                imageDatas.get(index).setChecked(state);
-            }
-        }
     }
 
     private String parseBigImgUrl(String imageUrl) {
@@ -269,6 +261,14 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
             }
         }
         return ret;
+    }
+
+    private void setSelectState(String tag, boolean state) {
+        for (int index=0;index<imageDatas.size();index++){
+            if (imageDatas.get(index).getImageUrl().equals(tag)){
+                imageDatas.get(index).setChecked(state);
+            }
+        }
     }
 
     protected ArrayList<ImageData> loadDevicePhotos() {
@@ -342,37 +342,37 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         if (requestUrl.equals(CommonUrl.imgSelfAndSets)){
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            if (code==StatusCode.PHOTOSET_SMALLIMG){
+            if (code==StatusCode.PHOTOSELF_SMALLIMG){
                 JSONArray smallImgs=object.getJSONArray("contents");
                 ArrayList<String> data=new ArrayList<>();
                 for (int i=0;i<smallImgs.length();i++){
                     data.add(smallImgs.get(i).toString());
                 }
                 Message msg=handler.obtainMessage();
-                msg.what= StatusCode.PHOTOSET_SMALLIMG;
+                msg.what= StatusCode.PHOTOSELF_SMALLIMG;
                 msg.obj=data;
                 handler.sendMessage(msg);
                 return;
             }
-            if (code==StatusCode.PHOTOSET_BIGIMG){
+            if (code==StatusCode.PHOTOSELF_BIGIMG){
                 JSONArray bigImgs=object.getJSONArray("contents");
                 ArrayList<String> data=new ArrayList<>();
                 for (int i=0;i<bigImgs.length();i++){
                     data.add(bigImgs.get(i).toString());
                 }
                 Message msg=handler.obtainMessage();
-                msg.what= StatusCode.PHOTOSET_BIGIMG;
+                msg.what= StatusCode.PHOTOSELF_BIGIMG;
                 msg.obj=data;
                 handler.sendMessage(msg);
                 return;
             }
-            /*if (code==StatusCode.UPDATE_DELETE_IMG){
+            if (code==StatusCode.UPDATE_DELETE_IMG){
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.UPDATE_DELETE_IMG;
                 msg.obj="已成功删除";
                 handler.sendMessage(msg);
                 return;
-            }*/
+            }
         }
     }
 

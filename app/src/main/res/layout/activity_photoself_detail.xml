@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <include
+        layout="@layout/photoset_toolbar_layout"
+        android:id="@+id/photoset_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center"/>
+
+    <ListView
+        android:id="@+id/fluid_list"
+        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null" />
+
+    <!-- 底部菜单（仅在编辑模式显示） -->
+    <FrameLayout
+        android:id="@+id/photoset_bottom"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#ccE6BF66">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/photoset_delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/rc_draft_color"
+                android:text="@string/photoset_delete"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/photoset_upload"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/lightgold"
+                android:text="@string/photoset_upload"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- 点开已添加的图片查看大图 -->
+    <RelativeLayout
+        android:id="@+id/display_photoset_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ee_black"
+        android:visibility="gone" >
+
+        <com.example.pc.shacus.Adapter.UploadViewPager
+            android:id="@+id/photoset_detail_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/photoset_position_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:textColor="@color/cc_white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</FrameLayout>

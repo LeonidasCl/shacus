@@ -2,7 +2,7 @@ package com.example.pc.shacus.Activity;
 
 /**
  * Created by licl on 2017/2/4.
- * 作品集详情页可用操作：
+ * 作品集概览页可用操作：
  * - 向作品集添加图片：打开新activity添加图片后回到这个activity（相当于重新加载activity，要向服务器提交新上传的图片并下载新列表）
  * - 删除作品集的图片：点击编辑后可以从现有列表中删除，再点击由编辑按钮变换而成的完成按钮可以重新加载（只需要向服务器提交新列表，不用下载新列表）
  */
@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.bumptech.glide.Glide;
-import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.FluidGridAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
 import com.example.pc.shacus.Adapter.PhotoViewAttacher;
@@ -30,6 +28,8 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -50,7 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class PhotosetDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
+public class PhotosetOverviewActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface{
 
     private TextView back,title,edit;
     private boolean isEditing=false;
@@ -109,7 +109,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     isEditing=true;
                                     //显示底部菜单
                                     bottomMenu.setVisibility(View.VISIBLE);
-                                    get_photo_layout_in_from_down = AnimationUtils.loadAnimation(PhotosetDetailActivity.this, R.anim.search_layout_in_from_down);
+                                    get_photo_layout_in_from_down = AnimationUtils.loadAnimation(PhotosetOverviewActivity.this, R.anim.search_layout_in_from_down);
                                     bottomMenu.startAnimation(get_photo_layout_in_from_down);
                                     //显示勾选框
                                     fluidGridAdapter.setPhotosCheckable(true);
@@ -146,7 +146,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     }
                                 }
                                 if (!hasChoosed){
-                                    CommonUtils.getUtilInstance().showToast(PhotosetDetailActivity.this,"您没有选择任何图片");
+                                    CommonUtils.getUtilInstance().showToast(PhotosetOverviewActivity.this,"您没有选择任何图片");
                                     return;
                                 }
                                 //把新清单数据注入adapter
@@ -155,7 +155,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                 fluidGridAdapter.setPhotosCheckable(true);
                                 //通知adapter进行画面重绘
                                 fluidGridAdapter.notifyDataSetChanged();
-                                CommonUtils.getUtilInstance().showToast(PhotosetDetailActivity.this,"删除成功");
+                                CommonUtils.getUtilInstance().showToast(PhotosetOverviewActivity.this,"删除成功");
                             }
                         });
 
@@ -237,7 +237,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     }
                 }else {//没有处于编辑模式
                     //打开看图模式
-                    showImagePager(parseBigImgUrl(imageData.getImageUrl()));
+                    Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
+                    startActivity(intent);
                 }
 
             }
@@ -245,7 +246,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
             @Override
             protected void loadImageIntoView(String photoUrl, int cellWidth, int cellHeight, ImageView imageHolder){
                 //Picasso.with(PhotosetDetailActivity.this).load(new File(photoUrl)).resize(cellWidth, cellHeight).into(imageHolder);
-                Glide.with(PhotosetDetailActivity.this).load(photoUrl).override(cellWidth,cellHeight).into(imageHolder);
+                Glide.with(PhotosetOverviewActivity.this).load(photoUrl).override(cellWidth,cellHeight).into(imageHolder);
             }
         };
         ListView listview = (ListView)findViewById(R.id.fluid_list);
@@ -258,17 +259,6 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                 imageDatas.get(index).setChecked(state);
             }
         }
-    }
-
-    private String parseBigImgUrl(String imageUrl) {
-        String ret="";
-        for (int i=0;i<imageDatas.size();i++){
-            if (imageDatas.get(i).getImageUrl().equals(imageUrl)){
-                ret= imageBigDatas.get(i);
-                break;
-            }
-        }
-        return ret;
     }
 
     protected ArrayList<ImageData> loadDevicePhotos() {
@@ -297,45 +287,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         return imageDatas;
     }
 
-    private void showImagePager(String startPositionUrl) {
-        int position=-1;
-        for (int index=0;index<imageDatas.size()-1;index++){
-            if (imageDatas.get(index).getImageUrl().equals(startPositionUrl)){
-                position=index;
-                break;
-            }
-        }
-        List<String> list=new ArrayList<>();
-        final int size=imageDatas.size()-1;//在这里进行修复
-        for (int i=0;i<size;i++){
-            list.add(imageDatas.get(i).getImageUrl());
-        }
-        imagePagerAdapter=new ImagePagerAdapter(this.getSupportFragmentManager(),list);
-        image_viewpager.setAdapter(imagePagerAdapter);
-        display_big_image_layout.setVisibility(View.VISIBLE);
-        imagePagerAdapter.notifyDataSetChanged();
-        image_viewpager.setOffscreenPageLimit(imagePagerAdapter.getCount());
-        image_viewpager.setCurrentItem(position,true);
-        position_in_total.setText((position + 1) + "/" + size);
-        image_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
-            @Override
-            public void onPageSelected(int position) {
-                position_in_total.setText((position + 1) + "/" + size);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
-        PhotoViewAttacher.setOnSingleTapToPhotoViewListener(this);
-    }
-
-    @Override
-    public void onDismissBigPhoto() {
-        display_big_image_layout.setVisibility(View.GONE);
-    }
 
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
