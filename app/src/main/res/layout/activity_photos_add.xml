@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- 除上传图片外的所有内容框 -->
+            <LinearLayout
+                android:id="@+id/add_theme_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/cc_white"
+                android:textColor="@color/aa_black"
+                android:clickable="true"
+                android:orientation="vertical">
+                <!--标题-->
+                <EditText
+                    android:id="@+id/theme_title_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/yuepai_create_theme"
+                    android:textColorHint="@color/item_selected_gray"
+                    android:textColor="@color/aa_black"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/comment_edittext_round_corner_bg"
+                    android:padding="5dp"
+                    android:textSize="14sp">
+                    <requestFocus />
+                </EditText>
+
+                <LinearLayout
+                    android:id="@+id/theme_desc_edit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/comment_edittext_round_corner_bg"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/theme_desc_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top|start"
+                        android:background="#00000000"
+                        android:hint="@string/create_yuepai_describe"
+                        android:textColor="@color/aa_black"
+                        android:textColorHint="@color/item_selected_gray"
+                        android:padding="5dp"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <com.example.pc.shacus.View.Custom.ImgAddGridView
+                    android:id="@+id/add_image_gridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:isScrollContainer="false"
+                    android:layout_marginBottom="100dp"
+                    android:cacheColorHint="#00000000"
+                    android:fadingEdge="none"
+                    android:stretchMode="columnWidth"
+                    android:listSelector="#00000000"
+                    android:numColumns="4"
+                    android:scrollbars="none" />
+            </LinearLayout>
+
+
+
+            <!-- 已添加的图片的小图 -->
+            <RelativeLayout
+                android:id="@+id/show_upload_pic_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/cc_white"
+                android:visibility="gone"
+                >
+                <ListView
+                    android:id="@+id/theme_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="#00000000"
+                    android:divider="@color/item_selected_gray"
+                    android:dividerHeight="10dp"
+                    android:fadingEdge="none"
+                    android:listSelector="#00000000" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- 点开已添加的图片查看大图 -->
+    <RelativeLayout
+        android:id="@+id/display_big_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ee_black"
+        android:visibility="gone" >
+
+        <com.example.pc.shacus.Adapter.UploadViewPager
+            android:id="@+id/image_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/position_in_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:textColor="@color/cc_white"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/delete_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="20dp"
+                    android:src="@drawable/setting_clear_cache" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!-- 发表按钮 -->
+    <FrameLayout
+        android:id="@+id/layout_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#ccE6BF66">
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gold"
+            android:text="@string/upload"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+    </FrameLayout>
+
+    <!-- 拍照、选择本地图片的底部悬浮菜单 -->
+    <FrameLayout
+        android:id="@+id/edit_photo_fullscreen_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55000000"
+        android:clickable="true"
+        android:layout_gravity="bottom"
+        android:focusable="true"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/edit_photo_outer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:layout_gravity="bottom"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/edit_photo_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/take_picture_layout_round_corner_bg"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/take_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/take_picture"
+                    android:textColor="@color/chocolate"
+                    android:textSize="20sp" />
+
+                <View style="@style/horizontal_divider" >
+                </View>
+
+                <TextView
+                    android:id="@+id/select_local_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/select_local_picture"
+                    android:textColor="@color/chocolate"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edit_photo_layout"
+                android:layout_margin="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/cancel_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/video_order_layout_round_corner_bg"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/chocolate"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+
+</FrameLayout>

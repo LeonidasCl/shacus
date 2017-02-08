@@ -30,6 +30,8 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -164,6 +166,9 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                             @Override
                             public void onClick(View v) {
                                 //TODO 添加新图片
+                                Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                                intent.putExtra("type",2);
+                                startActivity(intent);
                             }
                         });
 

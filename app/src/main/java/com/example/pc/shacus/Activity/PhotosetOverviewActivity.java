@@ -11,12 +11,10 @@ package com.example.pc.shacus.Activity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Adapter.FluidGridAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
-import com.example.pc.shacus.Adapter.PhotoViewAttacher;
 import com.example.pc.shacus.Adapter.UploadViewPager;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ImageData;
@@ -28,12 +26,10 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -44,7 +40,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,20 +55,14 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
     private Animation get_photo_layout_in_from_down;
     private Button button_delete;
     private Button button_upload;
-    private ImagePagerAdapter imagePagerAdapter;
-    private UploadViewPager image_viewpager;
-    private TextView position_in_total;
-    private RelativeLayout display_big_image_layout;
-
     private Handler handler;
     private NetRequest request;
     private UserModel userModel;
-    private ArrayList<String> imageBigDatas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photos_detail);
+        setContentView(R.layout.activity_photos_overview);
         request=new NetRequest(this,this);
         back=(TextView) findViewById(R.id.photoset_toolbar_back);
         back.setText("＜返回");
@@ -86,10 +75,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
 
         title=(TextView)findViewById(R.id.photoset_toolbar_title);
         title.setText("作品集标题");
-        image_viewpager=(UploadViewPager)findViewById(R.id.photoset_detail_viewpager);
         edit=(TextView)findViewById(R.id.photoset_toolbar_edit);
-        position_in_total=(TextView)findViewById(R.id.photoset_position_total);
-        display_big_image_layout=(RelativeLayout)findViewById(R.id.display_photoset_image);
 
         handler=new Handler(){
             @Override
@@ -142,7 +128,6 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                                     if (imageDatas.get(index).isChecked()){
                                         hasChoosed=true;
                                         imageDatas.remove(index);
-                                        imageBigDatas.remove(index);//对应的大图url也一并删除
                                     }
                                 }
                                 if (!hasChoosed){
@@ -164,6 +149,9 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                             @Override
                             public void onClick(View v) {
                                 //TODO 添加新图片
+                                Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                                intent.putExtra("type",1);
+                                startActivity(intent);
                             }
                         });
 
@@ -181,12 +169,6 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                     imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
                     //加载图片列表视图
                     setupFluidGrid();
-                    return;
-                }
-
-                if (msg.what==StatusCode.PHOTOSET_BIGIMG){
-                    //将大图列表取回并存储
-                    imageBigDatas =(ArrayList<String>) msg.obj;
                     return;
                 }
 
