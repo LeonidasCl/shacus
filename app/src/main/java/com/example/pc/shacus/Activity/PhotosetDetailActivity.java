@@ -58,7 +58,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
         back=(TextView) findViewById(R.id.photoset_toolbar_back);
         back.setText("＜返回");
-        back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 finish();
