@@ -21,7 +21,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -198,6 +197,16 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void handleMessage(Message msg){
                 switch(msg.what){
+
+                    case StatusCode.PHOTOSELF_ADD_IMGS_2:
+                        CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"上传成功");
+                        finish();
+                        break;
+
+                    case  StatusCode.STATUS_ERROR:
+                        CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,msg.obj.toString());
+                        finish();
+                        break;
 
                     case SAVE_THEME_IMAGE://响应第二次msg，将上传图片结果与真活动信息反馈给业务服务器
                         //Map<String, Object> map=(Map<String, Object>)msg.obj;
@@ -688,20 +697,26 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this, "正在上传图片");Looper.loop();
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this, "正在上传图片");Looper.loop();
                 return;
             }
             if (code== StatusCode.PHOTOSELF_ADD_IMGS_2){//上传个人照片的返回
                 if (progressDlg!=null)
                     progressDlg.dismiss();
-                Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "上传成功");Looper.loop();
+                Message msg = handler.obtainMessage();
+                msg.what = StatusCode.PHOTOSELF_ADD_IMGS_2;
+                handler.sendMessageDelayed(msg, 100);
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "上传成功");Looper.loop();
                 PhotosAddActivity.this.finish();
                 return;
             }else {
                 if (progressDlg!=null)
                     progressDlg.dismiss();
-                Looper.prepare();
-                CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,object.getString("contents"));Looper.loop();
+                    Message msg = handler.obtainMessage();
+                    msg.what = StatusCode.STATUS_ERROR;
+                    handler.sendMessageDelayed(msg, 100);
+                    msg.obj=object.getString("contents");
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,);Looper.loop();
             }
         }
 
