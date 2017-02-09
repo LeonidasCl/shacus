@@ -142,12 +142,22 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Activity.PhotosAddActivity"/>
+
+        <!--<activity
+            android:name=".Activity.PhotosAddActivity"
+            android:theme="@style/AppTheme.CreateActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>-->
+
         <activity android:name=".Activity.CoursesActivity"
             android:screenOrientation="nosensor"
             android:theme="@style/AppTheme.CoursesActivity">
         <intent-filter>
             <action android:name="android.intent.action.COURSESACTIVITY"/>
-
             <category android:name="android.intent.category.DEFAULT"/>
         </intent-filter>
         </activity>
@@ -156,7 +166,6 @@
             android:theme="@style/AppTheme.CoursesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.COURSESACTIVITY"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

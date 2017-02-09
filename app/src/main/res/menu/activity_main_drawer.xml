@@ -44,6 +44,10 @@
             android:id="@+id/debug_photos_detail"
             android:icon="@drawable/exit"
             android:title="临时入口-个人照片详情"/>
+        <item
+            android:id="@+id/debug_add_photos_detail"
+            android:icon="@drawable/exit"
+            android:title="添加个人照片"/>
     </group>
 
 </menu>

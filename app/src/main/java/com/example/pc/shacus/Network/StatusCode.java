@@ -226,7 +226,9 @@ public interface StatusCode {
 
     int PHOTOSELF_SMALLIMG = 10814;
     int PHOTOSELF_BIGIMG = 10812;
-    int UPDATE_DELETE_IMG = 10810;
     int PHOTOSET_SMALLIMG = 10816;
     int PHOTOSET_BIGIMG = 10818;
+    int PHOTOSELF_ADD_IMGS = 10808;
+    int UPDATE_DELETE_IMG = 10810;
+    int PHOTOSELF_ADD_IMGS_2 = 10810;//个人照片添加，与个人照片更新请求是一样的
 }

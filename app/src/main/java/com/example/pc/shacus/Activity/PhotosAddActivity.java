@@ -36,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.pc.shacus.APP;
@@ -105,6 +106,10 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private int apId;
     private ArrayList<String> imgList;
     private ArrayList<String> finalImgList;
+    private FrameLayout layout_upload;
+    private Handler handler;
+
+    private int type=-1;//类型
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -112,8 +117,15 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos_add);
         requestFragment=new NetRequest(this,this);
+        //requestFragment.httpRequest(null,CommonUrl.imgSelfAndSets);
+        int typo=getIntent().getIntExtra("type",-1);
+        if (typo==-1){
+            finish();
+            CommonUtils.getUtilInstance().showToast(APP.context,"请从正确的入口打开");
+        }
+        type=typo;
 
-
+        setTitle("上传新图片");
 
         edit_photo_fullscreen_layout=(FrameLayout)findViewById(R.id.edit_photo_fullscreen_layout);
         edit_photo_fullscreen_layout.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +136,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         });
         edit_photo_outer_layout=(RelativeLayout)findViewById(R.id.edit_photo_outer_layout);
         TextView cancelEditPhoto=(TextView)edit_photo_outer_layout.findViewById(R.id.cancel_upload);
-        cancelEditPhoto.setOnClickListener(new View.OnClickListener() {
+        cancelEditPhoto.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 hideBigPhotoLayout();
@@ -133,13 +145,18 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         display_big_image_layout=(RelativeLayout)findViewById(R.id.display_big_image_layout);
         show_upload_pic_layout=(RelativeLayout)findViewById(R.id.show_upload_pic_layout);
         take_picture=(TextView)findViewById(R.id.take_picture);
-
         position_in_total=(TextView)findViewById(R.id.position_in_total);
         select_local_picture=(TextView)findViewById(R.id.select_local_picture);
         upload=(TextView)findViewById(R.id.upload);
         upload.setVisibility(View.VISIBLE);
         theme_title_edit=(EditText)findViewById(R.id.theme_title_edit);
         theme_desc_edit=(EditText)findViewById(R.id.theme_desc_edit);
+        LinearLayout ll=(LinearLayout)findViewById(R.id.theme_desc_edit_layout);
+        if (type==1){//如果是个人照片，不用描述了
+            theme_title_edit.setVisibility(View.GONE);
+            ll.setVisibility(View.GONE);
+        }
+        layout_upload=(FrameLayout)findViewById(R.id.layout_upload);
         delete_image=(ImageView)findViewById(R.id.delete_image);
         add_image_gridview=(ImgAddGridView)findViewById(R.id.add_image_gridview);
         add_image_gridview.setExpanded(true);
@@ -174,17 +191,106 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
 
         take_picture.setOnClickListener(this);
         select_local_picture.setOnClickListener(this);
+
+        handler=new Handler(){
+
+            // 选完图片后就是在这里处理的
+            @Override
+            public void handleMessage(Message msg){
+                switch(msg.what){
+
+                    case SAVE_THEME_IMAGE://响应第二次msg，将上传图片结果与真活动信息反馈给业务服务器
+                        //Map<String, Object> map=(Map<String, Object>)msg.obj;
+                        progressDlg.dismiss();
+                        Map map=new HashMap<>();
+                        if (type==1){
+                            map.put("authkey",user.getAuth_key());
+                            map.put("uid",user.getId());
+                            //map.put("actitle",theme_title_edit.getText().toString());
+                            map.put("type", StatusCode.PHOTOSELF_ADD_IMGS_2);
+                            //map.put("acid",apId);
+                            //map.put("content",theme_desc_edit.getText().toString());
+                            map.put("imgs", finalImgList);
+                            progressDlg=ProgressDialog.show(PhotosAddActivity.this, "个人照片", "上传中", true, true, new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialogInterface) {
+                                    //上传完图片后取消了发布活动
+                                }
+                            });
+                            // mProgress.setVisibility(View.GONE);
+                            requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);//最后将图片在这里传出去
+                            break;
+                        }
+
+                    case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，上传图片到OSS
+                        Map<String, String> map2=(HashMap<String, String>)msg.obj;
+                        picToAdd=uploadImgUrlList.size();
+                        if(uploadImgUrlList.size()>0){
+                            for(int i=0,j=picToAdd;j>0;j--,i++ ){
+                                saveThemeImgNew(uploadImgUrlList.get(j-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
+                            }
+                        }
+                        show_upload_pic_layout.setVisibility(View.VISIBLE);
+                        isShowUploadPic=true;
+                        break;
+                    case SHOW_TAKE_PICTURE://拍了照片后msg的处理
+                        addPic=true;
+                        if(clearFormerUploadUrlList){
+                            if(uploadImgUrlList.size()>0){
+                                uploadImgUrlList.clear();
+                            }
+                            clearFormerUploadUrlList=false;
+                        }
+                        //在这里处理，获取拍到的图
+                        Bitmap bitmap= UploadPhotoUtil.getInstance()
+                                .trasformToZoomBitmapAndLessMemory(takePictureUrl);
+                        BitmapDrawable bd=new BitmapDrawable(getResources(),bitmap);
+                        addPictureList.add(bd);
+                        uploadImgUrlList.add(takePictureUrl);
+                        imageAddGridViewAdapter.changeList(addPictureList);
+                        imageAddGridViewAdapter.notifyDataSetChanged();
+                        addPicCount++;
+                        break;
+                    //在图库选中了本地的图
+                    case SHOW_LOCAL_PICTURE:
+                        //获取到资源位置
+                        Uri uri=intent.getData();
+                        String photo_local_file_path=getPath_above19(PhotosAddActivity.this.getApplicationContext(), uri);
+                        //程序员啊不要见得风就是雨，要有自己的判断，用户选出来的文件要判断它是不是真的图片
+                        //如果不是，这个错的东西你再帮他传一遍，等于你也有责任吧
+                        if (!(photo_local_file_path.toString().toLowerCase().endsWith("jpg")||photo_local_file_path.toString().toLowerCase().endsWith("png")
+                                ||photo_local_file_path.toString().toLowerCase().endsWith("jpeg")||photo_local_file_path.toString().toLowerCase().endsWith("gif"))){
+                            CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"不支持此格式的上传");
+                            break;
+                        }
+                        addPic=true;
+                        if(clearFormerUploadUrlList){
+                            if(uploadImgUrlList.size()>0){
+                                uploadImgUrlList.clear();
+                            }
+                            clearFormerUploadUrlList=false;
+                        }
+                        Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(photo_local_file_path);
+                        addPictureList.add(new BitmapDrawable(getResources(), bitmap2));
+                        uploadImgUrlList.add(photo_local_file_path);
+                        imageAddGridViewAdapter.changeList(addPictureList);
+                        imageAddGridViewAdapter.notifyDataSetChanged();
+                        addPicCount++;
+
+                        break;
+                }
+            }
+        };
+
     }
 
     //监听返回键，有弹出层时关闭弹出层，否则停止activity
     @Override
     public void onBackPressed() {
-        boolean state;
-                /*state=fraga.getEdit_big_photo_layout().getVisibility()==View.GONE&&fraga.getdisplay_big_img().getVisibility()==View.GONE;
-                if (state)
+                if (display_big_image_layout.getVisibility()==View.GONE)
                     finish();
                 else
-                    fraga.hideBigPhotoLayout();*/
+                    hideBigPhotoLayout();
     }
 
 
@@ -192,92 +298,6 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
     }
-
-    private Handler handler=new Handler(){
-
-        // 选完图片后就是在这里处理的
-        @Override
-        public void handleMessage(Message msg){
-            switch(msg.what){
-
-                case SAVE_THEME_IMAGE://响应第二次msg，将上传图片结果与真活动信息反馈给业务服务器
-                    //Map<String, Object> map=(Map<String, Object>)msg.obj;
-                    progressDlg.dismiss();
-                    Map map=new HashMap<>();
-                    map.put("auth_key",user.getAuth_key());
-                    map.put("actitle",theme_title_edit.getText().toString());
-                    map.put("type", StatusCode.REQUEST_SEND_HUODONG);
-                    map.put("acid",apId);
-                    map.put("content",theme_desc_edit.getText().toString());
-                    map.put("images", finalImgList);
-                    progressDlg=ProgressDialog.show(PhotosAddActivity.this, "发布活动", "正在创建活动", true, true, new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialogInterface) {
-                            //上传完图片后取消了发布活动
-                        }
-                    });
-                    // mProgress.setVisibility(View.GONE);
-                    requestFragment.httpRequest(map, CommonUrl.createActivityInfo);//最后将图片在这里传出去
-                    break;
-                case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
-                    Map<String, String> map2=(HashMap<String, String>)msg.obj;
-                    picToAdd=uploadImgUrlList.size();
-                    if(uploadImgUrlList.size()>0){
-                        for(int i=0,j=picToAdd;j>0;j--,i++ ){
-                            saveThemeImgNew(uploadImgUrlList.get(j-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
-                        }
-                    }
-                    show_upload_pic_layout.setVisibility(View.VISIBLE);
-                    isShowUploadPic=true;
-                    break;
-                case SHOW_TAKE_PICTURE://拍了照片后msg的处理
-                    addPic=true;
-                    if(clearFormerUploadUrlList){
-                        if(uploadImgUrlList.size()>0){
-                            uploadImgUrlList.clear();
-                        }
-                        clearFormerUploadUrlList=false;
-                    }
-                    //在这里处理，获取拍到的图
-                    Bitmap bitmap= UploadPhotoUtil.getInstance()
-                            .trasformToZoomBitmapAndLessMemory(takePictureUrl);
-                    BitmapDrawable bd=new BitmapDrawable(getResources(),bitmap);
-                    addPictureList.add(bd);
-                    uploadImgUrlList.add(takePictureUrl);
-                    imageAddGridViewAdapter.changeList(addPictureList);
-                    imageAddGridViewAdapter.notifyDataSetChanged();
-                    addPicCount++;
-                    break;
-                //在图库选中了本地的图
-                case SHOW_LOCAL_PICTURE:
-                    //获取到资源位置
-                    Uri uri=intent.getData();
-                    String photo_local_file_path=getPath_above19(PhotosAddActivity.this.getApplicationContext(), uri);
-                    //程序员啊不要见得风就是雨，要有自己的判断，用户选出来的文件要判断它是不是真的图片
-                    //如果不是，这个错的东西你再帮他传一遍，等于你也有责任吧
-                    if (!(photo_local_file_path.toString().toLowerCase().endsWith("jpg")||photo_local_file_path.toString().toLowerCase().endsWith("png")
-                            ||photo_local_file_path.toString().toLowerCase().endsWith("jpeg")||photo_local_file_path.toString().toLowerCase().endsWith("gif"))){
-                        CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"不支持此格式的上传");
-                        break;
-                    }
-                    addPic=true;
-                    if(clearFormerUploadUrlList){
-                        if(uploadImgUrlList.size()>0){
-                            uploadImgUrlList.clear();
-                        }
-                        clearFormerUploadUrlList=false;
-                    }
-                    Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(photo_local_file_path);
-                    addPictureList.add(new BitmapDrawable(getResources(), bitmap2));
-                    uploadImgUrlList.add(photo_local_file_path);
-                    imageAddGridViewAdapter.changeList(addPictureList);
-                    imageAddGridViewAdapter.notifyDataSetChanged();
-                    addPicCount++;
-
-                    break;
-            }
-        }
-    };
 
 
     //是否为外置存储器
@@ -448,12 +468,14 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
             image_viewpager.setCurrentItem(position);
             delete_image.setVisibility(View.GONE);
             position_in_total.setText((position+1)+"/"+urlList.size());
+            layout_upload.setVisibility(View.GONE);
             isBigImageShow=true;
 
         }else{
             image_viewpager.setCurrentItem(position-1);
             delete_image.setVisibility(View.VISIBLE);
             position_in_total.setText((position)+"/"+urlList.size());
+            layout_upload.setVisibility(View.GONE);
             isBigImageShow=true;
 
         }
@@ -503,11 +525,10 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                 edit_photo_fullscreen_layout.setVisibility(View.GONE);*/
             case R.id.upload://第一次握手：按发表键后
                 //检查用户是否登录
-
                 ACache cache= ACache.get(PhotosAddActivity.this);
                 LoginDataModel userStr=(LoginDataModel)cache.getAsObject("loginModel");
                 user=userStr.getUserModel();
-                String usename=user.getPhone();
+                String usename=user.getId();
                 String authKey=user.getAuth_key();
                 if(!(authKey!=null&&!authKey.equals(""))){
                     CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,getString(R.string.publish_theme_after_login));
@@ -550,6 +571,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                 position_in_total.setText((viewpagerPosition+1)+"/"+uploadImgUrlList.size());
                 if(uploadImgUrlList.size()==0){
                     display_big_image_layout.setVisibility(View.GONE);
+                    layout_upload.setVisibility(View.VISIBLE);
                     isBigImageShow=false;
                 }
                 addPicCount--;
@@ -560,12 +582,12 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private boolean checkInput() throws ParseException {
 
 
-        if (theme_title_edit.getText().toString().equals("")||theme_title_edit.getText().length()>20){
+        if (type!=1&&(theme_title_edit.getText().toString().equals("")||theme_title_edit.getText().length()>20)){
             CommonUtils.getUtilInstance().showLongToast(PhotosAddActivity.this,"请正确输入标题（20字以内）");
             return false;
         }
 
-        if (theme_desc_edit.getText().length()<15){
+        if (type!=1&&(theme_desc_edit.getText().length()<15)){
             CommonUtils.getUtilInstance().showLongToast(PhotosAddActivity.this,"请输入15字以上的详细描述");
             return false;
         }
@@ -619,9 +641,8 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                     }
                 },null));
     }
-//发第一次请求，仅请求活动立项
-
-    public void saveThemeInfo(String usrname,String auth_key,String title){
+//发第一次请求,向服务器申请上传凭证
+    public void saveThemeInfo(String uid,String auth_key,String title){
         Map<String, Object>map=new HashMap<String, Object>();
         if (finalImgList!=null)
             finalImgList.clear();
@@ -634,26 +655,28 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
             imgList.add(filename);
             finalImgList.add(String.valueOf("\"" + filename + "\""));
         }
-        map.put("username",usrname);
-        map.put("auth_key",auth_key);
-        map.put("title",title);
-        map.put("type",StatusCode.REQUEST_CREATE_HUODONG);
-        map.put("images", finalImgList);
-        requestFragment.httpRequest(map, CommonUrl.createActivityInfo);
+        if (type==1){
+        map.put("uid",uid);
+        map.put("authkey",auth_key);
+        //map.put("title",title);
+        map.put("type",StatusCode.PHOTOSELF_ADD_IMGS);
+        map.put("imgs", finalImgList);
+        requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
+        }
     }
 
-    //
+
     @Override
     public void requestFinish(final String result,String requestUrl) throws JSONException {
-
-        if(requestUrl.equals(CommonUrl.createActivityInfo)){//活动立项（第一次请求）完成的回调
+        Log.d("shacus_net", "requestFinish----------------------" + result);
+        if(requestUrl.equals(CommonUrl.imgSelfAndSets)){//请求添加个人照片（第一次请求）完成的回调
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            if (code == StatusCode.REQUEST_HUODONG_SUCCESS) {
+            if (code == StatusCode.PHOTOSELF_ADD_IMGS) {//第一个请求返回
                 final JSONObject content=object.getJSONObject("contents");
                 try {
-                    apId = content.getInt("acID");
-                    JSONArray auth_key_arr = content.getJSONArray("image_token");
+                    //apId = content.getInt("acID");
+                    JSONArray auth_key_arr = content.getJSONArray("auth_key");//这是图片上传凭证
                     for (int i = 0; i < auth_key_arr.length(); i++) {
                         Message msg = handler.obtainMessage();
                         Map<String, String> map = new HashMap<>();
@@ -665,17 +688,13 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this, getString(R.string.publish_huodong_sucess));Looper.loop();
+                Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this, "正在上传图片");Looper.loop();
                 return;
             }
-            if (code== StatusCode.REQUEST_HUODONG_SUCCEED){
+            if (code== StatusCode.PHOTOSELF_ADD_IMGS_2){//上传个人照片的返回
                 if (progressDlg!=null)
                     progressDlg.dismiss();
-                //Looper.prepare();CommonUtils.getUtilInstance().showToast(getActivity(), getString(R.string.publish_huodong_succeed));Looper.loop();
-                Intent intent = new Intent(PhotosAddActivity.this, MainActivity.class);
-                intent.putExtra("result","发布成功");
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "上传成功");Looper.loop();
                 PhotosAddActivity.this.finish();
                 return;
             }else {
@@ -696,6 +715,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private void hideDisplayBigImageLayout(){
         display_big_image_layout.setVisibility(View.GONE);
         isBigImageShow=false;
+        layout_upload.setVisibility(View.VISIBLE);
     }
 
     @Override

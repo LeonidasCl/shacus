@@ -71,10 +71,11 @@ public class NetRequest {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
-					Log.d("shacus", "onResponse----------------------" + result);
+					Log.d("shacus_net", "onResponse----------------------" + result.substring(0,20));
                     //Toast.makeText(context, result,Toast.LENGTH_LONG).show();
                     //CommonUtils.getUtilInstance().showToast(APP.context,result);
 					try {
+						//Log.d("shacus_net", "call_finish----------------------" + result.substring(1,20));
 						netRequestIterface.requestFinish(result, requestUrl);
 					} catch (JSONException e) {
 						e.printStackTrace();
