@@ -98,6 +98,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener,Net
         return view;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();

@@ -10,6 +10,8 @@ import android.media.ExifInterface;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.pc.shacus.APP;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -111,7 +113,10 @@ public class UploadPhotoUtil<MultipartEntity> {
 
     public Bitmap trasformToZoomBitmapAndLessMemory(String url) {
         File file = new File(url);
-        Log.d("logout", "file.length()---------------------" + file.length());
+       if (!file.exists()){
+           CommonUtils.getUtilInstance().showToast(APP.context,"文件损坏或不存在");
+           return null;
+       }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         int inSampleSize = 1;

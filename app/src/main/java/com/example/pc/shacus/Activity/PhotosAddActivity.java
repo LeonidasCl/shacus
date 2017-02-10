@@ -108,7 +108,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private FrameLayout layout_upload;
     private Handler handler;
 
-    private int type=-1;//类型
+    private int type=-1;//类型 1为上传个人照片 2为发布作品集 3为给作品集添加图片
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -123,6 +123,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
             CommonUtils.getUtilInstance().showToast(APP.context,"请从正确的入口打开");
         }
         type=typo;
+
 
         setTitle("上传新图片");
 
@@ -151,9 +152,14 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         theme_title_edit=(EditText)findViewById(R.id.theme_title_edit);
         theme_desc_edit=(EditText)findViewById(R.id.theme_desc_edit);
         LinearLayout ll=(LinearLayout)findViewById(R.id.theme_desc_edit_layout);
-        if (type==1){//如果是个人照片，不用描述了
+        if (type==1||type==3){//如果是个人照片/给作品集添加图片，不用描述了
             theme_title_edit.setVisibility(View.GONE);
             ll.setVisibility(View.GONE);
+        }
+        if (type==3){
+            Intent intnt=getIntent();
+            theme_title_edit.setText(intnt.getStringExtra("title"));
+            theme_desc_edit.setText(intnt.getStringExtra("content"));
         }
         layout_upload=(FrameLayout)findViewById(R.id.layout_upload);
         delete_image=(ImageView)findViewById(R.id.delete_image);
@@ -172,7 +178,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //这里是添加图片的按钮的回调
                 if (position == 0) {
-                    if (addPicCount == 10) {
+                    if (addPicCount == 10){
                         CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this, getString(R.string.no_more_than_9));
                     } else {
                         //点击添加图片
@@ -203,6 +209,11 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                         finish();
                         break;
 
+                    case StatusCode.PHOTOSELF_ADD_SETS_2:
+                        CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"作品集发布成功");
+                        finish();
+                        break;
+
                     case  StatusCode.STATUS_ERROR:
                         CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,msg.obj.toString());
                         finish();
@@ -220,7 +231,25 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                             //map.put("acid",apId);
                             //map.put("content",theme_desc_edit.getText().toString());
                             map.put("imgs", finalImgList);
-                            progressDlg=ProgressDialog.show(PhotosAddActivity.this, "个人照片", "上传中", true, true, new DialogInterface.OnCancelListener() {
+                            progressDlg=ProgressDialog.show(PhotosAddActivity.this, "个人照片", "正在提交照片信息", true, true, new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialogInterface) {
+                                    //上传完图片后取消了发布活动
+                                }
+                            });
+                            // mProgress.setVisibility(View.GONE);
+                            requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);//最后将图片在这里传出去
+                            break;
+                        }
+                        if (type==2||type==3){
+                            map.put("authkey",user.getAuth_key());
+                            map.put("uid",user.getId());
+                            map.put("title",theme_title_edit.getText().toString());
+                            map.put("type", StatusCode.PHOTOSELF_ADD_SETS_2);
+                            map.put("ucid",apId);
+                            map.put("content",theme_desc_edit.getText().toString());
+                            map.put("imgs", finalImgList);
+                            progressDlg=ProgressDialog.show(PhotosAddActivity.this, "作品集", "正在提交作品集", true, true, new DialogInterface.OnCancelListener() {
                                 @Override
                                 public void onCancel(DialogInterface dialogInterface) {
                                     //上传完图片后取消了发布活动
@@ -232,11 +261,11 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                         }
 
                     case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，上传图片到OSS
-                        Map<String, String> map2=(HashMap<String, String>)msg.obj;
+                        ArrayList<String> map2=(ArrayList<String>)msg.obj;
                         picToAdd=uploadImgUrlList.size();
                         if(uploadImgUrlList.size()>0){
-                            for(int i=0,j=picToAdd;j>0;j--,i++ ){
-                                saveThemeImgNew(uploadImgUrlList.get(j-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
+                            for(int i=0;i<picToAdd;i++){
+                                saveThemeImgNew(uploadImgUrlList.get(i),map2.get(i),i);//逐张保存要上传的图片并发消息到发送的handle
                             }
                         }
                         show_upload_pic_layout.setVisibility(View.VISIBLE);
@@ -280,6 +309,8 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                             clearFormerUploadUrlList=false;
                         }
                         Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomBitmapAndLessMemory(photo_local_file_path);
+                        if (bitmap2==null)
+                            finish();
                         addPictureList.add(new BitmapDrawable(getResources(), bitmap2));
                         uploadImgUrlList.add(photo_local_file_path);
                         imageAddGridViewAdapter.changeList(addPictureList);
@@ -492,6 +523,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     }
 
     // 下面函数是选中了要上传图片或者拍照打完钩后运行的
+    @Override
     public void onActivityResult(int requestCode,int resultCode,Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
         if(resultCode==NONE)
@@ -591,12 +623,12 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private boolean checkInput() throws ParseException {
 
 
-        if (type!=1&&(theme_title_edit.getText().toString().equals("")||theme_title_edit.getText().length()>20)){
+        if (type==2&&(theme_title_edit.getText().toString().equals("")||theme_title_edit.getText().length()>20)){
             CommonUtils.getUtilInstance().showLongToast(PhotosAddActivity.this,"请正确输入标题（20字以内）");
             return false;
         }
 
-        if (type!=1&&(theme_desc_edit.getText().length()<15)){
+        if (type==2&&(theme_desc_edit.getText().length()<15)){
             CommonUtils.getUtilInstance().showLongToast(PhotosAddActivity.this,"请输入15字以上的详细描述");
             return false;
         }
@@ -614,7 +646,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         String key=imgList.get(num);
         String token=tk;
         //mProgress.setVisibility(View.VISIBLE);
-        progressDlg=ProgressDialog.show(PhotosAddActivity.this, "发布活动", "正在上传图片", true, true, new DialogInterface.OnCancelListener() {
+        progressDlg=ProgressDialog.show(PhotosAddActivity.this, "请稍等", "正在上传图片", true, true, new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 //取消了上传
@@ -667,10 +699,17 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         if (type==1){
         map.put("uid",uid);
         map.put("authkey",auth_key);
-        //map.put("title",title);
-        map.put("type",StatusCode.PHOTOSELF_ADD_IMGS);
+        map.put("type",StatusCode.PHOTOSELF_ADD_IMGS1);
         map.put("imgs", finalImgList);
         requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
+        }
+        if (type==2||type==3){
+            map.put("uid",uid);
+            map.put("authkey",auth_key);
+            map.put("title",title);
+            map.put("type",StatusCode.PHOTOSELF_ADD_SETS_1);
+            map.put("imgs", finalImgList);
+            requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
         }
     }
 
@@ -681,26 +720,26 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         if(requestUrl.equals(CommonUrl.imgSelfAndSets)){//请求添加个人照片（第一次请求）完成的回调
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            if (code == StatusCode.PHOTOSELF_ADD_IMGS) {//第一个请求返回
+            if (code == StatusCode.PHOTOSELF_ADD_IMGS1){//上传个人照片第一个请求返回
                 final JSONObject content=object.getJSONObject("contents");
                 try {
                     //apId = content.getInt("acID");
                     JSONArray auth_key_arr = content.getJSONArray("auth_key");//这是图片上传凭证
+                    ArrayList<String> map = new ArrayList<String>();
                     for (int i = 0; i < auth_key_arr.length(); i++) {
-                        Message msg = handler.obtainMessage();
-                        Map<String, String> map = new HashMap<>();
-                        map.put("auth_key", auth_key_arr.getString(i));
-                        msg.obj = map;
-                        msg.what = UPLOAD_TAKE_PICTURE;
-                        handler.sendMessageDelayed(msg, 100);
+                        map.add(auth_key_arr.getString(i));
                     }
+                    Message msg = handler.obtainMessage();
+                    msg.obj = map;
+                    msg.what = UPLOAD_TAKE_PICTURE;
+                    handler.sendMessageDelayed(msg, 100);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 //Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this, "正在上传图片");Looper.loop();
                 return;
             }
-            if (code== StatusCode.PHOTOSELF_ADD_IMGS_2){//上传个人照片的返回
+            if (code== StatusCode.PHOTOSELF_ADD_IMGS_2){//上传个人照片第二个请求返回
                 if (progressDlg!=null)
                     progressDlg.dismiss();
                 Message msg = handler.obtainMessage();
@@ -709,15 +748,46 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                 //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "上传成功");Looper.loop();
                 PhotosAddActivity.this.finish();
                 return;
-            }else {
+            }
+
+            if (code == StatusCode.PHOTOSELF_ADD_SETS_1){//上传新作品集第一个请求返回
+                final JSONObject content=object.getJSONObject("contents");
+                try {
+                    apId = content.getInt("ucid");
+                    JSONArray auth_key_arr = content.getJSONArray("auth_key");//这是图片上传凭证
+                    ArrayList<String> map = new ArrayList<String> ();
+                    for (int i = 0; i < auth_key_arr.length(); i++){
+                        map.add(auth_key_arr.getString(i));
+                    }
+                    Message msg = handler.obtainMessage();
+                    msg.obj = map;
+                    msg.what = UPLOAD_TAKE_PICTURE;
+                    handler.sendMessageDelayed(msg, 100);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this, "正在上传图片");Looper.loop();
+                return;
+            }
+            if (code== StatusCode.PHOTOSELF_ADD_SETS_2){//上传新作品集第二个请求返回
                 if (progressDlg!=null)
                     progressDlg.dismiss();
-                    Message msg = handler.obtainMessage();
-                    msg.what = StatusCode.STATUS_ERROR;
-                    handler.sendMessageDelayed(msg, 100);
-                    msg.obj=object.getString("contents");
-                //Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,);Looper.loop();
+                Message msg = handler.obtainMessage();
+                msg.what = StatusCode.PHOTOSELF_ADD_SETS_2;
+                handler.sendMessageDelayed(msg, 100);
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(APP.context, "上传成功");Looper.loop();
+                PhotosAddActivity.this.finish();
+                return;
             }
+
+            if (progressDlg!=null)
+                progressDlg.dismiss();
+            Message msg = handler.obtainMessage();
+            msg.what = StatusCode.STATUS_ERROR;
+            handler.sendMessageDelayed(msg, 100);
+            msg.obj=object.getString("contents");
+                //Looper.prepare();CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,);Looper.loop();
+
         }
 
     }
