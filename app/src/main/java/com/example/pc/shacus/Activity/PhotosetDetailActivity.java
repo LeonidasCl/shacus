@@ -30,6 +30,7 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.google.gson.Gson;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -73,6 +74,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
     private NetRequest request;
     private UserModel userModel;
     private ArrayList<String> imageBigDatas;
+    private int isself=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
                 if (msg.what== StatusCode.PHOTOSET_SMALLIMG){
 
-                    if (true){//如果是自己的作品集
+                    if (isself==0){//如果是自己的作品集
                         bottomMenu=(FrameLayout)findViewById(R.id.photoset_bottom);
                         edit.setText("编辑  ");
                         edit.setOnClickListener(new View.OnClickListener(){
@@ -179,7 +181,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                 if (imgToDelete.size()!=0){
                                     AlertDialog dialog = new AlertDialog.Builder(PhotosetDetailActivity.this)
                                             .setTitle("警告")
-                                            .setMessage("检测到您删除了作品集！添加新图片之前要保存更改吗？")
+                                            .setMessage("检测到您删除了图片！添加新图片之前要保存更改吗？")
                                             .setPositiveButton("保存更改", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -222,12 +224,6 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                         edit.setVisibility(View.INVISIBLE);
                         edit.setClickable(false);
                     }
-                    //将略缩图取回并存储
-                    imageDatas=new ArrayList<>();
-                    ArrayList<String> obj= (ArrayList<String>) msg.obj;
-                    for (int i=0;i<obj.size();i++){
-                        imageDatas.add(new ImageData(obj.get(i),200,200));
-                    }
                     //修复略缩图最后一张不显示bug（暂时这样在最后加一张无用图）
                     //imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
                     //加载图片列表视图
@@ -241,10 +237,10 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     return;
                 }
 
-                /*if (msg.what== StatusCode.UPDATE_DELETE_SELFIMG){
+                if (msg.what== StatusCode.UPDATE_DELETE_SETIMG){
                     CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
                     return;
-                }*/
+                }
 
             }
         };
@@ -258,13 +254,14 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
+        map.put("ucid",getIntent().getIntExtra("ucid",-1));
         map.put("type", StatusCode.PHOTOSET_SMALLIMG);
         //获取略缩图列表
         request.httpRequest(map, CommonUrl.imgSelfAndSets);
-        map.remove("type");
-        map.put("type",StatusCode.PHOTOSET_BIGIMG);
-        //获取大图列表
-        request.httpRequest(map, CommonUrl.imgSelfAndSets);
+//        map.remove("type");
+//        map.put("type",StatusCode.PHOTOSET_BIGIMG);
+//        //获取大图列表
+//        request.httpRequest(map, CommonUrl.imgSelfAndSets);
 
     }
 
@@ -324,32 +321,6 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         return ret;
     }
 
-    protected ArrayList<ImageData> loadDevicePhotos() {
-        //测试数据
-        imageDatas = new ArrayList<>();
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/faguangyepao.jpg", 800, 453));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/04.jpeg", 600, 1068));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p1.jpg", 999, 412));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p2.jpg", 501, 105));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/02.jpg", 480, 854));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p3.jpg", 541, 172));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p4.jpg", 431, 110));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/05.png", 600, 458));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/06.jpg",771, 561));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p5.jpg", 437, 123));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p6.jpg", 301, 266));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/01.jpg", 284, 325));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/03.jpg", 198, 191));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p7.jpg", 458, 418));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/07.jpg", 160,220));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/08.jpg", 480, 853));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
-        //修复最后一张不显示bug
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
-
-        return imageDatas;
-    }
-
     private void showImagePager(String startPositionUrl) {
         int position=-1;
         final int size=imageBigDatas.size();
@@ -393,35 +364,30 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
             int code = Integer.valueOf(object.getString("code"));
             if (code==StatusCode.PHOTOSET_SMALLIMG){
                 JSONArray smallImgs=object.getJSONArray("contents");
-                ArrayList<String> data=new ArrayList<>();
+                JSONArray bigImgs=object.getJSONArray("originurl");
+                isself=object.getInt("isself");
+                Gson gson=new Gson();
+                imageBigDatas=new ArrayList<>();
+                imageDatas=new ArrayList<>();
                 for (int i=0;i<smallImgs.length();i++){
-                    data.add(smallImgs.get(i).toString());
+                    imageDatas.add(gson.fromJson(smallImgs.get(i).toString(),ImageData.class));
+                    imageBigDatas.add(bigImgs.get(i).toString());
                 }
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.PHOTOSET_SMALLIMG;
-                msg.obj=data;
+                //msg.obj=data;数据已经在上面循环中设置，不需要再随消息发送了
                 handler.sendMessage(msg);
                 return;
             }
-            if (code==StatusCode.PHOTOSET_BIGIMG){
-                JSONArray bigImgs=object.getJSONArray("contents");
-                ArrayList<String> data=new ArrayList<>();
-                for (int i=0;i<bigImgs.length();i++){
-                    data.add(bigImgs.get(i).toString());
-                }
+
+            if (code==StatusCode.UPDATE_DELETE_SETIMG){
+                imgToDelete.clear();
                 Message msg=handler.obtainMessage();
-                msg.what= StatusCode.PHOTOSET_BIGIMG;
-                msg.obj=data;
+                msg.what= StatusCode.UPDATE_DELETE_SETIMG;
+                msg.obj="图片删除成功";
                 handler.sendMessage(msg);
                 return;
             }
-            /*if (code==StatusCode.UPDATE_DELETE_SELFIMG){
-                Message msg=handler.obtainMessage();
-                msg.what= StatusCode.UPDATE_DELETE_SELFIMG;
-                msg.obj="已成功删除";
-                handler.sendMessage(msg);
-                return;
-            }*/
         }
     }
 

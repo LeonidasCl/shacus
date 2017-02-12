@@ -84,7 +84,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         request=new NetRequest(this,this);
         back=(TextView) findViewById(R.id.photoset_toolbar_back);
         back.setText("＜返回");
-        back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 finish();
@@ -374,6 +374,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                 return;
             }
             if (code==StatusCode.UPDATE_DELETE_SELFIMG){
+                imgToDelete.clear();
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.UPDATE_DELETE_SELFIMG;
                 msg.obj="已成功删除";
