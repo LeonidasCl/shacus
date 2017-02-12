@@ -53,7 +53,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
     private TextView back,title,edit;
     private boolean isEditing=false;
     FluidGridAdapter fluidGridAdapter;
-    ArrayList<ImageData> imageDatas;
+    ArrayList<ImageData> imageDatas=new ArrayList<>();
     FrameLayout bottomMenu;
     private Animation get_photo_layout_in_from_down;
     private Button button_delete;
@@ -80,7 +80,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         });
 
         title=(TextView)findViewById(R.id.photoset_toolbar_title);
-        title.setText("作品集标题");
+        title.setText("作品集列表");
         edit=(TextView)findViewById(R.id.photoset_toolbar_edit);
 
         handler=new Handler(){
@@ -118,13 +118,13 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
-                                    //if (imageDatas.size()==1)//数组大小为1说明只有默认图片，不需要向服务器请求删除
-                                      //  return;
+                                    if (deletingIds.size()==0)//数组大小为1说明只有默认图片，不需要向服务器请求删除
+                                        return;
                                     //删除作品集
                                     AlertDialog dialog = new AlertDialog.Builder(PhotosetOverviewActivity.this)
                                             .setTitle("警告")
                                             .setMessage("确定要保存更改吗？您刚才删除的作品集将无法恢复！")
-                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                            .setPositiveButton("保存更改", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Map map=new HashMap();
@@ -152,15 +152,38 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                             @Override
                             public void onClick(View v){
                                 boolean hasChoosed=false;
+                                ArrayList<ImageData> imgDatasToRemove=new ArrayList<ImageData>();
+                                ArrayList<PhotosetModel> photoSetsToRemove=new ArrayList<PhotosetModel>();
+                                //先找出本次要删除的URL加进准备发给服务器的待删数组，并给临时数组添加元素以准备处理本地数据，一组单循环
                                 for (int index=0;index<imageDatas.size();index++){
                                     if (imageDatas.get(index).isChecked()){
                                         hasChoosed=true;
                                         deletingIds.add(String.valueOf(photoSets.get(index).getUCid()));
-                                        imageDatas.remove(index);
+                                        imgDatasToRemove.add(imageDatas.get(index));
+                                        photoSetsToRemove.add(photoSets.get(index));
+                                    }
+                                }
+                                //再处理本地数据：按临时数组搜索，删除大图小图成员的特定数据，两组双重循环
+                                for (int i=0;i<imgDatasToRemove.size();i++){
+                                    String str=imgDatasToRemove.get(i).getImageUrl();
+                                    for (int j=0;j<imageDatas.size();j++){
+                                        if (imageDatas.get(j).getImageUrl().equals(str)){
+                                            imageDatas.remove(j);
+                                            break;
+                                        }
+                                    }
+                                }
+                                for (int i=0;i<photoSetsToRemove.size();i++){
+                                    int cid=photoSetsToRemove.get(i).getUCid();
+                                    for (int j=0;j<photoSets.size();j++){
+                                        if (photoSets.get(j).getUCid()==cid){
+                                            photoSets.remove(j);
+                                            break;
+                                        }
                                     }
                                 }
                                 if (!hasChoosed){
-                                    CommonUtils.getUtilInstance().showToast(PhotosetOverviewActivity.this,"您没有选择任何图片");
+                                    CommonUtils.getUtilInstance().showToast(PhotosetOverviewActivity.this,"您没有选择任何作品集");
                                     return;
                                 }
                                 //把新清单数据注入adapter
@@ -251,7 +274,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                     int id=-1;
                     for (int i=0;i<photoSets.size();i++){
                         if (photoSets.get(i).getUCimg().getImageUrl().equals(img)){
-                            id=i;
+                            id=photoSets.get(i).getUCid();
                             break;
                         }
                     }

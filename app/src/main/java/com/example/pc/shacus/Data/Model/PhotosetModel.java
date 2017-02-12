@@ -7,7 +7,7 @@ package com.example.pc.shacus.Data.Model;
 public class PhotosetModel {
     private String UCcreateT;
     private int UCid;
-    private String title;
+    private String UCtitle;
     private ImageData UCimg;
 
     public String getUCcreateT() {
@@ -35,10 +35,10 @@ public class PhotosetModel {
     }
 
     public String getTitle() {
-        return title;
+        return UCtitle;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.UCtitle = title;
     }
 }

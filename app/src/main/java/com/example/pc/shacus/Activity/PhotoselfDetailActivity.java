@@ -135,8 +135,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
-                                    //if (imageDatas.size()==1)//数组大小为1说明只有默认图片，不需要向服务器请求删除
-                                      //  return;
+
                                     //发起更新图片请求完成删除
                                     Map map=new HashMap();
                                     map.put("authkey",userModel.getAuth_key());
@@ -150,20 +149,38 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                         });
 
                         button_delete=(Button)findViewById(R.id.photoset_delete);
-                        button_delete.setOnClickListener(new View.OnClickListener() {
+                        button_delete.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v){
                                 boolean hasChoosed=false;
-                                /*if(imageDatas.size()==1){
-                                    CommonUtils.getUtilInstance().showToast(PhotoselfDetailActivity.this,"您没有选择任何图片");
-                                    return;
-                                }*/
+                                ArrayList<ImageData> imgDatasToRemove=new ArrayList<ImageData>();
+                                ArrayList<String> imgBigDatasToRemove=new ArrayList<String>();
+                                //先找出本次要删除的URL加进准备发给服务器的待删数组，并给临时数组添加元素以准备处理本地数据
                                 for (int index=0;index<imageDatas.size();index++){
                                     if (imageDatas.get(index).isChecked()){
                                         hasChoosed=true;
                                         imgToDelete.add(imageBigDatas.get(index));
-                                        imageDatas.remove(index);
-                                        imageBigDatas.remove(index);//对应的大图url也一并删除
+                                        imgDatasToRemove.add(imageDatas.get(index));
+                                        imgBigDatasToRemove.add(imageBigDatas.get(index));
+                                    }
+                                }
+                                //再处理本地数据：按临时数组搜索，删除大图小图成员的特定数据
+                                for (int i=0;i<imgDatasToRemove.size();i++){
+                                    String str=imgDatasToRemove.get(i).getImageUrl();
+                                    for (int j=0;j<imageDatas.size();j++){
+                                        if (imageDatas.get(j).getImageUrl().equals(str)){
+                                            imageDatas.remove(j);
+                                            break;
+                                        }
+                                    }
+                                }
+                                for (int i=0;i<imgBigDatasToRemove.size();i++){
+                                    String str=imgBigDatasToRemove.get(i);
+                                    for (int j=0;j<imageBigDatas.size();j++){
+                                        if (imageBigDatas.get(j).equals(str)){
+                                            imageBigDatas.remove(j);
+                                            break;
+                                        }
                                     }
                                 }
                                 if (!hasChoosed){
@@ -279,8 +296,6 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                     }
                 }else {//没有处于编辑模式
                     //打开看图模式
-                    /*if (imageDatas.size()==1)//如果图片数组大小为1说明只有提示图片，没有用户图片，直接返回
-                        return;*/
                     showImagePager(parseBigImgUrl(imageData.getImageUrl()));
                 }
 
