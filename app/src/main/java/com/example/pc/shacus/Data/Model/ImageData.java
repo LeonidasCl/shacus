@@ -37,6 +37,8 @@ public class ImageData {
     }
 
     public float getAspectRatio() {
+        float ar = (float)width / height;
+        setAspectRatio(ar);
         return aspectRatio;
     }
 

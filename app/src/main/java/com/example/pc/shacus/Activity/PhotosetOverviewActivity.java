@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.FluidGridAdapter;
-import com.example.pc.shacus.Adapter.ImagePagerAdapter;
-import com.example.pc.shacus.Adapter.UploadViewPager;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ImageData;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.PhotosetModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -26,6 +26,10 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.google.gson.Gson;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,7 +42,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,9 +61,11 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
     private Handler handler;
     private NetRequest request;
     private UserModel userModel;
+    private ArrayList<String> deletingIds;
+    private int isself=1;//是否为自己，默认不是自己
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos_overview);
         request=new NetRequest(this,this);
@@ -68,7 +73,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         back.setText("＜返回");
         back.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 finish();
             }
         });
@@ -82,9 +87,13 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
-                if (msg.what== StatusCode.PHOTOSET_SMALLIMG){
+                if (msg.what== StatusCode.REQUEST_FAILURE){
+                    CommonUtils.getUtilInstance().showToast(APP.context,msg.obj.toString());
+                    finish();
+                }
 
-                    if (true){//如果是自己的作品集
+                if (msg.what== StatusCode.PHOTOSET_BIGIMG){
+                    if (isself==0){//如果是自己的作品集
                         bottomMenu=(FrameLayout)findViewById(R.id.photoset_bottom);
                         edit.setText("编辑  ");
                         edit.setOnClickListener(new View.OnClickListener(){
@@ -108,26 +117,49 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
-                                    //TODO 发起更新图片请求完成删除
-                                    /*Map map=new HashMap();
-                                    map.put("authKey",userModel.getAuth_key());
-                                    map.put("uid",userModel.getId());
-                                    map.put("type",StatusCode.UPDATE_DELETE_IMG);
-                                    request.httpRequest(map, CommonUrl.imgSelfAndSets);*/
-
+                                    //if (imageDatas.size()==1)//数组大小为1说明只有默认图片，不需要向服务器请求删除
+                                      //  return;
+                                    //删除作品集
+                                    AlertDialog dialog = new AlertDialog.Builder(PhotosetOverviewActivity.this)
+                                            .setTitle("警告")
+                                            .setMessage("确定要保存更改吗？您刚才删除的作品集将无法恢复！")
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Map map=new HashMap();
+                                                    map.put("authkey",userModel.getAuth_key());
+                                                    map.put("uid",userModel.getId());
+                                                    map.put("ucid",deletingIds);
+                                                    map.put("type",StatusCode.UPDATE_DELETE_PHOTOSET);
+                                                    request.httpRequest(map, CommonUrl.imgSelfAndSets);
+                                                }
+                                            })
+                                            .setNegativeButton("放弃更改", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    PhotosetOverviewActivity.this.finish();
+                                                }
+                                            })
+                                            .create();
+                                    dialog.show();
                                 }
                             }
                         });
 
                         button_delete=(Button)findViewById(R.id.photoset_delete);
-                        button_delete.setOnClickListener(new View.OnClickListener() {
+                        button_delete.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v){
                                 boolean hasChoosed=false;
+                                /*if(imageDatas.size()==1){
+                                    CommonUtils.getUtilInstance().showToast(PhotosetOverviewActivity.this,"您没有选择任何图片");
+                                    return;
+                                }*/
                                 for (int index=0;index<imageDatas.size();index++){
                                     if (imageDatas.get(index).isChecked()){
                                         hasChoosed=true;
                                         imageDatas.remove(index);
+                                        //deletingIds.add(index) TODO 建立作品集概览的数据膜型，获取作品集ID
                                     }
                                 }
                                 if (!hasChoosed){
@@ -147,11 +179,12 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                         button_upload=(Button)findViewById(R.id.photoset_upload);
                         button_upload.setOnClickListener(new View.OnClickListener(){
                             @Override
-                            public void onClick(View v) {
-                                //TODO 添加新图片
+                            public void onClick(View v){
+                                //发布新作品集
                                 Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
-                                intent.putExtra("type",1);
+                                intent.putExtra("type",2);
                                 startActivity(intent);
+                                finish();
                             }
                         });
 
@@ -161,18 +194,18 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                     }
                     //将略缩图取回并存储
                     imageDatas=new ArrayList<>();
-                    ArrayList<String> obj= (ArrayList<String>) msg.obj;
+                    ArrayList<PhotosetModel> obj= (ArrayList<PhotosetModel>) msg.obj;
                     for (int i=0;i<obj.size();i++){
-                        imageDatas.add(new ImageData(obj.get(i),200,200));
+                        imageDatas.add(obj.get(i).getUCimg());
                     }
                     //修复略缩图最后一张不显示bug（暂时这样在最后加一张无用图）
-                    imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
+                    //imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
                     //加载图片列表视图
                     setupFluidGrid();
                     return;
                 }
 
-                /*if (msg.what== StatusCode.UPDATE_DELETE_IMG){
+                /*if (msg.what== StatusCode.UPDATE_DELETE_SELFIMG){
                     CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
                     return;
                 }*/
@@ -189,12 +222,8 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
-        map.put("type", StatusCode.PHOTOSET_SMALLIMG);
-        //获取略缩图列表
-        request.httpRequest(map, CommonUrl.imgSelfAndSets);
-        map.remove("type");
         map.put("type",StatusCode.PHOTOSET_BIGIMG);
-        //获取大图列表
+        //获取作品集列表
         request.httpRequest(map, CommonUrl.imgSelfAndSets);
 
     }
@@ -218,8 +247,11 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                         setSelectState(imageData.getImageUrl(),false);
                     }
                 }else {//没有处于编辑模式
-                    //打开看图模式
+                    //打开作品集详情页
+                    //if (imageDatas.size()==1)//如果图片数组大小为1说明只有提示图片，没有用户图片，直接返回
+                      //  return;
                     Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
+                    //intent.putExtra("",id);
                     startActivity(intent);
                 }
 
@@ -276,23 +308,13 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         if (requestUrl.equals(CommonUrl.imgSelfAndSets)){
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
-            if (code==StatusCode.PHOTOSET_SMALLIMG){
-                JSONArray smallImgs=object.getJSONArray("contents");
-                ArrayList<String> data=new ArrayList<>();
-                for (int i=0;i<smallImgs.length();i++){
-                    data.add(smallImgs.get(i).toString());
-                }
-                Message msg=handler.obtainMessage();
-                msg.what= StatusCode.PHOTOSET_SMALLIMG;
-                msg.obj=data;
-                handler.sendMessage(msg);
-                return;
-            }
             if (code==StatusCode.PHOTOSET_BIGIMG){
+                isself=object.getInt("isself");
                 JSONArray bigImgs=object.getJSONArray("contents");
-                ArrayList<String> data=new ArrayList<>();
+                Gson gson=new Gson();
+                ArrayList<PhotosetModel> data=new ArrayList<>();
                 for (int i=0;i<bigImgs.length();i++){
-                    data.add(bigImgs.get(i).toString());
+                    data.add(gson.fromJson(bigImgs.getJSONObject(i).toString(),PhotosetModel.class));
                 }
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.PHOTOSET_BIGIMG;
@@ -300,13 +322,17 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                 handler.sendMessage(msg);
                 return;
             }
-            /*if (code==StatusCode.UPDATE_DELETE_IMG){
+            /*if (code==StatusCode.UPDATE_DELETE_SELFIMG){
                 Message msg=handler.obtainMessage();
-                msg.what= StatusCode.UPDATE_DELETE_IMG;
+                msg.what= StatusCode.UPDATE_DELETE_SELFIMG;
                 msg.obj="已成功删除";
                 handler.sendMessage(msg);
                 return;
             }*/
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
         }
     }
 

@@ -39,15 +39,15 @@
         <item
             android:id="@+id/debug_photoset_detail"
             android:icon="@drawable/exit"
-            android:title="临时入口-照片集详情"/>
+            android:title="临时入口-作品集"/>
         <item
             android:id="@+id/debug_photos_detail"
             android:icon="@drawable/exit"
-            android:title="临时入口-个人照片详情"/>
+            android:title="临时入口-个人照片"/>
         <item
-            android:id="@+id/debug_add_photos_detail"
+            android:id="@+id/debug_photos_add"
             android:icon="@drawable/exit"
-            android:title="添加个人照片"/>
+            android:title="临时入口-添加照片"/>
     </group>
 
 </menu>

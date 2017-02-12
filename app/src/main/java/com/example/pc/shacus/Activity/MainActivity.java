@@ -597,15 +597,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(id==R.id.nav_sharing){
             Intent intent=new Intent(getApplicationContext(),ShareActivity.class);
             startActivity(intent);
-        } else if(id==R.id.debug_photoset_detail){//临时照片集入口
+        } else if(id==R.id.debug_photoset_detail){//临时作品集入口
             Intent intent=new Intent(getApplicationContext(),PhotosetOverviewActivity.class);
             startActivity(intent);
         } else if(id==R.id.debug_photos_detail){//临时个人照片入口
             Intent intent=new Intent(getApplicationContext(),PhotoselfDetailActivity.class);
             startActivity(intent);
-        } else if(id==R.id.debug_add_photos_detail){//临时添加个人照片入口
+        } else if(id==R.id.debug_photos_add){//临时添加照片入口
             Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
-            intent.putExtra("type",2);
+            intent.putExtra("type",1);
             startActivity(intent);
         }else if(id==R.id.nav_Logout){
             //登出请求

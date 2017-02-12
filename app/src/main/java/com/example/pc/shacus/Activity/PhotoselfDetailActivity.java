@@ -31,7 +31,10 @@ import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.google.gson.Gson;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -71,6 +74,8 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
     private NetRequest request;
     private UserModel userModel;
     private ArrayList<String> imageBigDatas;
+    private ArrayList<String> imgToDelete=new ArrayList<>();
+    private int isself=1;//是否为自己，默认不是自己
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -81,7 +86,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         back.setText("＜返回");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 finish();
             }
         });
@@ -98,9 +103,15 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
+                if (msg.what== StatusCode.REQUEST_FAILURE){
+                    CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
+                    finish();
+                    return;
+                }
+
                 if (msg.what==StatusCode.PHOTOSELF_SMALLIMG){
 
-                    if (true){//如果是自己的作品集
+                    if (isself==0){//如果是自己的照片集
                         bottomMenu=(FrameLayout)findViewById(R.id.photoset_bottom);
                         edit.setText("编辑  ");
                         edit.setOnClickListener(new View.OnClickListener(){
@@ -124,11 +135,14 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
+                                    //if (imageDatas.size()==1)//数组大小为1说明只有默认图片，不需要向服务器请求删除
+                                      //  return;
                                     //发起更新图片请求完成删除
                                     Map map=new HashMap();
-                                    map.put("authKey",userModel.getAuth_key());
+                                    map.put("authkey",userModel.getAuth_key());
                                     map.put("uid",userModel.getId());
-                                    map.put("type",StatusCode.UPDATE_DELETE_IMG);
+                                    map.put("type",StatusCode.UPDATE_DELETE_SELFIMG);
+                                    map.put("imgs",imgToDelete);
                                     request.httpRequest(map,CommonUrl.imgSelfAndSets);
 
                                 }
@@ -140,9 +154,14 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                             @Override
                             public void onClick(View v){
                                 boolean hasChoosed=false;
+                                /*if(imageDatas.size()==1){
+                                    CommonUtils.getUtilInstance().showToast(PhotoselfDetailActivity.this,"您没有选择任何图片");
+                                    return;
+                                }*/
                                 for (int index=0;index<imageDatas.size();index++){
                                     if (imageDatas.get(index).isChecked()){
                                         hasChoosed=true;
+                                        imgToDelete.add(imageBigDatas.get(index));
                                         imageDatas.remove(index);
                                         imageBigDatas.remove(index);//对应的大图url也一并删除
                                     }
@@ -165,10 +184,44 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                         button_upload.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v) {
-                                //TODO 添加新图片
+                                if (imgToDelete.size()!=0){
+                                    AlertDialog dialog = new AlertDialog.Builder(PhotoselfDetailActivity.this)
+                                            .setTitle("警告")
+                                            .setMessage("检测到您删除了图片！添加新图片之前要保存更改吗？")
+                                            .setPositiveButton("保存更改", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    //发起更新图片请求完成删除
+                                                    Map map=new HashMap();
+                                                    map.put("authkey",userModel.getAuth_key());
+                                                    map.put("uid",userModel.getId());
+                                                    map.put("type",StatusCode.UPDATE_DELETE_SELFIMG);
+                                                    map.put("imgs",imgToDelete);
+                                                    request.httpRequest(map,CommonUrl.imgSelfAndSets);
+                                                    //给作品集添加新图片
+                                                    Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                                                    intent.putExtra("type",1);
+                                                    startActivity(intent);
+                                                    finish();// TODO 可能出现finish后因没有对象来处理网络请求返回导致app crash
+                                                }
+                                            })
+                                            .setNegativeButton("放弃更改", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                                                    intent.putExtra("type",1);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            })
+                                            .create();
+                                    dialog.show();
+                                }else {
                                 Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
-                                intent.putExtra("type",3);
+                                intent.putExtra("type",1);
                                 startActivity(intent);
+                                finish();
+                                }
                             }
                         });
 
@@ -176,26 +229,14 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                         edit.setVisibility(View.INVISIBLE);
                         edit.setClickable(false);
                     }
-                    //将略缩图取回并存储
-                    imageDatas=new ArrayList<>();
-                    ArrayList<String> obj= (ArrayList<String>) msg.obj;
-                    for (int i=0;i<obj.size();i++){
-                        imageDatas.add(new ImageData(obj.get(i),200,200));
-                    }
                     //修复略缩图最后一张不显示bug（暂时这样在最后加一张无用图）
-                    imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
+                    //imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
                     //加载图片列表视图
                     setupFluidGrid();
                     return;
                 }
 
-                if (msg.what==StatusCode.PHOTOSELF_BIGIMG){
-                    //将大图列表取回并存储
-                    imageBigDatas =(ArrayList<String>) msg.obj;
-                    return;
-                }
-
-                if (msg.what== StatusCode.UPDATE_DELETE_IMG){
+                if (msg.what== StatusCode.UPDATE_DELETE_SELFIMG){
                     CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
                     return;
                 }
@@ -213,11 +254,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         map.put("authkey", authKey);
         map.put("uid",uid);
         map.put("type", StatusCode.PHOTOSELF_SMALLIMG);
-        //获取略缩图列表
-        request.httpRequest(map, CommonUrl.imgSelfAndSets);
-        map.remove("type");
-        map.put("type",StatusCode.PHOTOSELF_BIGIMG);
-        //获取大图列表
+        //获取个人照片的略缩图和大图列表
         request.httpRequest(map, CommonUrl.imgSelfAndSets);
 
     }
@@ -242,6 +279,8 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                     }
                 }else {//没有处于编辑模式
                     //打开看图模式
+                    /*if (imageDatas.size()==1)//如果图片数组大小为1说明只有提示图片，没有用户图片，直接返回
+                        return;*/
                     showImagePager(parseBigImgUrl(imageData.getImageUrl()));
                 }
 
@@ -276,46 +315,16 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         }
     }
 
-    protected ArrayList<ImageData> loadDevicePhotos() {
-        //测试数据
-        imageDatas = new ArrayList<>();
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/faguangyepao.jpg", 800, 453));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/04.jpeg", 600, 1068));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p1.jpg", 999, 412));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p2.jpg", 501, 105));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/02.jpg", 480, 854));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p3.jpg", 541, 172));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p4.jpg", 431, 110));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/05.png", 600, 458));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/06.jpg",771, 561));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p5.jpg", 437, 123));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p6.jpg", 301, 266));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/01.jpg", 284, 325));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/03.jpg", 198, 191));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p7.jpg", 458, 418));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/07.jpg", 160,220));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/image/excited/08.jpg", 480, 853));
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
-        //修复最后一张不显示bug
-        imageDatas.add(new ImageData("http://obdvl7z18.bkt.clouddn.com/gh-pages/img/20160804/p11.jpg", 435, 145));
-
-        return imageDatas;
-    }
-
-    private void showImagePager(String startPositionUrl) {
+    private void showImagePager(String startPositionUrl){
         int position=-1;
-        for (int index=0;index<imageDatas.size()-1;index++){
-            if (imageDatas.get(index).getImageUrl().equals(startPositionUrl)){
+        final int size=imageBigDatas.size();
+        for (int index=0;index<size;index++){
+            if (imageBigDatas.get(index).equals(startPositionUrl)){
                 position=index;
                 break;
             }
         }
-        List<String> list=new ArrayList<>();
-        final int size=imageDatas.size()-1;//在这里进行修复
-        for (int i=0;i<size;i++){
-            list.add(imageDatas.get(i).getImageUrl());
-        }
-        imagePagerAdapter=new ImagePagerAdapter(this.getSupportFragmentManager(),list);
+        imagePagerAdapter=new ImagePagerAdapter(this.getSupportFragmentManager(),imageBigDatas);
         image_viewpager.setAdapter(imagePagerAdapter);
         display_big_image_layout.setVisibility(View.VISIBLE);
         imagePagerAdapter.notifyDataSetChanged();
@@ -349,35 +358,32 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
             int code = Integer.valueOf(object.getString("code"));
             if (code==StatusCode.PHOTOSELF_SMALLIMG){
                 JSONArray smallImgs=object.getJSONArray("contents");
-                ArrayList<String> data=new ArrayList<>();
+                JSONArray bigImgs=object.getJSONArray("originurl");
+                isself=object.getInt("isself");
+                Gson gson=new Gson();
+                imageBigDatas=new ArrayList<>();
+                imageDatas=new ArrayList<>();
                 for (int i=0;i<smallImgs.length();i++){
-                    data.add(smallImgs.get(i).toString());
+                    imageDatas.add(gson.fromJson(smallImgs.get(i).toString(),ImageData.class));
+                    imageBigDatas.add(bigImgs.get(i).toString());
                 }
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.PHOTOSELF_SMALLIMG;
-                msg.obj=data;
+                //msg.obj=data; 数据已经在上面循环中设置，不需要再随消息发送了
                 handler.sendMessage(msg);
                 return;
             }
-            if (code==StatusCode.PHOTOSELF_BIGIMG){
-                JSONArray bigImgs=object.getJSONArray("contents");
-                ArrayList<String> data=new ArrayList<>();
-                for (int i=0;i<bigImgs.length();i++){
-                    data.add(bigImgs.get(i).toString());
-                }
+            if (code==StatusCode.UPDATE_DELETE_SELFIMG){
                 Message msg=handler.obtainMessage();
-                msg.what= StatusCode.PHOTOSELF_BIGIMG;
-                msg.obj=data;
-                handler.sendMessage(msg);
-                return;
-            }
-            if (code==StatusCode.UPDATE_DELETE_IMG){
-                Message msg=handler.obtainMessage();
-                msg.what= StatusCode.UPDATE_DELETE_IMG;
+                msg.what= StatusCode.UPDATE_DELETE_SELFIMG;
                 msg.obj="已成功删除";
                 handler.sendMessage(msg);
                 return;
             }
+            Message msg=handler.obtainMessage();
+            msg.what= StatusCode.REQUEST_FAILURE;
+            msg.obj=object.getString("contents");
+            handler.sendMessage(msg);
         }
     }
 
