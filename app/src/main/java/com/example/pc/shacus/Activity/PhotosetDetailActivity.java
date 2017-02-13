@@ -5,6 +5,7 @@ package com.example.pc.shacus.Activity;
  * 作品集详情页可用操作：
  * - 向作品集添加图片：打开新activity添加图片后回到这个activity（相当于重新加载activity，要向服务器提交新上传的图片并下载新列表）
  * - 删除作品集的图片：点击编辑后可以从现有列表中删除，再点击由编辑按钮变换而成的完成按钮可以重新加载（只需要向服务器提交新列表，不用下载新列表）
+ * 需要intent传入：所属的用户id
  */
 
 
@@ -115,8 +116,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                 }
 
                 if (msg.what== StatusCode.PHOTOSET_SMALLIMG){
-
-                    describtion.setText(detailData.getTitle());
+                    title.setText(detailData.getTitle());
+                    describtion.setText(detailData.getUCcontent());
                     time.setText(detailData.getUCcreateT());
 
                     if (isself==0){//如果是自己的作品集
@@ -143,6 +144,13 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
+                                    for (int index=0;index<imageDatas.size();index++){//还原选择状态
+                                        imageDatas.get(index).setChecked(false);
+                                    }
+                                    if (imgToDelete.size()==0){
+                                        CommonUtils.getUtilInstance().showToast(PhotosetDetailActivity.this,"您没有作出任何更改");
+                                        return;
+                                    }
                                     if (imageDatas.size()==0){
                                         AlertDialog dialog = new AlertDialog.Builder(PhotosetDetailActivity.this)
                                                 .setTitle("警告")
@@ -156,6 +164,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                                         map.put("uid",userModel.getId());
                                                         map.put("type",StatusCode.UPDATE_DELETE_PHOTOSET);
                                                         map.put("ucid",ucid);
+                                                        map.put("imgs",imgToDelete);
                                                         request.httpRequest(map,CommonUrl.imgSelfAndSets);
                                                         finish();// TODO 可能出现finish后因没有对象来处理网络请求返回导致app crash
                                                     }
@@ -178,7 +187,6 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     map.put("ucid",ucid);
                                     map.put("imgs",imgToDelete);
                                     request.httpRequest(map, CommonUrl.imgSelfAndSets);
-
                                 }
                             }
                         });
@@ -194,7 +202,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                 for (int index=0;index<imageDatas.size();index++){
                                     if (imageDatas.get(index).isChecked()){
                                         hasChoosed=true;
-                                        imgToDelete.add(imageBigDatas.get(index));
+                                        imgToDelete.add(String.valueOf("\""+imageBigDatas.get(index)+"\""));
                                         imgDatasToRemove.add(imageDatas.get(index));
                                         imgBigDatasToRemove.add(imageBigDatas.get(index));
                                     }
@@ -253,15 +261,22 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                                     request.httpRequest(map,CommonUrl.imgSelfAndSets);
                                                     //给作品集添加新图片
                                                     Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
-                                                    intent.putExtra("type",2);
+                                                    intent.putExtra("type",3);
+                                                    intent.putExtra("content",detailData.getUCcontent());
+                                                    intent.putExtra("title",detailData.getTitle());
+                                                    intent.putExtra("ucid",detailData.getUCid());
                                                     startActivity(intent);
+                                                    finish();
                                                 }
                                             })
                                             .setNegativeButton("放弃更改", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
-                                                    intent.putExtra("type",2);
+                                                    intent.putExtra("type",3);
+                                                    intent.putExtra("content",detailData.getUCcontent());
+                                                    intent.putExtra("title",detailData.getTitle());
+                                                    intent.putExtra("ucid",detailData.getUCid());
                                                     startActivity(intent);
                                                     finish();
                                                 }
@@ -271,7 +286,10 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                 }else {
                                 // 添加新图片
                                 Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
-                                intent.putExtra("type",2);
+                                intent.putExtra("type",3);
+                                intent.putExtra("content",detailData.getUCcontent());
+                                intent.putExtra("title",detailData.getTitle());
+                                intent.putExtra("ucid",detailData.getUCid());
                                 startActivity(intent);
                                 finish();
                                 }
@@ -299,7 +317,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        String uid=userModel.getId();
+        int uid=getIntent().getIntExtra("uid",-1);
         ucid=getIntent().getIntExtra("ucid",-1);
         Map map=new HashMap();
         map.put("authkey", authKey);

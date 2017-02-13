@@ -5,6 +5,7 @@ package com.example.pc.shacus.Activity;
  * 作品集概览页可用操作：
  * - 向作品集添加图片：打开新activity添加图片后回到这个activity（相当于重新加载activity，要向服务器提交新上传的图片并下载新列表）
  * - 删除作品集的图片：点击编辑后可以从现有列表中删除，再点击由编辑按钮变换而成的完成按钮可以重新加载（只需要向服务器提交新列表，不用下载新列表）
+ * 需要intent传入：所属的用户id
  */
 
 
@@ -64,6 +65,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
     private ArrayList<String> deletingIds=new ArrayList<>();
     ArrayList<PhotosetModel> photoSets;
     private int isself=1;//是否为自己，默认不是自己
+    private int uid=-1;//当前这个用户的id
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -118,8 +120,13 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
-                                    if (deletingIds.size()==0)//数组大小为1说明只有默认图片，不需要向服务器请求删除
+                                    for (int index=0;index<imageDatas.size();index++){//还原选择状态
+                                        imageDatas.get(index).setChecked(false);
+                                    }
+                                    if (deletingIds.size()==0){//数组大小为1说明只有默认图片，不需要向服务器请求删除
+                                        CommonUtils.getUtilInstance().showToast(PhotosetOverviewActivity.this,"您没有作出任何更改");
                                         return;
+                                    }
                                     //删除作品集
                                     AlertDialog dialog = new AlertDialog.Builder(PhotosetOverviewActivity.this)
                                             .setTitle("警告")
@@ -240,7 +247,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        String uid=userModel.getId();
+        uid=getIntent().getIntExtra("uid",-1);
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
@@ -280,6 +287,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                     }
                     Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
                     intent.putExtra("ucid",id);
+                    intent.putExtra("uid",uid);
                     startActivity(intent);
                 }
 

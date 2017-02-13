@@ -6,6 +6,7 @@ package com.example.pc.shacus.Activity;
  * 个人照片详情页可用操作：
  * - 向个人照片添加图片：打开新activity添加图片后回到这个activity（相当于重新加载activity，要向服务器提交新上传的图片并下载新列表）
  * - 删除个人照片的图片：点击编辑后可以从现有列表中删除，再点击由编辑按钮变换而成的完成按钮可以重新加载（只需要向服务器提交新列表，不用下载新列表）
+ * 需要intent传入：所属的用户id
  */
 
 
@@ -135,7 +136,13 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                                     //隐藏勾选框
                                     fluidGridAdapter.setPhotosCheckable(false);
                                     fluidGridAdapter.notifyDataSetChanged();
-
+                                    for (int index=0;index<imageDatas.size();index++){//还原选择状态
+                                        imageDatas.get(index).setChecked(false);
+                                    }
+                                    if (imgToDelete.size()==0){//数组大小为1说明只有默认图片，不需要向服务器请求删除
+                                        CommonUtils.getUtilInstance().showToast(PhotoselfDetailActivity.this,"您没有作出任何更改");
+                                        return;
+                                    }
                                     //发起更新图片请求完成删除
                                     Map map=new HashMap();
                                     map.put("authkey",userModel.getAuth_key());
@@ -159,7 +166,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                                 for (int index=0;index<imageDatas.size();index++){
                                     if (imageDatas.get(index).isChecked()){
                                         hasChoosed=true;
-                                        imgToDelete.add(imageBigDatas.get(index));
+                                        imgToDelete.add(String.valueOf("\""+imageBigDatas.get(index)+"\""));
                                         imgDatasToRemove.add(imageDatas.get(index));
                                         imgBigDatasToRemove.add(imageBigDatas.get(index));
                                     }
@@ -266,7 +273,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        String uid=userModel.getId();
+        int uid=getIntent().getIntExtra("uid",-1);
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
@@ -303,7 +310,6 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
 
             @Override
             protected void loadImageIntoView(String photoUrl, int cellWidth, int cellHeight, ImageView imageHolder){
-                //Picasso.with(PhotosetDetailActivity.this).load(new File(photoUrl)).resize(cellWidth, cellHeight).into(imageHolder);
                 Glide.with(PhotoselfDetailActivity.this).load(photoUrl).override(cellWidth,cellHeight).into(imageHolder);
             }
         };

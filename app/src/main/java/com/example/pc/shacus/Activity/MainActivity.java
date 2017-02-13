@@ -599,13 +599,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if(id==R.id.debug_photoset_detail){//临时作品集入口
             Intent intent=new Intent(getApplicationContext(),PhotosetOverviewActivity.class);
+            intent.putExtra("uid",Integer.valueOf(user.getId()));
             startActivity(intent);
         } else if(id==R.id.debug_photos_detail){//临时个人照片入口
             Intent intent=new Intent(getApplicationContext(),PhotoselfDetailActivity.class);
-            startActivity(intent);
-        } else if(id==R.id.debug_photos_add){//临时添加照片入口
-            Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
-            intent.putExtra("type",2);
+            intent.putExtra("uid",Integer.valueOf(user.getId()));
             startActivity(intent);
         }else if(id==R.id.nav_Logout){
             //登出请求
