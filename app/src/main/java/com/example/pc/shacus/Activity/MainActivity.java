@@ -35,7 +35,7 @@ import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.SettingDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
-import com.example.pc.shacus.Fragment.MyDisplay;
+import com.example.pc.shacus.Fragment.MyDisplayFragment;
 import com.example.pc.shacus.Fragment.HomeFragment;
 import com.example.pc.shacus.Fragment.YuePaiFragment;
 import com.example.pc.shacus.Network.NetRequest;
@@ -115,7 +115,7 @@ import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.SettingDataModel;
-import com.example.pc.shacus.Fragment.MyDisplay;
+import com.example.pc.shacus.Fragment.MyDisplayFragment;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.HomeFragment;
 import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //四个功能项Fragment
     private HomeFragment mainFragmentNavigation;
     private YuePaiFragment yuePaiFragment;
-    private MyDisplay mydisplay;
+    private MyDisplayFragment mydisplay;
     private ConversationListStaticFragment conversationListStaticFragment;
     private Toolbar toolbar;
     //Fragment切换按钮
@@ -577,7 +577,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void toFind(){
         if(mydisplay == null){
-            mydisplay = new MyDisplay();
+            mydisplay = new MyDisplayFragment();
             fragmentTrs.add(R.id.fl_content, mydisplay);
         }else{
             btn_course.setSelected(true);

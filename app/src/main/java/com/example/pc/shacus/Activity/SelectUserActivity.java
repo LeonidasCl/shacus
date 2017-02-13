@@ -88,7 +88,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserModel next = userModelList.get(position);
-                Intent intent = new Intent(SelectUserActivity.this, OtherUserActivity.class);
+                Intent intent = new Intent(SelectUserActivity.this, OtherUserDisplayActivity.class);
                 intent.putExtra("id", next.getId());
                 startActivity(intent);
             }

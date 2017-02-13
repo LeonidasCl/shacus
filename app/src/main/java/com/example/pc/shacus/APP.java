@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Activity.SOSOLocationActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -70,7 +71,7 @@ public class APP extends Application {
 
             @Override
             public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
-                Intent in = new Intent(context, OtherUserActivity.class);
+                Intent in = new Intent(context, OtherUserDisplayActivity.class);
                 in.putExtra("id", userInfo.getUserId());
                 context.startActivity(in);
                 return true;

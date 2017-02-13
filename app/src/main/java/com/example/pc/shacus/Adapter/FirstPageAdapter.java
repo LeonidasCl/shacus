@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ItemModel;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -85,7 +86,7 @@ public class FirstPageAdapter extends  BaseAdapter{
             @Override
             public void onClick(View v) {
                 ItemModel next = itemList.get(position);
-                Intent intent = new Intent(context.getActivity(), OtherUserActivity.class);
+                Intent intent = new Intent(context.getActivity(), OtherUserDisplayActivity.class);
                 intent.putExtra("id", next.getUserId());
                 context.startActivity(intent);
             }

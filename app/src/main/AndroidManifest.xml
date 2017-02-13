@@ -42,7 +42,8 @@
             android:name=".Activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAINACTVITY"/>
 
@@ -110,7 +111,7 @@
         <activity android:name=".Activity.SettingsActivity"/>
         <activity android:name=".Activity.CoursesActivity_item"/>
         <activity android:name=".Activity.OrdersItemActivity"/>
-        <activity android:name=".Activity.OtherUserActivity"/>
+        <activity android:name=".Activity.OtherUserDisplayActivity"/>
         <activity android:name=".Activity.SelectUserActivity"/>
         <activity
             android:name=".Activity.TagAddActivity"

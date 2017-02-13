@@ -39,4 +39,6 @@ public class CommonUrl {
 	public static final String aboutFavorDongTai = url + "trend/Trendhanler"; //动态收藏
 
 	public static final String paiHangbang = url + "ranklist";//排行榜
+
+	public static String userImage = url + "Userinfo/imghandler"; //个人照片及作品集
 }

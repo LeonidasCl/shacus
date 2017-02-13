@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.R;
 
@@ -79,7 +80,7 @@ public class JoinUserGridAdapter extends BaseAdapter {
         holder.ibv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(context, OtherUserActivity.class);
+                Intent in = new Intent(context, OtherUserDisplayActivity.class);
                 in.putExtra("id", usrlist.get(position).getId());
                 context.startActivity(in);
             }

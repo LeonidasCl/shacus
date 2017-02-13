@@ -224,4 +224,7 @@ public interface StatusCode {
     int REQUEST_PAIHANG_SUCCESS=10285;
     int REQUEST_PAIHANG_FAIL=10286;
 
+    int REQUEST_USER_GRZP = 10812;// 个人照片
+    int REQUEST_USER_ZPJ = 10828;//作品集
+
 }
