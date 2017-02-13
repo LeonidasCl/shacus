@@ -62,4 +62,5 @@ public class UploadViewPager extends ViewPager {
 		this.onSingleTouchListener = onSingleTouchListener;
 	}
 
+
 }

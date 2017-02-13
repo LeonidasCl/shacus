@@ -27,7 +27,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -46,13 +45,10 @@ import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
-
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
@@ -142,7 +138,7 @@ import java.util.Map;
 
 /*
 * shacus项目组
-*
+* 一元复始，赛艇风声又一年
 * */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
@@ -551,7 +547,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_find:
                 btn_course.setSelected(true);
-                toFind();
+                toMine();
                 break;
             case R.id.button_yuepai:
                 btn_yuepai.setSelected(true);
@@ -575,7 +571,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void toFind(){
+    private void toMine(){
+        //个人主页，1.23添加
         if(mydisplay == null){
             mydisplay = new MyDisplayFragment();
             fragmentTrs.add(R.id.fl_content, mydisplay);
@@ -637,7 +634,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case R.id.action_logout:
 
@@ -685,7 +682,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(id==R.id.nav_sharing){
             Intent intent=new Intent(getApplicationContext(),ShareActivity.class);
             startActivity(intent);
-        } else if(id==R.id.nav_Logout){
+        } else if(id==R.id.debug_photoset_detail){//临时作品集入口
+            Intent intent=new Intent(getApplicationContext(),PhotosetOverviewActivity.class);
+            intent.putExtra("uid",Integer.valueOf(user.getId()));
+            startActivity(intent);
+        } else if(id==R.id.debug_photos_detail){//临时个人照片入口
+            Intent intent=new Intent(getApplicationContext(),PhotoselfDetailActivity.class);
+            intent.putExtra("uid",Integer.valueOf(user.getId()));
+            startActivity(intent);
+        }else if(id==R.id.nav_Logout){
             //登出请求
             ACache cache=ACache.get(APP.context);
             cache.clear();

@@ -40,5 +40,7 @@ public class CommonUrl {
 
 	public static final String paiHangbang = url + "ranklist";//排行榜
 
+	public static final String imgSelfAndSets = url + "Userinfo/imghandler";//个人照片和照片集
+
 	public static String userImage = url + "Userinfo/imghandler"; //个人照片及作品集
 }

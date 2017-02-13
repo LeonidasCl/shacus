@@ -110,4 +110,9 @@
     <string name="chat_with_sponsor">与发起者聊天</string>
     <string name="common_chat">私信</string>
     <string name="layout_otheruser_chat">邀TA约拍</string>
+    <string name="pohtoset_edit">编辑  </string>
+    <string name="photoset_upload">添加图片/修改描述</string>
+    <string name="photoset_delete">删除所选</string>
+    <string name="temp">详细介绍详细介绍详详细介绍详详细介绍详详细介绍详细介描述信息描述信息，描述信息，描述。描述信息描述信息描述信息描述信息。</string>
+    <string name="temp_time">2017-2-6</string>
 </resources>

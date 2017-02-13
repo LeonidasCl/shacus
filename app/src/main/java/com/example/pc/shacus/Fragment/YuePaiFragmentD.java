@@ -42,7 +42,9 @@ import java.util.logging.LogRecord;
 
 /**
  * 李嘉文 2016.9.3
- * 重写的排行榜fragment
+ * @Deprecated 重写的排行榜fragment
+ * 2017.2.6
+ * 原约拍列表页面（约拍一级页面）
  */
 //lq修改
 public class YuePaiFragmentD extends android.support.v4.app.Fragment{

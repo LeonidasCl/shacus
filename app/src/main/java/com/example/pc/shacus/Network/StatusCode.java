@@ -224,6 +224,19 @@ public interface StatusCode {
     int REQUEST_PAIHANG_SUCCESS=10285;
     int REQUEST_PAIHANG_FAIL=10286;
 
+    int PHOTOSELF_SMALLIMG = 10814;
+    int PHOTOSELF_BIGIMG = 10812;
+    int PHOTOSET_SMALLIMG = 10816;//作品集详情获取
+    int PHOTOSET_BIGIMG = 10818;//作品集列表获取
+    int PHOTOSELF_ADD_IMGS_1 = 10808;//个人照片添加第一步
+    int UPDATE_DELETE_SELFIMG = 10811;//个人照片的删除
+    int UPDATE_DELETE_SETIMG = 10820;//作品集内图片的删除
+    int PHOTOSELF_ADD_IMGS_2 = 10810;//个人照片添加第二步，与个人照片更新请求是一样的
+    int PHOTOSET_ADD_SETS_1 = 10804;//添加作品集第一步
+    int PHOTOSET_ADD_SETS_2 = 10806;//添加作品集第二步
+    int PHOTOSET_ADD_IMGS_1 = 10822;//给作品集添加图片第一步
+    int PHOTOSET_ADD_IMGS_2 = 10824;//给作品集添加图片第二步
+    int UPDATE_DELETE_PHOTOSET = 10826;//删除作品集
     int REQUEST_USER_GRZP = 10812;// 个人照片
     int REQUEST_USER_ZPJ = 10828;//作品集
 

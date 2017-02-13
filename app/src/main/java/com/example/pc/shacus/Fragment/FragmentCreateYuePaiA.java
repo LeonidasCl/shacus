@@ -217,11 +217,11 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                     requestFragment.httpRequest(map, CommonUrl.createYuePaiInfo);//最后将图片在这里传出去
                     break;
                 case UPLOAD_TAKE_PICTURE://响应第一次msg，发送第二次msg：在本地把图片封装保存，发送图片
-                    Map<String, String> map2=(HashMap<String, String>)msg.obj;
+                    ArrayList<String> arr=(ArrayList<String>)msg.obj;
                     picToAdd=uploadImgUrlList.size();
                     if(uploadImgUrlList.size()>0){
-                        for(int i=0,j=picToAdd;j>0;j--,i++ ){
-                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(j-1),map2.get("auth_key"),i);//逐张保存要上传的图片并发消息到发送的handle
+                        for(int i=0;i<picToAdd;i++ ){
+                            saveThemeImgNew(newThemeId,uploadImgUrlList.get(i),arr.get(i),i);//逐张保存要上传的图片并发消息到发送的handle
                         }
                     }
                     show_upload_pic_layout.setVisibility(View.VISIBLE);
@@ -871,14 +871,14 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
                         try {
                             apId = content.getInt("apId");
                             JSONArray auth_key_arr = content.getJSONArray("auth_key");
+                            ArrayList<String> arr=new ArrayList<>();
                             for (int i = 0; i < auth_key_arr.length(); i++) {
-                                Message msg = handler.obtainMessage();
-                                Map<String, String> map = new HashMap<>();
-                                map.put("auth_key", auth_key_arr.getString(i));
-                                msg.obj = map;
-                                msg.what = UPLOAD_TAKE_PICTURE;
-                                handler.sendMessageDelayed(msg, 100);
+                                arr.add(auth_key_arr.getString(i));
                             }
+                            Message msg = handler.obtainMessage();
+                            msg.obj = arr;
+                            msg.what = UPLOAD_TAKE_PICTURE;
+                            handler.sendMessageDelayed(msg, 100);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

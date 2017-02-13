@@ -35,6 +35,15 @@
             android:id="@+id/nav_Logout"
             android:icon="@drawable/exit"
             android:title="退出登录"/>
+
+        <item
+            android:id="@+id/debug_photoset_detail"
+            android:icon="@drawable/exit"
+            android:title="临时入口-作品集"/>
+        <item
+            android:id="@+id/debug_photos_detail"
+            android:icon="@drawable/exit"
+            android:title="临时入口-个人照片"/>
     </group>
 
 </menu>
