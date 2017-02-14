@@ -237,4 +237,7 @@ public interface StatusCode {
     int PHOTOSET_ADD_IMGS_1 = 10822;//给作品集添加图片第一步
     int PHOTOSET_ADD_IMGS_2 = 10824;//给作品集添加图片第二步
     int UPDATE_DELETE_PHOTOSET = 10826;//删除作品集
+    int REQUEST_USER_GRZP = 10812;// 个人照片
+    int REQUEST_USER_ZPJ = 10828;//作品集
+
 }

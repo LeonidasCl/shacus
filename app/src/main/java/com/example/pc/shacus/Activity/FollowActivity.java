@@ -92,7 +92,7 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
                     //点击进入其他用户主界面
                     //传入需要的参数
                     UserModel next = userList.get(position);
-                    Intent intent = new Intent(FollowActivity.this, OtherUserActivity.class);
+                    Intent intent = new Intent(FollowActivity.this, OtherUserDisplayActivity.class);
                     intent.putExtra("id", next.getId());
                     startActivity(intent);
                 }

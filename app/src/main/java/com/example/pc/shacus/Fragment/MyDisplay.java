@@ -156,7 +156,9 @@ public class MyDisplay extends Fragment implements NetworkCallbackInterface.NetR
             public void onClick(View v) {
                 //他的项目
 
-
+                Intent intent = new Intent();
+                intent.setClass(APP.context,MyDisplayFragment.class);
+                startActivity(intent);
             }
         });
 
