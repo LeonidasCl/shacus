@@ -60,7 +60,7 @@ dependencies {
 
     //网络框架
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
-    compile files('src/main/libs/gson-2.3.1.jar')
+    //compile files('src/main/libs/gson-2.3.1.jar')
 
     //对象存储
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
@@ -77,4 +77,8 @@ dependencies {
     compile 'cn.bingoogolapple:bga-banner:2.0.5@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.chanven.lib:cptr:1.0.0'
+    compile 'com.jakewharton:butterknife:5.1.2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.makeramen:roundedimageview:2.2.1'
 }

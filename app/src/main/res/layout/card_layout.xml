@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFEEEEEE"
+    android:clipChildren="false">
+
+    <!--底部四个按钮-->
+    <include
+        android:id="@+id/swipe_fling_bottom"
+        layout="@layout/layout_swipe_fling_bottom" />
+
+    <!--卡片主布局,在底部四个按钮之上-->
+    <com.example.pc.shacus.swipecards.SwipeFlingView
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/swipe_fling_bottom"
+        android:layout_marginTop="-50dp"
+        android:clipChildren="false"
+        app:rotation_degrees="12" />
+</RelativeLayout>

@@ -3,7 +3,8 @@
     <item name="gray_holo_dark" type="color">#ff464646</item>
     <item name="gray_holo_light" type="color">#ffd0d0d0</item>
     <color name="colorCreateYuePai">#99000000</color>
-
+    <color name="color_primary">#FF7857FF</color>
+    <color name="color_primary_dark">#FF694CE0</color>
     <!--<color name="gold">#E6BF66</color>-->
     <color name="gold">#1A1A1A</color>
     <color name="lightgold">#EEE6BF66</color>

@@ -35,7 +35,6 @@ import com.example.pc.shacus.Data.Model.SettingDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
 import com.example.pc.shacus.Fragment.MyDisplay;
-import com.example.pc.shacus.Fragment.HomeFragment;
 import com.example.pc.shacus.Fragment.YuePaiFragment;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -45,6 +44,8 @@ import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
+import com.example.pc.shacus.swipecards.swipe.CardFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FragmentTransaction fragmentTrs;
     private NetRequest request;
     //四个功能项Fragment
-    private HomeFragment mainFragmentNavigation;
+    private CardFragment cardListFragment;
     private YuePaiFragment yuePaiFragment;
     private MyDisplay mydisplay;
     private ConversationListStaticFragment conversationListStaticFragment;
@@ -478,11 +479,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toMain(){
-        if(mainFragmentNavigation == null){
-            mainFragmentNavigation = new HomeFragment();
-            fragmentTrs.add(R.id.fl_content, mainFragmentNavigation);
+        if(cardListFragment == null){
+            cardListFragment = new CardFragment();
+            //fragmentTrs.commitAllowingStateLoss();
+            fragmentTrs.add(R.id.fl_content,cardListFragment);
         }else{
-            fragmentTrs.show(mainFragmentNavigation);
+            fragmentTrs.show(cardListFragment);
         }
     }
 
@@ -521,8 +523,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_course.setSelected(false);
         btn_yuepai.setSelected(false);
         btn_user.setSelected(false);
-        if(mainFragmentNavigation != null){
-            fragmentTrs.hide(mainFragmentNavigation);
+        if(cardListFragment != null){
+            fragmentTrs.hide(cardListFragment);
         }
         if(mydisplay != null){
             fragmentTrs.hide(mydisplay);
