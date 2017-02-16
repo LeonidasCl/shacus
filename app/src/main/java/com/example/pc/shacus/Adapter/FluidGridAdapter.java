@@ -134,7 +134,6 @@ public class FluidGridAdapter extends BaseAdapter {
                     imageContainer.setLayoutParams(clp);
                 }
                 singleCell.setOnClickListener(new OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
                         onSingleCellTapped(imageData,v);
@@ -188,7 +187,7 @@ public class FluidGridAdapter extends BaseAdapter {
      * calculate dimensions for the specific device
      */
     @SuppressWarnings("deprecation")
-    private void calculateScreenDimensions() {
+    private void calculateScreenDimensions(){
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -215,20 +214,20 @@ public class FluidGridAdapter extends BaseAdapter {
             double photoWidth = aspectRatio * desiredRowHeight;
 
             photoRowWidth = photoRowWidth + photoWidth;
-            if(photoRowWidth < (screenWidth - totalPadding)) {
+            if(photoRowWidth < (screenWidth - totalPadding)) {//当前行若没有填满，填满当前行
                 subList.add(imageData);
                 if(i == imageDatas.size()) {
                     double newRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
                     FluidPhotoRow photoRow = new FluidPhotoRow(subList, (int)Math.floor(newRowHeight));
                     fluidPhotoRows.add(photoRow);
                 }
-            } else if(subList.size() == 0) {
+            } else if(subList.size() == 0) {//???
                 double newRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
                 subList.add(imageData);
                 FluidPhotoRow photoRow = new FluidPhotoRow(subList, (int)Math.floor(newRowHeight));
                 fluidPhotoRows.add(photoRow);
                 subList = new ArrayList<ImageData>();
-            } else {
+            } else {//当前行已填满，将当前行数据放入并情况sublist以创建新的行
                 photoRowWidth = photoRowWidth - photoWidth;
                 double newRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
 
@@ -238,13 +237,13 @@ public class FluidGridAdapter extends BaseAdapter {
                 subList.add(imageData);
                 photoRowWidth = photoWidth;
 
-                if(i == imageDatas.size()) {
+                if(i == imageDatas.size()) {//如果到了最后一张，将剩下的加到新行
                     double finalRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
                     FluidPhotoRow newPhotoRow = new FluidPhotoRow(subList, (int)Math.floor(finalRowHeight));
                     fluidPhotoRows.add(newPhotoRow);
-                } else {
+                } /*else { 原作者此处将游标置0会导致忽略最后一行，这样部分图片将不会被显示，李嘉文注
                     i = 0;
-                }
+                }*/
             }
         }
 
