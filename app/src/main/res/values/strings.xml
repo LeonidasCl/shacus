@@ -77,9 +77,9 @@
     <string name="yuepai_price">请说明报酬</string>
     <string name="create_yuepai_describe">请输入详细介绍及要求</string>
     <string name="addtag">点击选择或添加一个标签</string>
-    <string name="tv_yuepai_a">摄影师入口</string>
-    <string name="tv_yuepai_b">模特入口</string>
-    <string name="tv_yuepai_c">约活动</string>
+    <string name="tv_yuepai_a">想拍人</string>
+    <string name="tv_yuepai_b">想被拍</string>
+    <string name="tv_yuepai_c">约拍伴侣</string>
     <string name="tv_create_yuepai">发起约拍/活动</string>
     <string name="join_time">请选择报名截止时间</string>
     <string name="hint_search">查找或输入标签</string>
@@ -115,4 +115,7 @@
     <string name="photoset_delete">删除所选</string>
     <string name="temp">详细介绍详细介绍详详细介绍详详细介绍详详细介绍详细介描述信息描述信息，描述信息，描述。描述信息描述信息描述信息描述信息。</string>
     <string name="temp_time">2017-2-6</string>
+    <string name="title_activity_want_to_paotograph">ActivityWantToPaotograph</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_want_be_paotograph">ActivityWantBePaotograph</string>
 </resources>

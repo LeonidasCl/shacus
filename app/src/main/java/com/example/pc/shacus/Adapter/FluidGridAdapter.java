@@ -214,9 +214,9 @@ public class FluidGridAdapter extends BaseAdapter {
             double photoWidth = aspectRatio * desiredRowHeight;
 
             photoRowWidth = photoRowWidth + photoWidth;
-            if(photoRowWidth < (screenWidth - totalPadding)) {//当前行若没有填满，填满当前行
+            if(photoRowWidth < (screenWidth - totalPadding)){//当前行若没有填满，填满当前行
                 subList.add(imageData);
-                if(i == imageDatas.size()) {
+                if(i == imageDatas.size()){
                     double newRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
                     FluidPhotoRow photoRow = new FluidPhotoRow(subList, (int)Math.floor(newRowHeight));
                     fluidPhotoRows.add(photoRow);

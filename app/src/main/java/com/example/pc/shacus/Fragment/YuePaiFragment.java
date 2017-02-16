@@ -1,13 +1,11 @@
 package com.example.pc.shacus.Fragment;
 
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,28 +17,21 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
-import com.example.pc.shacus.Activity.CreateYuePaiActivity;
+import com.example.pc.shacus.Activity.ActivityWantBePhotograph;
+import com.example.pc.shacus.Activity.ActivityWantToPhotograph;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.NavigationModel;
-import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Data.Model.PictureModel;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.google.gson.Gson;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.view.ViewPropertyAnimator;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.bingoogolapple.bgabanner.BGABannerUtil;
@@ -62,9 +53,6 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
     private ImageButton btn_yuepai_a;
     private ImageButton btn_yuepai_b;
     private ImageButton btn_yuepai_c;
-    private ImageButton btn_create_yuepai;
-    private float mLastTouchY;
-    private float mDelY;
     private YuePaiFragmentD rankFrag;
     private List<NavigationModel> navigationBar;
     private ACache cache;
@@ -110,26 +98,16 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
         btn_yuepai_a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                ViewPropertyAnimator.animate(v).scaleY(1.4f).scaleX(1.4f).setDuration(80)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                ViewPropertyAnimator.animate(v).scaleY(1.2f).scaleX(1.2f)
-                                        .setListener(new AnimatorListenerAdapter() {
-                                            @Override
-                                            public void onAnimationEnd(Animator animation) {
-                                            if (yuePaiFragmentAB == null) {
-                                                yuePaiFragmentAB = new YuePaiFragmentAB();
-                                                yuePaiFragmentAB.setEventflag(1);
-                                            }
-                                            fragmentTrs = fragmentManager.beginTransaction();
-                                            fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
-                                            fragmentTrs.addToBackStack(null);
-                                            fragmentTrs.commit();
-                                            }
-                                        }).setDuration(30);
-                            }
-                        });
+                /*if (yuePaiFragmentAB == null) {
+                    yuePaiFragmentAB = new YuePaiFragmentAB();
+                    yuePaiFragmentAB.setEventflag(1);
+                }
+                fragmentTrs = fragmentManager.beginTransaction();
+                fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
+                fragmentTrs.addToBackStack(null);
+                fragmentTrs.commit();*/
+                Intent intent=new Intent(getActivity(),ActivityWantToPhotograph.class);
+                startActivity(intent);
             }
         });
 
@@ -137,26 +115,16 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
         btn_yuepai_b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                ViewPropertyAnimator.animate(v).scaleY(1.4f).scaleX(1.4f).setDuration(80)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                ViewPropertyAnimator.animate(v).scaleY(1.2f).scaleX(1.2f)
-                                        .setListener(new AnimatorListenerAdapter() {
-                                            @Override
-                                            public void onAnimationEnd(Animator animation) {
-                                                if (yuePaiFragmentAB == null) {
-                                                    yuePaiFragmentAB = new YuePaiFragmentAB();
-                                                    yuePaiFragmentAB.setEventflag(2);
-                                                }
-                                                fragmentTrs = fragmentManager.beginTransaction();
-                                                fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
-                                                fragmentTrs.addToBackStack(null);
-                                                fragmentTrs.commit();
-                                            }
-                                        }).setDuration(30);
-                            }
-                        });
+                /*if (yuePaiFragmentAB == null) {
+                    yuePaiFragmentAB = new YuePaiFragmentAB();
+                    yuePaiFragmentAB.setEventflag(2);
+                }
+                fragmentTrs = fragmentManager.beginTransaction();
+                fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
+                fragmentTrs.addToBackStack(null);
+                fragmentTrs.commit();*/
+                Intent intent=new Intent(getActivity(),ActivityWantBePhotograph.class);
+                startActivity(intent);
             }
         });
 
@@ -164,37 +132,24 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
         btn_yuepai_c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                ViewPropertyAnimator.animate(v).scaleY(1.4f).scaleX(1.4f).setDuration(80)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                ViewPropertyAnimator.animate(v).scaleY(1.2f).scaleX(1.2f)
-                                        .setListener(new AnimatorListenerAdapter() {
-                                            @Override
-                                            public void onAnimationEnd(Animator animation) {
-                                                if (yuepaiFragment == null) {
-                                                    yuepaiFragment = new YuePaiFragmentC();
-                                                }
-                                                fragmentTrs = fragmentManager.beginTransaction();
-                                                fragmentTrs.replace(R.id.fl_content, yuepaiFragment);
-                                                fragmentTrs.addToBackStack(null);
-                                                fragmentTrs.commit();
-                                            }
-                                        }).setDuration(30);
-                            }
-                        });
+                /*if (yuepaiFragment == null) {
+                    yuepaiFragment = new YuePaiFragmentC();
+                }
+                fragmentTrs = fragmentManager.beginTransaction();
+                fragmentTrs.replace(R.id.fl_content, yuepaiFragment);
+                fragmentTrs.addToBackStack(null);
+                fragmentTrs.commit();*/
             }
         });
 
-        btn_create_yuepai=(ImageButton)view.findViewById(R.id.btn_create_yuepai);
+        /*btn_create_yuepai=(ImageButton)view.findViewById(R.id.btn_create_yuepai);
         btn_create_yuepai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), CreateYuePaiActivity.class));
             }
-        });
+        });*/
 
-        //touchMove=rankView.findViewById(R.id.fragment_rank)
         rankFrag.setmSideZoomBanner(mSideZoomBanner);
         return view;
     }
@@ -202,8 +157,6 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        int x=2;
-        x++;
     }
 
     @Override
@@ -249,7 +202,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
 
     }
 
-    private void loadData(int i) {
+    private void loadData(int i){
         //requestFragment = new NetRequest(this, APP.context);
 //        Map map = new HashMap();
 //        String count=String.valueOf(i);

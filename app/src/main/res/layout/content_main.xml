@@ -5,9 +5,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:layout_marginTop="?attr/actionBarSize"
     tools:context=".Activity.MainActivity"
     tools:showIn="@layout/activity_main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:navilayout="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
@@ -22,11 +24,13 @@
         android:id="@+id/fragment_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipChildren="false"
         navilayout:layout_heightPercent="10%"
         navilayout:layout_widthPercent="100%"
-        android:orientation="horizontal"
         android:layout_gravity="bottom"
-        android:background="#60000000">
+        android:background="#90000000"
+        android:orientation="horizontal">
+
 
         <ImageButton
             android:contentDescription="@string/app_name"
@@ -36,7 +40,7 @@
             android:layout_weight="1"
             android:src="@drawable/btn_main_selector"
             android:scaleType="centerInside"
-            android:background="#60000000"
+            android:background="#00000000"
         />
 
         <ImageButton
@@ -47,8 +51,21 @@
             android:layout_weight="1"
             android:src="@drawable/btn_yuepai_selector"
             android:scaleType="centerInside"
-            android:background="#60000000"
+            android:background="#00000000"
         />
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/button_upload"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/add_before"
+            android:layout_marginTop="-30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="top"
+            android:scaleType="fitCenter"
+            android:background="#00000000" />
 
         <ImageButton
             android:contentDescription="@string/app_name"
@@ -58,7 +75,7 @@
             android:layout_weight="1"
             android:src="@drawable/btn_user_selector"
             android:scaleType="centerInside"
-            android:background="#60000000"
+            android:background="#00000000"
             />
 
         <ImageButton
@@ -69,11 +86,9 @@
             android:layout_weight="1"
             android:src="@drawable/btn_find_selector"
             android:scaleType="centerInside"
-            android:background="#60000000"
+            android:background="#00000000"
          />
-
     </LinearLayout>
-
 
 
 </android.support.percent.PercentFrameLayout>

@@ -43,21 +43,23 @@ import java.util.logging.LogRecord;
 /**
  * 李嘉文 2016.9.3
  * @Deprecated 重写的排行榜fragment
- * 2017.2.6
+ * 2016.9.12 lq修改
+ * 2017.2.6 李嘉文 检查
  * 原约拍列表页面（约拍一级页面）
+ * 2017.2.16 李嘉文 第二次重写
  */
-//lq修改
+
 public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     private Activity yuepai;
 
-    final int GRAPHER = 0;
-    final int MODEL = 1;
+    //final int GRAPHER = 0;
+    //final int MODEL = 1;
     final int INIT=2;
 
-    private ImageView button_grapher;
-    private ImageView button_model;
-    boolean isGrapher;//是否显示摄影师
+    //private ImageView button_grapher;
+   // private ImageView button_model;
+    //boolean isGrapher;//是否显示摄影师
 
     boolean refreshing=false;
     private SwipeRefreshLayout refreshLayout;
@@ -103,7 +105,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        bootData(isGrapher ? GRAPHER : MODEL);
+        bootData();
         refreshLayout.setRefreshing(true);
         bootCounter = 0;
         personAdapter.refresh(new ArrayList<PhotographerModel>());
@@ -112,9 +114,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         refreshing = true;
     }
 
-    public YuePaiFragmentD(){
-        isGrapher=true;
-    }
 
     public ListView getListView(){
         return listView;
@@ -134,24 +133,24 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         refreshing=false;
         rankView = inflater.inflate(R.layout.fragment_rank, container, false);
         cache= ACache.get(getActivity());
-        button_grapher = (ImageView) rankView.findViewById(R.id.button_grapher);
-        button_model = (ImageView) rankView.findViewById(R.id.button_model);
+        //button_grapher = (ImageView) rankView.findViewById(R.id.button_grapher);
+        //button_model = (ImageView) rankView.findViewById(R.id.button_model);
 
-        personAdapter = new YuePaiAdapter(yuepai,bootData(INIT));
+        personAdapter = new YuePaiAdapter(yuepai,bootData());
         listView = (ListView) rankView.findViewById(R.id.rank_list);
         refreshLayout = (SwipeRefreshLayout) rankView.findViewById(R.id.swipe_refresh_layout);
         listView.setAdapter(personAdapter);
 
-        Log.d("LQQQQQQ", "onCreateView: ");
+        //Log.d("LQQQQQQ", "onCreateView: ");
         onScrollListener();
         onRefreshListener();
 
-        setListener();
+        //setListener();
 
         return rankView;
     }
 
-    private void setListener(){
+    /*private void setListener(){
         button_grapher.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
@@ -167,7 +166,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     personAdapter.refresh(bootData(INIT));
                     personAdapter.notifyDataSetChanged();//直接调用BaseAdapter的notify
                     refreshLayout.setRefreshing(false);
-                    Log.d("LQQQQQQQQQ", "button_grapher onTouchListener");
+                    //Log.d("LQQQQQQQQQ", "button_grapher onTouchListener");
                 }
                 return false;
             }
@@ -187,26 +186,26 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     personAdapter.refresh(bootData(INIT));
                     personAdapter.notifyDataSetChanged();
                     refreshLayout.setRefreshing(false);
-                    Log.d("LQQQQQQQQQ", "button_model onTouchListener");
+                    //Log.d("LQQQQQQQQQ", "button_model onTouchListener");
 
                 }
                 return false;
             }
         });
 
-    }
+    }*/
     private void onRefreshListener(){
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                bootData(isGrapher ? GRAPHER : MODEL);
+                bootData();
                 refreshLayout.setRefreshing(true);
                 bootCounter = 0;
                 personAdapter.refresh(new ArrayList<PhotographerModel>());
                 personAdapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
                 refreshing = true;
-                Log.d("LQQQQQQQQQ", "refresh onTouchListener");
+               // Log.d("LQQQQQQQQQ", "refresh onTouchListener");
             }
         });
     }
@@ -243,14 +242,14 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 1 && totalItemCount < maxRecords && totalItemCount != 0 && getYuePaiFlag) {
-                    loadData(isGrapher ? GRAPHER : MODEL);
+                    loadData();
                     Log.d("LQQQQQQQQQ", "personAdapter.notifyDataSetChanged();");
                     getYuePaiFlag = false;
                 }
                 if (!mainScrollControl && firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() > -10) {
                     ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
-                Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
-                        "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());
+                //Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
+                    //    "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());
                     if (-layoutParam.topMargin == mSideZoomBanner.getHeight()) {//showHeader
                         ValueAnimator anim = ValueAnimator.ofInt(-mSideZoomBanner.getHeight(), 0);
                         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -274,8 +273,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 //                    Log.e("logout.topmargin", layoutParam.topMargin + "");
                 if (mainScrollControl && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() < -290 && absListView.getChildAt(0).getTop() != 0) {//hide
                     ViewGroup.MarginLayoutParams layoutParam = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
-                    Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
-                            "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());
+                    //Log.d("LQ1111", "firstVisibleItem:" + firstVisibleItem + " \nabsListView.getChildAt(0):" + absListView.getChildAt(0) + "" +
+                      //      "\nabsListView.getChildAt(0).getTop():" + absListView.getChildAt(0).getTop());
                     if (layoutParam.topMargin >= 0) {
                         ValueAnimator anim = ValueAnimator.ofInt(0, -mSideZoomBanner.getHeight());
                         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -295,7 +294,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 }
             }
 
-            private List<PhotographerModel> loadData(int type) {
+            private List<PhotographerModel> loadData() {
                 final List<PhotographerModel> list = new ArrayList<>();
                 final LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
                 final UserModel data = model.getUserModel();
@@ -306,7 +305,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                         JSONObject json = new JSONObject(result);
                         String code = json.getString("code");
                         Log.d("LQQQQQQ", "code:" + code);
-                        if (code.equals("10253") && isGrapher) {
+                        if (code.equals("10253")) {
                             JSONArray array = json.getJSONArray("contents");
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
@@ -320,22 +319,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             Message msg = handler.obtainMessage();
                             msg.what = StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS;
                             handler.sendMessage(msg);
-                        }
-                        if (code.equals("10253") && !isGrapher) {
-                            JSONArray array = json.getJSONArray("contents");
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject info = array.getJSONObject(i);
-                                Gson gson = new Gson();
-                                PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
-                                Log.d("LQQQQQ", info.getString("APid"));
-                                list.add(photo);
-                            }
-                            bootCounter += array.length();
-                            personAdapter.add(list);
-                            Message msg = handler.obtainMessage();
-                            msg.what = StatusCode.REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS;
-                            handler.sendMessage(msg);
-                        } else if (code.equals("10262")) {
+                        }else if (code.equals("10262")) {
                             Log.d("LQQQQQ", "加载失败");
                         }
 
@@ -347,7 +331,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
                 }, APP.context);
 
-                if (type == GRAPHER){
                     Map<String, Object> map = new HashMap<>();
                     map.put("type", "10243");
                     map.put("authkey", data.getAuth_key());
@@ -355,45 +338,14 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
                     requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
                     Log.d("LQQQQQQQQQ", "request map");
-                } else if (type == MODEL) {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("type", "10244");
-                    map.put("authkey", data.getAuth_key());
-                    map.put("uid", data.getId());
-                    map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
-                    requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
-                    Log.d("LQQQQQQQQQ", "request map");
-                }
+
 
                 return list;
             }
         });
     }
 
-    private List<PhotographerModel> bootData(int type){
-
-        if(type==INIT){
-            if(isGrapher){
-                LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
-                List<PhotographerModel> persons=null;
-                persons =model.getPhotoList();
-                bootCounter+=persons.size();
-                Log.d("LQQQQQQQQQ", "bootdata");
-                getYuePaiFlag=true;
-                return persons;
-            } else if(!isGrapher){
-                LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
-                List<PhotographerModel> persons=null;
-                persons =model.getModelList();
-                bootCounter+=persons.size();
-                Log.d("LQQQQQQQQQ", "bootdata");
-                getYuePaiFlag=true;
-                return persons;
-
-            }
-        }
-
-
+    private List<PhotographerModel> bootData(){
 
         final List<PhotographerModel> list = new ArrayList<>();
         final LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
@@ -449,21 +401,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
         }, APP.context);
 
-        if(type==GRAPHER){
             Map<String, Object> map = new HashMap<>();
             map.put("type", "10231");
             map.put("authkey", data.getAuth_key());
             map.put("uid", data.getId());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
             Log.d("LQQQQQQQQQ", "request map");
-        }else if(type==MODEL){
-            Map<String, Object> map = new HashMap<>();
-            map.put("type", "10235");
-            map.put("authkey", data.getAuth_key());
-            map.put("uid", data.getId());
-            requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
-            Log.d("LQQQQQQQQQ", "request map");
-        }
+
         return list;
 
     }
@@ -476,7 +420,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         refreshLayout.setRefreshing(true);
         bootCounter=0;
         Log.d("LQQQQQQQQQ", "dorefresh");
-        personAdapter.refresh(bootData(isGrapher ? GRAPHER : MODEL));
+        personAdapter.refresh(bootData());
         personAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
     }
