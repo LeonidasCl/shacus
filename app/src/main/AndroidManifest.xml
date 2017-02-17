@@ -208,11 +208,11 @@
 
         <activity
             android:name=".Activity.WantBePhotographActivity"
-            android:label="@string/title_activity_want_to_paotograph"
+            android:label="@string/title_activity_want_be_photograph"
             android:theme="@style/Vita.ActionBar" />
         <activity
             android:name=".Activity.WantToPhotographActivity"
-            android:label="@string/title_activity_want_be_paotograph"
+            android:label="@string/title_activity_want_to_photograph"
             android:theme="@style/Vita.ActionBar"></activity>
     </application>
 

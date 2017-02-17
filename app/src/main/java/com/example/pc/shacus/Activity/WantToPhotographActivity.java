@@ -59,8 +59,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -250,18 +249,24 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 6;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position){
                 case 0:
-                    return "SECTION 1";
+                    return "全部";
                 case 1:
-                    return "SECTION 2";
+                    return "写真纪念";
                 case 2:
-                    return "SECTION 3";
+                    return "生活记录";
+                case 3:
+                    return "菜鸟练手";
+                case 4:
+                    return "活动跟拍";
+                case 5:
+                    return "商业拍摄";
             }
             return null;
         }

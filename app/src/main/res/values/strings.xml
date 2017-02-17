@@ -115,7 +115,6 @@
     <string name="photoset_delete">删除所选</string>
     <string name="temp">详细介绍详细介绍详详细介绍详详细介绍详详细介绍详细介描述信息描述信息，描述信息，描述。描述信息描述信息描述信息描述信息。</string>
     <string name="temp_time">2017-2-6</string>
-    <string name="title_activity_want_to_paotograph">ActivityWantToPaotograph</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_want_be_paotograph">ActivityWantBePaotograph</string>
+    <string name="title_activity_want_be_photograph">我想被摄影师拍</string>
+    <string name="title_activity_want_to_photograph">我想拍模特</string>
 </resources>
