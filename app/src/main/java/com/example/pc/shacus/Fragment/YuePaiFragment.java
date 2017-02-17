@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
-import com.example.pc.shacus.Activity.ActivityWantBePhotograph;
-import com.example.pc.shacus.Activity.ActivityWantToPhotograph;
+import com.example.pc.shacus.Activity.WantToPhotographActivity;
+import com.example.pc.shacus.Activity.WantBePhotographActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.NavigationModel;
@@ -106,7 +106,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
                 fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
                 fragmentTrs.addToBackStack(null);
                 fragmentTrs.commit();*/
-                Intent intent=new Intent(getActivity(),ActivityWantToPhotograph.class);
+                Intent intent=new Intent(getActivity(),WantToPhotographActivity.class);
                 startActivity(intent);
             }
         });
@@ -123,7 +123,7 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
                 fragmentTrs.replace(R.id.fl_content, yuePaiFragmentAB);
                 fragmentTrs.addToBackStack(null);
                 fragmentTrs.commit();*/
-                Intent intent=new Intent(getActivity(),ActivityWantBePhotograph.class);
+                Intent intent=new Intent(getActivity(),WantBePhotographActivity.class);
                 startActivity(intent);
             }
         });

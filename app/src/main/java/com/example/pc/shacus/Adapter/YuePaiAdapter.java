@@ -39,14 +39,14 @@ import java.util.Map;
 public class YuePaiAdapter extends BaseAdapter{
 
     private List<PhotographerModel> rankList;
-    private MainActivity activity;
+    private Activity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder viewHolder;
     //private Handler handler;
 
     public YuePaiAdapter(Activity activity, List<PhotographerModel> list){
         this.rankList = list;
-        this.activity = (MainActivity)activity;
+        this.activity = activity;
         //handler=handle;
     }
 
