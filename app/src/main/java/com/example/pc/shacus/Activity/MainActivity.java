@@ -1,6 +1,8 @@
 package com.example.pc.shacus.Activity;
 
 /**
+ * shacus项目组
+ * 一元复始，赛艇风声又一年
  * Created by cuicui on 2017/1/24.
  */
 
@@ -22,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -46,6 +50,8 @@ import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
+import com.example.pc.shacus.View.FloatMenu.FilterMenu;
+import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
 import com.example.pc.shacus.swipecards.swipe.CardFragment;
 
 import org.json.JSONException;
@@ -139,10 +145,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/*
-* shacus项目组
-* 一元复始，赛艇风声又一年
-* */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -150,11 +152,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "TAG";
     private boolean isLogin=false;
     private UserModel user;
-    //String token = "FbZ4HMuZZO/ESKruW+/qeaUo4kjEXu8XdB8wv+TPwivXMB8nRegvT+ppRcnmlJbfCm6nby6IQAfqaS629/8qcNA1onDWbdMu";
     //管理Fragment
     private FragmentManager fragmentMgr = this.getSupportFragmentManager();
     private FragmentTransaction fragmentTrs;
-    private NetRequest request;
     //四个功能项Fragment
     private CardFragment cardListFragment;
     private YuePaiFragment yuePaiFragment;
@@ -166,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton btn_course;
     private ImageButton btn_yuepai;
     private ImageButton btn_user;
+    private ImageButton btn_upload;
     private android.support.v7.app.ActionBar actbar;
-    private TextView toolbarTitle;
     private ACache cache;
     private CircleImageView btnAvartar;
     private TextView textName;
@@ -178,6 +178,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NetRequest netRequest;
     private ProgressDialog progressDlg;
     private boolean signFlag=false;
+    private boolean exitFlag=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,10 +229,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             window.setNavigationBarColor(getResources().getColor(R.color.gold));
 
         }
-        //initLocalData();
-//        Point pt=DisplayUtil.getWindowSize(this);
-//        int x=DisplayUtil.px2dip(this,pt.x);
-//        int y=DisplayUtil.px2dip(this,pt.y);
 
         initNetworkData();
 
@@ -280,48 +278,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-        /*RongIMClient.setTypingStatusListener(new RongIMClient.TypingStatusListener() {
-            @Override
-            public void onTypingStatusChanged(Conversation.ConversationType type, String targetId, Collection<TypingStatus> typingStatusSet) {
-                //当输入状态的会话类型和targetID与当前会话一致时，才需要显示
-                if (type.equals(mConversationType) && targetId.equals(mTargetId)) {
-                    //count表示当前会话中正在输入的用户数量，目前只支持单聊，所以判断大于0就可以给予显示了
-                    int count = typingStatusSet.size();
-                    if (count > 0) {
-                        Iterator iterator = typingStatusSet.iterator();
-                        TypingStatus status = (TypingStatus) iterator.next();
-                        String objectName = status.getTypingContentType();
-
-                        MessageTag textTag = TextMessage.class.getAnnotation(MessageTag.class);
-                        MessageTag voiceTag = VoiceMessage.class.getAnnotation(MessageTag.class);
-                        //匹配对方正在输入的是文本消息还是语音消息
-                        if (objectName.equals(textTag.value())) {
-                            //显示“对方正在输入”
-                            mHandler.sendEmptyMessage(SET_TEXT_TYPING_TITLE);
-                        } else if (objectName.equals(voiceTag.value())) {
-                            //显示"对方正在讲话"
-                            mHandler.sendEmptyMessage(SET_VOICE_TYPING_TITLE);
-                        }
-                    } else {
-                        //当前会话没有用户正在输入，标题栏仍显示原来标题
-                        mHandler.sendEmptyMessage(SET_TARGETID_TITLE);
-                    }
-                }
-            }
-        });*/
-
         fragmentTrs=fragmentMgr.beginTransaction();
-       /* conversationListStaticFragment = new ConversationListStaticFragment();
-        fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
-        fragmentTrs.hide(conversationListStaticFragment);*/
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
 
-        //MainActivity.OnCreate(此时已登录)
-//        TencentLocationRequest request = TencentLocationRequest.create();
-//        request.toString();
+
+
 
     }
 
@@ -342,14 +305,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userSign.setText(user.getSign());
             textName.setText(user.getNickName());
 
-//            MenuItem PersonInfo= navigationView.getMenu().findItem(R.id.nav_personalInfo);
-//            Drawable ico=PersonInfo.getIcon();
-//            ico.setAlpha(Color.BLUE);
-//            navigationView.setNavigationItemSelectedListener(this);
-//            Resources resources=getBaseContext().getResources();
-//            ColorStateList csl=resources.getColorStateList(R.color.ee_white);
-//            navigationView.setItemTextColor(csl);
-//            navigationView.setItemBackground(this.getResources().getDrawable(R.drawable.blackblack));
             Glide.with(getApplicationContext())
                     .load(user.getHeadImage()).centerCrop()
 //                    .placeholder(R.drawable.holder)
@@ -451,30 +406,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return false;
                 }
             });
-//            //设置侧滑栏文字信息
-//            this.getLayoutInflater().setFactory(
-//                    new android.view.LayoutInflater.Factory(){
-//                        @Override
-//                        public View onCreateView(String name, Context context, AttributeSet attrs) {
-//                            if(name.equalsIgnoreCase("com.android.internal.view.menu.IconMenuItemView")
-//                                    || name.equalsIgnoreCase("com.android.internal.view.menu.ActionMenuItemView")){
-//                                try {
-//                                    LayoutInflater inflater=getLayoutInflater();
-//                                    final View view=inflater.createView(name,null,attrs);
-//                                    new Handler().post(new Runnable() {
-//                                        public void run() {
-//                                            // 设置背景图片
-//                                            view.setBackgroundResource(R.color.ee_white);
-//                                        }
-//                                    });
-//                                } catch (ClassNotFoundException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                            return null;
-//                        }
-//                    }
-//            );
 
 
             // 和设置缓存中
@@ -530,16 +461,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_course =(ImageButton)findViewById(R.id.button_find);
         btn_user=(ImageButton)findViewById(R.id.button_user);
         btn_yuepai=(ImageButton)findViewById(R.id.button_yuepai);
+        btn_upload=(ImageButton)findViewById(R.id.button_upload) ;
 
         btn_main.setOnClickListener(this);
         btn_course.setOnClickListener(this);
         btn_user.setOnClickListener(this);
         btn_yuepai.setOnClickListener(this);
+        btn_upload.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v){
+
+        if (v.getId()==R.id.button_upload){
+            toUpload();
+            return;
+        }
 
         fragmentTrs=fragmentMgr.beginTransaction();
         setSelected();
@@ -563,6 +501,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         fragmentTrs.commit();
 
+    }
+
+    private void toUpload(){
+        startActivity(new Intent(this, CreateYuePaiActivity.class));
+    }
+
+    Handler handler=new Handler();
+    Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+            exitFlag=false;
+            handler.removeCallbacks(runnable);
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+            if (!exitFlag){
+                exitFlag=true;
+                CommonUtils.getUtilInstance().showToast(this,"再点击一次返回键退出应用");
+                handler.postDelayed(runnable, 3000);
+            }else{
+                finish();
+            }
     }
 
     private void toMain(){

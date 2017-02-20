@@ -302,7 +302,7 @@ public class FilterMenuLayout extends ViewGroup {
             outlineProvider = new OvalOutline();
         }
         //drawable = new FilterMenuDrawable(ctx, Color.WHITE, collapsedRadius);
-        drawable = getResources().getDrawable(R.drawable.login_logo_small);
+        drawable = getResources().getDrawable(R.drawable.add_after);
         menuBounds = new Rect();
         circleAnimator = ObjectAnimator.ofFloat(this, "expandProgress", 0, 0);
         circleAnimator.setInterpolator(new OvershootInterpolator());

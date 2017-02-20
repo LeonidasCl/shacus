@@ -17,12 +17,13 @@
     </style>
 
     <style name="SingleImage">
-    <item name="android:scaleType">centerCrop</item>
-    <item name="android:background">@color/gold</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">@color/gold</item>
     </style>
+
     <style name="ImageContainer">
-    <item name="android:background">@color/white</item>
-    <item name="android:paddingRight">@dimen/default_padding</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:paddingRight">@dimen/default_padding</item>
     </style>
 
 
@@ -40,6 +41,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.CoursesActivity" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowAnimationStyle">@style/Animation</item>
         <item name="android:windowBackground">@color/ee_white</item>
@@ -47,6 +49,8 @@
 
 
     <style name="Vita.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/lightgold</item>
+        <item name="colorPrimaryDark">@color/gray_color_99999a</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -68,9 +72,9 @@
         <item name="android:dropDownHorizontalOffset">0dip</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="horizontal_divider">
         <item name="android:layout_width">match_parent</item>
@@ -153,9 +157,9 @@
         <item name="banner_placeholderDrawable">@drawable/holder</item>
     </style>
 
-    <style name="Vita.ActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="Vita.ActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Vita.ActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="Vita.ActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
     <style name="Animation">
