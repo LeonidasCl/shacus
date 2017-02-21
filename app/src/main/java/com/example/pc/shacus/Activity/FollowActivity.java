@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.FollowItemAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
