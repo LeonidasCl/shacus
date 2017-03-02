@@ -46,6 +46,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.pc.shacus.Network.StatusCode.WANT_BE_PHOTOGRAPH;
+import static com.example.pc.shacus.Network.StatusCode.WANT_BE_PHOTOGRAPH_MORE;
+
 
 /*
 * 李嘉文 2017.2.17
@@ -144,7 +147,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
             userData= userModel.getUserModel();
             requestFragment=new NetRequest(this,getActivity());
             Map<String, Object> map = new HashMap<>();
-            map.put("type", "10235");//??10235想被拍的约拍列表（模特发布的约拍）
+            map.put("type", WANT_BE_PHOTOGRAPH);//10235想被拍的约拍列表（模特发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -156,7 +159,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
 
         private void doRefresh(){
             Map<String, Object> map = new HashMap<>();
-            map.put("type", "10235");//??10235想被拍的约拍列表（模特发布的约拍）
+            map.put("type", WANT_BE_PHOTOGRAPH);//10235想被拍的约拍列表（模特发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -167,7 +170,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
                 return;
             isloading=true;
             Map<String, Object> map = new HashMap<>();
-            map.put("type", "10244");
+            map.put("type", WANT_BE_PHOTOGRAPH_MORE);
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
             map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());

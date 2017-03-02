@@ -41,6 +41,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.pc.shacus.Network.StatusCode.WANT_TO_PHOTOGRAPH;
+import static com.example.pc.shacus.Network.StatusCode.WANT_TO_PHOTOGRAPH_MORE;
+
 /*
 * 李嘉文 2017.2.17
 * 二级界面 想拍人
@@ -108,7 +111,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
 
 
-        public PlaceholderFragment() {
+        public PlaceholderFragment(){
         }
 
         public static PlaceholderFragment newInstance(int sectionNumber) {
@@ -135,7 +138,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
             userData= userModel.getUserModel();
             requestFragment=new NetRequest(this,getActivity());
             Map<String, Object> map = new HashMap<>();
-            map.put("type", "10231");//??10231想拍人的约拍列表（摄影师发布的约拍）
+            map.put("type", WANT_TO_PHOTOGRAPH);//??10231想拍人的约拍列表（摄影师发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -147,7 +150,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
         private void doRefresh(){
             Map<String, Object> map = new HashMap<>();
-            map.put("type", "10231");//??10231想拍人的约拍列表（摄影师发布的约拍）
+            map.put("type", WANT_TO_PHOTOGRAPH);//??10231想拍人的约拍列表（摄影师发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -158,7 +161,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
                 return;
             isloading=true;
             Map<String, Object> map = new HashMap<>();
-            map.put("type", "10243");
+            map.put("type", WANT_TO_PHOTOGRAPH_MORE);
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
             map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
@@ -236,7 +239,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        public SectionsPagerAdapter(FragmentManager fm){
             super(fm);
         }
 
@@ -248,7 +251,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
+        public int getCount(){
             return 6;
         }
 

@@ -28,7 +28,6 @@ import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.google.gson.Gson;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -87,7 +86,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
 
         handler=new Handler(){
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(Message msg){
                 super.handleMessage(msg);
 
                 if (msg.what== StatusCode.REQUEST_FAILURE){
