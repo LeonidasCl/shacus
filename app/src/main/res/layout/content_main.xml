@@ -61,10 +61,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/add_before"
-            android:layout_marginTop="-30dp"
-            android:layout_marginBottom="10dp"
             android:layout_gravity="top"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             android:background="#00000000" />
 
         <ImageButton

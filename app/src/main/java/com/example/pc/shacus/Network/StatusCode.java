@@ -240,4 +240,9 @@ public interface StatusCode {
     int REQUEST_USER_GRZP = 10812;// 个人照片
     int REQUEST_USER_ZPJ = 10828;//作品集
 
+    int WANT_TO_PHOTOGRAPH=10231;//获取列表-摄影师发布的约拍
+    int WANT_BE_PHOTOGRAPH=10235;//获取列表-模特发布的约拍
+    int WANT_TO_PHOTOGRAPH_MORE=10243;//获取指定id后更多-摄影师发布的约拍
+    int WANT_BE_PHOTOGRAPH_MORE=10244;//获取指定id后更多-模特发布的约拍
+
 }
