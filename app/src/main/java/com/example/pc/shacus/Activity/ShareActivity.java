@@ -1,11 +1,14 @@
 package com.example.pc.shacus.Activity;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.R;
@@ -13,6 +16,14 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.utils.Log;
+import com.umeng.socialize.utils.SocializeUtils;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -23,6 +34,8 @@ import java.util.Hashtable;
 public class ShareActivity extends AppCompatActivity  implements  NetworkCallbackInterface.NetRequestIterface,View.OnClickListener{
 
     private ImageView shareBarCode;
+    private ProgressDialog dialog;
+    private Bitmap image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +44,25 @@ public class ShareActivity extends AppCompatActivity  implements  NetworkCallbac
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this);
 
-
         shareBarCode= (ImageView) findViewById(R.id.shareBarCode);
         String url="http://shacus.cn";
         create2DBarCodeBitmap(url);
+
+        Config.DEBUG = true;
+        UMShareAPI.get(this);
+        dialog = new ProgressDialog(this);
+        ImageButton share = (ImageButton) findViewById(R.id.btn_share);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                UMImage image = new UMImage(ShareActivity.this, shareBarCode);//资源文件
+                UMImage shareImage = new UMImage(ShareActivity.this,image);
+                ShareAction mShareAction = new ShareAction(ShareActivity.this).withMedia(shareImage)
+                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE)
+                        .setCallback(umShareListener);
+                mShareAction.open();
+            }
+        });
     }
 
     //创建二维码
@@ -74,6 +102,7 @@ public class ShareActivity extends AppCompatActivity  implements  NetworkCallbac
             bitmap.setPixels(pixels, 0, QR_WIDTH, 0, 0, QR_WIDTH, QR_HEIGHT);
             //设置二维码图片显示
             shareBarCode.setImageBitmap(bitmap);
+            image = bitmap;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -115,4 +144,40 @@ public class ShareActivity extends AppCompatActivity  implements  NetworkCallbac
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat", "platform" + platform);
+
+            Toast.makeText(ShareActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+            SocializeUtils.safeCloseDialog(dialog);
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(ShareActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+                Log.d("throw","throw:"+t.getMessage());
+            }
+            SocializeUtils.safeCloseDialog(dialog);
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(ShareActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            SocializeUtils.safeCloseDialog(dialog);
+        }
+    };
 }

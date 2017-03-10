@@ -25,6 +25,9 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,6 +69,8 @@ public class APP extends Application {
         } catch (RongException e) {
             e.printStackTrace();
         }*/
+        Config.DEBUG = true;
+        UMShareAPI.get(this);
         RongIM.init(this);
         RongIM.setConversationBehaviorListener(new RongIM.ConversationBehaviorListener() {
 
@@ -160,6 +165,12 @@ public class APP extends Application {
         RongCloudEvent.init(this);
 
     }//end APP.OnCreate()
+
+    {
+
+        PlatformConfig.setWeixin("wxe94795c10bf8a5bd", "7869e49226176516e385744e3a696edc");
+        PlatformConfig.setQQZone("1106028520", "1gBx1bvWyuIKtsX1");
+    }
 
     public static String cache_image_path, photo_path;
     public static File cacheImageDir, photoDir;

@@ -18,7 +18,7 @@
         <com.example.pc.shacus.View.CircleImageView
             android:id="@+id/firstpage_user_image"
             android:src="@drawable/holder"
-            android:layout_width="45dp"
+            android:layout_width="45dp"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             android:layout_height="45dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
