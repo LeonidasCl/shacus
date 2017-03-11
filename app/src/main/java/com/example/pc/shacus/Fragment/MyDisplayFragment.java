@@ -730,6 +730,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         }*/
         else if(requestUrl.equals(CommonUrl.userImage)){
             JSONObject jsonObject = new JSONObject(result);
+            Log.d("AAAAAAA",jsonObject.toString());
             int code = Integer.valueOf(jsonObject.getString("code"));
             if(code == StatusCode.REQUEST_USER_GRZP){
                 //个人照片

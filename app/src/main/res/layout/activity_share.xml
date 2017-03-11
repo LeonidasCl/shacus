@@ -28,6 +28,13 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textSize="20sp" />
+        <ImageButton
+            android:id="@+id/btn_share"
+            android:background="@drawable/login_password"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"/>
     </RelativeLayout>
 
 
