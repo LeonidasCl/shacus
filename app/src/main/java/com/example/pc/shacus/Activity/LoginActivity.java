@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 pflag=1;
                 break;
         }
+        
 
         username=(TextView)findViewById(R.id.login_username);
         password=(TextView)findViewById(R.id.login_password);
