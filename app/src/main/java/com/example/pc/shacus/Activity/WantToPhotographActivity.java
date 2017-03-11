@@ -170,7 +170,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
         }
 
         private void doLoadmore(){
-            if (bootCounter<5||isloading)//如果数据小于五说明是初始化，不读加载更多
+            if (bootCounter<5||isloading||personAdapter.getCount()==0)//如果数据小于五说明是初始化，不读加载更多
                 return;
             isloading=true;
             Map<String, Object> map = new HashMap<>();
