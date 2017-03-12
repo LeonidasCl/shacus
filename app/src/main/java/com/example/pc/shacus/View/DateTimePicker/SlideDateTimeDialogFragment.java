@@ -196,8 +196,8 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     private void customizeViews()
     {
         int lineColor = mTheme == SlideDateTimePicker.HOLO_DARK ?
-                getResources().getColor(R.color.gray_holo_dark) :
-                getResources().getColor(R.color.gray_holo_light);
+                getResources().getColor(R.color.zero_black) :
+                getResources().getColor(R.color.zero_black);
 
         // Set the colors of the horizontal and vertical lines for the
         // bottom buttons depending on the theme.
@@ -210,8 +210,8 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
             break;
 
         default:  // if no theme was specified, default to holo light
-            mButtonHorizontalDivider.setBackgroundColor(getResources().getColor(R.color.gray_holo_light));
-            mButtonVerticalDivider.setBackgroundColor(getResources().getColor(R.color.gray_holo_light));
+            mButtonHorizontalDivider.setBackgroundColor(getResources().getColor(R.color.zero_black));
+            mButtonVerticalDivider.setBackgroundColor(getResources().getColor(R.color.zero_black));
         }
 
         // Set the color of the selected tab underline if one was specified.

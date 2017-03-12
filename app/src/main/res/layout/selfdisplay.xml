@@ -94,20 +94,31 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/transparent" />
 
-    <TextView
-        android:id="@+id/textData_UserName"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/blank"
-        android:textSize="@dimen/sp_16"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/toolbar_white"
-        android:text="啦啦啦啦"/>
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textData_UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blank"
+            android:textSize="@dimen/sp_16"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/zero_black"
+            android:text="啦啦啦啦"/>
+
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/textData_UserSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textData_UserName"
+        android:layout_below="@id/info"
         android:textSize="@dimen/sp_14"
         android:layout_centerHorizontal="true"
         android:textColor="@color/zero_black"
@@ -140,12 +151,16 @@
         android:layout_below="@id/space2">
 
         <View
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="@color/zero_black"
             android:layout_gravity="center_vertical"/>
 
         <LinearLayout
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center"
             android:id="@+id/btn3"
             android:layout_width="match_parent"
@@ -189,11 +204,11 @@
 
             </LinearLayout>
 
-            <View
+            <!--<View
                 android:layout_width="1dip"
                 android:layout_height="match_parent"
                 android:background="@color/zero_black"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal" />-->
             <LinearLayout
                 android:id="@+id/followingBtn"
                 android:layout_weight="1"
@@ -223,12 +238,12 @@
 
 
             </LinearLayout>
-            <View
+            <!--<View
                 android:layout_width="1dip"
                 android:layout_height="match_parent"
                 android:background="@color/zero_black"
                 android:layout_gravity="center_horizontal"
-                />
+                />-->
             <LinearLayout
                 android:id="@+id/followerBtn"
                 android:layout_weight="1"
@@ -259,6 +274,8 @@
             </LinearLayout>
         </LinearLayout>
         <View
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="@color/zero_black"
@@ -266,6 +283,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/grzp"
         android:orientation="vertical"
         android:layout_below="@id/body_btn"
@@ -369,6 +388,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_above="@id/layout_otheruser_chat"
         android:id="@+id/zpj"
         android:orientation="vertical"
