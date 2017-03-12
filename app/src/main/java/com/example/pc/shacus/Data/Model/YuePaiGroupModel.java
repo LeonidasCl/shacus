@@ -6,9 +6,10 @@ import java.io.Serializable;
  * Created by licl on 2017/3/9.
  */
 
-public class YuePaiTypeModel implements Serializable {
+public class YuePaiGroupModel implements Serializable {
     private String type;
     private String name;
+    private String description;
 
     public String getType() {
         return type;
@@ -24,5 +25,13 @@ public class YuePaiTypeModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

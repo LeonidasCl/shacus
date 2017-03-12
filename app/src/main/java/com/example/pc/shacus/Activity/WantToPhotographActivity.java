@@ -18,13 +18,14 @@ import android.view.ViewGroup;
 
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.pc.shacus.Adapter.YuePaiAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Data.Model.UserModel;
-import com.example.pc.shacus.Data.Model.YuePaiTypeModel;
+import com.example.pc.shacus.Data.Model.YuePaiGroupModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -56,8 +57,9 @@ public class WantToPhotographActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private ACache cache;
-    private List<YuePaiTypeModel> apTypes;
+    private List<YuePaiGroupModel> apTypes;
     LoginDataModel logindata;
+    private TextView group_description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,9 @@ public class WantToPhotographActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        group_description=(TextView)findViewById(R.id.group_description);
+        group_description.setText("以下是所有的约拍");
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -261,6 +266,8 @@ public class WantToPhotographActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             PlaceholderFragment frag=PlaceholderFragment.newInstance(position);
             frag.type=position;
+            if (position!=0)
+                group_description.setText(apTypes.get(position-1).getDescription());
             return frag;
         }
 
