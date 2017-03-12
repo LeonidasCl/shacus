@@ -41,8 +41,6 @@ import java.util.Map;
 
 import io.rong.imkit.RongIM;
 
-import static com.example.pc.shacus.R.color.aa_black;
-
 /**
  * Created by cuicui on 2017/2/13.
  */
@@ -138,7 +136,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         followernum = (TextView) findViewById(R.id.followerNum);
 
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
-        relativeLayout.setBackgroundResource(R.color.aa_black);
+        relativeLayout.setBackgroundResource(R.color.zero_black);
         backbtn = (ImageButton) findViewById(R.id.backbtn);
         backbtn.setVisibility(View.VISIBLE);
         othername = (TextView) findViewById(R.id.othername);
