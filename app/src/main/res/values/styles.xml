@@ -5,25 +5,25 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/toolbar_white</item>
         <item name="android:listDivider">@drawable/divider</item>
-        <item name="actionMenuTextColor">@color/zero_black</item>
+        <item name="android:textColorPrimary">@color/zero_black</item>
         <item name="android:windowAnimationStyle">@style/Animation</item>
     </style>
 
     <style name="AppTheme.CreateActivity" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/toolbar_white</item>
-        <item name="actionMenuTextColor">@color/zero_black</item>
+        <item name="android:textColorPrimary">@color/zero_black</item>
     </style>
 
     <style name="SingleImage">
         <item name="android:scaleType">centerCrop</item>
         <item name="android:background">@color/toolbar_white</item>
-        <item name="actionMenuTextColor">@color/zero_black</item>
+        <item name="android:textColorPrimary">@color/zero_black</item>
     </style>
 
     <style name="ImageContainer">
         <item name="android:background">@color/ff_white</item>
         <item name="android:paddingRight">@dimen/default_padding</item>
-        <item name="actionMenuTextColor">@color/zero_black</item>
+        <item name="android:textColorPrimary">@color/zero_black</item>
     </style>
 
 
@@ -37,7 +37,7 @@
 
     <style name="AppTheme.YuePaiDetailActivity" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#ffffff</item>
-        <item name="actionMenuTextColor">@color/zero_black</item>
+        <item name="android:textColorPrimary">@color/zero_black</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -45,13 +45,13 @@
     <style name="AppTheme.CoursesActivity" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowAnimationStyle">@style/Animation</item>
         <item name="android:windowBackground">@color/ff_white</item>
-        <item name="actionMenuTextColor">@color/zero_black</item>
+        <item name="android:textColorPrimary">@color/zero_black</item>
     </style>
 
 
     <style name="Vita.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/ff_white</item>
-        <item name="actionMenuTextColor">@color/zero_black</item>
+        <item name="android:textColorPrimary">@color/zero_black</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
