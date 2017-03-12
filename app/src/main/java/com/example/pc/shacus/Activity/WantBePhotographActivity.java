@@ -277,7 +277,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
+        public int getCount(){
             return apTypes.size()+1;
         }
 
