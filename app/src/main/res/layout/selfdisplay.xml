@@ -42,7 +42,7 @@
             android:textSize="14sp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
+            android:textColor="@color/ff_white"
             android:background="#EBD521"
             android:layout_alignRight="@id/bigimageView"
             android:layout_alignBottom="@id/bigimageView"/>
@@ -51,14 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:gravity="start"
-            android:background="@color/aa_black"
+            android:background="@color/zero_black"
             android:id="@+id/relativeLayout">
             <TextView
                 android:id="@+id/othername"
                 android:text="hhhh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/ff_white"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:textSize="20sp" />
@@ -101,7 +101,7 @@
         android:layout_below="@id/blank"
         android:textSize="@dimen/sp_16"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/gold"
+        android:textColor="@color/toolbar_white"
         android:text="啦啦啦啦"/>
     <TextView
         android:id="@+id/textData_UserSign"
@@ -110,7 +110,7 @@
         android:layout_below="@id/textData_UserName"
         android:textSize="@dimen/sp_14"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/aa_black"
+        android:textColor="@color/zero_black"
         android:text="个人简介--我是追影人"/>
     <TextView
         android:id="@+id/textData_UserLocal"
@@ -119,7 +119,7 @@
         android:layout_below="@id/textData_UserSign"
         android:textSize="@dimen/sp_14"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/aa_black"
+        android:textColor="@color/zero_black"
         android:text="常住 江苏 南京"/>
     <TextView
         android:id="@+id/space2"
@@ -142,7 +142,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:background="@color/gray_holo_dark"
+            android:background="@color/zero_black"
             android:layout_gravity="center_vertical"/>
 
         <LinearLayout
@@ -170,14 +170,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="0"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:id="@+id/myYuepaiNum"
                     android:textSize="14sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="约拍"
-                    android:textColor="@color/gray_holo_dark"
+                    android:textColor="@color/zero_black"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:textSize="14sp"/>
@@ -191,7 +191,7 @@
             <View
                 android:layout_width="1dip"
                 android:layout_height="match_parent"
-                android:background="@color/gray_holo_dark"
+                android:background="@color/zero_black"
                 android:layout_gravity="center_horizontal" />
             <LinearLayout
                 android:id="@+id/followingBtn"
@@ -208,14 +208,14 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:text="0"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:id="@+id/followingNum"
                     android:textSize="14sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="关注"
-                    android:textColor="@color/gray_holo_dark"
+                    android:textColor="@color/zero_black"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:textSize="14sp"/>
@@ -225,7 +225,7 @@
             <View
                 android:layout_width="1dip"
                 android:layout_height="match_parent"
-                android:background="@color/gray_holo_dark"
+                android:background="@color/zero_black"
                 android:layout_gravity="center_horizontal"
                 />
             <LinearLayout
@@ -242,14 +242,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="0"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:id="@+id/followerNum"
                     android:textSize="14sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="粉丝"
-                    android:textColor="@color/gray_holo_dark"
+                    android:textColor="@color/zero_black"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:textSize="14sp"/>
@@ -260,7 +260,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:background="@color/gray_holo_dark"
+            android:background="@color/zero_black"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
@@ -324,7 +324,7 @@
                 android:layout_weight="1">
                 <ImageView
                     android:visibility="invisible"
-                    android:background="@color/aa_black"
+                    android:background="@color/zero_black"
                     android:id="@+id/grzp_i4"
                     android:layout_width="match_parent"
                     android:scaleType="fitCenter"
@@ -341,7 +341,7 @@
                     android:text="+23"
                     android:gravity="center"
                     android:textSize="35dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
                 <TextView
@@ -349,7 +349,7 @@
                     android:id="@+id/grzp_n"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/aa_black"
+                    android:textColor="@color/zero_black"
                     android:text="暂无个人照片"
                     android:gravity="center"
                     android:layout_marginRight="30dp"
@@ -363,7 +363,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:background="@color/aa_black"
+            android:background="@color/zero_black"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
@@ -440,7 +440,7 @@
                     android:text="+233"
                     android:gravity="center"
                     android:textSize="35dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
                 <TextView
@@ -448,7 +448,7 @@
                     android:id="@+id/zpj_n"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/aa_black"
+                    android:textColor="@color/zero_black"
                     android:text="暂无个人照片"
                     android:gravity="center"
                     android:layout_marginRight="30dp"
@@ -460,7 +460,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:background="@color/aa_black"
+            android:background="@color/zero_black"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
@@ -497,7 +497,7 @@
         android:id="@+id/display_big_image_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ee_black"
+        android:background="@color/zero_black"
         android:visibility="gone">
 
         <ImageView
@@ -521,7 +521,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center"
-                    android:textColor="@color/cc_white"
+                    android:textColor="@color/ff_white"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -561,7 +561,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/cancel"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -580,7 +580,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:textColor="@color/aa_black"
+                    android:textColor="@color/zero_black"
                     android:text="更换背景图片"/>
                 <View style="@style/horizontal_divider" >
                 </View>
@@ -592,7 +592,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/take_picture"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
 
                 <View style="@style/horizontal_divider" >
@@ -605,7 +605,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/select_local_picture"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="21sp" />
             </LinearLayout>
 

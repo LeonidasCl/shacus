@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:gravity="start"
-        android:background="@color/aa_black"
+        android:background="@color/zero_black"
         android:id="@+id/relativeLayout">
 
         <ImageButton
@@ -26,7 +26,7 @@
             android:text="认证"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/ff_white"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textSize="20sp" />
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:cardBackgroundColor="@color/gray_color_99999a"
+            app:cardBackgroundColor="@color/zero_black"
             app:cardCornerRadius="30dp"
             app:cardElevation="0dp"
             android:layout_gravity="center">
@@ -102,7 +102,7 @@
                     android:background="@drawable/shape_button2"
                     android:text="去认证>"
                     android:textSize="16sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/ff_white"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:cardBackgroundColor="@color/gray_color_99999a"
+            app:cardBackgroundColor="@color/zero_black"
             app:cardCornerRadius="30dp"
             app:cardElevation="0dp"
             android:layout_gravity="center">
@@ -159,7 +159,7 @@
                     android:background="@drawable/shape_button2"
                     android:text="去认证>"
                     android:textSize="16sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/ff_white"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -169,7 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:cardBackgroundColor="@color/gray_color_99999a"
+            app:cardBackgroundColor="@color/zero_black"
             app:cardCornerRadius="30dp"
             app:cardElevation="0dp"
             android:layout_gravity="center">
@@ -216,7 +216,7 @@
                     android:background="@drawable/shape_button2"
                     android:text="去认证>"
                     android:textSize="16sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/ff_white"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

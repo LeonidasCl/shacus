@@ -215,13 +215,13 @@ public class WantBePhotographActivity extends AppCompatActivity {
         }
 
         @Override
-        public void requestFinish(String result, String requestUrl) throws JSONException {
+        public void requestFinish(String result, String requestUrl) throws JSONException{
             JSONObject json = new JSONObject(result);
             String code = json.getString("code");
             JSONArray array = json.getJSONArray("contents");
             if (code.equals("10252")){//第一次加载/刷新的返回
                 yuepaiList=new ArrayList<>();
-                for (int i = 0; i < array.length(); i++) {
+                for (int i = 0; i < array.length(); i++){
                     JSONObject info = array.getJSONObject(i);
                     Gson gson = new Gson();
                     PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);

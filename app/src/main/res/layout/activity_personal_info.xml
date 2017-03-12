@@ -64,7 +64,7 @@
         android:layout_marginTop="270dp"
         android:textSize="20dp"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/ee_black"
+        android:textColor="@color/zero_black"
         android:text="啦啦啦啦"/>
 
 
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个性签名"
-                android:textColor="@color/ee_black"
+                android:textColor="@color/zero_black"
                 android:textSize="@dimen/sp_16"
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>
@@ -113,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="邮箱"
-                android:textColor="@color/ee_black"
+                android:textColor="@color/zero_black"
                 android:textSize="@dimen/sp_16"
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>
@@ -141,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="所在地"
-                android:textColor="@color/ee_black"
+                android:textColor="@color/zero_black"
                 android:textSize="@dimen/sp_16"
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>
@@ -168,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="手机号"
-                android:textColor="@color/ee_black"
+                android:textColor="@color/zero_black"
                 android:textSize="@dimen/sp_16"
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>

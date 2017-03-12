@@ -36,8 +36,8 @@
             android:textSize="12sp"
             android:textAlignment="center"
             android:id="@+id/group_description"
-            android:textColor="@color/white"
-            android:background="@color/lightgold"
+            android:textColor="@color/ff_white"
+            android:background="@color/main_green"
             android:text="@string/loading"/>
 
     </android.support.design.widget.AppBarLayout>

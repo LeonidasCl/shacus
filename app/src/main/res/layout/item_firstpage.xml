@@ -25,7 +25,7 @@
             app:border_color="#00000000"/>
 
         <TextView
-            android:textColor="@color/ee_black"
+            android:textColor="@color/zero_black"
             android:id="@+id/firstpage_user_title"
             android:textSize="16sp"
             android:text="花海"
@@ -62,7 +62,7 @@
         android:layout_marginLeft="15dp"
         android:id="@+id/first_detail"
         android:layout_below="@+id/first_bigimage"
-        android:textColor="@color/aa_black"
+        android:textColor="@color/zero_black"
         android:text="与君初相识，犹如故人归"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -87,7 +87,7 @@
            <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textColor="@color/aa_black"
+               android:textColor="@color/zero_black"
                android:layout_marginLeft="15dp"
                android:textSize="14sp"
                android:id="@+id/first_likenum"
@@ -108,7 +108,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/aa_black"
+                android:textColor="@color/zero_black"
                 android:id="@+id/first_commentnum"
                 android:textSize="14sp"
                 android:text="14"/>

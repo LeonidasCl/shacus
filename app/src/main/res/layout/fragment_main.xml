@@ -12,7 +12,7 @@
             android:id="@+id/first_listview"
             android:layout_width="match_parent"
             android:layout_height="495dp"
-            android:divider="@color/gray_color_99999a"
+            android:divider="@color/zero_black"
             android:dividerHeight="1dp"
             android:listSelector="@color/transparent">
         </ListView>

@@ -7,5 +7,5 @@
     <!-- android:radius 弧形的半径 -->
     <corners android:radius="5dp" />
     <!--边框的宽度及颜色-->
-    <stroke android:width="2px" android:color="@color/gray_holo_light" />
+    <stroke android:width="2px" android:color="@color/main_green" />
 </shape>

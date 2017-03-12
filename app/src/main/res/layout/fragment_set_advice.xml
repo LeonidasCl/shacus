@@ -5,13 +5,13 @@
     tools:context="com.example.pc.shacus.Fragment.SetAdviceFragment"
     android:orientation="vertical"
     android:gravity="top"
-    android:background="@color/cc_white">
+    android:background="@color/ff_white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:gravity="start"
-        android:background="@color/gold">
+        android:background="@color/toolbar_white">
         <ImageButton
             android:id="@+id/btn_back"
             android:background="@drawable/button_back"
@@ -35,7 +35,7 @@
             android:gravity="center"
             android:textSize="@dimen/sp_14"
             android:text="发送"
-            android:textColor="@color/ee_black"/>
+            android:textColor="@color/zero_black"/>
     </RelativeLayout>
 
 
@@ -51,7 +51,7 @@
             android:background="#ffffff"
             android:textSize="@dimen/sp_14"
             android:hint="联系方式"
-            android:textColorHint="@color/gray_holo_light"
+            android:textColorHint="@color/hint"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:maxLines="1"
@@ -73,7 +73,7 @@
             android:background="#ffffff"
             android:textSize="@dimen/sp_14"
             android:hint="内容"
-            android:textColorHint="@color/gray_holo_light"
+            android:textColorHint="@color/hint"
             android:layout_margin="5dp"
             android:layout_below="@+id/advice_connectType"
             android:textAlignment="textStart"

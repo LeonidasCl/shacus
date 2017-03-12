@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="真实姓名:"
-            android:textColor="@color/aa_black"/>
+            android:textColor="@color/zero_black"/>
 
         <EditText
             android:textSize="20sp"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="自我介绍:"
-            android:textColor="@color/aa_black"/>
+            android:textColor="@color/zero_black"/>
 
         <EditText
             android:layout_marginTop="5dp"
@@ -62,7 +62,7 @@
         android:layout_below="@id/l2"
         android:layout_width="match_parent"
         android:layout_height="1dip"
-        android:background="@color/gray_holo_light"
+        android:background="@color/ff_white"
         android:layout_gravity="center_vertical"/>
 
     <Button
@@ -72,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="提交"
-        android:textColor="@color/white"
+        android:textColor="@color/ff_white"
         android:textSize="16sp"
         android:background="#6fc16f"
         android:layout_alignParentBottom="true"/>
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#2a7abf"
+        android:textColor="@color/hint"
         android:layout_marginBottom="7dp"
         android:textSize="14sp"
         android:text="声明:认证需同意《人人拍认证条款》"/>

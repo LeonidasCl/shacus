@@ -25,14 +25,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/aa_black"
+                android:textColor="@color/zero_black"
                 android:id="@+id/photoset_detail_describtion"
                 android:textSize="14sp"
                 android:text="@string/temp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/aa_black"
+                android:textColor="@color/zero_black"
                 android:textSize="16sp"
                 android:gravity="end"
                 android:id="@+id/photoset_detail_time"
@@ -63,17 +63,17 @@
                 android:id="@+id/photoset_delete"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/rc_draft_color"
+                android:background="@color/main_green"
                 android:text="@string/photoset_delete"
-                android:textColor="#ffffff"
+                android:textColor="@color/ff_white"
                 android:textSize="14sp" />
         <Button
             android:id="@+id/photoset_upload"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/lightgold"
+            android:background="@color/main_green"
             android:text="@string/photoset_upload"
-            android:textColor="#ffffff"
+            android:textColor="@color/ff_white"
             android:textSize="14sp" />
         </LinearLayout>
     </FrameLayout>
@@ -83,7 +83,7 @@
         android:id="@+id/display_photoset_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ee_black"
+        android:background="@color/zero_black"
         android:visibility="gone" >
 
         <com.example.pc.shacus.Adapter.UploadViewPager
@@ -107,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center"
-                    android:textColor="@color/cc_white"
+                    android:textColor="@color/ff_white"
                     android:textSize="14sp" />
 
             </LinearLayout>

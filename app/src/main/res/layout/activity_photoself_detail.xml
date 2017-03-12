@@ -43,7 +43,7 @@
                 android:id="@+id/photoset_upload"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/lightgold"
+                android:background="@color/main_green"
                 android:text="@string/photoset_upload"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
@@ -55,7 +55,7 @@
         android:id="@+id/display_photoset_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ee_black"
+        android:background="@color/zero_black"
         android:visibility="gone" >
 
         <com.example.pc.shacus.Adapter.UploadViewPager
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center"
-                    android:textColor="@color/cc_white"
+                    android:textColor="@color/ff_white"
                     android:textSize="14sp" />
 
             </LinearLayout>

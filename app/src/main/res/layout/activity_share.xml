@@ -7,13 +7,13 @@
     tools:context="com.example.pc.shacus.Activity.ShareActivity"
     android:orientation="vertical"
     android:gravity="top"
-    android:background="@color/ee_white">
+    android:background="@color/ff_white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:background="@color/gold">
+        android:background="@color/toolbar_white">
         <ImageButton
             android:id="@+id/btn_back"
             android:background="@drawable/button_back"
@@ -63,7 +63,7 @@
         android:text="喜欢我们的app吗？分享给你的朋友吧~"
         android:layout_margin="40dp"
         android:layout_gravity="center"
-        android:textColor="@color/ee_black"
+        android:textColor="@color/zero_black"
         android:textSize="14sp" />
     <LinearLayout
         android:layout_width="match_parent"

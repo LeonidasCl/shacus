@@ -3,26 +3,26 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/gold</item>
-        <item name="colorPrimaryDark">@color/gold</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/toolbar_white</item>
+        <item name="colorPrimaryDark">@color/toolbar_white</item>
+        <item name="colorAccent">@color/ff_white</item>
         <item name="android:listDivider">@drawable/divider</item>
         <item name="android:windowAnimationStyle">@style/Animation</item>
     </style>
 
     <style name="AppTheme.CreateActivity" parent="Theme.AppCompat">
-        <item name="colorPrimary">@color/gold</item>
-        <item name="colorPrimaryDark">@color/lightgold</item>
+        <item name="colorPrimary">@color/toolbar_white</item>
+        <item name="colorPrimaryDark">@color/ff_white</item>
 
     </style>
 
     <style name="SingleImage">
         <item name="android:scaleType">centerCrop</item>
-        <item name="android:background">@color/gold</item>
+        <item name="android:background">@color/toolbar_white</item>
     </style>
 
     <style name="ImageContainer">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/ff_white</item>
         <item name="android:paddingRight">@dimen/default_padding</item>
     </style>
 
@@ -44,13 +44,13 @@
 
     <style name="AppTheme.CoursesActivity" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowAnimationStyle">@style/Animation</item>
-        <item name="android:windowBackground">@color/ee_white</item>
+        <item name="android:windowBackground">@color/ff_white</item>
     </style>
 
 
     <style name="Vita.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/lightgold</item>
-        <item name="colorPrimaryDark">@color/gray_color_99999a</item>
+        <item name="colorPrimary">@color/ff_white</item>
+        <item name="colorPrimaryDark">@color/ff_white</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -79,7 +79,7 @@
     <style name="horizontal_divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
-        <item name="android:background">@color/item_selected_gray</item>
+        <item name="android:background">@color/zero_black</item>
     </style>
 
     <style name="WrapWrap">
