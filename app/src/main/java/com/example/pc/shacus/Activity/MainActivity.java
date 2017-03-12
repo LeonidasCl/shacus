@@ -209,11 +209,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //激活状态栏设置
             tintManager.setStatusBarTintEnabled(true);
             //设置状态栏颜色
-            tintManager.setTintResource(R.color.zero_black);
+            tintManager.setTintResource(R.color.toolbar_white);
             //激活导航栏设置
             tintManager.setNavigationBarTintEnabled(true);
             //设置导航栏颜色
-            tintManager.setNavigationBarTintResource(R.color.zero_black);
+            tintManager.setNavigationBarTintResource(R.color.toolbar_white);
         }
         //5.0版本及以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -224,9 +224,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
-            window.setStatusBarColor(getResources().getColor(R.color.zero_black));
+            window.setStatusBarColor(getResources().getColor(R.color.toolbar_white));
             //设置导航栏颜色
-            window.setNavigationBarColor(getResources().getColor(R.color.zero_black));
+            window.setNavigationBarColor(getResources().getColor(R.color.toolbar_white));
 
         }
 
