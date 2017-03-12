@@ -60,7 +60,9 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
     RelativeLayout relativeLayout;
     Button btn_yuepai_chat;
     Button btn_common_chat;
-    ImageView bigimageview;
+    Button editinfo;
+//    Button addfollow;
+//    ImageView bigimageview;
     ImageButton settingbtn;
     ImageButton backbtn;
 
@@ -73,7 +75,6 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
     TextView followingnum;
     TextView followernum;
 
-    Button editinfo;
     RelativeLayout display_big_image_layout;
 
     String name = null;
@@ -89,7 +90,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
     ArrayList<String> GRZP_URL= new ArrayList();
     ImageView grzp_i1;
     ImageView grzp_i2;
-    ImageView grzp_i3;
+//    ImageView grzp_i3;
     ImageView grzp_i4;
     TextView grzp_im;
     TextView grzp_n;
@@ -99,7 +100,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
     ArrayList<String> ZPJ_URL = new ArrayList<>();
     ImageView zpj_i1;
     ImageView zpj_i2;
-    ImageView zpj_i3;
+//    ImageView zpj_i3;
     ImageView zpj_i4;
     TextView zpj_im;
     TextView zpj_n;
@@ -124,7 +125,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         type = intent.getStringExtra("id");
         otherId = type;
 
-        bigimageview = (ImageView) findViewById(R.id.bigimageView);
+//        bigimageview = (ImageView) findViewById(R.id.bigimageView);
         headimage = (CircleImageView) findViewById(R.id.imageData_UserImage);
         username = (TextView) findViewById(R.id.textData_UserName);
         usersign = (TextView) findViewById(R.id.textData_UserSign);
@@ -144,20 +145,21 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         othername.setVisibility(View.VISIBLE);
         settingbtn = (ImageButton) findViewById(R.id.settingbtn);
         settingbtn.setVisibility(View.INVISIBLE);
-        editinfo = (Button) findViewById(R.id.edit_info);
+        editinfo = (Button) findViewById(R.id.addfollow);
+//        editinfo = (Button) findViewById(R.id.edit_info);
         editinfo.setText("关注");
 
 
         grzp_i1 = (ImageView) findViewById(R.id.grzp_i1);
         grzp_i2 = (ImageView) findViewById(R.id.grzp_i2);
-        grzp_i3 = (ImageView) findViewById(R.id.grzp_i3);
+//        grzp_i3 = (ImageView) findViewById(R.id.grzp_i3);
         grzp_i4 = (ImageView) findViewById(R.id.grzp_i4);
         grzp_im = (TextView) findViewById(R.id.grzp_im);
         grzp_n = (TextView) findViewById(R.id.grzp_n);
 
         zpj_i1 = (ImageView) findViewById(R.id.zpj_i1);
         zpj_i2 = (ImageView) findViewById(R.id.zpj_i2);
-        zpj_i3 = (ImageView) findViewById(R.id.zpj_i3);
+//        zpj_i3 = (ImageView) findViewById(R.id.zpj_i3);
         zpj_i4 = (ImageView) findViewById(R.id.zpj_i4);
         zpj_im = (TextView) findViewById(R.id.zpj_im);
         zpj_n = (TextView) findViewById(R.id.zpj_n);
@@ -178,7 +180,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         });
 
         //关注与否
-        editinfo.setOnClickListener(new View.OnClickListener() {
+       editinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NetRequest request1 = new NetRequest(OtherUserDisplayActivity.this,OtherUserDisplayActivity.this);
@@ -197,6 +199,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                 request1.httpRequest(map1, CommonUrl.getFollowInfo);
             }
         });
+
 
         btn_common_chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,14 +334,14 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         if(GRZP_NUM == 0){
             grzp_i1.setVisibility(View.GONE);
             grzp_i2.setVisibility(View.GONE);
-            grzp_i3.setVisibility(View.GONE);
+//            grzp_i3.setVisibility(View.GONE);
             grzp_i4.setVisibility(View.GONE);
             grzp_im.setVisibility(View.GONE);
             grzp_n.setVisibility(View.VISIBLE);
         }else{
-            if(GRZP_NUM <= 4){
+            if(GRZP_NUM <= 3){
                 switch (GRZP_NUM){
-                    case 4:
+                   /* case 4:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.VISIBLE);
                         grzp_i3.setVisibility(View.VISIBLE);
@@ -357,12 +360,12 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                         Glide.with(APP.context)
                                 .load(GRZP_URL.get(3))
                                 .into(grzp_i4);
-                        break;
+                        break;*/
                     case 3:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.VISIBLE);
-                        grzp_i3.setVisibility(View.VISIBLE);
-                        grzp_i4.setVisibility(View.INVISIBLE);
+//                        grzp_i3.setVisibility(View.VISIBLE);
+                        grzp_i4.setVisibility(View.VISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)
@@ -373,12 +376,12 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                                 .into(grzp_i2);
                         Glide.with(APP.context)
                                 .load(GRZP_URL.get(2))
-                                .into(grzp_i3);
+                                .into(grzp_i4);
                         break;
                     case 2:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.VISIBLE);
-                        grzp_i3.setVisibility(View.INVISIBLE);
+//                        grzp_i3.setVisibility(View.INVISIBLE);
                         grzp_i4.setVisibility(View.INVISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
@@ -392,7 +395,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                     case 1:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.INVISIBLE);
-                        grzp_i3.setVisibility(View.INVISIBLE);
+//                        grzp_i3.setVisibility(View.INVISIBLE);
                         grzp_i4.setVisibility(View.INVISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
@@ -404,7 +407,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
             }else {
                 grzp_i1.setVisibility(View.VISIBLE);
                 grzp_i2.setVisibility(View.VISIBLE);
-                grzp_i3.setVisibility(View.VISIBLE);
+//                grzp_i3.setVisibility(View.VISIBLE);
                 grzp_i4.setVisibility(View.VISIBLE);
                 grzp_im.setVisibility(View.VISIBLE);
                 grzp_n.setVisibility(View.INVISIBLE);
@@ -414,13 +417,13 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                 Glide.with(APP.context)
                         .load(GRZP_URL.get(1))
                         .into(grzp_i2);
+                /*Glide.with(APP.context)
+                        .load(GRZP_URL.get(2))
+                        .into(grzp_i3);*/
                 Glide.with(APP.context)
                         .load(GRZP_URL.get(2))
-                        .into(grzp_i3);
-                Glide.with(APP.context)
-                        .load(GRZP_URL.get(3))
                         .into(grzp_i4);
-                int temp = GRZP_NUM - 4;
+                int temp = GRZP_NUM - 3;
                 grzp_im.setText("+" + String.valueOf(temp));
             }
         }
@@ -430,14 +433,14 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         if (ZPJ_NUM == 0){
             zpj_i1.setVisibility(View.GONE);
             zpj_i2.setVisibility(View.GONE);
-            zpj_i3.setVisibility(View.GONE);
+//            zpj_i3.setVisibility(View.GONE);
             zpj_i4.setVisibility(View.GONE);
             zpj_im.setVisibility(View.GONE);
             zpj_n.setVisibility(View.VISIBLE);
         }else {
-            if(ZPJ_NUM <= 4){
+            if(ZPJ_NUM <= 3){
                 switch (ZPJ_NUM){
-                    case 4:
+                    /*case 4:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.VISIBLE);
                         zpj_i3.setVisibility(View.VISIBLE);
@@ -456,12 +459,12 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                         Glide.with(APP.context)
                                 .load(ZPJ_URL.get(3))
                                 .into(zpj_i4);
-                        break;
+                        break;*/
                     case 3:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.VISIBLE);
-                        zpj_i3.setVisibility(View.VISIBLE);
-                        zpj_i4.setVisibility(View.INVISIBLE);
+//                        zpj_i3.setVisibility(View.VISIBLE);
+                        zpj_i4.setVisibility(View.VISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)
@@ -472,12 +475,12 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                                 .into(zpj_i2);
                         Glide.with(APP.context)
                                 .load(ZPJ_URL.get(2))
-                                .into(zpj_i3);
+                                .into(zpj_i4);
                         break;
                     case 2:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.VISIBLE);
-                        zpj_i3.setVisibility(View.INVISIBLE);
+//                        zpj_i3.setVisibility(View.INVISIBLE);
                         zpj_i4.setVisibility(View.INVISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
@@ -491,7 +494,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                     case 1:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.INVISIBLE);
-                        zpj_i3.setVisibility(View.INVISIBLE);
+//                        zpj_i3.setVisibility(View.INVISIBLE);
                         zpj_i4.setVisibility(View.INVISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
@@ -503,7 +506,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
             }else{
                 zpj_i1.setVisibility(View.VISIBLE);
                 zpj_i2.setVisibility(View.VISIBLE);
-                zpj_i3.setVisibility(View.VISIBLE);
+//                zpj_i3.setVisibility(View.VISIBLE);
                 zpj_i4.setVisibility(View.VISIBLE);
                 zpj_im.setVisibility(View.VISIBLE);
                 zpj_n.setVisibility(View.INVISIBLE);
@@ -513,13 +516,13 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                 Glide.with(APP.context)
                         .load(ZPJ_URL.get(1))
                         .into(zpj_i2);
+                /*Glide.with(APP.context)
+                        .load(ZPJ_URL.get(2))
+                        .into(zpj_i3);*/
                 Glide.with(APP.context)
                         .load(ZPJ_URL.get(2))
-                        .into(zpj_i3);
-                Glide.with(APP.context)
-                        .load(ZPJ_URL.get(3))
                         .into(zpj_i4);
-                int temp = ZPJ_NUM- 4;
+                int temp = ZPJ_NUM- 3;
                 zpj_im.setText("+" + String.valueOf(temp));
             }
         }
