@@ -81,7 +81,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     LinearLayout yuepaibtn;
     LinearLayout followingbtn;
     LinearLayout followerbtn;
-    ImageView bigimageview;
+//    ImageView bigimageview;
     ImageButton settingbtn;
 
     TextView username;
@@ -93,7 +93,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     TextView followernum;
     TextView take_picture;
     TextView select_local_picture;
-    Button editinfo;
+//    Button editinfo;
 
     FrameLayout edit_photo_fullscreen_layout;
     RelativeLayout display_big_image_layout;
@@ -120,7 +120,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     ArrayList<String> GRZP_URL= new ArrayList();
     ImageView grzp_i1;
     ImageView grzp_i2;
-    ImageView grzp_i3;
+//    ImageView grzp_i3;
     ImageView grzp_i4;
     TextView grzp_im;
     TextView grzp_n;
@@ -130,7 +130,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     ArrayList<String> ZPJ_URL = new ArrayList<>();
     ImageView zpj_i1;
     ImageView zpj_i2;
-    ImageView zpj_i3;
+//    ImageView zpj_i3;
     ImageView zpj_i4;
     TextView zpj_im;
     TextView zpj_n;
@@ -148,7 +148,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     public void onResume(){
 
         super.onResume();
-        bigimageview = (ImageView) view.findViewById(R.id.bigimageView);
+//        bigimageview = (ImageView) view.findViewById(R.id.bigimageView);
         headimage = (CircleImageView)view.findViewById(R.id.imageData_UserImage);
         username = (TextView) view.findViewById(R.id.textData_UserName);
         usersign = (TextView) view.findViewById(R.id.textData_UserSign);
@@ -160,18 +160,18 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         followingnum = (TextView) view.findViewById(R.id.followingNum);
         followernum = (TextView) view.findViewById(R.id.followerNum);
         settingbtn = (ImageButton) view.findViewById(R.id.settingbtn);
-        editinfo = (Button) view.findViewById(R.id.edit_info);
+//        editinfo = (Button) view.findViewById(R.id.edit_info);
 
         grzp_i1 = (ImageView) view.findViewById(R.id.grzp_i1);
         grzp_i2 = (ImageView) view.findViewById(R.id.grzp_i2);
-        grzp_i3 = (ImageView) view.findViewById(R.id.grzp_i3);
+//        grzp_i3 = (ImageView) view.findViewById(R.id.grzp_i3);
         grzp_i4 = (ImageView) view.findViewById(R.id.grzp_i4);
         grzp_im = (TextView) view.findViewById(R.id.grzp_im);
         grzp_n = (TextView) view.findViewById(R.id.grzp_n);
 
         zpj_i1 = (ImageView) view.findViewById(R.id.zpj_i1);
         zpj_i2 = (ImageView) view.findViewById(R.id.zpj_i2);
-        zpj_i3 = (ImageView) view.findViewById(R.id.zpj_i3);
+//        zpj_i3 = (ImageView) view.findViewById(R.id.zpj_i3);
         zpj_i4 = (ImageView) view.findViewById(R.id.zpj_i4);
         zpj_im = (TextView) view.findViewById(R.id.zpj_im);
         zpj_n = (TextView) view.findViewById(R.id.zpj_n);
@@ -252,7 +252,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             }
         });
 
-        editinfo.setOnClickListener(new View.OnClickListener() {
+        /*editinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //编辑个人资料
@@ -260,7 +260,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                 intent.setClass(APP.context, PersonalInfoEditActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         take_picture.setOnClickListener(this);
         select_local_picture.setOnClickListener(this);
@@ -444,7 +444,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                             .trasformToZoomPhotoAndLessMemory(takePictureUrl);
                     BitmapDrawable bd=new BitmapDrawable(getResources(),bitmap);
                     Drawable addPicture = bd;
-                    bigimageview.setImageDrawable(addPicture);
+//                    bigimageview.setImageDrawable(addPicture);
                     headImageChanged=true;
                     break;
                 case LOCAL_PICTURE:
@@ -458,7 +458,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                     Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomPhotoAndLessMemory(photo_local_file_path);
                     addPicture =new BitmapDrawable(getResources(), bitmap2);
                     takePictureUrl=photo_local_file_path;
-                    bigimageview.setImageDrawable(addPicture);
+//                    bigimageview.setImageDrawable(addPicture);
                     headImageChanged=true;
                     break;
 
@@ -470,14 +470,14 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         if (ZPJ_NUM == 0){
             zpj_i1.setVisibility(View.GONE);
             zpj_i2.setVisibility(View.GONE);
-            zpj_i3.setVisibility(View.GONE);
+//            zpj_i3.setVisibility(View.GONE);
             zpj_i4.setVisibility(View.GONE);
             zpj_im.setVisibility(View.GONE);
             zpj_n.setVisibility(View.VISIBLE);
         }else {
-            if(ZPJ_NUM <= 4){
+            if(ZPJ_NUM <= 3){
                 switch (ZPJ_NUM){
-                    case 4:
+                    /*case 4:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.VISIBLE);
                         zpj_i3.setVisibility(View.VISIBLE);
@@ -496,12 +496,12 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                         Glide.with(APP.context)
                                 .load(ZPJ_URL.get(3))
                                 .into(zpj_i4);
-                        break;
+                        break;*/
                     case 3:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.VISIBLE);
-                        zpj_i3.setVisibility(View.VISIBLE);
-                        zpj_i4.setVisibility(View.INVISIBLE);
+//                        zpj_i3.setVisibility(View.VISIBLE);
+                        zpj_i4.setVisibility(View.VISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)
@@ -512,12 +512,12 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                                 .into(zpj_i2);
                         Glide.with(APP.context)
                                 .load(ZPJ_URL.get(2))
-                                .into(zpj_i3);
+                                .into(zpj_i4);
                         break;
                     case 2:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.VISIBLE);
-                        zpj_i3.setVisibility(View.INVISIBLE);
+//                        zpj_i3.setVisibility(View.INVISIBLE);
                         zpj_i4.setVisibility(View.INVISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
@@ -531,7 +531,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                     case 1:
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.INVISIBLE);
-                        zpj_i3.setVisibility(View.INVISIBLE);
+//                        zpj_i3.setVisibility(View.INVISIBLE);
                         zpj_i4.setVisibility(View.INVISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
@@ -543,7 +543,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             }else{
                 zpj_i1.setVisibility(View.VISIBLE);
                 zpj_i2.setVisibility(View.VISIBLE);
-                zpj_i3.setVisibility(View.VISIBLE);
+//                zpj_i3.setVisibility(View.VISIBLE);
                 zpj_i4.setVisibility(View.VISIBLE);
                 zpj_im.setVisibility(View.VISIBLE);
                 zpj_n.setVisibility(View.INVISIBLE);
@@ -553,13 +553,13 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                 Glide.with(APP.context)
                         .load(ZPJ_URL.get(1))
                         .into(zpj_i2);
+                /*Glide.with(APP.context)
+                        .load(ZPJ_URL.get(2))
+                        .into(zpj_i3);*/
                 Glide.with(APP.context)
                         .load(ZPJ_URL.get(2))
-                        .into(zpj_i3);
-                Glide.with(APP.context)
-                        .load(ZPJ_URL.get(3))
                         .into(zpj_i4);
-                int temp = ZPJ_NUM- 4;
+                int temp = ZPJ_NUM- 3;
                 zpj_im.setText("+" + String.valueOf(temp));
             }
         }
@@ -569,14 +569,14 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         if(GRZP_NUM == 0){
             grzp_i1.setVisibility(View.GONE);
             grzp_i2.setVisibility(View.GONE);
-            grzp_i3.setVisibility(View.GONE);
+//            grzp_i3.setVisibility(View.GONE);
             grzp_i4.setVisibility(View.GONE);
             grzp_im.setVisibility(View.GONE);
             grzp_n.setVisibility(View.VISIBLE);
         }else{
-            if(GRZP_NUM <= 4){
+            if(GRZP_NUM <= 3){
                 switch (GRZP_NUM){
-                    case 4:
+                    /*case 4:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.VISIBLE);
                         grzp_i3.setVisibility(View.VISIBLE);
@@ -595,12 +595,12 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                         Glide.with(APP.context)
                                 .load(GRZP_URL.get(3))
                                 .into(grzp_i4);
-                        break;
+                        break;*/
                     case 3:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.VISIBLE);
-                        grzp_i3.setVisibility(View.VISIBLE);
-                        grzp_i4.setVisibility(View.INVISIBLE);
+//                        grzp_i3.setVisibility(View.VISIBLE);
+                        grzp_i4.setVisibility(View.VISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)
@@ -611,12 +611,12 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                                 .into(grzp_i2);
                         Glide.with(APP.context)
                                 .load(GRZP_URL.get(2))
-                                .into(grzp_i3);
+                                .into(grzp_i4);
                         break;
                     case 2:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.VISIBLE);
-                        grzp_i3.setVisibility(View.INVISIBLE);
+//                        grzp_i3.setVisibility(View.INVISIBLE);
                         grzp_i4.setVisibility(View.INVISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
@@ -630,7 +630,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                     case 1:
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.INVISIBLE);
-                        grzp_i3.setVisibility(View.INVISIBLE);
+//                        grzp_i3.setVisibility(View.INVISIBLE);
                         grzp_i4.setVisibility(View.INVISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
@@ -642,7 +642,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             }else {
                 grzp_i1.setVisibility(View.VISIBLE);
                 grzp_i2.setVisibility(View.VISIBLE);
-                grzp_i3.setVisibility(View.VISIBLE);
+//                grzp_i3.setVisibility(View.VISIBLE);
                 grzp_i4.setVisibility(View.VISIBLE);
                 grzp_im.setVisibility(View.VISIBLE);
                 grzp_n.setVisibility(View.INVISIBLE);
@@ -652,13 +652,13 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                 Glide.with(APP.context)
                         .load(GRZP_URL.get(1))
                         .into(grzp_i2);
+                /*Glide.with(APP.context)
+                        .load(GRZP_URL.get(2))
+                        .into(grzp_i3);*/
                 Glide.with(APP.context)
                         .load(GRZP_URL.get(2))
-                        .into(grzp_i3);
-                Glide.with(APP.context)
-                        .load(GRZP_URL.get(3))
                         .into(grzp_i4);
-                int temp = GRZP_NUM - 4;
+                int temp = GRZP_NUM - 3;
                 grzp_im.setText("+" + String.valueOf(temp));
             }
         }

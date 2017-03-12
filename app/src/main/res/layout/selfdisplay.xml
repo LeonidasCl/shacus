@@ -18,23 +18,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <!--<ImageView
             android:maxHeight="250dp"
             android:adjustViewBounds="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/huodong_loading"
-            android:id="@+id/bigimageView" />
+            android:id="@+id/bigimageView" />-->
 
         <com.example.pc.shacus.View.CircleImageView
+            android:layout_marginTop="50dp"
             android:id="@+id/imageData_UserImage"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/user_image"
-            android:layout_alignBottom="@+id/bigimageView"
             android:layout_centerHorizontal="true" />
 
-        <Button
+        <!--<Button
             android:id="@+id/edit_info"
             android:layout_width="70dp"
             android:layout_height="30dp"
@@ -45,11 +45,11 @@
             android:textColor="@color/white"
             android:background="#EBD521"
             android:layout_alignRight="@id/bigimageView"
-            android:layout_alignBottom="@id/bigimageView"/>
+            android:layout_alignBottom="@id/bigimageView"/>-->
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="48dp"
             android:gravity="start"
             android:background="@color/aa_black"
             android:id="@+id/relativeLayout">
@@ -65,7 +65,7 @@
             <ImageButton
                 android:id="@+id/settingbtn"
                 android:background="@drawable/setting"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -74,7 +74,7 @@
             <ImageButton
                 android:id="@+id/backbtn"
                 android:background="@drawable/button_back"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -146,6 +146,7 @@
             android:layout_gravity="center_vertical"/>
 
         <LinearLayout
+            android:gravity="center"
             android:id="@+id/btn3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -280,7 +281,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="4"
+            android:weightSum="3"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
@@ -293,9 +294,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/setting"
+                android:src="@drawable/grzp"
                 android:layout_marginRight="5dp" />
-
             <ImageView
                 android:visibility="invisible"
                 android:id="@+id/grzp_i2"
@@ -303,19 +303,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/setting"
+                android:src="@drawable/grzp"
                 android:layout_marginRight="5dp"/>
 
 
-            <ImageView
+            <!--<ImageView
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/grzp_i3"
-                android:src="@drawable/setting"
+                android:src="@drawable/grzp"
                 android:scaleType="fitCenter"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"/>-->
 
 
             <RelativeLayout
@@ -330,11 +330,11 @@
                     android:scaleType="fitCenter"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/setting"/>
+                    android:src="@drawable/grzp"/>
 
 
                 <TextView
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     android:id="@+id/grzp_im"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -342,7 +342,7 @@
                     android:gravity="center"
                     android:textSize="35dp"
                     android:textColor="@color/white"
-                    android:background="#55000000"/>
+                    android:background="#66000000"/>
 
                 <TextView
                     android:visibility="invisible"
@@ -360,14 +360,15 @@
 
         </LinearLayout>
 
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="@color/aa_black"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"/>-->
     </LinearLayout>
 
     <LinearLayout
+        android:layout_above="@id/layout_otheruser_chat"
         android:id="@+id/zpj"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -383,7 +384,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="4"
+            android:weightSum="3"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
@@ -396,7 +397,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/setting"
+                android:src="@drawable/grzp"
                 android:layout_marginRight="5dp"/>
 
             <ImageView
@@ -406,10 +407,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/setting"
+                android:src="@drawable/grzp"
                 android:layout_marginRight="5dp"/>
 
-            <ImageView
+            <!--<ImageView
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -417,7 +418,7 @@
                 android:id="@+id/zpj_i3"
                 android:src="@drawable/setting"
                 android:scaleType="fitCenter"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"/>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -430,7 +431,7 @@
                     android:scaleType="fitCenter"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/setting"/>
+                    android:src="@drawable/grzp"/>
 
                 <TextView
                     android:visibility="invisible"
@@ -457,11 +458,11 @@
             </RelativeLayout>
 
         </LinearLayout>
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="@color/aa_black"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"/>-->
     </LinearLayout>
 
 </RelativeLayout>
@@ -475,10 +476,18 @@
     android:layout_alignParentBottom ="true"
     android:orientation="horizontal">
     <Button
+        android:id="@+id/addfollow"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@drawable/followbtn_selector"
+        android:text="@string/layout_otheruser_chat"
+        android:textColor="#ffffff"
+        android:layout_width="wrap_content" />
+    <Button
         android:id="@+id/btn_yuepai_chat"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="#ccE6BF66"
+        android:background="@drawable/followbtn_selector"
         android:text="@string/layout_otheruser_chat"
         android:textColor="#ffffff"
         android:layout_width="wrap_content" />
@@ -487,7 +496,7 @@
         android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="#cc000000"
+        android:background="@drawable/followbtn_selector"
         android:text="@string/common_chat"
         android:textColor="#ffffff"/>
 </LinearLayout>
