@@ -3,8 +3,6 @@ package com.example.pc.shacus.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +13,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,6 +25,7 @@ import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Data.Model.YuePaiGroupModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -61,12 +58,19 @@ public class WantBePhotographActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private ACache cache;
+    private List<YuePaiGroupModel> apTypes;
+    private LoginDataModel logindata;
+    private TextView group_description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_want_be_photograph);
 
+        cache=ACache.get(this);
+        logindata=(LoginDataModel)cache.getAsObject("loginModel");
+        apTypes=logindata.getGroupList();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -76,6 +80,9 @@ public class WantBePhotographActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        group_description=(TextView)findViewById(R.id.group_description);
+        group_description.setText("以下是所有的约拍");
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -123,11 +130,12 @@ public class WantBePhotographActivity extends AppCompatActivity {
         public PlaceholderFragment() {
         }
 
-        public static WantToPhotographActivity.PlaceholderFragment newInstance(int sectionNumber) {
-            WantToPhotographActivity.PlaceholderFragment fragment = new WantToPhotographActivity.PlaceholderFragment();
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+            fragment.type=sectionNumber;
             return fragment;
         }
 
@@ -149,6 +157,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
             Map<String, Object> map = new HashMap<>();
             map.put("type", WANT_BE_PHOTOGRAPH);//10235想被拍的约拍列表（模特发布的约拍）
             map.put("authkey", userData.getAuth_key());
+            map.put("group",type);
             map.put("uid", userData.getId());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
 
@@ -162,17 +171,19 @@ public class WantBePhotographActivity extends AppCompatActivity {
             map.put("type", WANT_BE_PHOTOGRAPH);//10235想被拍的约拍列表（模特发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
+            map.put("group",type);
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
         }
 
         private void doLoadmore(){
-            if (bootCounter<5||isloading)//如果数据小于五说明是初始化，不读加载更多
+            if (bootCounter<5||isloading||personAdapter.getCount()==0)//如果数据小于五说明是初始化，不读加载更多
                 return;
             isloading=true;
             Map<String, Object> map = new HashMap<>();
             map.put("type", WANT_BE_PHOTOGRAPH_MORE);
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
+            map.put("group",type);
             map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
         }
@@ -204,13 +215,13 @@ public class WantBePhotographActivity extends AppCompatActivity {
         }
 
         @Override
-        public void requestFinish(String result, String requestUrl) throws JSONException {
+        public void requestFinish(String result, String requestUrl) throws JSONException{
             JSONObject json = new JSONObject(result);
             String code = json.getString("code");
             JSONArray array = json.getJSONArray("contents");
             if (code.equals("10252")){//第一次加载/刷新的返回
                 yuepaiList=new ArrayList<>();
-                for (int i = 0; i < array.length(); i++) {
+                for (int i = 0; i < array.length(); i++){
                     JSONObject info = array.getJSONObject(i);
                     Gson gson = new Gson();
                     PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
@@ -258,33 +269,24 @@ public class WantBePhotographActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            PlaceholderFragment frag= PlaceholderFragment.newInstance(position);
+            frag.type=position;
+            if (position!=0)
+                group_description.setText(apTypes.get(position-1).getDescription());
+            return frag;
         }
 
         @Override
         public int getCount() {
-            return 6;
+            return apTypes.size()+1;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "全部";
-                case 1:
-                    return "写真纪念";
-                case 2:
-                    return "生活记录";
-                case 3:
-                    return "菜鸟练手";
-                case 4:
-                    return "活动跟拍";
-                case 5:
-                    return "商业拍摄";
-            }
-            return null;
+            if (position==0)
+                return "全部";
+            else
+                return apTypes.get(position-1).getName();
         }
     }
 }

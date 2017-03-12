@@ -8,12 +8,12 @@
         tools:context="com.example.pc.shacus.Fragment.SetBaseFragment"
         android:orientation="vertical"
         android:gravity="top"
-        android:background="@color/edit_photo_bg_color">
+        android:background="@color/ff_white">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:gravity="start"
-            android:background="@color/gold">
+            android:background="@color/toolbar_white">
             <ImageButton
                 android:id="@+id/btn_back"
                 android:background="@drawable/button_back"
@@ -45,7 +45,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="手机号可见"
                     android:textSize="@dimen/sp_16"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
                 <Switch
@@ -75,7 +75,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="是否接受消息通知"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
@@ -104,7 +104,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
             <RelativeLayout
                 android:id="@+id/layout_changePassword"
                 android:layout_width="match_parent"
@@ -114,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改密码"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
@@ -123,7 +123,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
             <RelativeLayout
                 android:id="@+id/layout_versionUpdate"
                 android:layout_width="match_parent"
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="版本更新"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
@@ -143,7 +143,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
             <RelativeLayout
                 android:id="@+id/layout_advice"
                 android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="意见反馈"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
@@ -163,7 +163,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
             <RelativeLayout
                 android:id="@+id/layout_clearCache"
                 android:layout_width="match_parent"
@@ -174,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="清除缓存"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
@@ -192,7 +192,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
             <RelativeLayout
                 android:id="@+id/layout_functionIntroduce"
                 android:layout_width="match_parent"
@@ -203,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="功能介绍"
-                    android:textColor="@color/ee_black"
+                    android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
@@ -211,7 +211,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_color_99999a"></LinearLayout>
+                android:background="@color/zero_black"></LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

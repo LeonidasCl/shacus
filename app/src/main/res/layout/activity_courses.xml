@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/cc_white"
+    android:background="@color/ff_white"
     tools:context="com.example.pc.shacus.Activity.CoursesActivity">
 
 <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/gold"
+        android:background="@color/toolbar_white"
         android:orientation="horizontal">
         <ImageButton
             android:layout_width="wrap_content"
@@ -19,13 +19,13 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/button_back"
             android:id="@+id/return1"
-            android:background="@color/gold"/>
+            android:background="@color/toolbar_white"/>
         <TextView
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的课程"
-            android:textColor="#ffffff"
+            android:textColor="@color/zero_black"
             android:textSize="20dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
@@ -36,7 +36,7 @@
             android:id="@+id/imagebutton"
             android:src="@mipmap/ic_launcher"
             android:layout_gravity="center_vertical"
-            android:background="@color/gold"
+            android:background="@color/toolbar_white"
             android:visibility="invisible"/>
     </LinearLayout>
 

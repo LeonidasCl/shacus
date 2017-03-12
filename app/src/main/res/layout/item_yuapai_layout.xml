@@ -56,7 +56,7 @@
         app:layout_marginBottomPercent="9%"
         android:text="@string/inloading"
         android:singleLine="true"
-        android:textColor="@color/gold"
+        android:textColor="@color/toolbar_white"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         />

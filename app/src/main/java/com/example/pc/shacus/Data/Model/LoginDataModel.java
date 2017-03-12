@@ -10,6 +10,7 @@ public class LoginDataModel implements Serializable {
 	private UserModel userModel;
 	private List<PhotographerModel> photoList;
 	private List<NavigationModel> daohanglan;
+	private List<YuePaiGroupModel> groupList;
 	private String code;
 	private List<PhotographerModel> modelList;
 
@@ -51,5 +52,13 @@ public class LoginDataModel implements Serializable {
 
 	public void setPhotoList(List<PhotographerModel> photoList) {
 		this.photoList = photoList;
+	}
+
+	public List<YuePaiGroupModel> getGroupList() {
+		return groupList;
+	}
+
+	public void setGroupList(List<YuePaiGroupModel> groupList) {
+		this.groupList = groupList;
 	}
 }

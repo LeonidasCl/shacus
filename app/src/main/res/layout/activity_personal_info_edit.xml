@@ -8,17 +8,16 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
     android:gravity="top"
-    android:background="@color/edit_photo_bg_color">
+    android:background="@color/ff_white">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:gravity="start"
-        android:background="@color/gold">
+        android:background="@color/toolbar_white">
         <ImageButton
             android:id="@+id/btn_back"
             android:background="@drawable/button_back"
@@ -209,7 +208,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/take_picture"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
 
                 <View style="@style/horizontal_divider" >
@@ -222,7 +221,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/select_local_picture"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -241,7 +240,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/cancel"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
             </LinearLayout>
         </RelativeLayout>

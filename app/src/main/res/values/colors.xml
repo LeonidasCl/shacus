@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="gray_holo_dark" type="color">#ff464646</item>
+    <!--<item name="gray_holo_dark" type="color">#ff464646</item>
     <item name="gray_holo_light" type="color">#ffd0d0d0</item>
     <color name="colorCreateYuePai">#99000000</color>
     <color name="color_primary">#FF7857FF</color>
     <color name="color_primary_dark">#FF694CE0</color>
-    <!--<color name="gold">#E6BF66</color>-->
+    <color name="gold">#E6BF66</color>
     <color name="gold">#1A1A1A</color>
     <color name="lightgold">#EEE6BF66</color>
     <color name="chocolate">#5C3317</color>
@@ -22,5 +22,11 @@
     <color name="color_838483">#838483</color>
     <color name="gray_color_99999a">#4499999a</color>
     <color name="transparent">#00000000</color>
-    <color name="pinktest">#ffd7ef</color>
+    <color name="pinktest">#ffd7ef</color>-->
+    <color name="transparent">#00000000</color>
+    <color name="ff_white">#ffffff</color>
+    <color name="toolbar_white">#ffffff</color>
+    <color name="zero_black">#000000</color>
+    <color name="hint">#999999</color>
+    <color name="main_green">#ABC236</color>
 </resources>

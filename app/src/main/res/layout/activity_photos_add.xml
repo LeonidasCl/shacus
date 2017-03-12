@@ -18,8 +18,8 @@
                 android:id="@+id/add_theme_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cc_white"
-                android:textColor="@color/aa_black"
+                android:background="@color/ff_white"
+                android:textColor="@color/zero_black"
                 android:clickable="true"
                 android:orientation="vertical">
                 <!--标题-->
@@ -29,8 +29,8 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:hint="@string/yuepai_create_theme"
-                    android:textColorHint="@color/item_selected_gray"
-                    android:textColor="@color/aa_black"
+                    android:textColorHint="@color/hint"
+                    android:textColor="@color/zero_black"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
@@ -60,8 +60,8 @@
                         android:gravity="top|start"
                         android:background="#00000000"
                         android:hint="@string/create_yuepai_describe"
-                        android:textColor="@color/aa_black"
-                        android:textColorHint="@color/item_selected_gray"
+                        android:textColor="@color/zero_black"
+                        android:textColorHint="@color/hint"
                         android:padding="5dp"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -90,7 +90,7 @@
                 android:id="@+id/show_upload_pic_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cc_white"
+                android:background="@color/ff_white"
                 android:visibility="gone"
                 >
                 <ListView
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:cacheColorHint="#00000000"
-                    android:divider="@color/item_selected_gray"
+                    android:divider="@color/zero_black"
                     android:dividerHeight="10dp"
                     android:fadingEdge="none"
                     android:listSelector="#00000000" />
@@ -112,7 +112,7 @@
         android:id="@+id/display_big_image_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ee_black"
+        android:background="@color/zero_black"
         android:visibility="gone" >
 
         <com.example.pc.shacus.Adapter.UploadViewPager
@@ -136,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center"
-                    android:textColor="@color/cc_white"
+                    android:textColor="@color/ff_white"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -161,7 +161,7 @@
             android:id="@+id/upload"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gold"
+            android:background="@color/toolbar_white"
             android:text="@string/upload"
             android:textColor="#ffffff"
             android:textSize="14sp" />
@@ -202,7 +202,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/take_picture"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
 
                 <View style="@style/horizontal_divider" >
@@ -215,7 +215,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/select_local_picture"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -234,7 +234,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/cancel"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/zero_black"
                     android:textSize="20sp" />
             </LinearLayout>
         </RelativeLayout>

@@ -18,12 +18,14 @@ import android.view.ViewGroup;
 
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.pc.shacus.Adapter.YuePaiAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Data.Model.YuePaiGroupModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -54,13 +56,21 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private ACache cache;
+    private List<YuePaiGroupModel> apTypes;
+    LoginDataModel logindata;
+    private TextView group_description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_want_to_photograph);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        cache=ACache.get(this);
+        logindata=(LoginDataModel)cache.getAsObject("loginModel");
+        apTypes=logindata.getGroupList();
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -69,8 +79,13 @@ public class WantToPhotographActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        group_description=(TextView)findViewById(R.id.group_description);
+        group_description.setText("以下是所有的约拍");
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+
     }
 
     /**
@@ -114,11 +129,12 @@ public class WantToPhotographActivity extends AppCompatActivity {
         public PlaceholderFragment(){
         }
 
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        public static PlaceholderFragment newInstance(int sectionNumber){
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+            fragment.type=sectionNumber;
             return fragment;
         }
 
@@ -140,6 +156,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
             Map<String, Object> map = new HashMap<>();
             map.put("type", WANT_TO_PHOTOGRAPH);//??10231想拍人的约拍列表（摄影师发布的约拍）
             map.put("authkey", userData.getAuth_key());
+            map.put("group",type);
             map.put("uid", userData.getId());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
 
@@ -153,15 +170,17 @@ public class WantToPhotographActivity extends AppCompatActivity {
             map.put("type", WANT_TO_PHOTOGRAPH);//??10231想拍人的约拍列表（摄影师发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
+            map.put("group",type);
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
         }
 
         private void doLoadmore(){
-            if (bootCounter<5||isloading)//如果数据小于五说明是初始化，不读加载更多
+            if (bootCounter<5||isloading||personAdapter.getCount()==0)//如果数据小于五说明是初始化，不读加载更多
                 return;
             isloading=true;
             Map<String, Object> map = new HashMap<>();
             map.put("type", WANT_TO_PHOTOGRAPH_MORE);
+            map.put("group",type);
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
             map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
@@ -171,7 +190,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
         private void onRefreshListener(){
             refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
-                public void onRefresh() {
+                public void onRefresh(){
                     refreshLayout.setRefreshing(true);
                     bootCounter=0;
                     doRefresh();
@@ -245,33 +264,24 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            PlaceholderFragment frag=PlaceholderFragment.newInstance(position + 1);
+            PlaceholderFragment frag=PlaceholderFragment.newInstance(position);
             frag.type=position;
+            if (position!=0)
+                group_description.setText(apTypes.get(position-1).getDescription());
             return frag;
         }
 
         @Override
         public int getCount(){
-            return 6;
+            return apTypes.size()+1;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position){
-                case 0:
-                    return "全部";
-                case 1:
-                    return "写真纪念";
-                case 2:
-                    return "生活记录";
-                case 3:
-                    return "菜鸟练手";
-                case 4:
-                    return "活动跟拍";
-                case 5:
-                    return "商业拍摄";
-            }
-            return null;
+            if (position==0)
+                return "全部";
+            else
+                return apTypes.get(position-1).getName();
         }
     }
 

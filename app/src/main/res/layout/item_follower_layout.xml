@@ -17,7 +17,7 @@
         app:border_color="#00000000"/>
 
     <TextView
-        android:textColor="@color/ee_black"
+        android:textColor="@color/zero_black"
         android:id="@+id/follower_user_name"
         android:textSize="16sp"
         android:text="我的粉丝"
@@ -30,7 +30,7 @@
 
     <Button
         android:background="@drawable/shape_button"
-        android:textColor="@color/ee_black"
+        android:textColor="@color/zero_black"
         android:textSize="14sp"
         android:id="@+id/followingbtn"
         android:layout_alignParentEnd="true"

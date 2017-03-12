@@ -17,7 +17,7 @@
             android:layout_marginBottom="10dp"
             android:text="热门推荐"
             android:textSize="14sp"
-            android:textColor="@color/gold"/>
+            android:textColor="@color/toolbar_white"/>
         <Button
             android:id="@+id/btn_moreRecommend"
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/aa_black"
+        android:background="@color/zero_black"
         />
 
     <HorizontalScrollView
@@ -55,7 +55,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/aa_black"
+        android:background="@color/zero_black"
         android:layout_marginTop="10dp"
         />
     <RelativeLayout

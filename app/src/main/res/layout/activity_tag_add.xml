@@ -36,7 +36,7 @@
         <ListView
             android:id="@+id/a_search_list"
             android:layout_width="match_parent"
-            android:background="@color/four_black"
+            android:background="@color/zero_black"
             android:layout_height="wrap_content">
         </ListView>
     </LinearLayout>

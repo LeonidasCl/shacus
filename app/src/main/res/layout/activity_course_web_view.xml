@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:gravity="start"
-        android:background="@color/gold">
+        android:background="@color/toolbar_white">
         <ImageButton
             android:id="@+id/btn_back"
             android:background="@drawable/button_back"
