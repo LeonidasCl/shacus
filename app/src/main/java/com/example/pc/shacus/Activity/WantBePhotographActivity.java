@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.support.design.widget.TabLayout.MODE_SCROLLABLE;
 import static com.example.pc.shacus.Network.StatusCode.WANT_BE_PHOTOGRAPH;
 import static com.example.pc.shacus.Network.StatusCode.WANT_BE_PHOTOGRAPH_MORE;
 
@@ -87,6 +88,8 @@ public class WantBePhotographActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setTabMode(MODE_SCROLLABLE);
+
     }
 
 
