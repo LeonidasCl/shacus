@@ -307,7 +307,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 JSONObject object = new JSONObject(result);
                 int code = Integer.valueOf(object.getString("code"));
 
-            if (code==StatusCode.REQUEST_LOGIN_SUCCESS){
+            if (code == StatusCode.REQUEST_LOGIN_SUCCESS) {
                 Gson gson=new Gson();
                 LoginDataModel loginModel=gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(),LoginDataModel.class);
                 ACache cache=ACache.get(LoginActivity.this);

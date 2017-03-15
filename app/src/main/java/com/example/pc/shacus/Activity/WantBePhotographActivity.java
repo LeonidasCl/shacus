@@ -72,6 +72,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
         logindata=(LoginDataModel)cache.getAsObject("loginModel");
         apTypes=logindata.getGroupList();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.zero_black));
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

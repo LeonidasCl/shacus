@@ -20,13 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:titleTextColor="@color/zero_black"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/Vita.ActionBar.PopupOverlay">
-
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
+            app:tabIndicatorColor="@color/main_green"
+            app:tabSelectedTextColor="@color/zero_black"
+            app:tabTextColor="@color/hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -35,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:id="@+id/group_description"
-            android:textColor="@color/ff_white"
+            android:textColor="@color/zero_black"
             android:textAlignment="center"
             android:background="@color/main_green"
             android:text="@string/loading"/>
