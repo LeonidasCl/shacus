@@ -87,6 +87,26 @@ public class WantBePhotographActivity extends AppCompatActivity {
         group_description.setText("以下是所有的约拍");
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position=tab.getPosition();
+                if (position>0)
+                    group_description.setText(apTypes.get(position-1).getDescription());
+                else
+                    group_description.setText("以下是所有分类");
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(MODE_SCROLLABLE);
 
@@ -275,8 +295,6 @@ public class WantBePhotographActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             PlaceholderFragment frag= PlaceholderFragment.newInstance(position);
             frag.type=position;
-            if (position!=0)
-                group_description.setText(apTypes.get(position-1).getDescription());
             return frag;
         }
 
