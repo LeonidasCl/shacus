@@ -20,7 +20,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal"
-            android:id="@+id/button_grapher"
+            android:id="@+id/button_favor"
             android:layout_width="0dp"
             android:layout_weight="40"
             android:scaleType="centerInside"
@@ -52,7 +52,7 @@
         <RelativeLayout
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:id="@+id/button_model"
+            android:id="@+id/button_recommend"
             android:layout_width="0dp"
             android:layout_weight="40"
             android:layout_height="match_parent"
