@@ -44,7 +44,6 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAINACTVITY" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -86,7 +85,7 @@
         <activity
             android:name=".Activity.CreateYuePaiActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.CreateActivity"
+            android:theme="@style/Theme.AppCompat.Light"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.PhotographerActivity" />

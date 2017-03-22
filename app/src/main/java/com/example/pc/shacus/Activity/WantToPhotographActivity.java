@@ -1,5 +1,6 @@
 package com.example.pc.shacus.Activity;
 
+import android.content.res.ColorStateList;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -43,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.support.design.widget.TabLayout.MODE_SCROLLABLE;
 import static com.example.pc.shacus.Network.StatusCode.WANT_TO_PHOTOGRAPH;
 import static com.example.pc.shacus.Network.StatusCode.WANT_TO_PHOTOGRAPH_MORE;
 
@@ -71,6 +73,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
         apTypes=logindata.getGroupList();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.zero_black));
         setSupportActionBar(toolbar);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -83,8 +86,10 @@ public class WantToPhotographActivity extends AppCompatActivity {
         group_description.setText("以下是所有的约拍");
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        //ColorStateList colorList = tabLayout.getTabTextColors();
+        //tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.main_green));
         tabLayout.setupWithViewPager(mViewPager);
-
+        tabLayout.setTabMode(MODE_SCROLLABLE);
 
     }
 
