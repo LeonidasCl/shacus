@@ -110,7 +110,25 @@
             android:layout_centerHorizontal="true"
             android:textColor="@color/zero_black"
             android:text="啦啦啦啦"/>
+        <ImageView
+            android:id="@+id/sex"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/textData_UserName"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/rank1"/>
 
+        <TextView
+            android:id="@+id/textData_UserAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blank"
+            android:textSize="@dimen/sp_14"
+            android:layout_toRightOf="@id/sex"
+            android:textColor="@color/zero_black"
+            android:layout_centerVertical="true"
+            android:text="21岁" />
 
     </RelativeLayout>
 
@@ -292,7 +310,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个人照片"/>
@@ -398,7 +417,8 @@
         android:layout_below="@id/grzp">
 
         <TextView
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="作品集"/>
