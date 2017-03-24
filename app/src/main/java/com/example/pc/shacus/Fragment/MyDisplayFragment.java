@@ -93,6 +93,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     TextView followernum;
     TextView take_picture;
     TextView select_local_picture;
+    TextView age;
 //    Button editinfo;
 
     FrameLayout edit_photo_fullscreen_layout;
@@ -136,6 +137,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     TextView zpj_n;
 
 
+
     int addTakePicCount=1;
     private Intent intent;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savadInstanceState){
@@ -160,6 +162,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         followingnum = (TextView) view.findViewById(R.id.followingNum);
         followernum = (TextView) view.findViewById(R.id.followerNum);
         settingbtn = (ImageButton) view.findViewById(R.id.settingbtn);
+        age = (TextView) view.findViewById(R.id.textData_UserAge);
 //        editinfo = (Button) view.findViewById(R.id.edit_info);
 
         grzp_i1 = (ImageView) view.findViewById(R.id.grzp_i1);
@@ -690,6 +693,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         Message message = new Message();
         if (requestUrl.equals(CommonUrl.otherUserInfo)) {
             JSONObject object = new JSONObject(result);
+            Log.d("AAAAAAAAAAAAAAA",object.toString());
             int code = Integer.valueOf(object.getString("code"));
             if (code == StatusCode.RECIEVE_VISIT_SUCCESS) {
                 JSONObject object1 = object.getJSONObject("contents");
@@ -730,14 +734,11 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         }*/
         else if(requestUrl.equals(CommonUrl.userImage)){
             JSONObject jsonObject = new JSONObject(result);
-            Log.d("AAAAAAA",jsonObject.toString());
             int code = Integer.valueOf(jsonObject.getString("code"));
             if(code == StatusCode.REQUEST_USER_GRZP){
                 //个人照片
                 JSONArray jsonArray = jsonObject.getJSONArray("contents");
-                Log.d("AAAAAAAAAAAAAAAAA",jsonArray.toString());
                 GRZP_NUM = jsonArray.length();
-                Log.d("AAAAAAAAAAAAAAAAA",String.valueOf(GRZP_NUM));
                 if(GRZP_NUM != 0){
                     for(int i=0; i < GRZP_NUM; i++){
                         GRZP_URL.add(jsonArray.getString(i));
@@ -748,14 +749,11 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             }else if (code == StatusCode.REQUEST_USER_ZPJ){
                 //作品集
                 JSONArray jsonArray = jsonObject.getJSONArray("contents");
-                Log.d("BBBBBBBBBBBBBBBBB",jsonArray.toString());
                 ZPJ_NUM = jsonArray.length();
-                Log.d("BBBBBBBBBBBBBBB", String.valueOf(ZPJ_NUM));
                 if(ZPJ_NUM != 0){
                     for(int i = 0; i < ZPJ_NUM; i++){
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                         JSONArray jsonArray1 = jsonObject1.getJSONArray("UCimg");
-                        Log.d("BBBBBBBBBBBB",jsonArray1.get(0).toString());
                         ZPJ_URL.add(jsonArray1.get(0).toString());
                     }
                 }

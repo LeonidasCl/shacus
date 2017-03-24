@@ -72,6 +72,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
     TextView myyuepainum;
     TextView followingnum;
     TextView followernum;
+    TextView age;
 
     RelativeLayout display_big_image_layout;
 
@@ -134,6 +135,8 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         myyuepainum = (TextView) findViewById(R.id.myYuepaiNum);
         followingnum = (TextView) findViewById(R.id.followingNum);
         followernum = (TextView) findViewById(R.id.followerNum);
+
+        age = (TextView) findViewById(R.id.textData_UserAge);
 
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         relativeLayout.setBackgroundResource(R.color.zero_black);
