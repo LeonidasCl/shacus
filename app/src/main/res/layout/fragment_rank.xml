@@ -38,6 +38,8 @@
                 android:layout_centerHorizontal="true" />
 
             <LinearLayout
+                android:id="@+id/ll_favor_photoset"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:layout_marginTop="5dp"
@@ -76,8 +78,10 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
+                android:id="@+id/ll_recommended_photoset"
+                android:orientation="horizontal"
                 android:layout_below="@+id/btn_recommended_photoset"
-                android:background="@color/main_green"></LinearLayout>
+                android:background="@color/transparent"></LinearLayout>
 
         </RelativeLayout>
 

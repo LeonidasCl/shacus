@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -65,7 +64,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     private RelativeLayout button_favor;
     private RelativeLayout button_recommand;
-    boolean isGrapher;//是否显示摄影师
+    boolean isModel;//是否显示摄影师
 
     boolean refreshing=false;
     private SwipeRefreshLayout refreshLayout;
@@ -113,7 +112,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        bootData(isGrapher ? FAVOR : RECOMMEND);
+        bootData(isModel ? FAVOR : RECOMMEND);
         refreshLayout.setRefreshing(true);
         bootCounter = 0;
         personAdapter.refresh(new ArrayList<PhotographerModel>());
@@ -123,7 +122,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     }
 
     public YuePaiFragmentD(){
-        isGrapher=true;
+        isModel =true;
     }
 
     public ListView getListView(){
@@ -144,13 +143,15 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         refreshing=false;
         rankView = inflater.inflate(R.layout.fragment_rank, container, false);
         cache= ACache.get(getActivity());
-        button_favor = (RelativeLayout) rankView.findViewById(R.id.button_grapher);
-        button_recommand = (RelativeLayout) rankView.findViewById(R.id.button_model);
+        button_favor = (RelativeLayout) rankView.findViewById(R.id.button_favor);
+        button_recommand = (RelativeLayout) rankView.findViewById(R.id.button_recommend);
 
         personAdapter = new YuePaiAdapter(yuepai,bootData(INIT));
         listView = (ListView) rankView.findViewById(R.id.rank_list);
         refreshLayout = (SwipeRefreshLayout) rankView.findViewById(R.id.swipe_refresh_layout);
         listView.setAdapter(personAdapter);
+        btn_favor_photoset =(LinearLayout)rankView.findViewById(R.id.ll_favor_photoset);
+        btn_recommended_photoset=(LinearLayout)rankView.findViewById(R.id.ll_recommended_photoset);
 
         Log.d("LQQQQQQ", "onCreateView: ");
         onScrollListener();
@@ -165,10 +166,10 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         button_favor.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
-                if (isGrapher){
+                if (isModel){
                 }else {
                     getYuePaiFlag=false;
-                    isGrapher = true;
+                    isModel = true;
                     //button_favor.setImageResource(R.drawable.button_grapher_down);
                     //button_recommand.setImageResource(R.drawable.button_model_up);
                     btn_favor_photoset.setBackgroundColor(getResources().getColor(R.color.main_green));
@@ -188,9 +189,9 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         button_recommand.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (isGrapher) {
+                if (isModel) {
                     getYuePaiFlag=false;
-                    isGrapher = false;
+                    isModel = false;
                     btn_favor_photoset.setBackgroundColor(getResources().getColor(R.color.transparent));
                     btn_recommended_photoset.setBackgroundColor(getResources().getColor(R.color.main_green));
 
@@ -211,7 +212,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                bootData(isGrapher ? FAVOR : RECOMMEND);
+                bootData(isModel ? FAVOR : RECOMMEND);
                 refreshLayout.setRefreshing(true);
                 bootCounter = 0;
                 personAdapter.refresh(new ArrayList<PhotographerModel>());
@@ -255,7 +256,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 1 && totalItemCount < maxRecords && totalItemCount != 0 && getYuePaiFlag) {
-                    loadData(isGrapher ? FAVOR : RECOMMEND);
+                    loadData(isModel ? FAVOR : RECOMMEND);
                     Log.d("LQQQQQQQQQ", "personAdapter.notifyDataSetChanged();");
                     getYuePaiFlag = false;
                 }
@@ -318,7 +319,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                         JSONObject json = new JSONObject(result);
                         String code = json.getString("code");
                         Log.d("LQQQQQQ", "code:" + code);
-                        if (code.equals("10253") && isGrapher) {
+                        if (code.equals("10253") && isModel) {
                             JSONArray array = json.getJSONArray("contents");
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
@@ -333,7 +334,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             msg.what = StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS;
                             handler.sendMessage(msg);
                         }
-                        if (code.equals("10253") && !isGrapher) {
+                        if (code.equals("10253") && !isModel) {
                             JSONArray array = json.getJSONArray("contents");
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
@@ -385,7 +386,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     private List<PhotographerModel> bootData(int type){
 
         if(type==INIT){
-            if(isGrapher){
+            if(isModel){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
                 List<PhotographerModel> persons=null;
                 persons =model.getPhotoList();
@@ -393,7 +394,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 Log.d("LQQQQQQQQQ", "bootdata");
                 getYuePaiFlag=true;
                 return persons;
-            } else if(!isGrapher){
+            } else if(!isModel){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
                 List<PhotographerModel> persons=null;
                 persons =model.getModelList();
@@ -488,7 +489,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         refreshLayout.setRefreshing(true);
         bootCounter=0;
         Log.d("LQQQQQQQQQ", "dorefresh");
-        personAdapter.refresh(bootData(isGrapher ? FAVOR : RECOMMEND));
+        personAdapter.refresh(bootData(isModel ? FAVOR : RECOMMEND));
         personAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
     }
