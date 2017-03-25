@@ -44,4 +44,12 @@ public class LoginDataModel implements Serializable {
 	public void setGroupList(List<YuePaiGroupModel> groupList) {
 		this.groupList = groupList;
 	}
+
+	public List<PhotosetItemModel> getCollectionList() {
+		return CollectionList;
+	}
+
+	public void setCollectionList(List<PhotosetItemModel> collectionList) {
+		CollectionList = collectionList;
+	}
 }

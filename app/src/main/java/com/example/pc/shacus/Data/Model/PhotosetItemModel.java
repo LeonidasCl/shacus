@@ -14,11 +14,11 @@ public class PhotosetItemModel implements Serializable{
     private int UCpicnum;
     private String UCusername;
     private int UCuser;
-    private boolean UCusergender;
+    private int UCusergender;
     private int UCid;
-    private List<String> UserlikeList;
-    private String UserHeadimg;
-    private List<String> UCsimpleimg;
+    private List<UserModel> UserlikeList;
+    private UserModel UserPublish;
+    private List<ImageData> UCsimpleimg;
 
     public String getUCtitle() {
         return UCtitle;
@@ -60,14 +60,6 @@ public class PhotosetItemModel implements Serializable{
         this.UCuser = UCuser;
     }
 
-    public boolean isUCusergender() {
-        return UCusergender;
-    }
-
-    public void setUCusergender(boolean UCusergender) {
-        this.UCusergender = UCusergender;
-    }
-
     public int getUCid() {
         return UCid;
     }
@@ -76,27 +68,35 @@ public class PhotosetItemModel implements Serializable{
         this.UCid = UCid;
     }
 
-    public List<String> getUserlikeList() {
+    public List<UserModel> getUserlikeList() {
         return UserlikeList;
     }
 
-    public void setUserlikeList(List<String> userlikeList) {
+    public void setUserlikeList(List<UserModel> userlikeList) {
         UserlikeList = userlikeList;
     }
 
-    public String getUserHeadimg() {
-        return UserHeadimg;
+    public UserModel getUserHeadimg() {
+        return UserPublish;
     }
 
-    public void setUserHeadimg(String userHeadimg) {
-        UserHeadimg = userHeadimg;
+    public void setUserHeadimg(UserModel userHeadimg) {
+        UserPublish = userHeadimg;
     }
 
-    public List<String> getUCsimpleimg() {
+    public List<ImageData> getUCsimpleimg() {
         return UCsimpleimg;
     }
 
-    public void setUCsimpleimg(List<String> UCsimpleimg) {
+    public void setUCsimpleimg(List<ImageData> UCsimpleimg) {
         this.UCsimpleimg = UCsimpleimg;
+    }
+
+    public int getUCusergender() {
+        return UCusergender;
+    }
+
+    public void setUCusergender(int UCusergender) {
+        this.UCusergender = UCusergender;
     }
 }

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <com.example.pc.shacus.View.CircleImageView
+            android:contentDescription="@string/contentDescribe"
+            android:id="@+id/publish_user_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/p2"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/publish_user_name"
+                    android:paddingRight="3dp"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:text="用户昵称"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/publish_user_sex"
+                    android:background="@drawable/sel"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/publish_user_age"
+                    android:paddingLeft="3dp"
+                    android:maxLines="1"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp"
+                    android:text="90岁"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_add_favor"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_border"
+            android:text="+关注"
+            android:textSize="14sp"
+            android:textColor="@color/main_green"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:text="作品集的标题"/>
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/content_gray"
+        android:maxLines="1"
+        android:text="作品集的内容描述内容描述内容描述"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.example.pc.shacus.View.SquareImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"/>
+
+        <com.example.pc.shacus.View.SquareImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher"
+            android:scaleType="centerCrop"
+            android:layout_weight="1"/>
+
+        <com.example.pc.shacus.View.SquareImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/test"
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerCrop"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <HorizontalScrollView
+            android:layout_marginTop="10dp"
+            android:id="@+id/join_user_scroll"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" >
+
+            <LinearLayout
+                android:id="@+id/linear_join_user_scroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <GridView
+                    android:id="@+id/grid_join_user_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                </GridView>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ImageButton
+            android:id="@+id/btn_add_like"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/btn_join_manage"
+            android:visibility="visible"
+            android:background="@drawable/praise"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

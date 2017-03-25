@@ -389,7 +389,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             if(isModel){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
                 List<PhotographerModel> persons=null;
-                persons =model.getPhotoList();
+                //persons =model.getPhotoList();
                 bootCounter+=persons.size();
                 Log.d("LQQQQQQQQQ", "bootdata");
                 getYuePaiFlag=true;
@@ -397,7 +397,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             } else if(!isModel){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
                 List<PhotographerModel> persons=null;
-                persons =model.getModelList();
+                //persons =model.getModelList();
                 bootCounter+=persons.size();
                 Log.d("LQQQQQQQQQ", "bootdata");
                 getYuePaiFlag=true;
@@ -429,7 +429,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
                     }
                     bootCounter+=array.length();
-                    model.setPhotoList(list);
+                    //model.setPhotoList(list);
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
@@ -444,7 +444,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                         list.add(photo);
                     }
                     bootCounter+=array.length();
-                    model.setModelList(list);
+                    //model.setModelList(list);
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
