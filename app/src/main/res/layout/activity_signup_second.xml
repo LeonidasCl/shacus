@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activity.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="start"
+        android:background="@color/zero_black"
+        android:id="@+id/relativeLayout">
+        <TextView
+            android:id="@+id/othername"
+            android:text="hhhh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ff_white"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp" />
+        <ImageButton
+            android:id="@+id/settingbtn"
+            android:background="@drawable/setting"
+            android:layout_margin="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:background="@drawable/button_back"
+            android:layout_margin="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_below="@id/relativeLayout"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        loginlayout:layout_heightPercent="50%"
+        loginlayout:layout_widthPercent="80%">
+
+        <com.example.pc.shacus.View.CircleImageView
+            android:layout_marginTop="20dp"
+            android:id="@+id/imageData_UserImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/imageData_UserImage"
+            android:text="上传一张自己的头像吧~"
+            android:textColor="@color/hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_below="@id/text1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昵称"/>
+
+            <EditText
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

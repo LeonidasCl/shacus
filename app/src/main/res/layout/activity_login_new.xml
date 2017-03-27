@@ -1,0 +1,278 @@
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.LoginActivity"
+    android:background="@drawable/login_background"
+    xmlns:loginlayout="http://schemas.android.com/apk/res-auto">
+
+
+
+    <RelativeLayout
+        android:id="@+id/login_upside"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        loginlayout:layout_heightPercent="50%"
+        android:layout_gravity="top"
+        loginlayout:layout_widthPercent="100%"
+        android:layout_alignParentTop="true">
+        <android.support.percent.PercentFrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                loginlayout:layout_heightPercent="40%"
+                loginlayout:layout_widthPercent="30%"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:src="@drawable/login_logo"
+                android:contentDescription="@string/app_name"/>
+        </android.support.percent.PercentFrameLayout>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/login_centerside1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        loginlayout:layout_heightPercent="10%"
+        loginlayout:layout_widthPercent="70%"
+        android:layout_below="@+id/login_upside"
+        android:layout_centerHorizontal="true">
+
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/login_percentup"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <com.example.pc.shacus.View.Custom.IconEditView
+                xmlns:iconview="http://com.licl.icontext"
+                iconview:iconSrc="@drawable/login_email"
+                android:id="@+id/login_username"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="#00000000"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:hint="@string/prompt_email"
+                android:gravity="center_vertical"
+                loginlayout:layout_heightPercent="90%"
+                android:textColorHint="@color/ff_white"
+                android:textColorHighlight="#ffffff"
+                android:textColor="#ffffff"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="12sp">
+                <requestFocus />
+            </com.example.pc.shacus.View.Custom.IconEditView>
+        </android.support.percent.PercentFrameLayout>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#d9d9d9"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_centerside"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        loginlayout:layout_heightPercent="10%"
+        loginlayout:layout_widthPercent="70%"
+        android:layout_below="@+id/login_centerside1"
+        android:layout_alignStart="@+id/login_centerside1">
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/login_percentdown"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <com.example.pc.shacus.View.Custom.IconEditView
+                xmlns:iconview="http://com.licl.icontext"
+                iconview:iconSrc="@drawable/login_password"
+                android:id="@+id/login_password"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="#00000000"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                loginlayout:layout_heightPercent="90%"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:textColorHint="@color/ff_white"
+                android:textColor="#ffffff"
+                android:textColorHighlight="#ffffff"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="12sp"/>
+
+            <com.example.pc.shacus.View.Custom.IconEditView
+                xmlns:iconview="http://com.licl.icontext"
+                iconview:iconSrc="@drawable/login_password"
+                android:id="@+id/register_verifycode"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="#00000000"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                loginlayout:layout_heightPercent="90%"
+                android:hint="@string/register_code"
+                android:visibility="gone"
+                android:textColorHint="@color/ff_white"
+                android:textColorHighlight="#ffffff"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="12sp"/>
+
+        </android.support.percent.PercentFrameLayout>
+        <View
+            android:id="@+id/view1"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#d9d9d9"/>
+        <View
+            android:visibility="gone"
+            android:id="@+id/view2"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#d9d9d9"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@+id/btn_verify_code"
+            android:layout_alignTop="@+id/view1" />
+        <TextView
+            android:visibility="gone"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:id="@+id/btn_verify_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/loginbtn"
+            android:text="@string/text_verify_code"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="2dp"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/login_centerside"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        loginlayout:layout_heightPercent="30%"
+        loginlayout:layout_widthPercent="100%"
+        android:layout_gravity="bottom">
+
+        <android.support.percent.PercentFrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/loginbtn"
+                loginlayout:layout_heightPercent="25%"
+                loginlayout:layout_widthPercent="70%"
+                android:layout_gravity="top|center_horizontal"
+                android:text="@string/text_login_btn"
+                android:textSize="20sp"
+                android:textColor="#ffffff"/>
+            <!--<ImageView
+                android:id="@+id/loginimgview"
+                android:contentDescription="@string/app_name"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="45dp"
+                android:scaleType="fitStart"
+                android:background="#E6BF66"
+                android:src="@drawable/login_button"
+                loginlayout:layout_heightPercent="20%"
+                loginlayout:layout_widthPercent="10%"
+                android:layout_gravity="top|center_horizontal"
+                android:textSize="12sp"/>-->
+
+        </android.support.percent.PercentFrameLayout>
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/forget_password"
+                android:textSize="12sp"
+                android:textColor="@color/ff_white"
+                android:layout_weight="1"
+                android:id="@+id/btn_forgot"/>
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_user"
+                android:textSize="12sp"
+                android:textColor="@color/ff_white"
+                android:id="@+id/btn_newuser"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="随便看看"
+            android:textSize="10sp"
+            android:textColor="@color/ff_white"/>
+
+        <!--<View
+            android:layout_width="200dp"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            android:layout_above="@+id/btn_newuser"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"/>-->
+    </RelativeLayout>
+
+
+
+</android.support.percent.PercentRelativeLayout>
