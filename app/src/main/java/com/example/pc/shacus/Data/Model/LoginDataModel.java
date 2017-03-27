@@ -8,15 +8,10 @@ import java.util.List;
 public class LoginDataModel implements Serializable {
 
 	private UserModel userModel;
-	private List<PhotographerModel> photoList;
 	private List<NavigationModel> daohanglan;
 	private List<YuePaiGroupModel> groupList;
+	private List<PhotosetItemModel> CollectionList;
 	private String code;
-	private List<PhotographerModel> modelList;
-
-	public List<PhotographerModel> getPhotoList() {
-		return photoList;
-	}
 
 	public String getCode() {
 		return code;
@@ -40,18 +35,6 @@ public class LoginDataModel implements Serializable {
 
 	public void setUserModel(UserModel userModel) {
 		this.userModel = userModel;
-	}
-
-	public List<PhotographerModel> getModelList() {
-		return modelList;
-	}
-
-	public void setModelList(List<PhotographerModel> modelList) {
-		this.modelList = modelList;
-	}
-
-	public void setPhotoList(List<PhotographerModel> photoList) {
-		this.photoList = photoList;
 	}
 
 	public List<YuePaiGroupModel> getGroupList() {

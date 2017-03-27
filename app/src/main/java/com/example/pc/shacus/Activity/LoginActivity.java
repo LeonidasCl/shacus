@@ -401,7 +401,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         return;
                     }
                     loginProgressDlg.dismiss();//进度条取消
-                }else{
+                }else {
                     if (eventFlag!=5)
                         eventFlag=3;
                     else
@@ -419,7 +419,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     }
 
     @Override
-    public void exception(IOException e, String requestUrl){
+    public void exception(IOException e, String requestUrl) {
         Message msg=new Message();
         msg.what=StatusCode.REQUEST_FAILURE;
         msg.obj="网络请求失败";

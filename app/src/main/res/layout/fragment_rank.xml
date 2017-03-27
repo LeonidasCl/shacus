@@ -5,7 +5,7 @@
               tools:context=".Rank.YuePaiFragmentD"
               android:orientation="vertical">
 
-    <!--<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -16,27 +16,74 @@
             android:layout_weight="10"></LinearLayout>
 
 
-        <ImageView
+        <RelativeLayout
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:id="@+id/button_grapher"
+            android:orientation="horizontal"
+            android:id="@+id/button_favor"
             android:layout_width="0dp"
             android:layout_weight="40"
             android:scaleType="centerInside"
-            android:layout_height="match_parent"
-            android:src="@drawable/button_grapher_down"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/btn_favor_photoset"
+                android:text="好友"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/ll_favor_photoset"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_below="@+id/btn_favor_photoset"
+                android:background="@color/main_green"></LinearLayout>
+
+        </RelativeLayout>
 
 
-
-        <ImageView
+        <RelativeLayout
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:id="@+id/button_model"
+            android:id="@+id/button_recommend"
             android:layout_width="0dp"
             android:layout_weight="40"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:src="@drawable/button_model_up"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_recommended_photoset"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="精选"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:id="@+id/ll_recommended_photoset"
+                android:orientation="horizontal"
+                android:layout_below="@+id/btn_recommended_photoset"
+                android:background="@color/transparent"></LinearLayout>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -44,7 +91,7 @@
             android:layout_weight="10"></LinearLayout>
 
 
-    </LinearLayout>-->
+    </LinearLayout>
 
 
     <android.support.v4.widget.SwipeRefreshLayout
