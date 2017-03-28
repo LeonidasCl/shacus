@@ -13,7 +13,7 @@
 
         <com.example.pc.shacus.View.CircleImageView
             android:contentDescription="@string/contentDescribe"
-            android:id="@+id/publish_user_avatar"
+            android:id="@+id/photoset_publish_user_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -45,13 +45,13 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:id="@+id/publish_user_sex"
+                    android:id="@+id/photoset_publish_user_sex"
                     android:background="@drawable/sel"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/publish_user_age"
+                    android:id="@+id/photoset_publish_user_age"
                     android:paddingLeft="3dp"
                     android:maxLines="1"
                     android:textColor="@color/cardview_dark_background"
@@ -79,6 +79,7 @@
 
     <TextView
         android:layout_marginTop="10dp"
+        android:id="@+id/tv_photoset_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
@@ -89,6 +90,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/tv_photoset_content"
         android:textSize="14sp"
         android:textColor="@color/content_gray"
         android:maxLines="1"
@@ -97,11 +99,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/ll_photoset_square_imgs"
         android:orientation="horizontal">
 
         <com.example.pc.shacus.View.SquareImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:id="@+id/photoset_img_1"
             android:src="@drawable/ic_launcher"
             android:scaleType="centerCrop"
             android:layout_marginRight="5dp"
@@ -110,17 +114,38 @@
         <com.example.pc.shacus.View.SquareImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:id="@+id/photoset_img_2"
             android:src="@drawable/ic_launcher"
             android:scaleType="centerCrop"
             android:layout_weight="1"/>
 
-        <com.example.pc.shacus.View.SquareImageView
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/test"
-            android:layout_marginLeft="5dp"
-            android:scaleType="centerCrop"
-            android:layout_weight="1"/>
+            android:id="@+id/photoset_img_frame"
+            android:layout_weight="1">
+
+            <com.example.pc.shacus.View.SquareImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/photoset_img_3"
+                android:src="@drawable/test"
+                android:layout_marginLeft="5dp"
+                android:scaleType="centerCrop"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/photoset_img_count"
+                android:background="@color/four_black"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:textSize="24sp"
+                android:textColor="@color/ff_white"
+                android:text="13"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -130,17 +155,17 @@
 
         <HorizontalScrollView
             android:layout_marginTop="10dp"
-            android:id="@+id/join_user_scroll"
+            android:id="@+id/photoset_like_user_scroll"
             android:layout_width="wrap_content"
             android:layout_height="50dp" >
 
             <LinearLayout
-                android:id="@+id/linear_join_user_scroll"
+                android:id="@+id/photoset_linear_join_user_scroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
                 <GridView
-                    android:id="@+id/grid_join_user_scroll"
+                    android:id="@+id/photoset_grid_join_user_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
                 </GridView>
@@ -148,12 +173,24 @@
             </LinearLayout>
         </HorizontalScrollView>
 
+        <TextView
+            android:id="@+id/btn_photoset_likecount"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="60dp"
+            android:textColor="@color/content_gray"
+            android:text="22"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
         <ImageButton
-            android:id="@+id/btn_add_like"
+            android:id="@+id/btn_photoset_addlike"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginRight="10dp"
-            android:text="@string/btn_join_manage"
             android:visibility="visible"
             android:background="@drawable/praise"
             android:layout_centerVertical="true"

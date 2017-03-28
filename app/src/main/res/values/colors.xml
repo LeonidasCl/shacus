@@ -27,6 +27,7 @@
     <color name="ff_white">#ffffff</color>
     <color name="toolbar_white">#ffffff</color>
     <color name="zero_black">#000000</color>
+    <color name="four_black">#44000000</color>
     <color name="hint">#999999</color>
     <color name="main_green">#ABC236</color>
     <color name="content_gray">#757575</color>
