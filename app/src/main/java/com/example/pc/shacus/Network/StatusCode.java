@@ -245,4 +245,10 @@ public interface StatusCode {
     int WANT_TO_PHOTOGRAPH_MORE=10243;//获取指定id后更多-摄影师发布的约拍
     int WANT_BE_PHOTOGRAPH_MORE=10244;//获取指定id后更多-模特发布的约拍
 
+    int REQUEST_FAVOR_PHOTOSET_LIST = 10830;//请求好友的作品集
+    int REQUESTRECOMMENDED_PHOTOSET_LIST = 10824;//请求推荐的作品集
+    int RETURN_FAVOR_PHOTOSET_LIST = 10832;//返回码-请求更多好友的作品集
+    int RETURN_RECOMMENDED_PHOTOSET_LIST = 10826;//返回码-请求更多推荐的作品集
+    int REQUEST_MORE_FAVOR_PHOTOSET_LIST = 10832;//请求更多好友的作品集
+    int REQUEST_MORE_RECOMMENDED_PHOTOSET_LIST = 10826;//请求更多推荐的作品集
 }
