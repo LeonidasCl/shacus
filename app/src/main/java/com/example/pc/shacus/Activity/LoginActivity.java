@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -50,7 +51,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     private TextView signup;
     private TextView verifycode;
     private Button btn_login;
-    private Button btn_verifycode;
+    //    private Button btn_verifycode;
+    private TextView btn_verifycode;
     private NetRequest requestFragment;
     private Handler mHandler;
     private ProgressDialog loginProgressDlg;
@@ -73,6 +75,9 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
 //        finish();
 //    }
 
+    View view1;
+    View view2;
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -83,7 +88,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_login);
+//        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_new);
 
         Intent intent=getIntent();
         int method=intent.getIntExtra("method", StatusCode.STATUS_ERROR);
@@ -96,16 +102,20 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 pflag=1;
                 break;
         }
-        
+
 
         username=(TextView)findViewById(R.id.login_username);
         password=(TextView)findViewById(R.id.login_password);
         verifycode=(TextView)findViewById(R.id.register_verifycode);
         btn_login=(Button)findViewById(R.id.btn_login);
+
+        view1 = findViewById(R.id.view1);
+        view2 = findViewById(R.id.view2);
+
         btn_login.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        Map map = new HashMap();
+            @Override
+            public void onClick(View v) {
+                Map map = new HashMap();
                 if (eventFlag==1) {
                     //检查输入格式，发弹窗请求到handler，并发网络请求
                     String usrnm = username.getText().toString();
@@ -128,14 +138,14 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     String name=username.getText().toString();
                     String code=verifycode.getText().toString();
                     if (!code.equals("")&&!name.equals("")){
-                    eventFlag=4;
-                    //验证验证码是否正确
-                    map.put("phone",name);
-                    phone=name;
-                    map.put("code",code);
-                    map.put("type", StatusCode.REQUEST_REGISTER_VERIFYB);
-                    requestFragment.httpRequest(map, CommonUrl.registerAccount);
-                    loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
+                        eventFlag=4;
+                        //验证验证码是否正确
+                        map.put("phone",name);
+                        phone=name;
+                        map.put("code",code);
+                        map.put("type", StatusCode.REQUEST_REGISTER_VERIFYB);
+                        requestFragment.httpRequest(map, CommonUrl.registerAccount);
+                        loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
                         return;
                     }else {
                         CommonUtils.getUtilInstance().showToast(LoginActivity.this,"请输入用户名和验证码");
@@ -162,12 +172,14 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 }
             }
         });
-        btn_verifycode=(Button)findViewById(R.id.btn_verify_code);
+        btn_verifycode=(TextView)findViewById(R.id.btn_verify_code);
         btn_verifycode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Map map=new HashMap();
                 if (eventFlag==3){
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.VISIBLE);
                     String usrnm=username.getText().toString();
                     if (!usrnm.equals(""))
                     {
@@ -183,8 +195,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             }
         });
         requestFragment=new NetRequest(this,this);
-        ImageView loginbtnimg = (ImageView) findViewById(R.id.loginimgview);
-        loginbtnimg.bringToFront();
+//        ImageView loginbtnimg = (ImageView) findViewById(R.id.loginimgview);
+//        loginbtnimg.bringToFront();
         forgotpassword=(TextView)findViewById(R.id.btn_forgot);
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,20 +211,26 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     animationShow.setDuration(500);
                     password.startAnimation(animationShow);
                     btn_verifycode.setVisibility(View.GONE);
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.GONE);
                     password.setVisibility(View.VISIBLE);
                     return;
                 }
                 if(eventFlag!=2){
-                signup.setVisibility(View.INVISIBLE);
-                eventFlag=2;
-                animationHide.setDuration(500);
-                password.startAnimation(animationHide);
-                password.setVisibility(View.GONE);
-                animationShow.setDuration(500);
-                verifycode.startAnimation(animationShow);
-                verifycode.setVisibility(View.VISIBLE);
-                btn_verifycode.setVisibility(View.VISIBLE);
-                forgotpassword.setText("找回了密码");}
+
+
+//                signup.setVisibility(View.INVISIBLE);
+                    eventFlag=2;
+                    animationHide.setDuration(500);
+                    password.startAnimation(animationHide);
+                    password.setVisibility(View.GONE);
+                    animationShow.setDuration(500);
+                    verifycode.startAnimation(animationShow);
+                    verifycode.setVisibility(View.VISIBLE);
+                    btn_verifycode.setVisibility(View.VISIBLE);
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.VISIBLE);
+                    forgotpassword.setText("找回了密码");}
                 return;
             }
         });
@@ -221,18 +239,22 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             @Override
             public void onClick(View v) {
                 if(eventFlag!=3){
-                eventFlag=3;
-                animationHide.setDuration(500);
-                password.startAnimation(animationHide);
-                password.setVisibility(View.GONE);
-                animationShow.setDuration(500);
-                verifycode.startAnimation(animationShow);
-                verifycode.setVisibility(View.VISIBLE);
-                signup.setText("老用户登录");
-                forgotpassword.setVisibility(View.INVISIBLE);
-                btn_verifycode.setVisibility(View.VISIBLE);
-                btn_login.setText("  注   册");
-                return;
+                    eventFlag=3;
+                    animationHide.setDuration(500);
+                    password.startAnimation(animationHide);
+                    password.setVisibility(View.GONE);
+                    animationShow.setDuration(500);
+                    verifycode.startAnimation(animationShow);
+                    verifycode.setVisibility(View.VISIBLE);
+                    signup.setText("老用户登录");
+//                forgotpassword.setVisibility(View.INVISIBLE);
+                    btn_verifycode.setVisibility(View.VISIBLE);
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.VISIBLE);
+                    btn_login.setText("  注   册");
+
+                    //下一步
+                    return;
                 }
                 if(eventFlag==3){
                     eventFlag=1;
@@ -244,14 +266,18 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     password.setVisibility(View.VISIBLE);
                     signup.setText("新用户注册");
                     btn_verifycode.setVisibility(View.GONE);
-                    forgotpassword.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.GONE);
+                    view1.setVisibility(View.VISIBLE);
+
+
+//                    forgotpassword.setVisibility(View.VISIBLE);
                     btn_login.setText("  登   录");
                     return;
                 }
             }
         });
         //if (eventFlag==1)
-          //  signup.performClick();
+        //  signup.performClick();
         timeCount=new CountDownTimer(60000,1000){
             @Override
             public void onTick(long millisUntilFinished) {
@@ -265,7 +291,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             public void onFinish() {
                 btn_verifycode.setText(R.string.text_verify_code);
                 //btn_verifycode.setBackgroundColor(getResources().getColor(R.color.gold));
-                btn_verifycode.setBackground(getResources().getDrawable(R.drawable.shape_verifycode));
+//                btn_verifycode.setBackground(getResources().getDrawable(R.drawable.shape_verifycode));
+                btn_verifycode.setBackground(getResources().getDrawable(R.drawable.loginbtn));
                 btn_verifycode.setClickable(true);
             }
         };
@@ -280,23 +307,25 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     //finish();
                     return;
                 }
-              if (msg.what==StatusCode.RECIEVE_REGISTER_SUCCESS){
-                  btn_verifycode.setVisibility(View.GONE);
-                  forgotpassword.setVisibility(View.INVISIBLE);
-                  signup.setVisibility(View.INVISIBLE);
-                  username.setText("");
-                  verifycode.setText("");
-                  username.setHint("请指定昵称");
-                  verifycode.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                  verifycode.setHint("请设置密码");
-                  btn_login.setText("  注   册");
-              }
-          }
+                if (msg.what==StatusCode.RECIEVE_REGISTER_SUCCESS){
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.GONE);
+                    btn_verifycode.setVisibility(View.GONE);
+//                  forgotpassword.setVisibility(View.INVISIBLE);
+//                  signup.setVisibility(View.INVISIBLE);
+                    username.setText("");
+                    verifycode.setText("");
+                    username.setHint("请指定昵称");
+                    verifycode.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    verifycode.setHint("请设置密码");
+                    btn_login.setText("  注   册");
+                }
+            }
         };
 
         if (pflag==1){
             eventFlag=666;
-          signup.performClick();
+            signup.performClick();
         }
     }
 
@@ -304,11 +333,12 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     public void requestFinish(String result, String requestUrl) throws JSONException {
 
         if (requestUrl.equals(CommonUrl.loginAccount)){//返回登录请求
-                JSONObject object = new JSONObject(result);
-                int code = Integer.valueOf(object.getString("code"));
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
 
             if (code == StatusCode.REQUEST_LOGIN_SUCCESS) {
                 Gson gson=new Gson();
+                Log.d("ssssssssssssssssss",object.getJSONArray("contents").getJSONObject(0).toString());
                 LoginDataModel loginModel=gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(),LoginDataModel.class);
                 ACache cache=ACache.get(LoginActivity.this);
                 cache.put("loginModel",loginModel,ACache.TIME_WEEK*2);
@@ -322,13 +352,13 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 return;
             }
 
-                loginProgressDlg.cancel();//进度条取消
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("result", "登录成功");
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-                finish();
-                return;
+            loginProgressDlg.cancel();//进度条取消
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("result", "登录成功");
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            finish();
+            return;
         }
 
 
@@ -373,7 +403,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         return;
                     }
                     loginProgressDlg.dismiss();//进度条取消
-                }else {
+                }else{
                     if (eventFlag!=5)
                         eventFlag=3;
                     else
@@ -391,7 +421,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     }
 
     @Override
-    public void exception(IOException e, String requestUrl) {
+    public void exception(IOException e, String requestUrl){
         Message msg=new Message();
         msg.what=StatusCode.REQUEST_FAILURE;
         msg.obj="网络请求失败";
