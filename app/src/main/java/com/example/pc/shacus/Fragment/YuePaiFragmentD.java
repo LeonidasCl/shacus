@@ -16,10 +16,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Adapter.PhotosetListAdapter;
 import com.example.pc.shacus.Adapter.YuePaiAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
-import com.example.pc.shacus.Data.Model.PhotographerModel;
+import com.example.pc.shacus.Data.Model.PhotosetItemModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -68,7 +69,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     boolean refreshing=false;
     private SwipeRefreshLayout refreshLayout;
-    private YuePaiAdapter personAdapter;
+    private PhotosetListAdapter personAdapter;
     private LinearLayout btn_favor_photoset;
     private LinearLayout btn_recommended_photoset;
     private ListView listView;
@@ -78,7 +79,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     private boolean getYuePaiFlag=false;
     private boolean mainScrollControl=true;
 
-    private NetRequest netRequest;
 
     View rankView;
     private RelativeLayout mSideZoomBanner;
@@ -115,7 +115,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         bootData(isModel ? FAVOR : RECOMMEND);
         refreshLayout.setRefreshing(true);
         bootCounter = 0;
-        personAdapter.refresh(new ArrayList<PhotographerModel>());
+        personAdapter.refresh(new ArrayList<PhotosetItemModel>());
         personAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
         refreshing = true;
@@ -146,7 +146,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         button_favor = (RelativeLayout) rankView.findViewById(R.id.button_favor);
         button_recommand = (RelativeLayout) rankView.findViewById(R.id.button_recommend);
 
-        personAdapter = new YuePaiAdapter(yuepai,bootData(INIT));
+        personAdapter = new PhotosetListAdapter(yuepai,bootData(INIT));
         listView = (ListView) rankView.findViewById(R.id.rank_list);
         refreshLayout = (SwipeRefreshLayout) rankView.findViewById(R.id.swipe_refresh_layout);
         listView.setAdapter(personAdapter);
@@ -215,7 +215,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 bootData(isModel ? FAVOR : RECOMMEND);
                 refreshLayout.setRefreshing(true);
                 bootCounter = 0;
-                personAdapter.refresh(new ArrayList<PhotographerModel>());
+                personAdapter.refresh(new ArrayList<PhotosetItemModel>());
                 personAdapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
                 refreshing = true;
@@ -308,8 +308,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 }
             }
 
-            private List<PhotographerModel> loadData(int type) {
-                final List<PhotographerModel> list = new ArrayList<>();
+            private List<PhotosetItemModel> loadData(int type) {
+                final List<PhotosetItemModel> list = new ArrayList<>();
                 final LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
                 final UserModel data = model.getUserModel();
                 Log.d("LQQQQQQ", "loadData: ");
@@ -324,7 +324,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
                                 Gson gson = new Gson();
-                                PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
+                                PhotosetItemModel photo = gson.fromJson(info.toString(), PhotosetItemModel.class);
                                 Log.d("LQQQQQ", info.getString("APid"));
                                 list.add(photo);
                             }
@@ -339,7 +339,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject info = array.getJSONObject(i);
                                 Gson gson = new Gson();
-                                PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
+                                PhotosetItemModel photo = gson.fromJson(info.toString(), PhotosetItemModel.class);
                                 Log.d("LQQQQQ", info.getString("APid"));
                                 list.add(photo);
                             }
@@ -365,7 +365,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     map.put("type", "10243");
                     map.put("authkey", data.getAuth_key());
                     map.put("uid", data.getId());
-                    map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
+                    map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getUCid());
                     requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
                     Log.d("LQQQQQQQQQ", "request map");
                 } else if (type == RECOMMEND) {
@@ -373,7 +373,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     map.put("type", "10244");
                     map.put("authkey", data.getAuth_key());
                     map.put("uid", data.getId());
-                    map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
+                    map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getUCid());
                     requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
                     Log.d("LQQQQQQQQQ", "request map");
                 }
@@ -383,21 +383,21 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         });
     }
 
-    private List<PhotographerModel> bootData(int type){
+    private List<PhotosetItemModel> bootData(int type){
 
         if(type==INIT){
             if(isModel){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
-                List<PhotographerModel> persons=null;
-//                persons =model.getPhotoList();
+                List<PhotosetItemModel> persons=null;
+                persons =model.getCollectionList();
                 bootCounter+=persons.size();
                 Log.d("LQQQQQQQQQ", "bootdata");
                 getYuePaiFlag=true;
                 return persons;
             } else if(!isModel){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
-                List<PhotographerModel> persons=null;
-//                persons =model.getModelList();
+                List<PhotosetItemModel> persons=null;
+                persons =model.getCollectionList();
                 bootCounter+=persons.size();
                 Log.d("LQQQQQQQQQ", "bootdata");
                 getYuePaiFlag=true;
@@ -408,7 +408,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
 
 
-        final List<PhotographerModel> list = new ArrayList<>();
+        final List<PhotosetItemModel> list = new ArrayList<>();
         final LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
         final UserModel data = model.getUserModel();
 
@@ -423,13 +423,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();
-                        PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
+                        PhotosetItemModel photo = gson.fromJson(info.toString(), PhotosetItemModel.class);
                         Log.d("LQQQQQ", info.getString("APid"));
                         list.add(photo);
 
                     }
                     bootCounter+=array.length();
-//                    model.setPhotoList(list);
+                    model.setPhotoList(list);
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
@@ -439,12 +439,12 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();
-                        PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
+                        PhotosetItemModel photo = gson.fromJson(info.toString(), PhotosetItemModel.class);
                         Log.d("LQQQQQ", info.getString("APid"));
                         list.add(photo);
                     }
                     bootCounter+=array.length();
-//                    model.setModelList(list);
+                    model.setCollectionList(list);
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
