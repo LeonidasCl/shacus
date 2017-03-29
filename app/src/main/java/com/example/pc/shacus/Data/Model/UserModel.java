@@ -10,6 +10,7 @@ public class UserModel implements Serializable{
     private String realName;
     private String chattoken;
     private String sex;
+    private String UserGender;
     private String birthday;
     private String sign;
     private String auth_key;
@@ -149,5 +150,13 @@ public class UserModel implements Serializable{
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getUserGender() {
+        return UserGender;
+    }
+
+    public void setUserGender(String userGender) {
+        UserGender = userGender;
     }
 }

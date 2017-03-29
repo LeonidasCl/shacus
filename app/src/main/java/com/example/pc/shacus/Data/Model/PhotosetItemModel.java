@@ -16,9 +16,12 @@ public class PhotosetItemModel implements Serializable{
     private int UCuser;
     private int UCusergender;
     private int UCid;
+    private String UserIsFriend;
+    private String UserlikeNum;
     private List<UserModel> UserlikeList;
     private UserModel UserPublish;
     private List<ImageData> UCsimpleimg;
+    private String UCcreateT;
 
     public String getUCtitle() {
         return UCtitle;
@@ -98,5 +101,29 @@ public class PhotosetItemModel implements Serializable{
 
     public void setUCusergender(int UCusergender) {
         this.UCusergender = UCusergender;
+    }
+
+    public String getUserIsFriend() {
+        return UserIsFriend;
+    }
+
+    public void setUserIsFriend(String userIsFriend) {
+        UserIsFriend = userIsFriend;
+    }
+
+    public String getUserlikeNum() {
+        return UserlikeNum;
+    }
+
+    public void setUserlikeNum(String userlikeNum) {
+        UserlikeNum = userlikeNum;
+    }
+
+    public String getUCcreateT() {
+        return UCcreateT;
+    }
+
+    public void setUCcreateT(String UCcreateT) {
+        this.UCcreateT = UCcreateT;
     }
 }
