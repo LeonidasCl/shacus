@@ -9,7 +9,8 @@ public class UserModel implements Serializable{
     private String headImage;
     private String realName;
     private String chattoken;
-    private String sex;
+//    private String sex;
+    private int sex;
     private String birthday;
     private String sign;
     private String auth_key;
@@ -38,11 +39,11 @@ public class UserModel implements Serializable{
         this.realName = realName;
     }
 
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
