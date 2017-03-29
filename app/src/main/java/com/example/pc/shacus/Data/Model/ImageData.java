@@ -1,10 +1,12 @@
 package com.example.pc.shacus.Data.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by licl on 2017/2/4.
  */
 
-public class ImageData {
+public class ImageData implements Serializable{
     private String imageUrl;
     //宽高比
     private float aspectRatio;
