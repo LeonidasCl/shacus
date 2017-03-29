@@ -10,10 +10,12 @@ public class UserModel implements Serializable{
     private String realName;
     private String chattoken;
     private String sex;
+    private String UserGender;
     private String birthday;
     private String sign;
     private String auth_key;
     private String phone;
+    private String age;
     private String score;
     private String location;
     private String registTime;

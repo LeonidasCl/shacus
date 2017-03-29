@@ -238,7 +238,8 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         Intent intent;
         switch (v.getId()){
             case R.id.btn_back:
-                finish();
+                Intent intent1 = new Intent(this,SignupActivity.class);
+//                finish();
                 break;
             case R.id.btn_finish:
                 //传入数据

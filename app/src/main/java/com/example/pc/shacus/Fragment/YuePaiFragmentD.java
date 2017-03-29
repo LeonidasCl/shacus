@@ -429,7 +429,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
                     }
                     bootCounter+=array.length();
-                    model.setPhotoList(list);
+                    model.setCollectionList(list);
                     cache.put("loginModel", model);
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();

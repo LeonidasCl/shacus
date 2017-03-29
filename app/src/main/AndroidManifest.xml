@@ -134,6 +134,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.PhotosAddActivity" />
+        <activity android:name=".Activity.SignupActivity"/>
 
         <!--
         <activity

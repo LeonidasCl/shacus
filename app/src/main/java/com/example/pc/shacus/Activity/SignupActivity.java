@@ -2,8 +2,10 @@ package com.example.pc.shacus.Activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -30,17 +32,32 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
+import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.UploadPhotoUtil;
 import com.example.pc.shacus.View.CircleImageView;
 import com.example.pc.shacus.View.Custom.IconEditView;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by cuicui on 2017/3/28.
@@ -56,18 +73,26 @@ public class SignupActivity extends AppCompatActivity implements  NetworkCallbac
     private RelativeLayout edit_photo_outer_layout,display_big_image_layout;
     private TextView take_picture,select_local_picture,cancelEditPhoto;
 
-    private String takePictureUrl;
-    private final int NONE=0,TAKE_PICTURE=1,LOCAL_PICTURE=2;
-    private final int SHOW_TAKE_PICTURE=9;
-    private final int SHOW_LOCAL_PICTURE=10;
+    private String takePictureUrl,upToken,imageFileName;
+    private final int NONE=0,TAKE_PICTURE=1,LOCAL_PICTURE=2,UPLOAD_TAKE_PICTURE=4,SAVE_THEME_IMAGE=5;
+
     private Intent intent;
+    private ProgressDialog progressDlg;
+    UserModel dataModel;
+    private NetRequest netRequest;
+    private int addTakePicCount=1;
+    private boolean headImageChanged=false,imagefinish=true;
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.activity_signup_second);
 
+        //从缓存中取出数据
+        ACache cache=ACache.get(this);
+        dataModel= ((LoginDataModel) cache.getAsObject("loginModel")).getUserModel();
         RadioGroup radgroup = (RadioGroup) findViewById(R.id.radioGroup);
+        netRequest=new NetRequest(this,this);
         //第一种获得单选按钮值的方法
         //为radioGroup设置一个监听器:setOnCheckedChanged()
         radgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -139,11 +164,12 @@ public class SignupActivity extends AppCompatActivity implements  NetworkCallbac
                 break;
             case R.id.take_picture:
                 edit_photo_fullscreen_layout.setVisibility(View.GONE);
-                takePictureUrl= APP.photo_path+"picture_take_0" +".jpg";
+                takePictureUrl= APP.photo_path+"picture_take_0" +".jpg" +addTakePicCount+".jpg";;
                 File file=new File(takePictureUrl);
                 intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(intent,TAKE_PICTURE);
+                addTakePicCount++;
                 break;
             case R.id.select_local_picture:
                 edit_photo_fullscreen_layout.setVisibility(View.GONE);
@@ -166,12 +192,12 @@ public class SignupActivity extends AppCompatActivity implements  NetworkCallbac
             return;
         //耗时操作传到handler里去处理
         if(requestCode==TAKE_PICTURE){
-            handler.sendEmptyMessage(SHOW_TAKE_PICTURE);
+            handler.sendEmptyMessage(TAKE_PICTURE);
             return;
         }
         if(resultCode== Activity.RESULT_OK){
             this.intent=intent;
-            handler.sendEmptyMessage(SHOW_LOCAL_PICTURE);
+            handler.sendEmptyMessage(LOCAL_PICTURE);
         }
     }
 
@@ -180,14 +206,34 @@ public class SignupActivity extends AppCompatActivity implements  NetworkCallbac
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
-                case SHOW_TAKE_PICTURE://拍了照片后msg的处理
+                case SAVE_THEME_IMAGE://第一次接到请求
+                    progressDlg.dismiss();
+                    HashMap map=new HashMap();
+                    map.put("type", StatusCode.REQUEST_SAVE_CHANGED_HEAD_IMAGE);
+                    map.put("authkey",dataModel.getAuth_key());
+                    ArrayList<String> temp=new ArrayList<>();
+                    temp.add("\""+imageFileName+"\"");
+                    map.put("image",temp);
+                    map.put("uid",dataModel.getId());
+                    netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
+                    progressDlg=ProgressDialog.show(SignupActivity.this, "上传头像", "正在保存头像", true, true, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            //上传完图片后取消了保存
+                        }
+                    });
+                    break;
+                case TAKE_PICTURE://拍了照片后msg的处理
                     //在这里处理，获取拍到的图
                     Bitmap bitmap= UploadPhotoUtil.getInstance()
                             .trasformToZoomBitmapAndLessMemory(takePictureUrl);
                     BitmapDrawable bd=new BitmapDrawable(getResources(),bitmap);
+                    Drawable addPicture = bd;
+                    userimage.setImageDrawable(addPicture);
+                    headImageChanged=true;
                     break;
                 //在图库选中了本地的图
-                case SHOW_LOCAL_PICTURE:
+                case LOCAL_PICTURE:
                     Uri uri=intent.getData();
                     String photo_local_file_path=getPath_above19(SignupActivity.this, uri);
                     if (!(photo_local_file_path.toString().toLowerCase().endsWith("jpg")||photo_local_file_path.toString().toLowerCase().endsWith("png")
@@ -196,14 +242,52 @@ public class SignupActivity extends AppCompatActivity implements  NetworkCallbac
                         break;
                     }
                     Bitmap bitmap2=UploadPhotoUtil.getInstance().trasformToZoomPhotoAndLessMemory(photo_local_file_path);
-//                    addPicture =new BitmapDrawable(getResources(), bitmap2);
+                    addPicture =new BitmapDrawable(getResources(), bitmap2);
                     takePictureUrl=photo_local_file_path;
-//                    bigimageview.setImageDrawable(addPicture);
-//                    headImageChanged=true;
+                    userimage.setImageDrawable(addPicture);
+                    headImageChanged=true;
+                    break;
+                case UPLOAD_TAKE_PICTURE://第一次发送请求
+                    UploadManager uploadmgr=new UploadManager();
+                    File data=new File(takePictureUrl);
+                    String key=imageFileName;
+                    String token=upToken;
+                    //mProgress.setVisibility(View.VISIBLE);
+                    progressDlg= ProgressDialog.show(SignupActivity.this, "上传头像", "正在上传图片", true, true, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            //取消了上传
+                        }
+                    });
+                    progressDlg.setMax(101);
+                    uploadmgr.put(data, key, token, new UpCompletionHandler(){
+                        @Override
+                        public void complete(String key, ResponseInfo info, JSONObject response) {
+                            //完成，发信息给业务服务器
+                            new Thread(){
+                                public void run(){
+                                    Map<String, Object> map=new HashMap<>();
+                        /* map.put("themeId",themeId);
+                        map.put("imgBody",UploadPhotoUtil.getInstance().getUploadBitmapZoomString(picUrl));
+                        map.put("imgType",UploadPhotoUtil.getInstance().getFileType(picUrl));
+                        map.put("type",1);*/
+                                    Message msg=handler.obtainMessage();
+                                    msg.obj=map;
+                                    msg.what=SAVE_THEME_IMAGE;
+                                    handler.sendMessage(msg);//要上传的图片包装在msg后变成了消息发到handler
+                                }
+                            }.start();
+                        }
+                    },new UploadOptions(null, null, false,
+                            new UpProgressHandler(){
+                                public void progress(String key, double percent){
+                                    //mProgress.setProgress((int)percent*100);
+                                    progressDlg.setProgress((int)percent*100);
+                                }
+                            },null));
 
                     break;
             }
-
         }
     };
 

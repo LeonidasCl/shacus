@@ -230,6 +230,67 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:id="@+id/sign_centerside5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        loginlayout:layout_heightPercent="5%"
+        loginlayout:layout_widthPercent="75%"
+        android:layout_below="@id/sign_centerside2"
+        android:layout_centerHorizontal="true">
+
+
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/login_percentup5"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:loginlayout="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <com.example.pc.shacus.View.Custom.IconEditView
+                android:id="@+id/sign_userlocal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#00000000"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:hint="当前位置"
+                android:gravity="center"
+                loginlayout:layout_widthPercent="80%"
+                loginlayout:layout_heightPercent="100%"
+                android:textColorHint="@color/hint"
+                android:textColorHighlight="#ffffff"
+                android:textColor="#ffffff"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="12sp">
+                <requestFocus />
+            </com.example.pc.shacus.View.Custom.IconEditView>
+        </android.support.percent.PercentFrameLayout>
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/sign_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="位置"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_height="1dip"
+            android:background="@color/hint"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_marginTop="10dp"
         android:id="@+id/sign_centerside3"
         android:layout_width="0dp"
