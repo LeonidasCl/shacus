@@ -2,6 +2,8 @@ package com.example.pc.shacus.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ import com.example.pc.shacus.View.CircleImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,6 +127,7 @@ public class PhotosetListAdapter extends BaseAdapter {
             photoset_like_user_scroll=(HorizontalScrollView)view.findViewById(R.id.photoset_like_user_scroll);
             photoset_like_user_scroll.setHorizontalScrollBarEnabled(false);// 隐藏滚动条
             btn_photoset_addlike=(ImageButton)view.findViewById(R.id.btn_photoset_addlike);
+            photoset_img_list=new ArrayList<>();
             photoset_img_list.add((ImageView)view.findViewById(R.id.photoset_img_1));
             photoset_img_list.add((ImageView)view.findViewById(R.id.photoset_img_2));
             photoset_img_list.add((ImageView)view.findViewById(R.id.photoset_img_3));
@@ -157,19 +161,20 @@ public class PhotosetListAdapter extends BaseAdapter {
             //用户性别
             String sexual=item.getUserHeadimg().getSex();
             if (sexual.equals("1"))
-                photoset_publish_user_sex.setImageResource(R.drawable.sel);//TODO 添加表示性别男和女的图片
+                photoset_publish_user_sex.setImageResource(R.drawable.male);
             else
-                photoset_publish_user_sex.setImageResource(R.drawable.sel);
+                photoset_publish_user_sex.setImageResource(R.drawable.female);
             String age=item.getUserHeadimg().getAge();
             age+="岁";
             photoset_publish_user_age.setText(age);
             //是否显示关注
-            if (true){
+            if (item.getUserIsFriend().equals("1")){
                 btn_add_favor.setVisibility(View.VISIBLE);
                 btn_add_favor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO 关注的请求
+
+
                     }
                 });
             }else
@@ -208,7 +213,7 @@ public class PhotosetListAdapter extends BaseAdapter {
                         .error(R.drawable.loading_error)
                         .into(photoset_img_list.get(i));
                 }
-                photoset_img_count.setText(imgsSize);
+                photoset_img_count.setText(String.valueOf(imgsSize));
             }else if (imgsSize==2){
                 photoset_img_list.get(2).setVisibility(View.INVISIBLE);
                 photoset_img_frame.setVisibility(View.INVISIBLE);
@@ -219,11 +224,66 @@ public class PhotosetListAdapter extends BaseAdapter {
                 photoset_img_frame.setVisibility(View.INVISIBLE);
                 photoset_img_count.setVisibility(View.INVISIBLE);
             }
-            //TODO 点赞的请求
-            btn_photoset_addlike.setOnClickListener(new View.OnClickListener() {
+            final Handler handler=new Handler() {
                 @Override
-                public void onClick(View v) {
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+
+                    if (msg.what== StatusCode.PRAISE_YUEPAI_SUCCESS){
+                        //APlike.setSelected(true);
+                        btn_photoset_likecount.setText(item.getUserlikeNum());
+                    }
+                    if (msg.what == StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS){
+                        //APlike.setSelected(false);
+                        btn_photoset_likecount.setText(item.getUserlikeNum());
+                    }
+                }
+            };
+            btn_photoset_addlike.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
                     //发起点赞请求
+                    NetRequest netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                        @Override
+                        public void requestFinish(String result, String requestUrl) throws JSONException {
+                            if (requestUrl.equals(CommonUrl.praiseAppointment)) {
+                                JSONObject object = new JSONObject(result);
+                                int code = Integer.valueOf(object.getString("code"));
+                                if (code == StatusCode.PRAISE_PHOTOSET) {
+                                    item.setUserIsLiked("1");
+                                    Message msg=handler.obtainMessage();
+                                    msg.what= StatusCode.PRAISE_YUEPAI_SUCCESS;
+                                    item.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) + 1 + "");
+
+                                    handler.sendMessage(msg);
+                                    return;
+                                }
+                                if (code == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                                    item.setUserIsLiked("0");
+                                    Message msg=handler.obtainMessage();
+                                    msg.what= StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS;
+                                    item.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) - 1 + "");
+                                    handler.sendMessage(msg);
+                                    return;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void exception(IOException e, String requestUrl) {}
+                    }, activity);
+
+                    Map map = new HashMap();
+                    if (item.getUserIsLiked().equals("1"))
+                        map.put("type", StatusCode.CANCEL_PRAISE_PHOTOSET);
+                    else
+                        map.put("type", StatusCode.PRAISE_PHOTOSET);
+                    ACache cache = ACache.get(activity);
+                    LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
+                    map.put("ucid", item.getUCid());
+                    map.put("authkey", model.getUserModel().getAuth_key());
+                    netRequest.httpRequest(map, CommonUrl.praiseAppointment);
+
                 }
             });
             //处理点赞人水平滚动条

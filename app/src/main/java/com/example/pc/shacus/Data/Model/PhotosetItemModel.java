@@ -17,6 +17,7 @@ public class PhotosetItemModel implements Serializable{
     private int UCusergender;
     private int UCid;
     private String UserIsFriend;
+    private String UserIsLiked;
     private String UserlikeNum;
     private List<UserModel> UserlikeList;
     private UserModel UserPublish;
@@ -125,5 +126,13 @@ public class PhotosetItemModel implements Serializable{
 
     public void setUCcreateT(String UCcreateT) {
         this.UCcreateT = UCcreateT;
+    }
+
+    public String getUserIsLiked() {
+        return UserIsLiked;
+    }
+
+    public void setUserIsLiked(String userIsLiked) {
+        UserIsLiked = userIsLiked;
     }
 }

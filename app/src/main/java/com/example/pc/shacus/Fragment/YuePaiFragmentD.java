@@ -26,6 +26,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -88,7 +89,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     private Handler handler=new Handler(){
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(Message msg){
             super.handleMessage(msg);
             switch(msg.what){
                 case StatusCode.REQUEST_YUEPAI_GRAPH_LIST_SUCCESS:
@@ -106,6 +107,9 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 case StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS:
                     personAdapter.notifyDataSetChanged();
                     getYuePaiFlag=true;
+                    break;
+                case StatusCode.REQUEST_FAILURE:
+                    CommonUtils.getUtilInstance().showToast(getActivity(),"拉取作品集列表失败");
                     break;
             }
         }
@@ -155,7 +159,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
         btn_favor_photoset =(LinearLayout)rankView.findViewById(R.id.ll_favor_photoset);
         btn_recommended_photoset=(LinearLayout)rankView.findViewById(R.id.ll_recommended_photoset);
 
-        Log.d("LQQQQQQ", "onCreateView: ");
         onScrollListener();
         onRefreshListener();
 
@@ -182,7 +185,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     personAdapter.refresh(bootData(INIT));
                     personAdapter.notifyDataSetChanged();//直接调用BaseAdapter的notify
                     refreshLayout.setRefreshing(false);
-                    Log.d("LQQQQQQQQQ", "button_favor onTouchListener");
                 }
                 return false;
             }
@@ -202,7 +204,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     personAdapter.refresh(bootData(INIT));
                     personAdapter.notifyDataSetChanged();
                     refreshLayout.setRefreshing(false);
-                    Log.d("LQQQQQQQQQ", "button_recommand onTouchListener");
 
                 }
                 return false;
@@ -221,7 +222,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 personAdapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
                 refreshing = true;
-                Log.d("LQQQQQQQQQ", "refresh onTouchListener");
             }
         });
     }
@@ -243,7 +243,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 //                        @Override
 //                        public void onAnimationUpdate(ValueAnimator animation) {
 //                            //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
-//                            Log.d("LQQQQQQ", "onAnimationUpdate: ");
 //                            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
 //                            layoutParams.topMargin = (Integer) animation.getAnimatedValue();
 //                            mSideZoomBanner.setLayoutParams(layoutParams);
@@ -259,7 +258,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 1 && totalItemCount < maxRecords && totalItemCount != 0 && getYuePaiFlag) {
                     loadData(isFavor ? FAVOR : RECOMMEND);
-                    Log.d("LQQQQQQQQQ", "personAdapter.notifyDataSetChanged();");
                     getYuePaiFlag = false;
                 }
                 if (!mainScrollControl && firstVisibleItem == 0 && absListView.getChildAt(0) != null && absListView.getChildAt(0).getTop() > -10) {
@@ -272,7 +270,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                             @Override
                             public void onAnimationUpdate(ValueAnimator animation) {
                                 //mSideZoomBanner.setPadding(0,(Integer)animation.getAnimatedValue(),0,0);
-                                Log.d("LQQQQQQ", "onAnimationUpdate: ");
                                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSideZoomBanner.getLayoutParams();
                                 layoutParams.topMargin = (Integer) animation.getAnimatedValue();
                                 mSideZoomBanner.setLayoutParams(layoutParams);
@@ -314,13 +311,11 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 final List<PhotosetItemModel> list = new ArrayList<>();
                 final LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
                 final UserModel data = model.getUserModel();
-                Log.d("LQQQQQQ", "loadData: ");
                 NetRequest requestFragment = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
                     @Override
                     public void requestFinish(String result, String requestUrl) throws JSONException {
                         JSONObject json = new JSONObject(result);
                         String code = json.getString("code");
-                        Log.d("LQQQQQQ", "code:" + code);
                         if (code.equals(String.valueOf(StatusCode.RETURN_FAVOR_PHOTOSET_LIST)) && isFavor) {//加载更多的返回
                             JSONArray array = json.getJSONArray("contents");
                             for (int i = 0; i < array.length(); i++) {
@@ -368,14 +363,12 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     map.put("authkey", data.getAuth_key());
                     map.put("index", personAdapter.getItem(bootCounter - 1).getUCid());
                     requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
-                    Log.d("LQQQQQQQQQ", "request map");
                 } else if (type == RECOMMEND) {
                     Map<String, Object> map = new HashMap<>();
                     map.put("type", StatusCode.REQUEST_MORE_RECOMMENDED_PHOTOSET_LIST);
                     map.put("authkey", data.getAuth_key());
                     map.put("index", personAdapter.getItem(bootCounter - 1).getUCid());
                     requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
-                    Log.d("LQQQQQQQQQ", "request map");
                 }
 
                 return list;
@@ -391,7 +384,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 List<PhotosetItemModel> persons=null;
                 persons =model.getCollectionList();
                 bootCounter+=persons.size();
-                Log.d("LQQQQQQQQQ", "bootdata");
                 getYuePaiFlag=true;
                 return persons;
             } else if(!isFavor){
@@ -399,10 +391,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 List<PhotosetItemModel> persons=null;
                 persons =model.getCollectionList();
                 bootCounter+=persons.size();
-                Log.d("LQQQQQQQQQ", "bootdata");
                 getYuePaiFlag=true;
                 return persons;
-
             }
         }
 
@@ -417,14 +407,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             public void requestFinish(String result, String requestUrl) throws JSONException {
                 JSONObject json = new JSONObject(result);
                 String code = json.getString("code");
-                Log.d("LQQQQQQ", "code:" + code);
                 JSONArray array = json.getJSONArray("contents");
                 if (code.equals(String.valueOf(REQUEST_FAVOR_PHOTOSET_LIST))) {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();
                         PhotosetItemModel photo = gson.fromJson(info.toString(), PhotosetItemModel.class);
-                        Log.d("LQQQQQ", info.getString("APid"));
+
                         list.add(photo);
 
                     }
@@ -435,12 +424,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     Message msg=handler.obtainMessage();
                     msg.what=StatusCode.REQUEST_YUEPAI_GRAPH_LIST_SUCCESS;
                     handler.sendMessage(msg);
+                    return;
                 }else if (code.equals(String.valueOf(REQUESTRECOMMENDED_PHOTOSET_LIST))) {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();
                         PhotosetItemModel photo = gson.fromJson(info.toString(), PhotosetItemModel.class);
-                        Log.d("LQQQQQ", info.getString("APid"));
+
                         list.add(photo);
                     }
                     bootCounter+=array.length();
@@ -449,6 +439,11 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     personAdapter.add(list);
                     Message msg=handler.obtainMessage();
                     msg.what=StatusCode.REQUEST_YUEPAI_MODEL_LIST_SUCCESS;
+                    handler.sendMessage(msg);
+                    return;
+                }else {
+                    Message msg=handler.obtainMessage();
+                    msg.what=StatusCode.REQUEST_FAILURE;
                     handler.sendMessage(msg);
                 }
 //                else if(code.equals("10261")){}
@@ -466,13 +461,11 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             map.put("type", REQUEST_FAVOR_PHOTOSET_LIST);
             map.put("authkey", data.getAuth_key());
             requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
-            Log.d("LQQQQQQQQQ", "request map");
         }else if(type== RECOMMEND){
             Map<String, Object> map = new HashMap<>();
             map.put("type", REQUESTRECOMMENDED_PHOTOSET_LIST);
             map.put("authkey", data.getAuth_key());
             requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
-            Log.d("LQQQQQQQQQ", "request map");
         }
         return list;
 
@@ -485,7 +478,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     public void doRefresh(){
         refreshLayout.setRefreshing(true);
         bootCounter=0;
-        Log.d("LQQQQQQQQQ", "dorefresh");
         personAdapter.refresh(bootData(isFavor ? FAVOR : RECOMMEND));
         personAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
