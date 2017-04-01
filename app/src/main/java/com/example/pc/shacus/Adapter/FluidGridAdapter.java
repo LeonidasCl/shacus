@@ -54,6 +54,7 @@ public class FluidGridAdapter extends BaseAdapter {
             this.desiredRowHeight = desiredRowHeight;
         }
         calculateScreenDimensions();
+        if (imageDatas.size()>0)
         this.fluidPhotoRows = buildFluidPhotoRows(imageDatas);
     }
 
@@ -202,13 +203,16 @@ public class FluidGridAdapter extends BaseAdapter {
      */
     private ArrayList<FluidPhotoRow> buildFluidPhotoRows(ArrayList<ImageData> imageDatas){
         double photoRowWidth = 0;
-        int i = 0;
+        //int i = 0;
 
         ArrayList<FluidPhotoRow> fluidPhotoRows = new ArrayList<FluidPhotoRow>();
         ArrayList<ImageData> subList = new ArrayList<ImageData>();
 
-        for(ImageData imageData : imageDatas) {
-            i++;
+        if (imageDatas.size()==0)
+            return null;
+
+        for(int i=0;i<imageDatas.size();i++) {
+            ImageData imageData=imageDatas.get(i);
             int totalPadding = (i - 1) * cellPadding;
             float aspectRatio = imageData.getAspectRatio();
             double photoWidth = aspectRatio * desiredRowHeight;

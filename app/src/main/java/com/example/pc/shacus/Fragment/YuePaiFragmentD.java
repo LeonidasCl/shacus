@@ -382,7 +382,6 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     }
 
     private List<PhotosetItemModel> bootData(int type){
-
         if(type==INIT){
             if(isFavor){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");

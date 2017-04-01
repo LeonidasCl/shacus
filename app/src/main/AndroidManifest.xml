@@ -176,7 +176,7 @@
         </activity>
         <activity
             android:name=".Activity.PhotosetDetailActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -185,7 +185,7 @@
         </activity>
         <activity
             android:name=".Activity.PhotoselfDetailActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -194,7 +194,7 @@
         </activity>
         <activity
             android:name=".Activity.PhotosetOverviewActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
