@@ -82,6 +82,9 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     private boolean getYuePaiFlag=false;
     private boolean mainScrollControl=true;
 
+    private boolean isFavorEnd=false;
+    private boolean isRecommandEnd=false;
+
 
     View rankView;
     private RelativeLayout mSideZoomBanner;
@@ -257,6 +260,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 1 && totalItemCount < maxRecords && totalItemCount != 0 && getYuePaiFlag) {
+                    if ((isFavor&&isFavorEnd)||(!isFavor&&isRecommandEnd))
+                        return;
                     loadData(isFavor ? FAVOR : RECOMMEND);
                     getYuePaiFlag = false;
                 }
@@ -408,7 +413,10 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 JSONObject json = new JSONObject(result);
                 String code = json.getString("code");
                 JSONArray array = json.getJSONArray("contents");
+
                 if (code.equals(String.valueOf(REQUEST_FAVOR_PHOTOSET_LIST))) {
+                    if (array.length()<5)
+                        isFavorEnd=true;
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();
@@ -426,6 +434,8 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     handler.sendMessage(msg);
                     return;
                 }else if (code.equals(String.valueOf(REQUESTRECOMMENDED_PHOTOSET_LIST))) {
+                    if (array.length()<5)
+                        isRecommandEnd=true;
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();
