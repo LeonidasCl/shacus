@@ -41,6 +41,8 @@ import com.example.pc.shacus.Activity.FollowActivity;
 import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.PersonalInfoActivity;
 import com.example.pc.shacus.Activity.PersonalInfoEditActivity;
+import com.example.pc.shacus.Activity.PhotoselfDetailActivity;
+import com.example.pc.shacus.Activity.PhotosetOverviewActivity;
 import com.example.pc.shacus.Activity.SettingsActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -294,6 +296,32 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             @Override
             public void onClick(View v) {
                 display_big_image_layout.setVisibility(View.GONE);
+            }
+        });
+
+        LinearLayout grzp = (LinearLayout) view.findViewById(R.id.grzp);
+        LinearLayout zpj = (LinearLayout) view.findViewById(R.id.zpj);
+
+
+
+        ACache aCache = ACache.get(APP.context);
+        final LoginDataModel model = (LoginDataModel) aCache.getAsObject("loginModel");
+        grzp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),PhotoselfDetailActivity.class);
+                intent.putExtra("uid",Integer.valueOf(model.getUserModel().getId()));
+                startActivity(intent);
+            }
+        });
+
+
+        zpj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),PhotosetOverviewActivity.class);
+                intent.putExtra("uid",Integer.valueOf(model.getUserModel().getId()));
+                startActivity(intent);
             }
         });
 

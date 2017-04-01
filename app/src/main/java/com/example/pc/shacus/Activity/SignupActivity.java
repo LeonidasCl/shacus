@@ -280,10 +280,13 @@ public class SignupActivity extends AppCompatActivity implements NetworkCallback
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         //这里获取到的月份需要加上1哦~
-                        String result = String.valueOf(year) + "-" + (month + 1) + "-" + dayOfMonth;
-                        birthday = result;
-                        sign_userbirth.setText(result);
-                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+//                        String result = String.valueOf(year) + "-" + (month + 1) + "-" + dayOfMonth;
+                        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = new Date(Integer.valueOf(year),Integer.valueOf(month+1),Integer.valueOf(dayOfMonth));
+                        Log.d("CCCCCCCCCCCCCCCCC",dateFormater.format(date));
+                        birthday = dateFormater.format(date);
+                        sign_userbirth.setText(dateFormater.format(date));
+//                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                     }
                 }
                         , calendar.get(Calendar.YEAR)
