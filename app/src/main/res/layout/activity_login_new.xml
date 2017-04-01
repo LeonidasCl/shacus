@@ -137,6 +137,7 @@
                 loginlayout:layout_heightPercent="90%"
                 android:hint="@string/register_code"
                 android:visibility="gone"
+                android:textColor="#ffffff"
                 android:textColorHint="@color/ff_white"
                 android:textColorHighlight="#ffffff"
                 android:textStyle="bold"

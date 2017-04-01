@@ -376,10 +376,13 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         LoginDataModel loginModel = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(),LoginDataModel.class);
                         ACache cache=ACache.get(LoginActivity.this);
                         cache.put("loginModel", loginModel, ACache.TIME_WEEK * 2);
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("result","注册成功");
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);*/
+                        Intent intent = new Intent(getApplicationContext(),SignupActivity.class);
                         startActivity(intent);
+
                         finish();
                         return;
                     }
