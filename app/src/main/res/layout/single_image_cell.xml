@@ -21,5 +21,46 @@
             android:layout_gravity="top|end"
             android:src="@drawable/def"/>
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frame_photoset_block"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/four_black"
+            android:layout_marginLeft="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_phptoset_overview_title"
+            android:textColor="@color/ff_white"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="3dp"
+            android:paddingRight="5dp"
+            android:textSize="16sp"
+            android:text=""/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_phptoset_overview_time"
+            android:paddingLeft="10dp"
+            android:paddingBottom="3dp"
+            android:paddingRight="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/ff_white"
+            android:text=""/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
 
 </RelativeLayout>

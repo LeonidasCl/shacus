@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Activity.PhotosetDetailActivity;
 import com.example.pc.shacus.Activity.YuePaiDetailActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -152,6 +153,14 @@ public class PhotosetListAdapter extends BaseAdapter {
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(photoset_publish_user_avatar);
+            photoset_publish_user_avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, OtherUserActivity.class);
+                    intent.putExtra("id",item.getUserHeadimg().getId());
+                    activity.startActivity(intent);
+                }
+            });
             //用户昵称
             String username=item.getUserHeadimg().getNickName();
             if (!username.equals(""))
@@ -173,7 +182,6 @@ public class PhotosetListAdapter extends BaseAdapter {
                 btn_add_favor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
 
                     }
                 });

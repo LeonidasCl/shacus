@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class FluidPhotoRow{
     private ArrayList<ImageData> imageDatas;
+    private ArrayList<String> titles;
+    private ArrayList<String> contents;
     private int rowHeight;
 
     public FluidPhotoRow(ArrayList<ImageData> imageDatas, int rowHeight){
@@ -31,5 +33,21 @@ public class FluidPhotoRow{
 
     public void setRowHeight(int rowHeight) {
         this.rowHeight = rowHeight;
+    }
+
+    public ArrayList<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(ArrayList<String> titles) {
+        this.titles = titles;
+    }
+
+    public ArrayList<String> getContents() {
+        return contents;
+    }
+
+    public void setContents(ArrayList<String> contents) {
+        this.contents = contents;
     }
 }
