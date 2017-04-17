@@ -7,7 +7,7 @@
     android:background="#FFEEEEEE"
     android:clipChildren="false">
 
-    <!--底部四个按钮-->
+    <!--底部四个按钮，注释了一个，这里为3个按钮，不喜欢，喜欢，和私信按钮-->
     <include
         android:id="@+id/swipe_fling_bottom"
         layout="@layout/layout_swipe_fling_bottom" />
@@ -21,4 +21,21 @@
         android:layout_marginTop="-50dp"
         android:clipChildren="false"
         app:rotation_degrees="12" />
+    <!--个人主页-->
+    <com.example.pc.shacus.View.Custom.RoundImageView
+        android:id="@+id/self_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/swipe_fling_bottom"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_launcher"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/self_main"
+        android:layout_marginBottom="130dp"
+        android:gravity="center"
+        android:text="@string/self_main"/>
 </RelativeLayout>

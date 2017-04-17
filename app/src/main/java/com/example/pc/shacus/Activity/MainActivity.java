@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,8 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,9 +39,7 @@ import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.SettingDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
-import com.example.pc.shacus.Fragment.MyDisplay;
 import com.example.pc.shacus.Fragment.MyDisplayFragment;
-import com.example.pc.shacus.Fragment.HomeFragment;
 import com.example.pc.shacus.Fragment.YuePaiFragment;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -50,8 +49,6 @@ import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.Util.SystemBarTintManager;
 import com.example.pc.shacus.View.CircleImageView;
-import com.example.pc.shacus.View.FloatMenu.FilterMenu;
-import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
 import com.example.pc.shacus.swipecards.swipe.CardFragment;
 
 import org.json.JSONException;
@@ -62,88 +59,10 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.InflateException;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import io.rong.imkit.RongIM;
-import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imlib.MessageTag;
-import io.rong.imlib.RongIMClient;
-
-import com.bumptech.glide.Glide;
-
-import io.rong.imlib.TypingMessage.TypingStatus;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.UserInfo;
-import io.rong.message.TextMessage;
-import io.rong.message.VoiceMessage;
-
-import com.example.pc.shacus.APP;
-import com.example.pc.shacus.Data.Cache.ACache;
-import com.example.pc.shacus.Data.Model.LoginDataModel;
-import com.example.pc.shacus.Data.Model.SettingDataModel;
-import com.example.pc.shacus.Fragment.MyDisplayFragment;
-import com.example.pc.shacus.Data.Model.UserModel;
-import com.example.pc.shacus.Fragment.HomeFragment;
-import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
-import com.example.pc.shacus.Fragment.YuePaiFragment;
-import com.example.pc.shacus.Network.NetRequest;
-import com.example.pc.shacus.Network.NetworkCallbackInterface;
-import com.example.pc.shacus.Network.StatusCode;
-import com.example.pc.shacus.R;
-import com.example.pc.shacus.Util.CommonUrl;
-import com.example.pc.shacus.Util.CommonUtils;
-import com.example.pc.shacus.Util.DisplayUtil;
-import com.example.pc.shacus.Util.SystemBarTintManager;
-import com.example.pc.shacus.View.CircleImageView;
-import com.tencent.map.geolocation.TencentLocationRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import static com.example.pc.shacus.APP.context;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
@@ -171,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ACache cache;
     private CircleImageView btnAvartar;
     private TextView textName;
+    private Button btnSelect;
     private EditText userSign;
     private String cacheSign="";
     private DrawerLayout mDrawerLayout;
@@ -179,6 +99,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog progressDlg;
     private boolean signFlag=false;
     private boolean exitFlag=false;
+
+    //筛选菜单
+    private CheckBox checkbox_sex_all;
+    private CheckBox checkbox_sex_man;
+    private CheckBox checkbox_sex_woman;
+    private CheckBox checkbox_people_all;
+    private CheckBox checkbox_people_photogragher;
+    private CheckBox checkbox_people_model;
+    private boolean[] sex_selector = {true, false,false};
+    private boolean[] people_selector = {true, false,false};
+
 
 
     @Override
@@ -198,6 +129,111 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textName=(TextView)findViewById(R.id.m_toolbar_title);
         textName.setText("未登录");
+
+        btnSelect = (Button)findViewById(R.id.m_toolbar_selector);
+        //为btnSelect设置监听事件
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
+                view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_selector_layout, null);
+                // 设置我们自己定义的布局文件作为弹出框的Content
+                builder.setView(view);
+                //要调用顶部的view，这样才会从顶部的view开始搜索
+                checkbox_sex_all = (CheckBox) view.findViewById(R.id.sex_all);
+                checkbox_sex_man = (CheckBox) view.findViewById(R.id.sex_man);
+                checkbox_sex_woman = (CheckBox) view.findViewById(R.id.sex_woman);
+                checkbox_people_all = (CheckBox) view.findViewById(R.id.people_all);
+                checkbox_people_photogragher = (CheckBox) view.findViewById(R.id.people_photogragher);
+                checkbox_people_model = (CheckBox) view.findViewById(R.id.people_model);
+                checkbox_people_all.setChecked(true);
+                checkbox_sex_all.setChecked(true);
+                //六个实现每个列表单选的监听方法
+                checkbox_people_all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
+                        if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
+                                .setChecked(false);
+                    }
+
+                });
+                checkbox_people_photogragher.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                        if(checkbox_people_model.isChecked()) checkbox_people_model
+                                .setChecked(false);
+                    }
+
+                });
+
+                checkbox_people_model.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                        if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
+                                .setChecked(false);
+                    }
+
+                });
+                checkbox_sex_woman.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
+                        if(checkbox_sex_man.isChecked()) checkbox_sex_man
+                                .setChecked(false);
+                    }
+
+                });
+                checkbox_sex_man.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
+                        if(checkbox_sex_woman.isChecked()) checkbox_sex_woman
+                                .setChecked(false);
+                    }
+
+                });checkbox_sex_all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkbox_sex_woman.isChecked()) checkbox_sex_woman.setChecked(false);
+                        if(checkbox_sex_man.isChecked()) checkbox_sex_man
+                                .setChecked(false);
+                    }
+
+                });
+
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        if(checkbox_sex_all.isChecked()) sex_selector[0] = true;
+                        if(checkbox_sex_man.isChecked()) sex_selector[1] = true;
+                        if(checkbox_sex_woman.isChecked()) sex_selector[2] = true;
+
+                        if(checkbox_people_all.isChecked()) people_selector[0] = true;
+                        if(checkbox_people_photogragher.isChecked()) people_selector[1] = true;
+                        if(checkbox_people_model.isChecked()) people_selector[2] = true;
+                    }
+                });
+
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+
+                    }
+                });
+
+                builder.show();
+
+            }
+        });
+
 
         Window window = getWindow();
         //4.4版本及以上

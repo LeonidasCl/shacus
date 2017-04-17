@@ -582,6 +582,7 @@ public class SwipeFlingView extends AdapterView {
         this.mOnItemClickListener = onItemClickListener;
     }
 
+
     /*public final int getCurPositon() {
         return mCurPositon;
     }*/
@@ -963,7 +964,7 @@ public class SwipeFlingView extends AdapterView {
 
         if (mFlingListener != null) {
             if (isSuperLike) {
-                mFlingListener.onSuperLike(mActiveCard, mCurPositon, triggerByTouchMove);
+                mFlingListener.onSelfChat(mActiveCard, mCurPositon, triggerByTouchMove);
             } else {
                 if (isLeft) {
                     mFlingListener.onLeftCardExit(mActiveCard, mCurPositon, triggerByTouchMove);
@@ -1397,7 +1398,7 @@ public class SwipeFlingView extends AdapterView {
          * @param dataObject
          * @param triggerByTouchMove 若true:表示此次卡片离开是来之于手势拖拽 反之则来之于点击按钮触发之类的
          */
-        void onSuperLike(View view, Object dataObject, boolean triggerByTouchMove);
+        void onSelfChat(View view, Object dataObject, boolean triggerByTouchMove);
 
         /**
          * 在顶部卡片划走时，会刷新布局，将设置顶部下面的卡片为顶部卡片，此时会回调此函数

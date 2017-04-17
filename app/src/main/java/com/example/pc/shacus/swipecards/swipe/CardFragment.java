@@ -1,12 +1,22 @@
 package com.example.pc.shacus.swipecards.swipe;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.pc.shacus.Activity.MainActivity;
+import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.View.Custom.RoundImageView;
 import com.example.pc.shacus.swipecards.SwipeFlingView;
 import com.example.pc.shacus.swipecards.test.TestData;
 import com.example.pc.shacus.swipecards.util.BaseModel;
@@ -19,6 +29,8 @@ import butterknife.InjectView;
 import retrofit2.Call;
 import com.example.pc.shacus.R;
 
+import static com.example.pc.shacus.APP.context;
+
 
 /**
  * 卡片Fragment
@@ -29,9 +41,13 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     private final static String TAG = CardFragment.class.getSimpleName();
     private final static boolean DEBUG = true;
+    private ACache acache;
 
     @InjectView(R.id.frame)
     SwipeFlingView mSwipeFlingView;
+
+    @InjectView(R.id.self_main)
+    RoundImageView mImageView;
 
     @InjectView(R.id.swipe_fling_bottom)
     SwipeFlingBottomLayout mBottomLayout;
@@ -41,6 +57,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private int mPageIndex = 0;
     private boolean mIsRequestGirlList;
     private ArrayList<CardEntity> mGrilList = new ArrayList<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,9 +74,20 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mSwipeFlingView.setAdapter(mAdapter);
         mSwipeFlingView.setOnSwipeFlingListener(this);//SimpleOnSwipeListener/OnSwipeListener
         mSwipeFlingView.setOnItemClickListener(this);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acache = ACache.get(getActivity());
+                UserModel model=(UserModel) acache.getAsObject("userModel");
+                Intent intent = new Intent(getActivity(),OtherUserActivity.class);
+                intent.putExtra("id", model.getId());
+                startActivity(intent);
+            }
+        });
+
         mBottomLayout.setOnBottomItemClickListener(this);
     }
-
+    //筛选之后调用这个方法
     private void updateListView(ArrayList<CardEntity> list) {
         if (list == null || list.size() == 0) {
             return;
@@ -170,7 +198,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     }
 
     @Override
-    public void onSuperLike(View view, Object dataObject, boolean triggerByTouchMove) {
+    public void onSelfChat(View view, Object dataObject, boolean triggerByTouchMove) {
         if (DEBUG) {
             Log.d(TAG, "SwipeFlingView onSuperLike");
             int cur= Integer.valueOf(dataObject.toString());
@@ -221,7 +249,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     }*/
 
     @Override
-    public void onSuperLikeClick() {
+    public void onSelfChatClick() {
         if (mSwipeFlingView.isAnimationRunning()) {
             return;
         }

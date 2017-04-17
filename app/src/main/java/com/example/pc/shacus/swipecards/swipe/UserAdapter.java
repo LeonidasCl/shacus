@@ -83,11 +83,13 @@ public class UserAdapter extends BaseAdapter {
             cardLayout = (CardLayout) rootView;
             img = ButterKnife.findById(rootView, R.id.item_img);
             nameView = ButterKnife.findById(rootView, R.id.item_name);
-            addressView = ButterKnife.findById(rootView, R.id.item_address);
+            //这里要改成性别
+            addressView = ButterKnife.findById(rootView, R.id.item_sex);
             likeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_like_indicator);
             unLikeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_unlike_indicator);
-            mFriendCountTv = ButterKnife.findById(rootView, R.id.item_friend_count);
-            mInterestCountTv = ButterKnife.findById(rootView, R.id.item_interest_count);
+            //去掉点赞的人
+            //mFriendCountTv = ButterKnife.findById(rootView, R.id.item_friend_count);
+            //mInterestCountTv = ButterKnife.findById(rootView, R.id.item_interest_count);
             mBottomLayout = ButterKnife.findById(rootView, R.id.item_bottom_layout);
         }
 

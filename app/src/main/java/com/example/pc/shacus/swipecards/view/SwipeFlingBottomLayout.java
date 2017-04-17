@@ -20,8 +20,8 @@ public class SwipeFlingBottomLayout extends LinearLayout {
     /*@InjectView(R.id.comeback)
     BottomSwitchView mComeBackView;*/
 
-    @InjectView(R.id.superlike)
-    BottomSwitchView mSuperLikeView;
+    @InjectView(R.id.self_chat)
+    BottomSwitchView mSelfChatView;
 
     @InjectView(R.id.like)
     BottomSwitchView mLikeView;
@@ -83,10 +83,10 @@ public class SwipeFlingBottomLayout extends LinearLayout {
         }
     }*/
 
-    @OnClick(R.id.superlike)
-    public void onSuperLikeClick() {
+    @OnClick(R.id.self_chat)
+    public void onSelfChatClick() {
         if (mListener != null) {
-            mListener.onSuperLikeClick();
+            mListener.onSelfChatClick();
         }
     }
 
@@ -113,7 +113,7 @@ public class SwipeFlingBottomLayout extends LinearLayout {
     }
 
     public BottomSwitchView getSuperLikeView() {
-        return mSuperLikeView;
+        return mSelfChatView;
     }
 
    /* public void setEnableComeback(boolean isEnable) {
@@ -121,7 +121,7 @@ public class SwipeFlingBottomLayout extends LinearLayout {
     }*/
 
     public void setEnableSuperLike(boolean isEnable) {
-        mSuperLikeView.setEnabled(isEnable);
+        mSelfChatView.setEnabled(isEnable);
     }
 
     /*public boolean isEnableComeback() {
@@ -129,7 +129,7 @@ public class SwipeFlingBottomLayout extends LinearLayout {
     }*/
 
     public boolean isEnableSuperLike() {
-        return mSuperLikeView.isEnabled();
+        return mSelfChatView.isEnabled();
     }
 
     /*public void setComebackClickable(boolean clickable) {
@@ -143,7 +143,7 @@ public class SwipeFlingBottomLayout extends LinearLayout {
     public interface OnBottomItemClickListener {
         //public void onComeBackClick();
 
-        public void onSuperLikeClick();
+        public void onSelfChatClick();
 
         public void onLikeClick();
 
