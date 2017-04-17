@@ -22,30 +22,30 @@
 
     <com.example.pc.shacus.swipecards.view.BottomSwitchView
         android:id="@+id/unlike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal|center"
         android:layout_marginLeft="40dp"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:clickable="true"
-        android:src="@drawable/skip"/>
+        android:src="@drawable/skip" />
 
     <com.example.pc.shacus.swipecards.view.BottomSwitchView
         android:id="@+id/self_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal|center"
         android:layout_weight="1"
         android:clickable="true"
-        android:src="@drawable/self_chat"/>
+        android:src="@drawable/self_chat" />
 
     <com.example.pc.shacus.swipecards.view.BottomSwitchView
         android:id="@+id/like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal|center"
         android:layout_marginRight="40dp"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:clickable="true"
-        android:src="@drawable/interest_ta"/>
+        android:src="@drawable/interest_ta" />
 </com.example.pc.shacus.swipecards.view.SwipeFlingBottomLayout>

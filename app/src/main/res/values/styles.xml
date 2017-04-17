@@ -183,6 +183,12 @@
         <item name="max_visible">4</item>
     </style>
 
-
+    <style name="AlertDialog" parent="@android:style/Theme.DeviceDefault.Dialog">
+        <!-- 这里是修改顶部标题背景颜色，具体颜色自己定，可以是图片 -->
+        <item name="android:topDark">@color/zero_black</item>
+        <!-- 这里是修改内容区域背景颜色 -->
+        <item name="android:centerDark">@color/zero_black</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
 </resources>

@@ -35,6 +35,6 @@
         android:id="@+id/m_toolbar_selector"
         android:layout_width = "40dp"
         android:layout_height ="40dp"
-        android:src="@drawable/selector"
+        android:background="@drawable/toolbar_selector"
         android:layout_gravity = "end|top"/>
 </android:android.support.v7.widget.Toolbar >

@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,R.style.AlertDialog);
                 // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
                 view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_selector_layout, null);
                 // 设置我们自己定义的布局文件作为弹出框的Content

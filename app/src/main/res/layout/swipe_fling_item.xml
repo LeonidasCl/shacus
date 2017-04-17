@@ -49,17 +49,17 @@
                     android:id="@+id/item_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
-                    android:paddingTop="5dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/item_bottom_ll"
+                    android:layout_marginLeft="0dp"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:paddingTop="5dp"
                     android:textColor="#FFCCCCCC"
                     android:textSize="18sp"
-                    tools:text="Excited age and location"
-                    android:layout_below="@+id/item_bottom_ll"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    tools:text="Excited age and sex" />
             </LinearLayout>
 
         </RelativeLayout>
