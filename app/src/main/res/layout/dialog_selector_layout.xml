@@ -6,7 +6,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/ff_white"
-            android:text="全部"/>
+            android:text="全部 "/>
         <CheckBox
             android:id="@+id/sex_man"
             android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/ff_white"
-            android:text="男"/>
+            android:text="男 "/>
         <CheckBox
             android:id="@+id/sex_woman"
             android:layout_width="wrap_content"
@@ -54,7 +55,9 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/ff_white"
-            android:text="全部"/>
+            android:text="全部 "/>
         <CheckBox
             android:id="@+id/people_photogragher"
             android:layout_width="wrap_content"
@@ -85,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/ff_white"
-            android:text="摄影师"/>
+            android:text="摄影师 "/>
         <CheckBox
             android:id="@+id/people_model"
             android:layout_width="wrap_content"

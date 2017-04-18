@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--修改卡片大小-->
 <com.example.pc.shacus.swipecards.view.CardLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="320dp"
+    android:layout_height="450dp"
     android:layout_gravity="center_horizontal"
     android:layout_marginLeft="@dimen/card_margin_left_right"
     android:layout_marginRight="@dimen/card_margin_left_right"
@@ -32,34 +33,49 @@
                 android:id="@+id/item_bottom_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
                 <!--姓名-->
                 <TextView
                     android:id="@+id/item_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="#FF666666"
+                    android:layout_weight="1"
                     android:textSize="18sp"
+
                     tools:text="Excited name here" />
 
-                <!--年龄 性别-->
-                <TextView
-                    android:id="@+id/item_sex"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/item_bottom_ll"
-                    android:layout_marginLeft="0dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
                     android:maxLines="1"
-                    android:paddingTop="5dp"
-                    android:textColor="#FFCCCCCC"
-                    android:textSize="18sp"
-                    tools:text="Excited age and sex" />
+                    android:ellipsize="end"
+                    android:orientation="horizontal">
+                    <!--性别图片和年龄-->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="1dp"
+                        android:src="@drawable/sex_man" />
+
+                    <TextView
+                        android:id="@+id/item_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/item_bottom_ll"
+                        android:layout_marginLeft="0dp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:textColor="#FFCCCCCC"
+                        android:textSize="18sp"
+                        tools:text="20" />
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>
