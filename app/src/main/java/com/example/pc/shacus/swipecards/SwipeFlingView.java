@@ -21,7 +21,13 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+
+import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.R;
+import com.tencent.connect.UserInfo;
+
 import java.util.ArrayList;
 
 /**
@@ -88,6 +94,7 @@ public class SwipeFlingView extends AdapterView {
     private ValueAnimator mSelectedAnimator;
     private ArrayList<View> mReleasedViewList = new ArrayList<>();
 
+
     public SwipeFlingView(Context context) {
         this(context, null);
     }
@@ -148,6 +155,7 @@ public class SwipeFlingView extends AdapterView {
 
         mMoveDetector = new GestureDetectorCompat(context, new MoveDetector());
         mMoveDetector.setIsLongpressEnabled(false);
+
     }
 
     @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--修改卡片大小-->
+<!--修改卡片大小,修改layout_width和layout_height两个值-->
 <com.example.pc.shacus.swipecards.view.CardLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

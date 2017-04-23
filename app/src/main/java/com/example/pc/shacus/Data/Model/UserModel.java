@@ -22,6 +22,7 @@ public class UserModel implements Serializable{
     private String mailBox;
     private String nickName;
     private String id;
+    private String category;
     private Boolean index;
 
     public String getHeadImage() {
@@ -144,12 +145,14 @@ public class UserModel implements Serializable{
         this.chattoken = chattoken;
     }
 
-    public String getAge() {
-        return age;
-    }
+    public String getAge() { return age; }
 
     public void setAge(String age) {
         this.age = age;
     }
+
+    public String getCategory() {return category;}
+
+    public void setCategory(String category) { this.category = category; }
 
 }
