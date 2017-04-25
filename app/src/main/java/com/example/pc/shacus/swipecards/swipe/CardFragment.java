@@ -3,6 +3,7 @@ package com.example.pc.shacus.swipecards.swipe;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -69,7 +71,12 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private ACache acache;
     private UserModel user;
     private String authkey;
+    private String category;
     private PhotosetItemModel photosetItemModel;
+
+    private int requestTime = 1; //第几次请求
+    private static final int MSG_SUCCESS = 0;//获取数据成功的标识
+    private static final int MSG_FAILURE = 1;//获取数据失败的标识
 
     @InjectView(R.id.frame)
     SwipeFlingView mSwipeFlingView;
@@ -103,32 +110,6 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     private void initView() {
 
-        //判断是否设置了自己是摄影师还是模特
-        ACache cache = ACache.get(getActivity());
-        LoginDataModel loginModel = (LoginDataModel) cache.getAsObject("loginModel");
-        userModel = loginModel.getUserModel();
-        String category = userModel.getCategory();
-        if (category == null) {
-            AlertDialog builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog).create();
-            builder.setTitle("请选择您的职业：");
-            // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
-            view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_selector_category, null);
-            // 设置我们自己定义的布局文件作为弹出框的Content
-            builder.setView(view);
-            checkbox_people_photogragher = (CheckBox) view.findViewById(R.id.people_photogragher);
-            checkbox_people_model = (CheckBox) view.findViewById(R.id.people_model);
-            builder.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (checkbox_people_model.isChecked() && checkbox_people_photogragher.isChecked()) {
-                        userModel.setCategory("摄影师和模特");
-                    } else if (checkbox_people_photogragher.isChecked())
-                        userModel.setCategory("摄影师");
-                    else if (checkbox_people_model.isChecked()) userModel.setCategory("模特");
-                }
-            });
-        }
-
         mAdapter = new UserAdapter(getActivity(), mGrilList);
         mSwipeFlingView.setAdapter(mAdapter);
         mSwipeFlingView.setOnSwipeFlingListener(this);//SimpleOnSwipeListener/OnSwipeListener
@@ -156,22 +137,110 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mAdapter.notifyDataSetChanged();
     }
 
+
+
     private void requestOurList() {
         requestFragment = new NetRequest(CardFragment.this, getContext());
         acache = ACache.get(getActivity());
         LoginDataModel loginModel = (LoginDataModel) acache.getAsObject("loginModel");
+        userModel = loginModel.getUserModel();
         user = loginModel.getUserModel();
-        authkey = user.getAuth_key();   //authkey npe
+        authkey = user.getAuth_key();
         Map map = new HashMap();
         if (mIsRequestGirlList) {
             return;
         }
         mIsRequestGirlList = true;
-        map.put("type", StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST);
-        map.put("authkey", authkey);
-        requestFragment.httpRequest(map, CommonUrl.requestModel);
+        if(requestTime == 3 || requestTime == 1){   //之后的请求次数多，把3放在前面提高效率
+            map.put("type", StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST);  //10850
+            map.put("authkey", authkey);
+            requestFragment.httpRequest(map, CommonUrl.requestModel);
+        }
+//        else if(requestTime == 2){
+//            category = user.getCategory();
+//            map.put("type", StatusCode.CHANGE_USER_CATEGORY);   //10852
+//            map.put("authkey", authkey);
+//            if (category == "摄影师") map.put("category", 1);
+//            if (category == "模特") map.put("category", 2);
+//            requestFragment.httpRequest(map, CommonUrl.requestModel);
+//        }
     }
 
+    private Handler mHandler = new Handler() {
+        public void handleMessage (Message msg) {//此方法在ui线程运行
+            switch(msg.what) {
+                case MSG_SUCCESS:
+                    AlertDialog builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog).create();
+                    builder.setTitle("请选择您的职业：");
+                    // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
+                    view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_selector_category, null);
+                    // 设置我们自己定义的布局文件作为弹出框的Content
+                    builder.setView(view);
+                    checkbox_people_photogragher = (CheckBox) view.findViewById(R.id.people_photogragher);
+                    checkbox_people_model = (CheckBox) view.findViewById(R.id.people_model);
+                    builder.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            acache = ACache.get(getActivity());
+                            LoginDataModel loginModel = (LoginDataModel) acache.getAsObject("loginModel");
+                            userModel = loginModel.getUserModel();
+                            if (checkbox_people_model.isChecked() && checkbox_people_photogragher.isChecked()) {
+                                userModel.setCategory("摄影师和模特");
+                            } else if (checkbox_people_photogragher.isChecked())
+                                userModel.setCategory("摄影师");
+                            else if (checkbox_people_model.isChecked()) userModel.setCategory("模特");
+
+                            requestFragment = new NetRequest(CardFragment.this, getContext());
+                            authkey = userModel.getAuth_key();
+                            Map map = new HashMap();
+                            category = userModel.getCategory();
+                            map.put("type", StatusCode.CHANGE_USER_CATEGORY);   //10852
+                            map.put("authkey", authkey);
+                            if (category == "摄影师") map.put("category", 1);
+                            if (category == "模特") map.put("category", 2);
+                            requestFragment.httpRequest(map, CommonUrl.requestModel);
+
+                        }
+                    });
+                    builder.show();
+                    Button btnPositive =
+                            builder.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+                    btnPositive.setTextColor(getResources().getColor(R.color.ff_white));
+                    btnPositive.setTextSize(15);
+                    requestOurList();
+                case MSG_FAILURE:
+            }
+        }
+    };
+
+    @Override
+    public void requestFinish(String result, String requestUrl) throws JSONException {
+        //Message msg = new Message();
+        if (requestUrl.equals(CommonUrl.requestModel)) {
+            mIsRequestGirlList = false;
+            JSONObject object = new JSONObject(result);
+            Gson gson = new Gson();
+            //Log.d("CradFragment", object.getJSONArray("contents").getJSONObject(0).toString());
+            int code = Integer.valueOf(object.getString("code"));
+            switch (code){
+                case 10850://返回了推荐的卡片
+                    photosetItemModel = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(), PhotosetItemModel.class);
+                    break;
+                case 10851://设置字段
+                    requestTime++;
+                    mHandler.obtainMessage(MSG_SUCCESS, requestTime).sendToTarget();
+                    break;
+                case 10852://设置成功返回字段
+                    String contents = String.valueOf(object.getString("contents"));
+                    if(contents == "修改用户类型成功") requestTime++;//添加错误逻辑
+                    requestOurList();
+                    break;
+
+            }
+            Log.d("CardFragment", "已接受到返回数据");
+
+        }
+    }
 
     private void requestGirlList() {
         if (mIsRequestGirlList) {
@@ -362,18 +431,5 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     @Override
     public void exception(IOException e, String requestUrl) {
 
-    }
-
-    @Override
-    public void requestFinish(String result, String requestUrl) throws JSONException {
-        //Message msg = new Message();
-        if (requestUrl.equals(CommonUrl.requestModel)) {
-            JSONObject object = new JSONObject(result);
-            Gson gson = new Gson();
-            Log.d("CradFragment", object.getJSONArray("contents").getJSONObject(0).toString());
-            //int code = Integer.valueOf(object.getString("code"));
-            Log.d("CardFragment", "已接受到返回数据");
-            photosetItemModel = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(), PhotosetItemModel.class);
-        }
     }
 }
