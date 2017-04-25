@@ -42,6 +42,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.LocationMessage;
+import io.rong.message.RichContentMessage;
 import io.rong.push.RongPushClient;
 import io.rong.push.common.RongException;
 
@@ -90,12 +91,19 @@ public class APP extends Application {
             @Override
             public boolean onMessageClick(Context context, View view, Message message) {
 
-                        if (message.getContent() instanceof LocationMessage) {
-            Intent intent = new Intent(context, SOSOLocationActivity.class);
-            intent.putExtra("location", message.getContent());
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-        }
+                if (message.getContent() instanceof LocationMessage) {
+                    Intent intent = new Intent(context, SOSOLocationActivity.class);
+                    intent.putExtra("location", message.getContent());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+
+                if (message.getContent() instanceof RichContentMessage) {
+                    Intent intent = new Intent(context, SOSOLocationActivity.class);
+                    intent.putExtra("location", message.getContent());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
 
                 return false;
             }
