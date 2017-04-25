@@ -24,6 +24,7 @@ import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotosetItemModel;
+import com.example.pc.shacus.Data.Model.RecommandModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
@@ -55,6 +56,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.example.pc.shacus.APP.context;
+import static com.example.pc.shacus.Network.StatusCode.CHANGE_USER_CATEGORY;
+import static com.example.pc.shacus.Network.StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST;
 
 
 /**
@@ -73,7 +76,9 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private UserModel user;
     private String authkey;
     private String category;
+    private RecommandModel data;
     private PhotosetItemModel photosetItemModel;
+    CardEntity cardEntity;
 
     private int requestTime = 1; //第几次请求
     private static final int MSG_SUCCESS = 0;//获取数据成功的标识
@@ -99,8 +104,17 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private int mPageIndex = 0;
     private boolean mIsRequestGirlList;
     private ArrayList<CardEntity> mGrilList = new ArrayList<>();//这个list不用了，但暂时先保留
-    private ArrayList<CardEntity> mOurList = new ArrayList<>();//自己的list
+    private ArrayList<RecommandModel> mOurList = new ArrayList<>();//自己的list
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            data = (RecommandModel) msg.obj;
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,6 +147,14 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     }
 
     //筛选之后调用这个方法
+    private void upadateOurListView(ArrayList<RecommandModel> list) {
+        if (list == null || list.size() == 0){
+            return;
+        }
+        mOurList.addAll(list);
+        mAdapter.notifyDataSetChanged();
+    }
+
     private void updateListView(ArrayList<CardEntity> list) {
         if (list == null || list.size() == 0) {
             return;
@@ -140,7 +162,6 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mGrilList.addAll(list);
         mAdapter.notifyDataSetChanged();
     }
-
 
 
     private void requestOurList() {
@@ -155,8 +176,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             return;
         }
         mIsRequestGirlList = true;
-        if(requestTime == 3 || requestTime == 1){   //之后的请求次数多，把3放在前面提高效率
-            map.put("type", StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST);  //10850
+        if (requestTime == 3 || requestTime == 1) {   //之后的请求次数多，把3放在前面提高效率
+            map.put("type", RECOMMAND_PHOTOGRAPHER_MODEL_LIST);  //10850
             map.put("authkey", authkey);
             requestFragment.httpRequest(map, CommonUrl.requestModel);
         }
@@ -170,7 +191,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 //        }
     }
 
-    private void alertDialogShow(){
+    private void alertDialogShow() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
         builder.setPositiveButton("确定", null);
         // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
@@ -188,22 +209,24 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         checkbox_people_photogragher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
-                if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                if (checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
+                if (checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
             }
         });
         checkbox_people_model.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher.setChecked(false);
-                if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                if (checkbox_people_photogragher.isChecked())
+                    checkbox_people_photogragher.setChecked(false);
+                if (checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
             }
         });
         checkbox_people_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher.setChecked(false);
-                if(checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
+                if (checkbox_people_photogragher.isChecked())
+                    checkbox_people_photogragher.setChecked(false);
+                if (checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
             }
         });
 
@@ -213,21 +236,17 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                 acache = ACache.get(getActivity());
                 LoginDataModel loginModel = (LoginDataModel) acache.getAsObject("loginModel");
                 userModel = loginModel.getUserModel();
-                if((!checkbox_people_all.isChecked()) && (!checkbox_people_model.isChecked()) &&
+                if ((!checkbox_people_all.isChecked()) && (!checkbox_people_model.isChecked()) &&
                         (!checkbox_people_photogragher.isChecked())) {
                     CommonUtils commonUtils = new CommonUtils();
                     commonUtils.showToast(getContext(), "尚未选择！");
-                }
-
-
-                else if (checkbox_people_all.isChecked()) {
+                } else if (checkbox_people_all.isChecked()) {
                     userModel.setCategory("两者都是");
                     alertDialog.dismiss();
-                } else if (checkbox_people_photogragher.isChecked()){
+                } else if (checkbox_people_photogragher.isChecked()) {
                     userModel.setCategory("摄影师");
                     alertDialog.dismiss();
-                }
-                else if (checkbox_people_model.isChecked()) {
+                } else if (checkbox_people_model.isChecked()) {
                     userModel.setCategory("模特");
                     alertDialog.dismiss();
                 }
@@ -236,7 +255,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                 authkey = userModel.getAuth_key();
                 Map map = new HashMap();
                 category = userModel.getCategory();
-                map.put("type", StatusCode.CHANGE_USER_CATEGORY);   //10852
+                map.put("type", CHANGE_USER_CATEGORY);   //10852
                 map.put("authkey", authkey);
                 if (category == "摄影师") map.put("category", 1);
                 if (category == "模特") map.put("category", 2);
@@ -252,8 +271,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     }
 
     private Handler mHandler = new Handler() {
-        public void handleMessage (Message msg) {//此方法在ui线程运行
-            switch(msg.what) {
+        public void handleMessage(Message msg) {//此方法在ui线程运行
+            switch (msg.what) {
                 case MSG_SUCCESS:
                     alertDialogShow();
                 case MSG_FAILURE:
@@ -267,20 +286,23 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         if (requestUrl.equals(CommonUrl.requestModel)) {
             mIsRequestGirlList = false;
             JSONObject object = new JSONObject(result);
-            Gson gson = new Gson();
             //Log.d("CradFragment", object.getJSONArray("contents").getJSONObject(0).toString());
             int code = Integer.valueOf(object.getString("code"));
-            switch (code){
-                case 10850://返回了推荐的卡片
-                    photosetItemModel = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(), PhotosetItemModel.class);
+            switch (code) {
+                case StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST://返回了推荐的卡片
+                    Gson gson = new Gson();
+                    RecommandModel data = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(), RecommandModel.class);
+                    Message msg = handler.obtainMessage();
+                    msg.obj = data;
+                    handler.sendMessage(msg);
                     break;
-                case 10851://设置字段
+                case StatusCode.RETURN_SET_CATEGORY://设置字段
                     requestTime++;
                     mHandler.obtainMessage(MSG_SUCCESS, requestTime).sendToTarget();
                     break;
-                case 10852://设置成功返回字段
+                case StatusCode.CHANGE_USER_CATEGORY://设置成功返回字段
                     String contents = String.valueOf(object.getString("contents"));
-                    if(contents == "修改用户类型成功") requestTime++;//添加错误逻辑
+                    if (contents == "修改用户类型成功") requestTime++;//添加错误逻辑
                     requestOurList();
                     break;
 

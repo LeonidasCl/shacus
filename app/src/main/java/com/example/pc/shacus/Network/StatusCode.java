@@ -256,5 +256,6 @@ public interface StatusCode {
     int PRAISE_PHOTOSET = 10840;//作品集点赞
     int CANCEL_PRAISE_PHOTOSET=10841;//作品集取消点赞
     int RECOMMAND_PHOTOGRAPHER_MODEL_LIST = 10850;//推荐摄影师和模特列表
+    int RETURN_SET_CATEGORY = 10851;//服务器返回设置摄影师类型
     int CHANGE_USER_CATEGORY = 10852;//修改用户类型是摄影师还是模特
 }

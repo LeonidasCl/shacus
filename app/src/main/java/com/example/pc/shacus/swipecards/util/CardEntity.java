@@ -2,6 +2,8 @@ package com.example.pc.shacus.swipecards.util;
 
 import android.support.annotation.Keep;
 
+import com.example.pc.shacus.Data.Model.UserModel;
+
 /**
  * @zc
  */
@@ -18,5 +20,6 @@ public class CardEntity {
     public String who;
 
     public boolean superLikeMe;
+
 
 }
