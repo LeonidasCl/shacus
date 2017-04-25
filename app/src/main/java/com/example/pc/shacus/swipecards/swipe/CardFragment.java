@@ -29,6 +29,7 @@ import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.View.Custom.RoundImageView;
 import com.example.pc.shacus.swipecards.SwipeFlingView;
 import com.example.pc.shacus.swipecards.test.TestData;
@@ -92,10 +93,13 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private View view;
     private CheckBox checkbox_people_photogragher;
     private CheckBox checkbox_people_model;
+    private CheckBox checkbox_people_all;
+
 
     private int mPageIndex = 0;
     private boolean mIsRequestGirlList;
-    private ArrayList<CardEntity> mGrilList = new ArrayList<>();
+    private ArrayList<CardEntity> mGrilList = new ArrayList<>();//这个list不用了，但暂时先保留
+    private ArrayList<CardEntity> mOurList = new ArrayList<>();//自己的list
 
 
     @Override
@@ -166,48 +170,92 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 //        }
     }
 
+    private void alertDialogShow(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+        builder.setPositiveButton("确定", null);
+        // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
+        view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_selector_category, null);
+
+        // 设置我们自己定义的布局文件作为弹出框的Content
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        checkbox_people_photogragher = (CheckBox) view.findViewById(R.id.people_photogragher);
+        checkbox_people_model = (CheckBox) view.findViewById(R.id.people_model);
+        checkbox_people_all = (CheckBox) view.findViewById(R.id.people_all);
+
+        checkbox_people_photogragher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
+                if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+            }
+        });
+        checkbox_people_model.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher.setChecked(false);
+                if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+            }
+        });
+        checkbox_people_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher.setChecked(false);
+                if(checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
+            }
+        });
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acache = ACache.get(getActivity());
+                LoginDataModel loginModel = (LoginDataModel) acache.getAsObject("loginModel");
+                userModel = loginModel.getUserModel();
+                if((!checkbox_people_all.isChecked()) && (!checkbox_people_model.isChecked()) &&
+                        (!checkbox_people_photogragher.isChecked())) {
+                    CommonUtils commonUtils = new CommonUtils();
+                    commonUtils.showToast(getContext(), "尚未选择！");
+                }
+
+
+                else if (checkbox_people_all.isChecked()) {
+                    userModel.setCategory("两者都是");
+                    alertDialog.dismiss();
+                } else if (checkbox_people_photogragher.isChecked()){
+                    userModel.setCategory("摄影师");
+                    alertDialog.dismiss();
+                }
+                else if (checkbox_people_model.isChecked()) {
+                    userModel.setCategory("模特");
+                    alertDialog.dismiss();
+                }
+
+                requestFragment = new NetRequest(CardFragment.this, getContext());
+                authkey = userModel.getAuth_key();
+                Map map = new HashMap();
+                category = userModel.getCategory();
+                map.put("type", StatusCode.CHANGE_USER_CATEGORY);   //10852
+                map.put("authkey", authkey);
+                if (category == "摄影师") map.put("category", 1);
+                if (category == "模特") map.put("category", 2);
+                if (category == "两者都是") map.put("category", 12);
+                requestFragment.httpRequest(map, CommonUrl.requestModel); //调试弹框需要注释掉这一句话，否则传到服务器后就不弹了
+            }
+        });
+        Button btnPositive =
+                alertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+        btnPositive.setTextColor(getResources().getColor(R.color.ff_white));
+        btnPositive.setTextSize(15);
+        requestOurList();
+    }
+
     private Handler mHandler = new Handler() {
         public void handleMessage (Message msg) {//此方法在ui线程运行
             switch(msg.what) {
                 case MSG_SUCCESS:
-                    AlertDialog builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog).create();
-                    builder.setTitle("请选择您的职业：");
-                    // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
-                    view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_selector_category, null);
-                    // 设置我们自己定义的布局文件作为弹出框的Content
-                    builder.setView(view);
-                    checkbox_people_photogragher = (CheckBox) view.findViewById(R.id.people_photogragher);
-                    checkbox_people_model = (CheckBox) view.findViewById(R.id.people_model);
-                    builder.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            acache = ACache.get(getActivity());
-                            LoginDataModel loginModel = (LoginDataModel) acache.getAsObject("loginModel");
-                            userModel = loginModel.getUserModel();
-                            if (checkbox_people_model.isChecked() && checkbox_people_photogragher.isChecked()) {
-                                userModel.setCategory("摄影师和模特");
-                            } else if (checkbox_people_photogragher.isChecked())
-                                userModel.setCategory("摄影师");
-                            else if (checkbox_people_model.isChecked()) userModel.setCategory("模特");
-
-                            requestFragment = new NetRequest(CardFragment.this, getContext());
-                            authkey = userModel.getAuth_key();
-                            Map map = new HashMap();
-                            category = userModel.getCategory();
-                            map.put("type", StatusCode.CHANGE_USER_CATEGORY);   //10852
-                            map.put("authkey", authkey);
-                            if (category == "摄影师") map.put("category", 1);
-                            if (category == "模特") map.put("category", 2);
-                            requestFragment.httpRequest(map, CommonUrl.requestModel);
-
-                        }
-                    });
-                    builder.show();
-                    Button btnPositive =
-                            builder.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
-                    btnPositive.setTextColor(getResources().getColor(R.color.ff_white));
-                    btnPositive.setTextSize(15);
-                    requestOurList();
+                    alertDialogShow();
                 case MSG_FAILURE:
             }
         }
