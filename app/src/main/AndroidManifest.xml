@@ -113,9 +113,9 @@
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity android:name=".Activity.PersonalInfoActivity" />
         <activity android:name=".Activity.PersonalInfoEditActivity" />
-        <activity
+        <!--<activity
             android:name=".Activity.YuePaiDetailActivity"
-            android:theme="@style/AppTheme.YuePaiDetailActivity" />
+            android:theme="@style/AppTheme.YuePaiDetailActivity" />-->
         <activity android:name=".Activity.CourseWebViewActivity" />
         <activity
             android:name=".Activity.ConversationDynamicFragmentActivity"
@@ -247,6 +247,7 @@
             android:value="561cae6ae0f55abd990035bf" >
         </meta-data>
 
+        <activity android:name=".Activity.YuePaiDetailActivity_new"/>
     </application>
 
 </manifest>

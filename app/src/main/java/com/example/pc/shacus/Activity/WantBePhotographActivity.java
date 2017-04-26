@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,9 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.YuePaiAdapter;
+import com.example.pc.shacus.Adapter.YuePaiAdapter_new;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
@@ -30,6 +33,7 @@ import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.Util.CToast;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.google.gson.Gson;
 
@@ -120,7 +124,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
         private SwipeRefreshLayout refreshLayout;
-        private YuePaiAdapter personAdapter;
+        private YuePaiAdapter_new personAdapter;
         private ListView listView;
         List<PhotographerModel> subList = new ArrayList<>();
         private int type=0;//0为全部约拍，其它数字为类型
@@ -169,7 +173,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_activity_want_be_photograph, container, false);
 
 
-            personAdapter = new YuePaiAdapter(getActivity(),subList);
+            personAdapter = new YuePaiAdapter_new(getActivity(),subList);
             listView = (ListView) rootView.findViewById(R.id.person_list);
             refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
             listView.setAdapter(personAdapter);
@@ -200,9 +204,8 @@ public class WantBePhotographActivity extends AppCompatActivity {
         }
 
         private void doLoadmore(){
-            if (bootCounter<5||isloading||personAdapter.getCount()==0)//如果数据小于五说明是初始化，不读加载更多
+            if (bootCounter<6||isloading||personAdapter.getCount()==0)//如果数据小于五说明是初始化，不读加载更多
                 return;
-            isloading=true;
             Map<String, Object> map = new HashMap<>();
             map.put("type", WANT_BE_PHOTOGRAPH_MORE);
             map.put("authkey", userData.getAuth_key());
@@ -210,6 +213,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
             map.put("group",type);
             map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
+            isloading=true;
         }
 
         private void onRefreshListener(){
@@ -217,7 +221,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
                 @Override
                 public void onRefresh() {
                     refreshLayout.setRefreshing(true);
-                    bootCounter=0;
+                    bootCounter = 0;
                     doRefresh();
                 }
             });
@@ -226,9 +230,17 @@ public class WantBePhotographActivity extends AppCompatActivity {
         private void onScrollListener(){
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
-                public void onScrollStateChanged(AbsListView absListView, int i) {
-
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    // 当不滚动时
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                        // 判断是否滚动到底部
+                        if (view.getLastVisiblePosition() == view.getCount() - 1) {
+                            doLoadmore();
+                            //加载更多功能的代码
+                        }
+                    }
                 }
+
                 @Override
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                     if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords){
@@ -241,31 +253,86 @@ public class WantBePhotographActivity extends AppCompatActivity {
         @Override
         public void requestFinish(String result, String requestUrl) throws JSONException{
             JSONObject json = new JSONObject(result);
+            Log.d("CCCCCCCCCCCCC", json.toString());
             String code = json.getString("code");
-            JSONArray array = json.getJSONArray("contents");
             if (code.equals("10252")){//第一次加载/刷新的返回
+                JSONArray array = json.getJSONArray("contents");
                 yuepaiList=new ArrayList<>();
                 for (int i = 0; i < array.length(); i++){
                     JSONObject info = array.getJSONObject(i);
-                    Gson gson = new Gson();
+                    /*Gson gson = new Gson();
                     PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
-                    yuepaiList.add(photo);
+                    yuepaiList.add(photo);*/
+                    PhotographerModel photographerModel = new PhotographerModel();
+                    UserModel userModel = new UserModel();
+                    userModel.setLocation(info.getString("Userlocation"));
+                    userModel.setNickName(info.getString("Useralais"));
+                    userModel.setAge(info.getString("Userage"));
+                    userModel.setHeadImage(info.getString("Userimg"));
+                    userModel.setSex(info.getString("Usex"));
+                    photographerModel.setUserModel(userModel);
+                    List<String>  list = new ArrayList<String>();
+                    JSONArray jsonArray = info.getJSONArray("APimgurl");
+                    Log.d("?????????????",jsonArray.toString());
+                    for (int j = 0; j < jsonArray.length();j++){
+                        list.add(jsonArray.getString(j));
+                    }
+                    photographerModel.setAPimgurl(list);
+
+                    photographerModel.setAPcontent(info.getString("APcontent"));
+                    photographerModel.setAPtime(info.getString("APtime"));
+                    photographerModel.setAPstartT(info.getString("APcreatetime"));
+                    photographerModel.setAPpricetype(info.getInt("APpricetype"));
+                    photographerModel.setAPprice(info.getString("APprice"));
+                    photographerModel.setAPlikeN(info.getInt("APlikeN"));
+                    photographerModel.setAPid(info.getInt("APid"));
+                    yuepaiList.add(photographerModel);
                 }
                 bootCounter=array.length();
                 Message msg=handler.obtainMessage();
                 msg.what= StatusCode.REQUEST_YUEPAI_MODEL_LIST_SUCCESS;
                 handler.sendMessage(msg);
             }
-            if (code.equals("10253")){//加载更多的返回
+            if (code.equals("10262")){
+                //暂无更多
+            }
+            if (code.equals("10253")||code.equals("10263")){//加载更多的返回
+                Log.d("KKKKKKKKKKKKKKKKKKKK","AAA3");
+                JSONArray array = json.getJSONArray("contents");
                 List<PhotographerModel> addList = new ArrayList<>();
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject info = array.getJSONObject(i);
-                    Gson gson = new Gson();
+                    /*Gson gson = new Gson();
                     PhotographerModel photo = gson.fromJson(info.toString(), PhotographerModel.class);
                     yuepaiList.add(photo);
-                    addList.add(photo);
+                    addList.add(photo);*/
+                    PhotographerModel photographerModel = new PhotographerModel();
+                    UserModel userModel = new UserModel();
+                    userModel.setLocation(info.getString("Userlocation"));
+                    userModel.setNickName(info.getString("Useralais"));
+                    userModel.setAge(info.getString("Userage"));
+                    userModel.setHeadImage(info.getString("Userimg"));
+                    userModel.setSex(info.getString("Usex"));
+                    photographerModel.setUserModel(userModel);
+                    List<String>  list = new ArrayList<String>();
+                    JSONArray jsonArray = info.getJSONArray("APimgurl");
+                    for (int j = 0; j < jsonArray.length();j++){
+                        list.add(jsonArray.getString(j));
+                    }
+                    photographerModel.setAPimgurl(list);
+                    photographerModel.setAPgroup(info.getInt("APgroup"));
+                    photographerModel.setAPcontent(info.getString("APcontent"));
+                    photographerModel.setAPstartT(info.getString("APcreatetime"));
+                    photographerModel.setAPpricetype(info.getInt("APpricetype"));
+                    photographerModel.setAPprice(info.getString("APprice"));
+                    photographerModel.setAPlikeN(info.getInt("APlikeN"));
+                    photographerModel.setAPtime(info.getString("APtime"));
+                    photographerModel.setAPid(info.getInt("APid"));
+                    yuepaiList.add(photographerModel);
+                    addList.add(photographerModel);
                 }
                 bootCounter += array.length();
+                isloading = false;
                 personAdapter.add(addList);
                 Message msg = handler.obtainMessage();
                 msg.what = StatusCode.REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS;

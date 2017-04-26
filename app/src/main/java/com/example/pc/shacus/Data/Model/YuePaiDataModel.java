@@ -34,9 +34,7 @@ public class YuePaiDataModel implements Serializable {
     private int ACsponsorid;//发起者id
     private List<UserModel> APregisters;
     private List<UserModel> ACregister;
-    private int APprice;
     private String ACprice;
-    private String APtag;
     private String ACtag;
     private List<String> APimgurl;
     private List<String> ACimageurl;
@@ -54,6 +52,20 @@ public class YuePaiDataModel implements Serializable {
     private int ACclosed;
     private String ACcontent;
     private String image;
+    private String APtime;
+    private String APprice;
+    private int APtag;
+    private int APgroup;
+    private int APpricetag;
+    private String Useralais;
+    private String Userlocation;
+    private String Userimg;
+    private String Userage;
+    private String Usex;
+    private int Userregistd;
+
+    public YuePaiDataModel() {
+    }
 
     public int getRank() {
         return rank;
@@ -208,20 +220,12 @@ public class YuePaiDataModel implements Serializable {
         this.APsponsorid = APsponsorid;
     }
 
-    public int getAPprice() {
+    public String getAPprice() {
         return APprice;
     }
 
-    public void setAPprice(int APprice) {
+    public void setAPprice(String APprice) {
         this.APprice = APprice;
-    }
-
-    public String getAPtag() {
-        return APtag;
-    }
-
-    public void setAPtag(String APtag) {
-        this.APtag = APtag;
     }
 
     public int getAPregistN() {
@@ -451,5 +455,85 @@ public class YuePaiDataModel implements Serializable {
     @Override
     public String toString() {
         return getRank()+"";
+    }
+
+    public String getAPtime() {
+        return APtime;
+    }
+
+    public void setAPtime(String APtime) {
+        this.APtime = APtime;
+    }
+
+    public int getAPgroup() {
+        return APgroup;
+    }
+
+    public void setAPgroup(int APgroup) {
+        this.APgroup = APgroup;
+    }
+
+    public int getAPtag() {
+        return APtag;
+    }
+
+    public void setAPtag(int APtag) {
+        this.APtag = APtag;
+    }
+
+    public int getAPpricetag() {
+        return APpricetag;
+    }
+
+    public void setAPpricetag(int APpricetag) {
+        this.APpricetag = APpricetag;
+    }
+
+    public String getUseralais() {
+        return Useralais;
+    }
+
+    public void setUseralais(String useralais) {
+        Useralais = useralais;
+    }
+
+    public String getUserlocation() {
+        return Userlocation;
+    }
+
+    public void setUserlocation(String userlocation) {
+        Userlocation = userlocation;
+    }
+
+    public String getUserimg() {
+        return Userimg;
+    }
+
+    public void setUserimg(String userimg) {
+        Userimg = userimg;
+    }
+
+    public String getUserage() {
+        return Userage;
+    }
+
+    public void setUserage(String userage) {
+        Userage = userage;
+    }
+
+    public String getUsex() {
+        return Usex;
+    }
+
+    public void setUsex(String usex) {
+        Usex = usex;
+    }
+
+    public int getUserregistd() {
+        return Userregistd;
+    }
+
+    public void setUserregistd(int userregistd) {
+        Userregistd = userregistd;
     }
 }

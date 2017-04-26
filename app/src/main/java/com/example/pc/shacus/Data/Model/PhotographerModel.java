@@ -1,6 +1,7 @@
 package com.example.pc.shacus.Data.Model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by 李嘉文 on 2016/9/2.
@@ -11,12 +12,19 @@ public class PhotographerModel implements Serializable {
 
     private String Userimg;
     private String APtitle;
-    private String APid;
-    private String APimgurl;
+    private int APid;
+//    private String APimgurl;
     private String APstartT;
-    private String APlikeN;
+    private int APlikeN;
     private String APregistN;
     private int Userliked;
+    private String APtime;
+    private UserModel userModel;
+    private List<String> APimgurl;
+    private String APcontent;
+    private int APpricetype;
+    private String APprice;
+    private int APgroup;
 
 
     public String getAPtitle() {
@@ -27,21 +35,14 @@ public class PhotographerModel implements Serializable {
         this.APtitle = APtitle;
     }
 
-    public String getAPid() {
+    public int getAPid() {
         return APid;
     }
 
-    public void setAPid(String APid) {
+    public void setAPid(int APid) {
         this.APid = APid;
     }
 
-    public String getAPimgurl() {
-        return APimgurl;
-    }
-
-    public void setAPimgurl(String APimgurl) {
-        this.APimgurl = APimgurl;
-    }
 
     public String getAPstartT() {
         return APstartT;
@@ -51,11 +52,11 @@ public class PhotographerModel implements Serializable {
         this.APstartT = APstartT;
     }
 
-    public String getAPlikeN() {
+    public int getAPlikeN() {
         return APlikeN;
     }
 
-    public void setAPlikeN(String APlikeN) {
+    public void setAPlikeN(int APlikeN) {
         this.APlikeN = APlikeN;
     }
 
@@ -81,5 +82,62 @@ public class PhotographerModel implements Serializable {
 
     public void setUserliked(int userliked) {
         Userliked = userliked;
+    }
+
+    public String getAPtime() {
+        return APtime;
+    }
+
+    public void setAPtime(String APtime) {
+        this.APtime = APtime;
+    }
+
+
+    public UserModel getUserModel() {
+        return userModel;
+    }
+
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
+    }
+
+    public List<String> getAPimgurl() {
+        return APimgurl;
+    }
+
+    public void setAPimgurl(List<String> APimgurl) {
+        this.APimgurl = APimgurl;
+    }
+
+    public String getAPcontent() {
+        return APcontent;
+    }
+
+    public void setAPcontent(String APcontent) {
+        this.APcontent = APcontent;
+    }
+
+    public int getAPpricetype() {
+        return APpricetype;
+    }
+
+    public void setAPpricetype(int APpricetype) {
+        this.APpricetype = APpricetype;
+    }
+
+    public String getAPprice() {
+        return APprice;
+    }
+
+    public void setAPprice(String APprice) {
+        this.APprice = APprice;
+    }
+
+    public int getAPgroup() {
+        return APgroup;
+    }
+
+    public void setAPgroup(int APgroup) {
+        this.APgroup = APgroup;
     }
 }

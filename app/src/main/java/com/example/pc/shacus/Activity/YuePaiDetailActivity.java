@@ -252,7 +252,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
         map.put("acid", aid);
 
         setContentView(R.layout.activity_yue_pai_detail);
-        mSideZoomBanner = (BGABanner) findViewById(R.id.banner_detail_zoom);
+        /*mSideZoomBanner = (BGABanner) findViewById(R.id.banner_detail_zoom);
         display_big_image_layout=(RelativeLayout)findViewById(R.id.display_detail_image);
         position_in_total=(TextView)findViewById(R.id.position_total);
         image_viewpager=(UploadViewPager)findViewById(R.id.image_detail_viewpager);
@@ -536,7 +536,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     tv_endJoinT.setText(data.getACjoinT()+"");
                     if (isSponsor==1){
                         if (data.getACstatus()==0){
-                        /*selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                        *//*selectJoinUser.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent intent=new Intent(getApplicationContext(),SelectUserActivity.class);
@@ -554,7 +554,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                                 startActivity(intent);
                             }
                         });
-                        selectJoinUser.setText("查看报名用户");*/
+                        selectJoinUser.setText("查看报名用户");*//*
                             selectJoinUser.setOnClickListener(new View.OnClickListener(){
                                 @Override
                                 public void onClick(View view) {
@@ -707,7 +707,7 @@ public class YuePaiDetailActivity extends AppCompatActivity implements NetworkCa
                     viewpagerPosition = position ;
                 }
             }
-        );
+        );*/
 
     }
 

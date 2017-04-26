@@ -37,8 +37,27 @@ import java.util.Map;
  * 李嘉文 2016.9.4
  */
 public class YuePaiAdapter extends BaseAdapter{
+    @Override
+    public int getCount() {
+        return 0;
+    }
 
-    private List<PhotographerModel> rankList;
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return null;
+    }
+
+   /* private List<PhotographerModel> rankList;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder viewHolder;
@@ -134,20 +153,20 @@ public class YuePaiAdapter extends BaseAdapter{
 //            });
             APTitle.setText(item.getAPtitle());
             APstartT.setText(item.getAPstartT());
-            /*String []time=item.getAPstartT().split("T");
+            *//*String []time=item.getAPstartT().split("T");
             String str="";
             for (int i = 0; i < time.length; i++) {
                 str+=time[i];
                 str+="  ";
-            }*/
+            }*//*
             APstartT.setText(item.getAPstartT()+"");
-            String mainimg=item.getAPimgurl();
+//            String mainimg=item.getAPimgurl();
             Glide.with(activity)
-                    .load(mainimg)
-                    .centerCrop()
-                    .placeholder(R.drawable.holder)
-                    .error(R.drawable.loading_error)
-                    .into(mainPicture);
+//                    .load(mainimg)
+//                    .centerCrop()
+//                    .placeholder(R.drawable.holder)
+//                    .error(R.drawable.loading_error)
+//                    .into(mainPicture);
             //mainPicture.setImageDrawable(mainimg);
             praiseNum.setText(String.valueOf(item.getAPlikeN()));
             joinNum.setText(String.valueOf(item.getAPregistN()));
@@ -247,5 +266,5 @@ public class YuePaiAdapter extends BaseAdapter{
             }
         }
     }
-
+*/
 }

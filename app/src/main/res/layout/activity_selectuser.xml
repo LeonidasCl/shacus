@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <!--返回标题-->
     <RelativeLayout
-        android:background="@color/toolbar_white"
+        android:background="@color/main_green"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
@@ -22,7 +22,7 @@
 
         <ImageButton
             android:id="@+id/baomimng_backbtn"
-            android:background="@color/toolbar_white"
+            android:background="@color/main_green"
             android:src="@drawable/button_back"
             android:layout_width="50dp"
             android:layout_height="match_parent"

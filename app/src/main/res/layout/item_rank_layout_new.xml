@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:id="@+id/yuepai">
+
+    <RelativeLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <com.example.pc.shacus.View.CircleImageView
+            android:contentDescription="@string/contentDescribe"
+            android:id="@+id/user_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/p2"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_name"
+                    android:paddingRight="3dp"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:text="用户昵称"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/user_sex"
+                    android:background="@drawable/sel"/>
+
+                <!--<ImageView
+                    android:layout_marginLeft="3dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/user_rank"
+                    android:background="@drawable/sel"/>-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_age"
+                    android:paddingLeft="3dp"
+                    android:maxLines="1"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp"
+                    android:text="90岁"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_marginLeft="2dp"
+                    android:padding="3dp"
+                    android:background="@drawable/loginbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_renzheng"
+                    android:paddingLeft="5dp"
+                    android:maxLines="1"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp"
+                    android:text="摄影师认证"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/user_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="江苏南京"
+                android:maxLines="1"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_green"
+            android:text="人感兴趣"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/interestcount"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_green"
+            android:text="3"
+            android:layout_toLeftOf="@id/text"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/yuepai_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/content_gray"
+        android:maxLines="1"
+        android:text="约拍的内容描述内容描述内容描述"/>
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:weightSum="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/sel"/>
+
+            <TextView
+                android:id="@+id/yuepai_jiage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:maxLines="1"
+                android:textColor="@color/main_green"
+                android:textSize="14sp"
+                android:text="付费要求"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/sel"/>
+
+            <TextView
+                android:id="@+id/yuepai_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:maxLines="1"
+                android:textColor="@color/main_green"
+                android:textSize="14sp"
+                android:text="时间要求"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="invisible"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/sel"/>
+
+            <TextView
+                android:id="@+id/yuepai_changjing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:maxLines="1"
+                android:textColor="@color/main_green"
+                android:textSize="14sp"
+                android:text="场景要求"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/none_jp"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无照片"
+        android:textColor="@color/hint"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_photoset_square_imgs"
+        android:orientation="horizontal">
+
+        <com.example.pc.shacus.View.SquareImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/photoset_img_1"
+            android:src="@drawable/ic_launcher"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"/>
+
+        <com.example.pc.shacus.View.SquareImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/photoset_img_2"
+            android:src="@drawable/ic_launcher"
+            android:scaleType="centerCrop"
+            android:layout_weight="1"/>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/photoset_img_frame"
+            android:layout_weight="1">
+
+            <com.example.pc.shacus.View.SquareImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/photoset_img_3"
+                android:src="@drawable/test"
+                android:layout_marginLeft="5dp"
+                android:scaleType="centerCrop"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/photoset_img_count"
+                android:background="@color/four_black"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:textSize="24sp"
+                android:textColor="@color/ff_white"
+                android:text="13"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/yuepai_fabutime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/content_gray"
+        android:maxLines="1"
+        android:text="13分钟前"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dip"
+        android:background="#00000000"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

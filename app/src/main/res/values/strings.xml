@@ -76,6 +76,7 @@
     <string name="yuepai_free">免费</string>
     <string name="yuepai_price">请说明报酬</string>
     <string name="create_yuepai_describe">请输入详细介绍及要求</string>
+    <string name="create_yuepai_describe_new">请填写详细介绍及要求，例如是否提供服装、化妆、样片等</string>
     <string name="addtag">点击选择或添加一个标签</string>
     <string name="tv_yuepai_a">想拍人</string>
     <string name="tv_yuepai_b">想被拍</string>
@@ -125,4 +126,20 @@
 
     <drawable name="followt">#ccE6BF66</drawable>
     <drawable name="followf">#cc000000</drawable>
+
+    <string-array name="yuepai_leixing">
+        <item>写真</item>
+    </string-array>
+
+    <string-array name="yuepai_diqu">
+        <item>江苏南京</item>
+    </string-array>
+
+    <string-array name="yuepai_jiage">
+        <item>希望收费</item>
+        <item>最多付费</item>
+        <item>希望互勉</item>
+        <item>价格商议</item>
+    </string-array>
+
 </resources>
