@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,17 +18,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.shacus.Activity.CoursesActivity;
 import com.example.pc.shacus.Activity.LoginActivity;
 import com.example.pc.shacus.Activity.MainActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
+import com.example.pc.shacus.Adapter.ImagePagerAdapter;
+import com.example.pc.shacus.Adapter.PhotoViewAttacher;
+import com.example.pc.shacus.Adapter.UploadViewPager;
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.ImageData;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotosetItemModel;
 import com.example.pc.shacus.Data.Model.RecommandModel;
 import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Fragment.ConversationDynamicFragment;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -53,6 +62,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.rong.imkit.RongIM;
 import retrofit2.Call;
 
 import com.example.pc.shacus.R;
@@ -73,7 +83,7 @@ import static com.example.pc.shacus.APP.context;
  */
 public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlingListener,
         SwipeFlingBottomLayout.OnBottomItemClickListener, SwipeFlingView.OnItemClickListener,
-        NetworkCallbackInterface.NetRequestIterface {
+        NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener {
 
     private final static String TAG = CardFragment.class.getSimpleName();
     private final static boolean DEBUG = true;
@@ -82,21 +92,39 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private UserModel user;
     private String authkey;
     private String category;
+    private Context mContext;
 
+    //网络请求所用变量
     private int requestTime = 1; //第几次请求
     private static final int MSG_SUCCESS = 0;//获取数据成功的标识
     private static final int MSG_FAILURE = 1;//获取数据失败的标识
     private static final int MSG_DATA_SUCCESS = 2;//获取数据成功的标识
 
+
+
+
     @InjectView(R.id.frame)
     SwipeFlingView mSwipeFlingView;
 
     @InjectView(R.id.self_main)
-    RoundImageView mImageView;
+    ImageView mImageView;
 
     @InjectView(R.id.swipe_fling_bottom)
     SwipeFlingBottomLayout mBottomLayout;
 
+    //点击frame进行轮播
+    //@InjectView(R.id.display_photoset_image)
+    RelativeLayout display_big_image_layout;
+
+    //进行蒙层图片轮播
+    private UploadViewPager image_viewpager;
+    private ImagePagerAdapter imagePagerAdapter;
+    private TextView position_in_total;
+    private ArrayList<String> imageBigDatas = new ArrayList<>();
+    private ArrayList<ArrayList<String>> imageBigDatasList = new ArrayList<>();
+    private ArrayList<ImageData> imageDatas = new ArrayList<>();
+
+    //设置自己是什么身份
     private UserAdapter mAdapter;
     private UserModel userModel;
     private View view;
@@ -104,53 +132,88 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private CheckBox checkbox_people_model;
     private CheckBox checkbox_people_all;
 
-
+    //从服务器获取推荐并返回保存到mOurList中
     private int mPageIndex = 0;
     private boolean mIsRequestGirlList;
     RecommandModel model;
     private ArrayList<CardEntity> mGrilList = new ArrayList<>();//这个list不用了，但暂时先保留
     private ArrayList<RecommandModel> mOurList = new ArrayList<>();//自己的list
 
+    public ArrayList<RecommandModel> getmOurList() {
+        return mOurList;
+    }
+
+    //筛选用
+    private boolean[] selector = {true, false,false,true,false,false};
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.card_layout, null);
+        display_big_image_layout = (RelativeLayout) rootView.findViewById(R.id.display_recommand_photoset_image);
+        image_viewpager=(UploadViewPager)rootView.findViewById(R.id.photoset_detail_viewpager);
+        position_in_total=(TextView)rootView.findViewById(R.id.photoset_position_total);
         ButterKnife.inject(this, rootView);
         initView();
         requestOurList();
         return rootView;
     }
 
+    public ImageView getmImageView() {
+        return mImageView;
+    }
+
     private void initView() {
 
         //mAdapter = new UserAdapter(getActivity(), mGrilList);
+        //display_big_image_layout.setVisibility(View.GONE);
         mAdapter = new UserAdapter(getActivity(), mOurList);
         mSwipeFlingView.setAdapter(mAdapter);
         mSwipeFlingView.setOnSwipeFlingListener(this);//SimpleOnSwipeListener/OnSwipeListener
-        mSwipeFlingView.setOnItemClickListener(this);
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                acache = ACache.get(getActivity());
-                PhotosetItemModel model = (PhotosetItemModel) acache.getAsObject("PhotosetItemModel");
-                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-                intent.putExtra("id", model.getUCid());
-                startActivity(intent);
-            }
-        });
+
+        mSwipeFlingView.setDisplay_big_image_layout(display_big_image_layout);//先setter，再设置点击监听
+        mSwipeFlingView.setCardFragment(this);
 
         mBottomLayout.setOnBottomItemClickListener(this);
     }
 
     //筛选之后调用这个方法
-    private void updateOurListView(ArrayList<RecommandModel> list) {
+    public void updateOurListView(ArrayList<RecommandModel> list) {
         if (list == null || list.size() == 0) {
             return;
         }
         mOurList.addAll(list);
         mAdapter.notifyDataSetChanged();
     }
+
+    //筛选函数
+    public ArrayList<RecommandModel> selectMethod(ArrayList<RecommandModel> mOurList, boolean[] selector){
+        ArrayList<RecommandModel> tempList = mOurList;
+        if(selector[1] == true){
+            for(int i = 0; i <mOurList.size(); i++){
+                if(mOurList.get(i).getUserpublish().getSex() == "1") tempList.remove(i);
+            }
+        }
+        else if(selector[2] == true){
+            for(int i = 0; i <mOurList.size(); i++){
+                if(mOurList.get(i).getUserpublish().getSex() == "0") tempList.remove(i);
+            }
+        }
+
+        if(selector[4] == true){
+            for(int i = 0; i <mOurList.size(); i++){
+                if(mOurList.get(i).getUserpublish().getUcategory() == "1") tempList.remove(i);
+            }
+        }
+        else if(selector[5] == true){
+            for(int i = 0; i <mOurList.size(); i++){
+                if(mOurList.get(i).getUserpublish().getUcategory() == "2") tempList.remove(i);
+            }
+        }
+        return tempList;
+    }
+
 
     private void updateListView(ArrayList<CardEntity> list) {
         if (list == null || list.size() == 0) {
@@ -305,6 +368,12 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                         model = gson.fromJson(info.toString(),RecommandModel.class);
                         mOurList.add(model);
                     }
+                    for(int i = 0; i< mOurList.size(); i++){
+                        imageBigDatas = mOurList.get(i).getUcimg();
+                        imageBigDatasList.add(imageBigDatas);
+                    }
+                    mSwipeFlingView.setImageBigDatasList(imageBigDatasList);
+                    //mSwipeFlingView.setOnItemClickListener(this);
                     Message msg = mHandler.obtainMessage();
                     msg.what = MSG_DATA_SUCCESS;
                     msg.obj = mOurList;
@@ -323,6 +392,47 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             }
             Log.d("CardFragment", "已接受到返回数据");
 
+        }
+    }
+
+
+    public void showImagePager(String startPositionUrl){
+        int position=-1;
+        final int size=imageBigDatas.size();
+        for (int index=0;index<size;index++){
+            if (imageBigDatas.get(index).equals(startPositionUrl)){
+                position=index;
+                break;
+            }
+        }
+        imagePagerAdapter=new ImagePagerAdapter(this.getFragmentManager(),imageBigDatas);
+        image_viewpager.setAdapter(imagePagerAdapter);
+        display_big_image_layout.setVisibility(View.VISIBLE);
+        imagePagerAdapter.notifyDataSetChanged();
+        image_viewpager.setOffscreenPageLimit(imagePagerAdapter.getCount());
+        image_viewpager.setCurrentItem(position,true);
+        position_in_total.setText((position + 1) + "/" + size);
+        image_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                position_in_total.setText((position + 1) + "/" + size);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+        PhotoViewAttacher.setOnSingleTapToPhotoViewListener(this);
+    }
+
+
+    private void setSelectState(String tag, boolean state) {
+        for (int index=0;index<imageDatas.size();index++){
+            if (imageDatas.get(index).getImageUrl().equals(tag)){
+                imageDatas.get(index).setChecked(state);
+            }
         }
     }
 
@@ -406,6 +516,17 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             RecommandModel card = mAdapter.getItem(cur);
             String excited = card.getUcFirstimg();
             Log.d("excited", "不喜欢 :" + excited);
+
+            //每次切换之后要重置listener
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                    intent.putExtra("id", card.getUserpublish().getId());
+                    startActivity(intent);
+                }
+            });
         }
         if (triggerByTouchMove)
             mBottomLayout.getUnLikeView().animateDragAnimation();
@@ -430,11 +551,14 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     @Override
     public void onSelfChat(View view, Object dataObject, boolean triggerByTouchMove) {
         if (DEBUG) {
-            Log.d(TAG, "SwipeFlingView onSuperLike");
+            Log.d(TAG, "SwipeFlingView onSelfChat");
+
             int cur = Integer.valueOf(dataObject.toString());
             RecommandModel card = mAdapter.getItem(cur);
-            String excited = card.getUcFirstimg();
-            Log.d("excited", "关注 :" + excited);
+            Intent intent = new Intent(getActivity(), OtherUserDisplayActivity.class);
+            intent.putExtra("id",card.getUserpublish().getId());
+            startActivity(intent);
+            //RongIM.getInstance().startPrivateChat(OtherUserDisplayActivity.this, card.getUserpublish().getId(), "title");
         }
         if (triggerByTouchMove)
             mBottomLayout.getSuperLikeView().animateDragAnimation();
@@ -484,6 +608,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             return;
         }
         mSwipeFlingView.selectSuperLike(false);
+
     }
 
     @Override
@@ -517,4 +642,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     }
 
+    @Override
+    public void onDismissBigPhoto() {
+        display_big_image_layout.setVisibility(View.GONE);
+    }
 }

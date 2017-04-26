@@ -21,21 +21,60 @@
         android:layout_marginTop="-50dp"
         android:clipChildren="false"
         app:rotation_degrees="12" />
-    <!--个人主页-->
-    <com.example.pc.shacus.View.Custom.RoundImageView
-        android:id="@+id/self_main"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/swipe_fling_bottom"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher"
-        />
-    <TextView
+        android:orientation="vertical"
+        android:layout_above="@+id/swipe_fling_bottom"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/self_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/self_main" />
+    </LinearLayout>
+
+    <!-- 点开已添加的图片查看大图 -->
+    <RelativeLayout
+        android:id="@+id/display_recommand_photoset_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/self_main"
-        android:layout_marginBottom="130dp"
-        android:gravity="center"
-        android:text="@string/self_main"/>
+        android:background="@color/zero_black"
+        android:visibility="gone" >
+
+        <com.example.pc.shacus.Adapter.UploadViewPager
+            android:id="@+id/photoset_detail_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/photoset_position_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:textColor="@color/ff_white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

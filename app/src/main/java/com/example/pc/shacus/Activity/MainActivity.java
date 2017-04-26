@@ -32,10 +32,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.RecommandModel;
 import com.example.pc.shacus.Data.Model.SettingDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Fragment.ConversationListStaticFragment;
@@ -53,8 +55,11 @@ import com.example.pc.shacus.swipecards.swipe.CardFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
@@ -65,11 +70,11 @@ import android.view.LayoutInflater;
 import static com.example.pc.shacus.APP.context;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
 
     private static final String TAG = "TAG";
-    private boolean isLogin=false;
+    private boolean isLogin = false;
     private UserModel user;
     //管理Fragment
     private FragmentManager fragmentMgr = this.getSupportFragmentManager();
@@ -92,13 +97,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textName;
     private Button btnSelect;
     private EditText userSign;
-    private String cacheSign="";
+    private String cacheSign = "";
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private NetRequest netRequest;
     private ProgressDialog progressDlg;
-    private boolean signFlag=false;
-    private boolean exitFlag=false;
+    private boolean signFlag = false;
+    private boolean exitFlag = false;
 
     //筛选菜单
     private CheckBox checkbox_sex_all;
@@ -107,9 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CheckBox checkbox_people_all;
     private CheckBox checkbox_people_photogragher;
     private CheckBox checkbox_people_model;
-    private boolean[] sex_selector = {true, false,false};
-    private boolean[] people_selector = {true, false,false};
-
+    private boolean[] sex_selector = {true, false, false};
+    private boolean[] people_selector = {true, false, false};
+    private boolean[] selector = {true, false, false, true, false, false};
 
 
     @Override
@@ -121,21 +126,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar = (Toolbar) findViewById(R.id.m_toolbar);
         //将这个toolbar设置为actionBar
         setSupportActionBar(toolbar);
-        cache=ACache.get(this);
-        actbar=getSupportActionBar();
-        if (actbar!=null)
+        cache = ACache.get(this);
+        actbar = getSupportActionBar();
+        if (actbar != null)
             actbar.setDisplayShowTitleEnabled(false);
 
 
-        textName=(TextView)findViewById(R.id.m_toolbar_title);
+        textName = (TextView) findViewById(R.id.m_toolbar_title);
         textName.setText("未登录");
 
-        btnSelect = (Button)findViewById(R.id.m_toolbar_selector);
+        btnSelect = (Button) findViewById(R.id.m_toolbar_selector);
         //为btnSelect设置监听事件
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog builder = new AlertDialog.Builder(MainActivity.this,R.style.AlertDialog).create();
+                AlertDialog builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialog).create();
                 // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
                 view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_selector_layout, null);
                 // 设置我们自己定义的布局文件作为弹出框的Content
@@ -153,8 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkbox_people_all.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(checkbox_people_model.isChecked()) checkbox_people_model.setChecked(false);
-                        if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
+                        if (checkbox_people_model.isChecked())
+                            checkbox_people_model.setChecked(false);
+                        if (checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
                                 .setChecked(false);
                     }
 
@@ -162,8 +168,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkbox_people_photogragher.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
-                        if(checkbox_people_model.isChecked()) checkbox_people_model
+                        if (checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                        if (checkbox_people_model.isChecked()) checkbox_people_model
                                 .setChecked(false);
                     }
 
@@ -172,8 +178,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkbox_people_model.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
-                        if(checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
+                        if (checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                        if (checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
                                 .setChecked(false);
                     }
 
@@ -181,8 +187,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkbox_sex_woman.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
-                        if(checkbox_sex_man.isChecked()) checkbox_sex_man
+                        if (checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
+                        if (checkbox_sex_man.isChecked()) checkbox_sex_man
                                 .setChecked(false);
                     }
 
@@ -190,35 +196,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkbox_sex_man.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
-                        if(checkbox_sex_woman.isChecked()) checkbox_sex_woman
+                        if (checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
+                        if (checkbox_sex_woman.isChecked()) checkbox_sex_woman
                                 .setChecked(false);
                     }
 
-                });checkbox_sex_all.setOnClickListener(new View.OnClickListener() {
+                });
+                checkbox_sex_all.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(checkbox_sex_woman.isChecked()) checkbox_sex_woman.setChecked(false);
-                        if(checkbox_sex_man.isChecked()) checkbox_sex_man
+                        if (checkbox_sex_woman.isChecked()) checkbox_sex_woman.setChecked(false);
+                        if (checkbox_sex_man.isChecked()) checkbox_sex_man
                                 .setChecked(false);
                     }
 
                 });
 
-                builder.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener()
-                {
+                builder.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        if(checkbox_sex_all.isChecked()) sex_selector[0] = true;
-                        if(checkbox_sex_man.isChecked()) sex_selector[1] = true;
-                        if(checkbox_sex_woman.isChecked()) sex_selector[2] = true;
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (checkbox_sex_all.isChecked()) sex_selector[0] = true;
+                        if (checkbox_sex_man.isChecked()) sex_selector[1] = true;
+                        if (checkbox_sex_woman.isChecked()) sex_selector[2] = true;
 
-                        if(checkbox_people_all.isChecked()) people_selector[0] = true;
-                        if(checkbox_people_photogragher.isChecked()) people_selector[1] = true;
-                        if(checkbox_people_model.isChecked()) people_selector[2] = true;
+                        if (checkbox_people_all.isChecked()) people_selector[0] = true;
+                        if (checkbox_people_photogragher.isChecked()) people_selector[1] = true;
+                        if (checkbox_people_model.isChecked()) people_selector[2] = true;
+
+                        selector = new boolean[]{sex_selector[0], sex_selector[1], sex_selector[2],
+                                people_selector[0], people_selector[1], people_selector[2]};
+
+                        ArrayList<RecommandModel> recommandModel = cardListFragment.getmOurList();
+                        cardListFragment.updateOurListView(cardListFragment.selectMethod(recommandModel, selector));
                     }
                 });
+
                 builder.show();
                 Button btnPositive =
                         builder.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
@@ -231,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Window window = getWindow();
         //4.4版本及以上
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             //创建状态栏的管理实例
@@ -262,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initNetworkData();
 
-        isLogin=manageLogin();
+        isLogin = manageLogin();
 
         initView();
         //这个是父布局，也就是这个Activity的根布局
@@ -272,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //为侧边栏设置监听，由于此Activity已实现OnNavigationItemSelectedListener接口，可以传this
         navigationView.setNavigationItemSelectedListener(this);
         //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
-        btnAvartar= (CircleImageView) findViewById(R.id.toolbar_btn_avatar);
+        btnAvartar = (CircleImageView) findViewById(R.id.toolbar_btn_avatar);
         btnAvartar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -308,12 +320,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        fragmentTrs=fragmentMgr.beginTransaction();
+        fragmentTrs = fragmentMgr.beginTransaction();
         btn_yuepai.setSelected(true);
         toYuePai();
         fragmentTrs.commit();
-
-
 
 
     }
@@ -323,10 +333,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
 
         //获取登录状态添加到侧滑栏信息
-        if (user!=null) {
-            final ACache acache=ACache.get(this);
-            LoginDataModel model=(LoginDataModel)acache.getAsObject("loginModel");
-            user=model.getUserModel();
+        if (user != null) {
+            final ACache acache = ACache.get(this);
+            LoginDataModel model = (LoginDataModel) acache.getAsObject("loginModel");
+            user = model.getUserModel();
             ImageView userImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
             TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.text_UserName);
             ImageView userLevel = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_userLevel);
@@ -347,35 +357,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .error(R.drawable.loading_error)
                     .into(btnAvartar);
             //签名
-            netRequest=new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+            netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
                 @Override
                 public void requestFinish(String result, String requestUrl) throws JSONException {
-                    if(requestUrl.equals(CommonUrl.settingChangeNetUrl)){
-                        JSONObject js=new JSONObject(result);
-                        String code=js.getString("code");
-                        switch (code){
+                    if (requestUrl.equals(CommonUrl.settingChangeNetUrl)) {
+                        JSONObject js = new JSONObject(result);
+                        String code = js.getString("code");
+                        switch (code) {
                             case "10518":
                                 progressDlg.dismiss();
                                 Log.d("LQQQQQ", "修改成功 ");
                                 user.setSign(userSign.getText().toString());
-                                LoginDataModel data= (LoginDataModel) acache.getAsObject("loginModel");
+                                LoginDataModel data = (LoginDataModel) acache.getAsObject("loginModel");
                                 data.setUserModel(user);
                                 acache.put("loginModel", data);
-                                cacheSign=userSign.getText().toString();
+                                cacheSign = userSign.getText().toString();
                                 break;
                             case "10514":
                                 userSign.setText(cacheSign);
-                                cacheSign="";
+                                cacheSign = "";
                                 Log.d("LQQQQQ", "网络异常，修改失败 ");
                                 progressDlg.dismiss();
-                                signFlag=false;
+                                signFlag = false;
                                 break;
                             default:
                                 userSign.setText(cacheSign);
-                                cacheSign="";
+                                cacheSign = "";
                                 progressDlg.dismiss();
                                 Log.d("LQQQQQ", "网络异常，修改失败 ");
-                                signFlag=false;
+                                signFlag = false;
                                 break;
                         }
                     }
@@ -390,15 +400,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userSign.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if(!signFlag){
-                        cacheSign=userSign.getText().toString();
+                    if (!signFlag) {
+                        cacheSign = userSign.getText().toString();
                         userSign.setText("");
                         userSign.setText(cacheSign);
-                        signFlag=true;
-                    }else if(signFlag){
+                        signFlag = true;
+                    } else if (signFlag) {
                         userSign.setText(cacheSign);
-                        cacheSign="";
-                        signFlag=false;
+                        cacheSign = "";
+                        signFlag = false;
                     }
                     Log.d("LQQQQQQ", "on FocusChange: ");
                 }
@@ -406,31 +416,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userSign.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if(userSign.getText().length()>30){
+                    if (userSign.getText().length() > 30) {
                         userSign.setText(cacheSign);
-                        cacheSign="";
-                        signFlag=true;
-                        CommonUtils.getUtilInstance().showToast(MainActivity.this,"签名长度不能超过30");
-                    }else if(userSign.getText().length()<1){
+                        cacheSign = "";
+                        signFlag = true;
+                        CommonUtils.getUtilInstance().showToast(MainActivity.this, "签名长度不能超过30");
+                    } else if (userSign.getText().length() < 1) {
                         userSign.setText(cacheSign);
-                        cacheSign="";
-                        signFlag=true;
-                        CommonUtils.getUtilInstance().showToast(MainActivity.this,"签名长度不能为空");
-                    }else{
-                        HashMap map=new HashMap();
-                        map.put("uid",user.getId());
-                        map.put("authkey",user.getAuth_key());
-                        map.put("sign",userSign.getText().toString());
+                        cacheSign = "";
+                        signFlag = true;
+                        CommonUtils.getUtilInstance().showToast(MainActivity.this, "签名长度不能为空");
+                    } else {
+                        HashMap map = new HashMap();
+                        map.put("uid", user.getId());
+                        map.put("authkey", user.getAuth_key());
+                        map.put("sign", userSign.getText().toString());
                         map.put("type", "10517");
                         netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
-                        progressDlg=ProgressDialog.show(MainActivity.this, "上传签名", "正在上传签名", true, true, new DialogInterface.OnCancelListener() {
+                        progressDlg = ProgressDialog.show(MainActivity.this, "上传签名", "正在上传签名", true, true, new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
                                 userSign.setText(cacheSign);
-                                CommonUtils.getUtilInstance().showToast(MainActivity.this,"取消更改");
+                                CommonUtils.getUtilInstance().showToast(MainActivity.this, "取消更改");
                             }
                         });
-                        signFlag=true;
+                        signFlag = true;
                     }
                     Log.d("LQQQQQQ", "onEditorAction: ");
                     return false;
@@ -454,9 +464,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        isLogin=manageLogin();
+        isLogin = manageLogin();
 
-        String hint=intent.getStringExtra("result");
+        String hint = intent.getStringExtra("result");
         CommonUtils.getUtilInstance().showToast(APP.context, hint);
         yuePaiFragment.getRankFrag().doRefresh();
     }
@@ -467,31 +477,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        return true;
 //    }
 
-    private void initNetworkData(){
+    private void initNetworkData() {
     }
 
 
-    private boolean manageLogin(){
-        ACache cache=ACache.get(MainActivity.this);
-        LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
-        user=loginModel.getUserModel();
-        if (user!=null)
-        {
+    private boolean manageLogin() {
+        ACache cache = ACache.get(MainActivity.this);
+        LoginDataModel loginModel = (LoginDataModel) cache.getAsObject("loginModel");
+        user = loginModel.getUserModel();
+        if (user != null) {
             textName.setText(user.getNickName());
             //cache.put("userModel", user);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
 
-    private void initView(){
+    private void initView() {
 
-        btn_main=(ImageButton)findViewById(R.id.button_main);
-        btn_course =(ImageButton)findViewById(R.id.button_find);
-        btn_user=(ImageButton)findViewById(R.id.button_user);
-        btn_yuepai=(ImageButton)findViewById(R.id.button_yuepai);
-        btn_upload=(ImageButton)findViewById(R.id.button_upload) ;
+        btn_main = (ImageButton) findViewById(R.id.button_main);
+        btn_course = (ImageButton) findViewById(R.id.button_find);
+        btn_user = (ImageButton) findViewById(R.id.button_user);
+        btn_yuepai = (ImageButton) findViewById(R.id.button_yuepai);
+        btn_upload = (ImageButton) findViewById(R.id.button_upload);
 
         btn_main.setOnClickListener(this);
         btn_course.setOnClickListener(this);
@@ -502,14 +510,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v){
+    public void onClick(View v) {
 
-        if (v.getId()==R.id.button_upload){
+        if (v.getId() == R.id.button_upload) {
             toUpload();
             return;
         }
 
-        fragmentTrs=fragmentMgr.beginTransaction();
+        fragmentTrs = fragmentMgr.beginTransaction();
         setSelected();
         switch (v.getId()) {
             case R.id.button_main:
@@ -533,85 +541,85 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void toUpload(){
+    private void toUpload() {
         startActivity(new Intent(this, CreateYuePaiActivity.class));
     }
 
-    Handler handler=new Handler();
-    Runnable runnable=new Runnable() {
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            exitFlag=false;
+            exitFlag = false;
             handler.removeCallbacks(runnable);
         }
     };
 
     @Override
     public void onBackPressed() {
-            if (!exitFlag){
-                exitFlag=true;
-                CommonUtils.getUtilInstance().showToast(this,"再点击一次返回键退出应用");
-                handler.postDelayed(runnable, 3000);
-            }else{
-                finish();
-            }
+        if (!exitFlag) {
+            exitFlag = true;
+            CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
+            handler.postDelayed(runnable, 3000);
+        } else {
+            finish();
+        }
     }
 
-    private void toMain(){
-        if(cardListFragment == null){
+    private void toMain() {
+        if (cardListFragment == null) {
             cardListFragment = new CardFragment();
             //fragmentTrs.commitAllowingStateLoss();
-            fragmentTrs.add(R.id.fl_content,cardListFragment);
-        }else{
+            fragmentTrs.add(R.id.fl_content, cardListFragment);
+        } else {
             fragmentTrs.show(cardListFragment);
         }
     }
 
-    private void toMine(){
+    private void toMine() {
         //个人主页，1.23添加
-        if(mydisplay == null){
+        if (mydisplay == null) {
             mydisplay = new MyDisplayFragment();
             fragmentTrs.add(R.id.fl_content, mydisplay);
-        }else{
+        } else {
             btn_course.setSelected(true);
             fragmentTrs.show(mydisplay);
         }
     }
 
-    private void toYuePai(){
-        if(yuePaiFragment == null){
+    private void toYuePai() {
+        if (yuePaiFragment == null) {
             yuePaiFragment = new YuePaiFragment();
             fragmentTrs.add(R.id.fl_content, yuePaiFragment);
-        }else{
+        } else {
             btn_yuepai.setSelected(true);
             fragmentTrs.show(yuePaiFragment);
         }
     }
 
-    private void toUser(){
-        if(conversationListStaticFragment == null){
+    private void toUser() {
+        if (conversationListStaticFragment == null) {
             conversationListStaticFragment = new ConversationListStaticFragment();
             fragmentTrs.add(R.id.fl_content, conversationListStaticFragment);
-        }else{
+        } else {
             fragmentTrs.show(conversationListStaticFragment);
         }
     }
 
-    private void setSelected(){
+    private void setSelected() {
         btn_main.setSelected(false);
         btn_course.setSelected(false);
         btn_yuepai.setSelected(false);
         btn_user.setSelected(false);
-        if(cardListFragment != null){
+        if (cardListFragment != null) {
             fragmentTrs.hide(cardListFragment);
         }
-        if(mydisplay != null){
+        if (mydisplay != null) {
             fragmentTrs.hide(mydisplay);
         }
-        if(conversationListStaticFragment != null){
+        if (conversationListStaticFragment != null) {
             fragmentTrs.hide(conversationListStaticFragment);
         }
-        if(yuePaiFragment != null){
+        if (yuePaiFragment != null) {
             fragmentTrs.hide(yuePaiFragment);
         }
     }
@@ -619,7 +627,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //重载这个函数以识别requestCode并进行相应操作
-        if(requestCode == 1) {
+        if (requestCode == 1) {
             finish();//结束父activity自身
             //重新创建来刷新UI
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
@@ -630,7 +638,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
 
@@ -654,43 +662,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (id == R.id.nav_personalInfo) {
-            Intent intent=new Intent(getApplicationContext(),PersonalInfoActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PersonalInfoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_orderList) {
-            Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+            Intent intent = new Intent(getApplicationContext(), OrdersActivity.class);
             startActivity(intent);
-        }  else if (id == R.id.nav_myConcern) {
-            Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
-            intent.putExtra("user","myself");
-            intent.putExtra("activity","following");
+        } else if (id == R.id.nav_myConcern) {
+            Intent intent = new Intent(getApplicationContext(), FollowActivity.class);
+            intent.putExtra("user", "myself");
+            intent.putExtra("activity", "following");
             startActivity(intent);
-        } else if (id==R.id.nav_myFans){
-            Intent intent=new Intent(getApplicationContext(),FollowActivity.class);
-            intent.putExtra("user","myself");
-            intent.putExtra("activity","follower");
+        } else if (id == R.id.nav_myFans) {
+            Intent intent = new Intent(getApplicationContext(), FollowActivity.class);
+            intent.putExtra("user", "myself");
+            intent.putExtra("activity", "follower");
             startActivity(intent);
         } else if (id == R.id.nav_myCollection) {
-            Intent intent=new Intent(getApplicationContext(),FavoritemActivity.class);
+            Intent intent = new Intent(getApplicationContext(), FavoritemActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_Setting) {
-            Intent intent=new Intent(getApplicationContext(),SettingsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
-        }else if(id==R.id.nav_sharing){
-            Intent intent=new Intent(getApplicationContext(),ShareActivity.class);
+        } else if (id == R.id.nav_sharing) {
+            Intent intent = new Intent(getApplicationContext(), ShareActivity.class);
             startActivity(intent);
-        } else if(id==R.id.debug_photoset_detail){//临时作品集入口
-            Intent intent=new Intent(getApplicationContext(),PhotosetOverviewActivity.class);
-            intent.putExtra("uid",Integer.valueOf(user.getId()));
+        } else if (id == R.id.debug_photoset_detail) {//临时作品集入口
+            Intent intent = new Intent(getApplicationContext(), PhotosetOverviewActivity.class);
+            intent.putExtra("uid", Integer.valueOf(user.getId()));
             startActivity(intent);
-        } else if(id==R.id.debug_photos_detail){//临时个人照片入口
-            Intent intent=new Intent(getApplicationContext(),PhotoselfDetailActivity.class);
-            intent.putExtra("uid",Integer.valueOf(user.getId()));
+        } else if (id == R.id.debug_photos_detail) {//临时个人照片入口
+            Intent intent = new Intent(getApplicationContext(), PhotoselfDetailActivity.class);
+            intent.putExtra("uid", Integer.valueOf(user.getId()));
             startActivity(intent);
-        }else if(id==R.id.nav_Logout){
+        } else if (id == R.id.nav_Logout) {
             //登出请求
-            ACache cache=ACache.get(APP.context);
+            ACache cache = ACache.get(APP.context);
             cache.clear();
-            Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
             return true;

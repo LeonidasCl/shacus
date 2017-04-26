@@ -98,7 +98,7 @@ public class UserAdapter extends BaseAdapter {
             sexView = ButterKnife.findById(rootView, R.id.item_sex);
             likeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_like_indicator);
             unLikeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_unlike_indicator);
-            //selfMainView = ButterKnife.findById(rootView, R.id.self_main);
+            selfMainView = ButterKnife.findById(rootView, R.id.self_main);
 
             //去掉点赞的人
             //mFriendCountTv = ButterKnife.findById(rootView, R.id.item_friend_count);

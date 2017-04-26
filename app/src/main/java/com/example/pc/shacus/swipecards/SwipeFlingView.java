@@ -21,14 +21,22 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.example.pc.shacus.Data.Cache.ACache;
+import com.example.pc.shacus.Data.Model.ImageData;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
+import com.example.pc.shacus.Data.Model.RecommandModel;
 import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.R;
+import com.example.pc.shacus.swipecards.swipe.CardFragment;
 import com.tencent.connect.UserInfo;
 
 import java.util.ArrayList;
+
+import butterknife.InjectView;
+
+import static com.example.pc.shacus.R.id.display_big_image_layout;
 
 /**
  * 支持侧滑的叠加组件
@@ -62,12 +70,18 @@ public class SwipeFlingView extends AdapterView {
      * 用于记录当前卡片的索引，非常重要的属性
      */
     private int mCurPositon;
+
+    public int getmCurPositon() {
+        return mCurPositon;
+    }
+
     /**
      * 滑动卡片 起始位置在卡片上半部分还是下半部分
      *
      * @see #TOUCH_ABOVE
      * @see #TOUCH_BELOW
      */
+
     private int mTouchPosition;
     private int mOriginTopViewX = 0;//视图初始X位置
     private int mOriginTopViewY = 0;//视图初始Y位置
@@ -94,6 +108,28 @@ public class SwipeFlingView extends AdapterView {
     private ValueAnimator mSelectedAnimator;
     private ArrayList<View> mReleasedViewList = new ArrayList<>();
 
+    private CardFragment cardFragment;//引用CardFragment
+    private ArrayList<ArrayList<String>> imageBigDatasList;
+    private ArrayList<String> imageBigDatas;
+
+    public void setImageBigDatasList(ArrayList<ArrayList<String>> imageBigDatasList) {
+        this.imageBigDatasList = imageBigDatasList;
+    }
+
+    ArrayList<ImageData> imageDatas;
+
+    public void setImageDatas(ArrayList<ImageData> imageDatas) {
+        this.imageDatas = imageDatas;
+    }
+
+    public void setCardFragment(CardFragment cardFragment) {
+        this.cardFragment = cardFragment;
+    }
+
+    RelativeLayout display_big_image_layout;
+    public void setDisplay_big_image_layout(RelativeLayout display_big_image_layout) {
+        this.display_big_image_layout = display_big_image_layout;
+    }
 
     public SwipeFlingView(Context context) {
         this(context, null);
@@ -586,10 +622,30 @@ public class SwipeFlingView extends AdapterView {
         this.mFlingListener = onFlingListener;
     }
 
+    //点击item
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
+        display_big_image_layout.setVisibility(View.VISIBLE);
+        imageBigDatas = imageBigDatasList.get(mCurPositon);
+        for(int i =0;i<imageBigDatas.size();i++){
+            String url = imageBigDatas.get(i);
+            ImageData imageData = new ImageData(url);
+            imageDatas.add(imageData);
+        }
+        ImageData imageData = imageDatas.get(0);
+        cardFragment.showImagePager(parseBigImgUrl(imageData.getImageUrl()));
     }
 
+    private String parseBigImgUrl(String imageUrl) {
+        String ret="";
+        for (int i=0;i<imageDatas.size();i++){
+            if (imageDatas.get(i).getImageUrl().equals(imageUrl)){
+                ret= imageBigDatas.get(i);
+                break;
+            }
+        }
+        return ret;
+    }
 
     /*public final int getCurPositon() {
         return mCurPositon;

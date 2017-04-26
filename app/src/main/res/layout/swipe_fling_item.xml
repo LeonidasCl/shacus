@@ -76,6 +76,7 @@
                         android:textSize="18sp"
                         tools:text="20" />
                 </LinearLayout>
+
             </LinearLayout>
 
         </RelativeLayout>

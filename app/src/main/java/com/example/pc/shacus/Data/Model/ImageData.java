@@ -22,6 +22,10 @@ public class ImageData implements Serializable{
         setAspectRatio(aspectRatio);
     }
 
+    public ImageData(String imageUrl) {
+        setImageUrl(imageUrl);
+    }
+
     public ImageData(String imageUrl, int width, int height) {
         setImageUrl(imageUrl);
         this.width = width;
