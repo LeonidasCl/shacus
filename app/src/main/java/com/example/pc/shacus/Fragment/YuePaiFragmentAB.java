@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Adapter.CardAdapter;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
@@ -340,7 +341,7 @@ public class YuePaiFragmentAB extends Fragment implements NetworkCallbackInterfa
             cardPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                    Intent intent = new Intent(getActivity(), OtherUserDisplayActivity.class);
                     intent.putExtra("id",String.valueOf(yuepaiDatalist.get(position% yuepaiDatalist.size()).getAPid()));
                     startActivity(intent);
                 }

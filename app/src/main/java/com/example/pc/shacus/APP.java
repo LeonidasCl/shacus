@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -51,7 +53,7 @@ import io.rong.push.common.RongException;
  *
  * Created by shacus on 2016/8/21.
  */
-public class APP extends Application {
+public class APP extends MultiDexApplication {
 
     public static Context context;
 
@@ -266,4 +268,16 @@ public class APP extends Application {
     public static void setLastLocationCallback(RongIM.LocationProvider.LocationCallback lastLocationCallback) {
         mLastLocationCallback = lastLocationCallback;
     }
+
+    /**
+     * 2017.4.28解决multidex
+     * 分割 Dex 支持
+     * @param base
+     */
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 }
