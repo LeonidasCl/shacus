@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Activity.SOSOLocationActivity;
@@ -96,13 +97,15 @@ public class APP extends Application {
                     intent.putExtra("location", message.getContent());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
+                    return true;
                 }
 
                 if (message.getContent() instanceof RichContentMessage) {
-                    Intent intent = new Intent(context, SOSOLocationActivity.class);
-                    intent.putExtra("location", message.getContent());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Intent intent = new Intent(context,OrdersActivity.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("page", "0");
                     context.startActivity(intent);
+                    return true;
                 }
 
                 return false;
