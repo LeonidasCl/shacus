@@ -96,11 +96,11 @@ public final class RongCloudEvent implements  RongIM.LocationProvider{
     @Override
     public void onStartLocation(Context context, LocationCallback callback) {
 
-        APP.setLastLocationCallback(callback);
+        /*APP.setLastLocationCallback(callback);
 
         Intent intent = new Intent(context, SOSOLocationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        context.startActivity(intent);*/
     }
 
 

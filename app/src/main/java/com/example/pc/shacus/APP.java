@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.pc.shacus.Activity.OrdersActivity;
 import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Activity.SOSOLocationActivity;
@@ -42,6 +43,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.LocationMessage;
+import io.rong.message.RichContentMessage;
 import io.rong.push.RongPushClient;
 import io.rong.push.common.RongException;
 
@@ -90,12 +92,21 @@ public class APP extends Application {
             @Override
             public boolean onMessageClick(Context context, View view, Message message) {
 
-                        if (message.getContent() instanceof LocationMessage) {
-            Intent intent = new Intent(context, SOSOLocationActivity.class);
-            intent.putExtra("location", message.getContent());
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-        }
+                if (message.getContent() instanceof LocationMessage) {
+                    Intent intent = new Intent(context, SOSOLocationActivity.class);
+                    intent.putExtra("location", message.getContent());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    return true;
+                }
+
+                if (message.getContent() instanceof RichContentMessage) {
+                    Intent intent = new Intent(context,OrdersActivity.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("page", "0");
+                    context.startActivity(intent);
+                    return true;
+                }
 
                 return false;
             }
