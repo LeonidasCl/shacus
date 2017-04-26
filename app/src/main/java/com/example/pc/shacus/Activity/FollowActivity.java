@@ -59,7 +59,7 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
     TextView textView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
 

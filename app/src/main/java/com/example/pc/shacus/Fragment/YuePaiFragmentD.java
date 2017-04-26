@@ -391,12 +391,13 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 getYuePaiFlag=true;
                 return persons;
             } else if(!isFavor){
-                LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
+                type= RECOMMEND;
+                /*LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
                 List<PhotosetItemModel> persons=null;
                 persons =model.getCollectionList();
                 bootCounter+=persons.size();
                 getYuePaiFlag=true;
-                return persons;
+                return persons;*/
             }
         }
 

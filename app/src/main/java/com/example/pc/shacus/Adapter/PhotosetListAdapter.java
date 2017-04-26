@@ -18,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Activity.PhotosetDetailActivity;
 import com.example.pc.shacus.Activity.YuePaiDetailActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -32,6 +35,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
+import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.View.CircleImageView;
 
 import org.json.JSONException;
@@ -145,6 +149,27 @@ public class PhotosetListAdapter extends BaseAdapter {
         }
 
         void setValues(final PhotosetItemModel item){
+
+            final Handler handler=new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+
+                    if (msg.what== StatusCode.PRAISE_YUEPAI_SUCCESS){
+                        //APlike.setSelected(true);
+                        btn_photoset_likecount.setText(item.getUserlikeNum());
+                    }
+                    if (msg.what == StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS){
+                        //APlike.setSelected(false);
+                        btn_photoset_likecount.setText(item.getUserlikeNum());
+                    }
+                    if (msg.what == StatusCode.REQUEST_FOLLOW_SUCCESS){
+                        btn_add_favor.setVisibility(View.GONE);
+                        CommonUtils.getUtilInstance().showToast(APP.context,"关注成功");
+                    }
+                }
+            };
+
             //用户头像
             String user_avatar=item.getUserHeadimg().getHeadImage();
             Glide.with(activity)
@@ -152,6 +177,14 @@ public class PhotosetListAdapter extends BaseAdapter {
                     .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
                     .into(photoset_publish_user_avatar);
+            photoset_publish_user_avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, OtherUserDisplayActivity.class);
+                    intent.putExtra("id",item.getUserHeadimg().getId());
+                    activity.startActivity(intent);
+                }
+            });
             //用户昵称
             String username=item.getUserHeadimg().getNickName();
             if (!username.equals(""))
@@ -173,7 +206,35 @@ public class PhotosetListAdapter extends BaseAdapter {
                 btn_add_favor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //发起关注请求
+                        NetRequest netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                            @Override
+                            public void requestFinish(String result, String requestUrl) throws JSONException {
+                                if (requestUrl.equals(CommonUrl.getFollowInfo)) {
+                                    JSONObject object = new JSONObject(result);
+                                    int code = Integer.valueOf(object.getString("code"));
+                                    if (code == StatusCode.REQUEST_FOLLOW_USER) {
+                                        item.setUserIsFriend("0");
+                                        Message msg=handler.obtainMessage();
+                                        msg.what= StatusCode.REQUEST_FOLLOW_SUCCESS;
+                                        handler.sendMessage(msg);
+                                        return;
+                                    }
+                                }
+                            }
 
+                            @Override
+                            public void exception(IOException e, String requestUrl) {}
+                        }, activity);
+
+                        Map map = new HashMap();
+                        ACache cache = ACache.get(activity);
+                        LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
+                        map.put("uid", model.getUserModel().getId());
+                        map.put("authkey", model.getUserModel().getAuth_key());
+                        map.put("followerid", item.getUserHeadimg().getId());
+                        map.put("type", StatusCode.REQUEST_FOLLOW_USER);
+                        netRequest.httpRequest(map, CommonUrl.getFollowInfo);
 
                     }
                 });
@@ -224,21 +285,7 @@ public class PhotosetListAdapter extends BaseAdapter {
                 photoset_img_frame.setVisibility(View.INVISIBLE);
                 photoset_img_count.setVisibility(View.INVISIBLE);
             }
-            final Handler handler=new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
 
-                    if (msg.what== StatusCode.PRAISE_YUEPAI_SUCCESS){
-                        //APlike.setSelected(true);
-                        btn_photoset_likecount.setText(item.getUserlikeNum());
-                    }
-                    if (msg.what == StatusCode.CANCEL_PRAISE_YUEPAI_SUCCESS){
-                        //APlike.setSelected(false);
-                        btn_photoset_likecount.setText(item.getUserlikeNum());
-                    }
-                }
-            };
             btn_photoset_addlike.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){

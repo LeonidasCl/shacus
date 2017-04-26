@@ -22,9 +22,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.pc.shacus.Data.Model.FluidPhotoRow;
 import com.example.pc.shacus.Data.Model.ImageData;
+import com.example.pc.shacus.Data.Model.PhotosetModel;
 import com.example.pc.shacus.R;
 
 public class FluidGridAdapter extends BaseAdapter {
@@ -37,15 +39,15 @@ public class FluidGridAdapter extends BaseAdapter {
     private int initialCellPadding = 5;
     private int cellBackgroundColor = 0;
 
-    public FluidGridAdapter(Context context, ArrayList<ImageData> imageDatas){
-        this(context, imageDatas, -1);
+    public FluidGridAdapter(Context context, ArrayList<PhotosetModel> photoSets,ArrayList<ImageData> imageDatas){
+        this(context, photoSets,imageDatas, -1);
     }
 
-    public FluidGridAdapter(Context context, ArrayList<ImageData> imageDatas, int cellPadding) {
-        this(context, imageDatas, cellPadding, 0);
+    public FluidGridAdapter(Context context,ArrayList<PhotosetModel> photoSets, ArrayList<ImageData> imageDatas, int cellPadding) {
+        this(context, photoSets,imageDatas, cellPadding, 0);
     }
 
-    public FluidGridAdapter(Context context, ArrayList<ImageData> imageDatas, int initialCellPadding, int desiredRowHeight) {
+    public FluidGridAdapter(Context context,ArrayList<PhotosetModel> photoSets, ArrayList<ImageData> imageDatas, int initialCellPadding, int desiredRowHeight) {
         this.context = context;
         if(initialCellPadding > -1) {
             this.initialCellPadding = initialCellPadding;
@@ -54,12 +56,11 @@ public class FluidGridAdapter extends BaseAdapter {
             this.desiredRowHeight = desiredRowHeight;
         }
         calculateScreenDimensions();
-        if (imageDatas.size()>0)
-        this.fluidPhotoRows = buildFluidPhotoRows(imageDatas);
+        this.fluidPhotoRows = buildFluidPhotoRows(imageDatas,photoSets);
     }
 
-    public void refresh(ArrayList<ImageData> imageDatas){
-        this.fluidPhotoRows = buildFluidPhotoRows(imageDatas);
+    public void refresh(ArrayList<ImageData> imageDatas,ArrayList<PhotosetModel> photoSets){
+        this.fluidPhotoRows = buildFluidPhotoRows(imageDatas,photoSets);
     }
 
     @Override
@@ -107,6 +108,9 @@ public class FluidGridAdapter extends BaseAdapter {
                 RelativeLayout imageContainer = (RelativeLayout)singleCell.findViewById(R.id.image_container);
                 ImageView photo = (ImageView)singleCell.findViewById(R.id.photo);
                 ImageView photoCheck=(ImageView)singleCell.findViewById(R.id.photo_check);
+                TextView phootoset_title=(TextView)singleCell.findViewById(R.id.tv_phptoset_overview_title);
+                TextView photoset_time=(TextView)singleCell.findViewById(R.id.tv_phptoset_overview_time);
+
                 //如果是可选的（编辑状态），将勾选设置为可见
                 if(getItem(position).getImageDatas().get(i).isCheckable())
                     photoCheck.setVisibility(View.VISIBLE);
@@ -114,6 +118,14 @@ public class FluidGridAdapter extends BaseAdapter {
                     photoCheck.setVisibility(View.GONE);
 
                 final ImageData imageData = getItem(position).getImageDatas().get(i);
+
+                ArrayList<String> titles=getItem(position).getTitles();
+                ArrayList<String> times=getItem(position).getContents();
+                if (titles.size()!=0&&times.size()!=0){
+                    phootoset_title.setText(titles.get(i));
+                    photoset_time.setText(times.get(i));
+                }
+
                 if(cellBackgroundColor != 0) {
                     photo.setBackgroundColor(cellBackgroundColor);
                 }
@@ -201,18 +213,17 @@ public class FluidGridAdapter extends BaseAdapter {
     /*
      * build an array of rows that have images and dimensions of that row
      */
-    private ArrayList<FluidPhotoRow> buildFluidPhotoRows(ArrayList<ImageData> imageDatas){
+    private ArrayList<FluidPhotoRow> buildFluidPhotoRows(ArrayList<ImageData> imageDatas,ArrayList<PhotosetModel> photoSets){
         double photoRowWidth = 0;
-        //int i = 0;
+        int i = 0;
 
         ArrayList<FluidPhotoRow> fluidPhotoRows = new ArrayList<FluidPhotoRow>();
         ArrayList<ImageData> subList = new ArrayList<ImageData>();
+        ArrayList<String> titlesList=new ArrayList<>();
+        ArrayList<String> timeList=new ArrayList<>();
 
-        if (imageDatas.size()==0)
-            return null;
-
-        for(int i=0;i<imageDatas.size();i++) {
-            ImageData imageData=imageDatas.get(i);
+        for(ImageData imageData : imageDatas) {
+            i++;
             int totalPadding = (i - 1) * cellPadding;
             float aspectRatio = imageData.getAspectRatio();
             double photoWidth = aspectRatio * desiredRowHeight;
@@ -220,30 +231,53 @@ public class FluidGridAdapter extends BaseAdapter {
             photoRowWidth = photoRowWidth + photoWidth;
             if(photoRowWidth < (screenWidth - totalPadding)){//当前行若没有填满，填满当前行
                 subList.add(imageData);
+                if (photoSets!=null){
+                    titlesList.add(photoSets.get(i-1).getTitle());
+                    timeList.add(photoSets.get(i-1).getUCcreateT());
+                }
                 if(i == imageDatas.size()){
                     double newRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
                     FluidPhotoRow photoRow = new FluidPhotoRow(subList, (int)Math.floor(newRowHeight));
+                    photoRow.setTitles(titlesList);
+                    photoRow.setContents(timeList);
                     fluidPhotoRows.add(photoRow);
                 }
             } else if(subList.size() == 0) {//???
                 double newRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
                 subList.add(imageData);
+                if (photoSets!=null){
+                    titlesList.add(photoSets.get(i-1).getTitle());
+                    timeList.add(photoSets.get(i-1).getUCcreateT());
+                }
                 FluidPhotoRow photoRow = new FluidPhotoRow(subList, (int)Math.floor(newRowHeight));
+                photoRow.setTitles(titlesList);
+                photoRow.setContents(timeList);
                 fluidPhotoRows.add(photoRow);
                 subList = new ArrayList<ImageData>();
+                titlesList=new ArrayList<>();
+                timeList=new ArrayList<>();
             } else {//当前行已填满，将当前行数据放入并情况sublist以创建新的行
                 photoRowWidth = photoRowWidth - photoWidth;
                 double newRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
-
                 FluidPhotoRow photoRow = new FluidPhotoRow(subList, (int)newRowHeight);
+                photoRow.setTitles(titlesList);
+                photoRow.setContents(timeList);
                 fluidPhotoRows.add(photoRow);
                 subList = new ArrayList<ImageData>();
+                titlesList=new ArrayList<>();
+                timeList=new ArrayList<>();
                 subList.add(imageData);
+                if (photoSets!=null){
+                    titlesList.add(photoSets.get(i-1).getTitle());
+                    timeList.add(photoSets.get(i-1).getUCcreateT());
+                }
                 photoRowWidth = photoWidth;
 
                 if(i == imageDatas.size()) {//如果到了最后一张，将剩下的加到新行
                     double finalRowHeight = desiredRowHeight * (screenWidth / photoRowWidth);
                     FluidPhotoRow newPhotoRow = new FluidPhotoRow(subList, (int)Math.floor(finalRowHeight));
+                    newPhotoRow.setTitles(titlesList);
+                    newPhotoRow.setContents(timeList);
                     fluidPhotoRows.add(newPhotoRow);
                 } /*else { 原作者此处将游标置0会导致忽略最后一行，这样部分图片将不会被显示，李嘉文注
                     i = 0;

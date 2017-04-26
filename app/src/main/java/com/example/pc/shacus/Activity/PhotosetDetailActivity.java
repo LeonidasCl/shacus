@@ -231,7 +231,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     return;
                                 }
                                 //把新清单数据注入adapter
-                                fluidGridAdapter.refresh(imageDatas);
+                                fluidGridAdapter.refresh(imageDatas,null);
                                 //清除图片完成后，把新注入的数据都设置为可选状态
                                 fluidGridAdapter.setPhotosCheckable(true);
                                 //通知adapter进行画面重绘
@@ -330,7 +330,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
     private void setupFluidGrid(){
         //final ArrayList<ImageData> imageDatas = loadDevicePhotos();
-        fluidGridAdapter = new FluidGridAdapter(this, imageDatas){
+        fluidGridAdapter = new FluidGridAdapter(this, null,imageDatas){
             @Override
             protected void onSingleCellTapped(ImageData imageData,View v){
                 if (isEditing){//如果处于编辑模式

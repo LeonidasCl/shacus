@@ -44,6 +44,7 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAINACTVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -105,6 +106,7 @@
         <activity android:name=".Activity.OrdersItemActivity" />
         <activity android:name=".Activity.OtherUserDisplayActivity" />
         <activity android:name=".Activity.SelectUserActivity" />
+        <activity android:name=".Activity.OtherUserActivity" />
         <activity
             android:name=".Activity.TagAddActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
@@ -120,7 +122,7 @@
         <activity
             android:name=".Activity.ConversationDynamicFragmentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -134,8 +136,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.PhotosAddActivity" />
-        <activity android:name=".Activity.SignupActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".Activity.SignupActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <!--
         <activity
@@ -153,7 +156,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".Activity.CoursesActivity"
             android:screenOrientation="nosensor"
@@ -220,33 +222,31 @@
         <activity
             android:name=".Activity.WantToPhotographActivity"
             android:label="@string/title_activity_want_to_photograph"
-            android:theme="@style/Vita.ActionBar"></activity>
-
+            android:theme="@style/Vita.ActionBar" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
-
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1106028520" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="561cae6ae0f55abd990035bf" >
-        </meta-data>
+            android:value="561cae6ae0f55abd990035bf"></meta-data>
 
+        <activity android:name=".Activity.OrderfriendsActivity"></activity>
         <activity android:name=".Activity.YuePaiDetailActivity_new"/>
     </application>
 
