@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.OtherUserActivity;
 import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Activity.YuePaiDetailActivity;
@@ -154,8 +155,6 @@ public class YuePaiAdapter_new  extends BaseAdapter {
             String userheadimg = item.getUserModel().getHeadImage();
             Glide.with(activity)
                     .load(userheadimg)
-                    .placeholder(R.drawable.holder)
-                    .error(R.drawable.loading_error)
                     .into(user_image);
             user_image.setOnClickListener(new View.OnClickListener() {
                 @Override

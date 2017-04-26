@@ -50,6 +50,7 @@ public interface StatusCode {
 
     //请求关注
     int REQUEST_FOLLOW_USER = 10401;
+    int RESPONSE_ALREADY_FOLLOW_USER = 10410;
     int REQUEST_FOLLOW_SUCCESS = 10411; //请求关注成功
     int REQUEST_FOLLOWER_NONE = 10441;//没有粉丝
 

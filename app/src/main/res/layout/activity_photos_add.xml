@@ -163,7 +163,7 @@
             android:layout_height="match_parent"
             android:background="@color/toolbar_white"
             android:text="@string/upload"
-            android:textColor="#ffffff"
+            android:textColor="@color/zero_black"
             android:textSize="14sp" />
     </FrameLayout>
 

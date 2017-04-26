@@ -19,7 +19,7 @@
             android:id="@+id/follow"
             android:textSize="20dp"
             android:text="follow"
-            android:textColor="@color/ff_white"
+            android:textColor="@color/four_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"/>

@@ -167,6 +167,10 @@ public class PhotosetListAdapter extends BaseAdapter {
                         btn_add_favor.setVisibility(View.GONE);
                         CommonUtils.getUtilInstance().showToast(APP.context,"关注成功");
                     }
+                    if (msg.what == StatusCode.RESPONSE_ALREADY_FOLLOW_USER){
+                        btn_add_favor.setVisibility(View.GONE);
+                        CommonUtils.getUtilInstance().showToast(APP.context,"您已经关注过此用户");
+                    }
                 }
             };
 
@@ -174,8 +178,6 @@ public class PhotosetListAdapter extends BaseAdapter {
             String user_avatar=item.getUserHeadimg().getHeadImage();
             Glide.with(activity)
                     .load(user_avatar)
-                    .placeholder(R.drawable.holder)
-                    .error(R.drawable.loading_error)
                     .into(photoset_publish_user_avatar);
             photoset_publish_user_avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -217,6 +219,13 @@ public class PhotosetListAdapter extends BaseAdapter {
                                         item.setUserIsFriend("0");
                                         Message msg=handler.obtainMessage();
                                         msg.what= StatusCode.REQUEST_FOLLOW_SUCCESS;
+                                        handler.sendMessage(msg);
+                                        return;
+                                    }
+                                    if (code == StatusCode.RESPONSE_ALREADY_FOLLOW_USER) {
+                                        item.setUserIsFriend("0");
+                                        Message msg=handler.obtainMessage();
+                                        msg.what= StatusCode.RESPONSE_ALREADY_FOLLOW_USER;
                                         handler.sendMessage(msg);
                                         return;
                                     }
