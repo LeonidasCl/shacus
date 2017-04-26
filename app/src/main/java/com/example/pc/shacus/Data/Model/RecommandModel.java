@@ -10,39 +10,43 @@ import java.util.ArrayList;
 
 public class RecommandModel implements Serializable{
     private ArrayList<String> Ucimg;
-    private String Fisrtimg;
-    private String Uheadimg;
-    private UserModel recommandUser;
+    private String UcFirstimg;
+    private String headimg;
+    private UserModel userpublish;
 
     public void setUcimg(ArrayList<String> ucimg) {
         Ucimg = ucimg;
     }
 
-    public void setFisrtimg(String fisrtimg) {
-        Fisrtimg = fisrtimg;
+    public void setUserpublish(UserModel userpublish) {
+        this.userpublish = userpublish;
     }
 
-    public void setUheadimg(String uheadimg) {
-        Uheadimg = uheadimg;
-    }
+    public UserModel getUserpublish() {
 
-    public void setRecommandUser(UserModel recommandUser) {
-        this.recommandUser = recommandUser;
+        return userpublish;
     }
 
     public ArrayList<String> getUcimg() {
+
         return Ucimg;
     }
 
-    public String getFisrtimg() {
-        return Fisrtimg;
+    public void setUcFirstimg(String ucFirstimg) {
+        UcFirstimg = ucFirstimg;
     }
 
-    public String getUheadimg() {
-        return Uheadimg;
+    public String getUcFirstimg() {
+
+        return UcFirstimg;
     }
 
-    public UserModel getRecommandUser() {
-        return recommandUser;
+    public void setHeadimg(String headimg) {
+        this.headimg = headimg;
+    }
+
+    public String getHeadimg() {
+
+        return headimg;
     }
 }

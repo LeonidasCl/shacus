@@ -3,6 +3,8 @@ package com.example.pc.shacus.swipecards.swipe;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -40,6 +42,10 @@ import com.example.pc.shacus.swipecards.util.RetrofitHelper;
 import com.example.pc.shacus.swipecards.view.SwipeFlingBottomLayout;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,13 +57,13 @@ import retrofit2.Call;
 
 import com.example.pc.shacus.R;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.example.pc.shacus.APP.context;
-import static com.example.pc.shacus.Network.StatusCode.CHANGE_USER_CATEGORY;
-import static com.example.pc.shacus.Network.StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST;
 
 
 /**
@@ -76,13 +82,11 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private UserModel user;
     private String authkey;
     private String category;
-    private RecommandModel data;
-    private PhotosetItemModel photosetItemModel;
-    CardEntity cardEntity;
 
     private int requestTime = 1; //第几次请求
     private static final int MSG_SUCCESS = 0;//获取数据成功的标识
     private static final int MSG_FAILURE = 1;//获取数据失败的标识
+    private static final int MSG_DATA_SUCCESS = 2;//获取数据成功的标识
 
     @InjectView(R.id.frame)
     SwipeFlingView mSwipeFlingView;
@@ -103,18 +107,10 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     private int mPageIndex = 0;
     private boolean mIsRequestGirlList;
+    RecommandModel model;
     private ArrayList<CardEntity> mGrilList = new ArrayList<>();//这个list不用了，但暂时先保留
     private ArrayList<RecommandModel> mOurList = new ArrayList<>();//自己的list
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            data = (RecommandModel) msg.obj;
-
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,7 +124,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     private void initView() {
 
-        mAdapter = new UserAdapter(getActivity(), mGrilList);
+        //mAdapter = new UserAdapter(getActivity(), mGrilList);
+        mAdapter = new UserAdapter(getActivity(), mOurList);
         mSwipeFlingView.setAdapter(mAdapter);
         mSwipeFlingView.setOnSwipeFlingListener(this);//SimpleOnSwipeListener/OnSwipeListener
         mSwipeFlingView.setOnItemClickListener(this);
@@ -147,8 +144,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     }
 
     //筛选之后调用这个方法
-    private void upadateOurListView(ArrayList<RecommandModel> list) {
-        if (list == null || list.size() == 0){
+    private void updateOurListView(ArrayList<RecommandModel> list) {
+        if (list == null || list.size() == 0) {
             return;
         }
         mOurList.addAll(list);
@@ -177,7 +174,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         }
         mIsRequestGirlList = true;
         if (requestTime == 3 || requestTime == 1) {   //之后的请求次数多，把3放在前面提高效率
-            map.put("type", RECOMMAND_PHOTOGRAPHER_MODEL_LIST);  //10850
+            map.put("type", StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST);  //10850
             map.put("authkey", authkey);
             requestFragment.httpRequest(map, CommonUrl.requestModel);
         }
@@ -241,21 +238,21 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                     CommonUtils commonUtils = new CommonUtils();
                     commonUtils.showToast(getContext(), "尚未选择！");
                 } else if (checkbox_people_all.isChecked()) {
-                    userModel.setCategory("两者都是");
+                    userModel.setUcategory("两者都是");
                     alertDialog.dismiss();
                 } else if (checkbox_people_photogragher.isChecked()) {
-                    userModel.setCategory("摄影师");
+                    userModel.setUcategory("摄影师");
                     alertDialog.dismiss();
                 } else if (checkbox_people_model.isChecked()) {
-                    userModel.setCategory("模特");
+                    userModel.setUcategory("模特");
                     alertDialog.dismiss();
                 }
 
                 requestFragment = new NetRequest(CardFragment.this, getContext());
                 authkey = userModel.getAuth_key();
                 Map map = new HashMap();
-                category = userModel.getCategory();
-                map.put("type", CHANGE_USER_CATEGORY);   //10852
+                category = userModel.getUcategory();
+                map.put("type", StatusCode.CHANGE_USER_CATEGORY);   //10852
                 map.put("authkey", authkey);
                 if (category == "摄影师") map.put("category", 1);
                 if (category == "模特") map.put("category", 2);
@@ -275,7 +272,13 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             switch (msg.what) {
                 case MSG_SUCCESS:
                     alertDialogShow();
+                    break;
+                case MSG_DATA_SUCCESS:
+                    updateOurListView(mOurList);
+                    ++mPageIndex;
+                    break;
                 case MSG_FAILURE:
+
             }
         }
     };
@@ -289,12 +292,23 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             //Log.d("CradFragment", object.getJSONArray("contents").getJSONObject(0).toString());
             int code = Integer.valueOf(object.getString("code"));
             switch (code) {
-                case StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST://返回了推荐的卡片
+                case StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST://返回了推荐的卡片，返回了两组{}{}
                     Gson gson = new Gson();
-                    RecommandModel data = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(), RecommandModel.class);
-                    Message msg = handler.obtainMessage();
-                    msg.obj = data;
-                    handler.sendMessage(msg);
+                    //此处不使用json转gson
+                    //RecommandModel data = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(), RecommandModel.class);
+                    JSONArray data = object.getJSONArray("contents");
+                    for(int i = 0; i< data.length(); i++){
+                        JSONObject info = data.getJSONObject(i);
+                        model = new RecommandModel();
+                        //model.setUcFirstimg(info.getString("UcFirstimg"));
+                        //model.setHeadimg(info.getString("headimg"));
+                        model = gson.fromJson(info.toString(),RecommandModel.class);
+                        mOurList.add(model);
+                    }
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = MSG_DATA_SUCCESS;
+                    msg.obj = mOurList;
+                    mHandler.sendMessage(msg);
                     break;
                 case StatusCode.RETURN_SET_CATEGORY://设置字段
                     requestTime++;
@@ -312,7 +326,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         }
     }
 
-    private void requestGirlList() {
+    private void requestGirlList() {    //废弃不用
         if (mIsRequestGirlList) {
             return;
         }
@@ -389,8 +403,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         if (DEBUG) {
             Log.d(TAG, "SwipeFlingView onLeftCardExit");
             int cur = Integer.valueOf(dataObject.toString());
-            CardEntity card = mAdapter.getItem(cur);
-            String excited = card.url;
+            RecommandModel card = mAdapter.getItem(cur);
+            String excited = card.getUcFirstimg();
             Log.d("excited", "不喜欢 :" + excited);
         }
         if (triggerByTouchMove)
@@ -405,8 +419,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         if (DEBUG) {
             Log.d(TAG, "SwipeFlingView onRightCardExit");
             int cur = Integer.valueOf(dataObject.toString());
-            CardEntity card = mAdapter.getItem(cur);
-            String excited = card.url;
+            RecommandModel card = mAdapter.getItem(cur);
+            String excited = card.getUcFirstimg();
             Log.d("excited", "感兴趣 :" + excited);
         }
         if (triggerByTouchMove)
@@ -418,8 +432,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         if (DEBUG) {
             Log.d(TAG, "SwipeFlingView onSuperLike");
             int cur = Integer.valueOf(dataObject.toString());
-            CardEntity card = mAdapter.getItem(cur);
-            String excited = card.url;
+            RecommandModel card = mAdapter.getItem(cur);
+            String excited = card.getUcFirstimg();
             Log.d("excited", "关注 :" + excited);
         }
         if (triggerByTouchMove)
@@ -492,8 +506,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     public void onItemClicked(int itemPosition, Object dataObject) {
         if (DEBUG) {
             Log.d("excited", "onItemClicked itemPosition:" + itemPosition);
-            CardEntity card = mAdapter.getItem(itemPosition);
-            String excited = card.url;
+            RecommandModel card = mAdapter.getItem(itemPosition);
+            String excited = card.getUcFirstimg();
             Log.d("excited", "clicked url :" + excited);
         }
     }
@@ -502,4 +516,5 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     public void exception(IOException e, String requestUrl) {
 
     }
+
 }

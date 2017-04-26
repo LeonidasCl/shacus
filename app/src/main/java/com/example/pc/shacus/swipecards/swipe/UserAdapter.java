@@ -2,11 +2,18 @@ package com.example.pc.shacus.swipecards.swipe;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.pc.shacus.Data.Model.RecommandModel;
+import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.View.Custom.RoundImageView;
 import com.example.pc.shacus.swipecards.util.CardEntity;
 import com.example.pc.shacus.swipecards.util.ImageLoaderHandler;
 import com.example.pc.shacus.swipecards.view.CardImageView;
@@ -25,9 +32,9 @@ public class UserAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<CardEntity> mList;
+    private ArrayList<RecommandModel> mList;
 
-    public UserAdapter(Context context, ArrayList<CardEntity> list) {
+    public UserAdapter(Context context, ArrayList<RecommandModel> list) {
         mInflater = LayoutInflater.from(context);
         this.mList = list;
         this.mContext = context;
@@ -39,7 +46,7 @@ public class UserAdapter extends BaseAdapter {
     }
 
     @Override
-    public CardEntity getItem(int position) {
+    public RecommandModel getItem(int position) {
         return mList.get(position);
     }
 
@@ -57,14 +64,17 @@ public class UserAdapter extends BaseAdapter {
         }
         ViewHolder holder = (ViewHolder) convertView.getTag();
 
-        CardEntity cardEntity = ((CardEntity) getItem(position));
+        RecommandModel recommandModel = ((RecommandModel) getItem(position));
         holder.likeIndicator.reset();
         holder.unLikeIndicator.reset();
-        holder.nameView.setText(cardEntity.who);
-        holder.addressView.setText(cardEntity.desc);
+        holder.nameView.setText(recommandModel.getUserpublish().getNickName());
+        holder.sexView.setText(recommandModel.getUserpublish().getSex());
+//        Bitmap bitmap = CommonUtils.getHttpBitmap(recommandModel.getHeadimg());
+//        holder.selfMainView.setImageBitmap(bitmap);
         holder.img.reset();
-        holder.img.setUser(cardEntity);
-        ImageLoaderHandler.get().loadCardImage((Activity) mContext, holder.img, null, cardEntity.url, false);
+        holder.img.setUser(recommandModel);
+        ImageLoaderHandler.get().loadCardImage((Activity) mContext, holder.img, null, recommandModel.getUcFirstimg(), false);
+        //ImageLoaderHandler.get().loadCardImage((Activity) mContext, holder.selfMainView, null, recommandModel.getHeadimg(), false);
         return convertView;
     }
 
@@ -72,21 +82,24 @@ public class UserAdapter extends BaseAdapter {
         CardLayout cardLayout;
         CardImageView img;
         TextView nameView;
-        TextView addressView;
+        TextView sexView;
         SwipeIndicatorView likeIndicator;
         SwipeIndicatorView unLikeIndicator;
-        TextView mFriendCountTv;
-        TextView mInterestCountTv;
+//        TextView mFriendCountTv;
+//        TextView mInterestCountTv;
         ViewGroup mBottomLayout;
+        ImageView selfMainView;
 
         ViewHolder(View rootView) {
             cardLayout = (CardLayout) rootView;
             img = ButterKnife.findById(rootView, R.id.item_img);
             nameView = ButterKnife.findById(rootView, R.id.item_name);
             //这里要改成性别
-            addressView = ButterKnife.findById(rootView, R.id.item_sex);
+            sexView = ButterKnife.findById(rootView, R.id.item_sex);
             likeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_like_indicator);
             unLikeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_unlike_indicator);
+            //selfMainView = ButterKnife.findById(rootView, R.id.self_main);
+
             //去掉点赞的人
             //mFriendCountTv = ButterKnife.findById(rootView, R.id.item_friend_count);
             //mInterestCountTv = ButterKnife.findById(rootView, R.id.item_interest_count);

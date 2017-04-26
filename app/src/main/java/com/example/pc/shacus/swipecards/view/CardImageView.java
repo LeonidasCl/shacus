@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.example.pc.shacus.Data.Model.RecommandModel;
 import com.example.pc.shacus.swipecards.util.CardEntity;
 import com.makeramen.roundedimageview.RoundedDrawable;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -17,7 +18,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
  */
 public class CardImageView extends RoundedImageView {
 
-    private CardEntity mUser;
+    private RecommandModel mUser;
     private boolean isLoadImgSucc = false;
 
     public CardImageView(Context context) {
@@ -52,7 +53,7 @@ public class CardImageView extends RoundedImageView {
         }*/
     }
 
-    public void setUser(CardEntity user) {
+    public void setUser(RecommandModel user) {
         this.mUser = user;
     }
 

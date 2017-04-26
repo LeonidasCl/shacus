@@ -7,6 +7,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
@@ -26,6 +33,11 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -388,5 +400,64 @@ public class CommonUtils {
 	public void showLongToast(Context context, String string) {
 		CToast toast = CToast.makeText(context, string, CToast.LENGTH_LONG);
 		toast.show();
+	}
+
+	/**
+	 　　* 从服务器取图片
+	 　　*http://bbs.3gstdy.com
+	 　　* @param url
+	 　　* @return
+	 　　*/
+	public static Bitmap getHttpBitmap(String url) {
+		URL myFileUrl = null;
+		Bitmap bitmap = null;
+		try {
+			Log.d("getHttpBitmap", url);
+			myFileUrl = new URL(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		try {
+			HttpURLConnection conn = (HttpURLConnection) myFileUrl
+					.openConnection();
+			conn.setConnectTimeout(0);
+			conn.setDoInput(true);
+			conn.connect();
+			InputStream is = conn.getInputStream();
+			bitmap = BitmapFactory.decodeStream(is);
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return bitmap;
+	}
+
+	/**
+	 * 把图片裁成圆形图片
+	 * @param bitmap
+	 * @param ratio
+	 * @return
+	 */
+	public static Bitmap toRoundCorner(Bitmap bitmap, float ratio) {
+		System.out.println("图片是否变成圆形模式了+++++++++++++");
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+				bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		final RectF rectF = new RectF(rect);
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		canvas.drawRoundRect(rectF, bitmap.getWidth() / ratio,
+				bitmap.getHeight() / ratio, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+		System.out.println("pixels+++++++" + String.valueOf(ratio));
+
+		return output;
+
 	}
 }
