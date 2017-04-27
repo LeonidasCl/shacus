@@ -181,12 +181,12 @@
 
         <TextView
             android:id="@+id/btn_photoset_likecount"
-            android:layout_width="45dp"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginRight="60dp"
             android:textColor="@color/content_gray"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:visibility="visible"
             android:gravity="center_horizontal|center_vertical"
             android:layout_centerVertical="true"
