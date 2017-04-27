@@ -256,4 +256,5 @@ public interface StatusCode {
     int REQUEST_MORE_RECOMMENDED_PHOTOSET_LIST = 10826;//请求更多推荐的作品集
     int PRAISE_PHOTOSET = 10840;//作品集点赞
     int CANCEL_PRAISE_PHOTOSET=10841;//作品集取消点赞
+    int FAIL_PRAISE_PHOTOSET=10843;//作品集点赞失败
 }

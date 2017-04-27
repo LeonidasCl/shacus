@@ -195,16 +195,20 @@ public class YuePaiAdapter_new  extends BaseAdapter {
             //用户相册
             List<String> imgs = item.getAPimgurl();
             int imgsSize = imgs.size();
+            for(int i = 0; i < 3;i++){
+                Glide.with(activity)
+                        .load((imgs.get(i)))
+                        .placeholder(R.drawable.holder)
+                        .error(R.drawable.loading_error)
+                        .into(photoset_img_list.get(i));
+            }
             if (imgsSize>=3){//图片大于三张，正常显示
                 none_jp.setVisibility(View.GONE);
-                for(int i = 0; i < 3;i++){
-                    Glide.with(activity)
-                            .load((imgs.get(i)))
-                            .placeholder(R.drawable.holder)
-                            .error(R.drawable.loading_error)
-                            .into(photoset_img_list.get(i));
-                }
-
+                photoset_img_list.get(0).setVisibility(View.VISIBLE);
+                photoset_img_list.get(1).setVisibility(View.VISIBLE);
+                photoset_img_list.get(2).setVisibility(View.VISIBLE);
+                photoset_img_frame.setVisibility(View.VISIBLE);
+                photoset_img_count.setVisibility(View.VISIBLE);
                 if (imgsSize > 3)
                 {
                     photoset_img_count.setVisibility(View.VISIBLE);
@@ -212,6 +216,8 @@ public class YuePaiAdapter_new  extends BaseAdapter {
                 }
             }else if(imgsSize==2){
                 none_jp.setVisibility(View.GONE);
+                photoset_img_list.get(0).setVisibility(View.VISIBLE);
+                photoset_img_list.get(1).setVisibility(View.VISIBLE);
                 photoset_img_list.get(2).setVisibility(View.INVISIBLE);
                 photoset_img_frame.setVisibility(View.INVISIBLE);
                 photoset_img_count.setVisibility(View.INVISIBLE);
@@ -227,6 +233,7 @@ public class YuePaiAdapter_new  extends BaseAdapter {
                         .into(photoset_img_list.get(1));
             }else if(imgsSize==1){
                 none_jp.setVisibility(View.GONE);
+                photoset_img_list.get(0).setVisibility(View.VISIBLE);
                 photoset_img_list.get(2).setVisibility(View.INVISIBLE);
                 photoset_img_list.get(1).setVisibility(View.INVISIBLE);
                 photoset_img_frame.setVisibility(View.INVISIBLE);

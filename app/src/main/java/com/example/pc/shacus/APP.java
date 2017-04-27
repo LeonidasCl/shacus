@@ -94,6 +94,7 @@ public class APP extends MultiDexApplication {
             @Override
             public boolean onMessageClick(Context context, View view, Message message) {
 
+                //点击位置消息的回调
                 if (message.getContent() instanceof LocationMessage) {
                     Intent intent = new Intent(context, SOSOLocationActivity.class);
                     intent.putExtra("location", message.getContent());
@@ -102,6 +103,7 @@ public class APP extends MultiDexApplication {
                     return true;
                 }
 
+                //点击图文消息的回调
                 if (message.getContent() instanceof RichContentMessage) {
                     Intent intent = new Intent(context,OrdersActivity.class);
                     //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

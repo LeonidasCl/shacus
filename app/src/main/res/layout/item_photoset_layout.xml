@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:maxLines="1"
-        android:text="作品集的标题"/>
+        android:text="@string/strholder_photoset1"/>
 
     <TextView
         android:layout_marginTop="5dp"
@@ -99,7 +99,7 @@
         android:textSize="14sp"
         android:textColor="@color/content_gray"
         android:maxLines="1"
-        android:text="作品集的内容描述内容描述内容描述"/>
+        android:text="@string/strholder_photoset2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -111,7 +111,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/photoset_img_1"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/holder_square"
             android:scaleType="centerCrop"
             android:layout_marginRight="5dp"
             android:layout_weight="1"/>
@@ -120,7 +120,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/photoset_img_2"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/holder_square"
             android:scaleType="centerCrop"
             android:layout_weight="1"/>
 
@@ -128,14 +128,15 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/photoset_img_frame"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1">
 
             <com.example.pc.shacus.View.SquareImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/photoset_img_3"
-                android:src="@drawable/test"
-                android:layout_marginLeft="5dp"
+                android:src="@drawable/holder_square"
+
                 android:scaleType="centerCrop"
                 />
 
@@ -148,7 +149,7 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:textSize="24sp"
                 android:textColor="@color/ff_white"
-                android:text="13"/>
+                android:text="..."/>
 
         </FrameLayout>
 
@@ -184,7 +185,7 @@
             android:layout_height="45dp"
             android:layout_marginRight="60dp"
             android:textColor="@color/content_gray"
-            android:text="22"
+            android:text="0"
             android:textSize="20sp"
             android:visibility="visible"
             android:gravity="center_horizontal|center_vertical"
@@ -197,7 +198,8 @@
             android:layout_height="45dp"
             android:layout_marginRight="10dp"
             android:visibility="visible"
-            android:background="@drawable/praise"
+            android:padding="3dp"
+            android:background="@drawable/btn_praise_selector"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />
 
