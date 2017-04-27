@@ -360,6 +360,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
             }
         };
         ListView listview = (ListView)findViewById(R.id.fluid_list);
+        fluidGridAdapter.setBuiltType(3);
         listview.setAdapter(fluidGridAdapter);
     }
 

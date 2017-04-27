@@ -299,6 +299,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
             }
         };
         ListView listview = (ListView)findViewById(R.id.fluid_list);
+        fluidGridAdapter.setBuiltType(2);
         listview.setAdapter(fluidGridAdapter);
     }
 
