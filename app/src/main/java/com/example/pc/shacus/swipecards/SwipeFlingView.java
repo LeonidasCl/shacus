@@ -1028,7 +1028,7 @@ public class SwipeFlingView extends AdapterView {
 
         if (mFlingListener != null) {
             if (isSuperLike) {
-                mFlingListener.onSelfChat(mActiveCard, mCurPositon, triggerByTouchMove);
+                //mFlingListener.onSelfChat(mActiveCard, mCurPositon, triggerByTouchMove);
             } else {
                 if (isLeft) {
                     mFlingListener.onLeftCardExit(mActiveCard, mCurPositon, triggerByTouchMove);

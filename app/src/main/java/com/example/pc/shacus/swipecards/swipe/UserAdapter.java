@@ -93,7 +93,6 @@ public class UserAdapter extends BaseAdapter {
             @Override
             public void run(){
                 bitmap=CommonUtils.getHttpBitmap(recommandModel.getHeadimg());
-                mHandler.sendEmptyMessage(0);
             }
         }).start();
 

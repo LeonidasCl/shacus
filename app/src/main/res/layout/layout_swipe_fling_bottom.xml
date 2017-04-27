@@ -30,7 +30,8 @@
         android:clickable="true"
         android:src="@drawable/skip" />
 
-    <com.example.pc.shacus.swipecards.view.BottomSwitchView
+    <!--com.example.pc.shacus.swipecards.view.BottomSwitchView-->
+    <ImageView
         android:id="@+id/self_chat"
         android:layout_width="60dp"
         android:layout_height="60dp"

@@ -2,6 +2,7 @@ package com.example.pc.shacus.swipecards.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.example.pc.shacus.R;
 import butterknife.ButterKnife;
@@ -21,7 +22,8 @@ public class SwipeFlingBottomLayout extends LinearLayout {
     BottomSwitchView mComeBackView;*/
 
     @InjectView(R.id.self_chat)
-    BottomSwitchView mSelfChatView;
+    //BottomSwitchView mSelfChatView;
+    ImageView mSelfChatView;
 
     @InjectView(R.id.like)
     BottomSwitchView mLikeView;
@@ -112,7 +114,7 @@ public class SwipeFlingBottomLayout extends LinearLayout {
         return mUnlikeView;
     }
 
-    public BottomSwitchView getSuperLikeView() {
+    public ImageView getSuperLikeView() {
         return mSelfChatView;
     }
 

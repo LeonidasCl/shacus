@@ -364,7 +364,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                     break;
                 case MSG_DATA_SUCCESS:
                     updateOurListView(mOurList);
-                    //mSwipeFlingView.setOnItemClickListener(this);
+                    //mSwipeFlingView.setOnItemClickListener(CardFragment.this);
                     ++mPageIndex;
                     break;
                 case MSG_FAILURE:
@@ -579,15 +579,14 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         if (DEBUG) {
             Log.d(TAG, "SwipeFlingView onSelfChat");
 
-            int cur = Integer.valueOf(dataObject.toString());
-            RecommandModel card = mAdapter.getItem(cur);
-            Intent intent = new Intent(getActivity(), OtherUserDisplayActivity.class);
-            intent.putExtra("id",card.getUserpublish().getId());
-            startActivity(intent);
-            //RongIM.getInstance().startPrivateChat(OtherUserDisplayActivity.this, card.getUserpublish().getId(), "title");
+//            int cur = Integer.valueOf(dataObject.toString());
+//            RecommandModel card = mAdapter.getItem(cur);
+//            Intent intent = new Intent(getActivity(), OtherUserDisplayActivity.class);
+//            intent.putExtra("id",card.getUserpublish().getId());
+//            startActivity(intent);
         }
-        if (triggerByTouchMove)
-            mBottomLayout.getSuperLikeView().animateDragAnimation();
+        //if (triggerByTouchMove)
+            //mBottomLayout.getSuperLikeView().animateDragAnimation();
     }
 
     /*
@@ -630,11 +629,15 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     @Override
     public void onSelfChatClick() {
-        if (mSwipeFlingView.isAnimationRunning()) {
-            return;
-        }
-        mSwipeFlingView.selectSuperLike(false);
-
+//        if (mSwipeFlingView.isAnimationRunning()) {
+//            return;
+//        }
+//        mSwipeFlingView.selectSuperLike(false);
+        //int cur = Integer.valueOf(dataObject.toString());
+        RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+        Intent intent = new Intent(getActivity(), OtherUserDisplayActivity.class);
+        intent.putExtra("id",card.getUserpublish().getId());
+        startActivity(intent);
     }
 
     @Override
@@ -672,4 +675,5 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     public void onDismissBigPhoto() {
         display_big_image_layout.setVisibility(View.GONE);
     }
+
 }
