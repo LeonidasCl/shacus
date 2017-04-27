@@ -44,7 +44,9 @@ public class UserAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<RecommandModel> mList;
     private Handler mHandler;
+    RoundImageView selfMainView;
     Bitmap bitmap;
+
 
     public UserAdapter(Context context, ArrayList<RecommandModel> list) {
         mInflater = LayoutInflater.from(context);
@@ -55,6 +57,10 @@ public class UserAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         return mList.size();
+    }
+
+    public void setSelfMainView(RoundImageView selfMainView) {
+        this.selfMainView = selfMainView;
     }
 
     @Override
@@ -93,13 +99,14 @@ public class UserAdapter extends BaseAdapter {
             @Override
             public void run(){
                 bitmap=CommonUtils.getHttpBitmap(recommandModel.getHeadimg());
+                mHandler.sendEmptyMessage(0);
             }
         }).start();
 
         mHandler = new Handler() {
 
             public void handleMessage(android.os.Message msg) { //系统容易自动导入java.util.logging.handler
-                holder.selfMainView.setImageBitmap(bitmap);
+                selfMainView.setImageBitmap(bitmap);
             };
 
         };

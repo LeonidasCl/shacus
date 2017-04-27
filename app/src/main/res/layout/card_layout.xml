@@ -29,10 +29,10 @@
         android:layout_above="@+id/swipe_fling_bottom"
         android:layout_centerHorizontal="true">
 
-        <ImageView
+        <com.example.pc.shacus.View.Custom.RoundImageView
             android:id="@+id/self_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/ic_launcher" />
 
         <TextView

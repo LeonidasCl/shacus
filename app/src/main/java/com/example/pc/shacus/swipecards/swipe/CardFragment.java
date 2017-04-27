@@ -107,7 +107,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     SwipeFlingView mSwipeFlingView;
 
     @InjectView(R.id.self_main)
-    ImageView mImageView;
+    RoundImageView mImageView;
 
     @InjectView(R.id.swipe_fling_bottom)
     SwipeFlingBottomLayout mBottomLayout;
@@ -153,17 +153,13 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.card_layout, null);
         display_big_image_layout = (RelativeLayout) rootView.findViewById(R.id.display_recommand_photoset_image);
+        display_big_image_layout.setVisibility(View.GONE);
         image_viewpager=(UploadViewPager)rootView.findViewById(R.id.photoset_detail_viewpager);
         position_in_total=(TextView)rootView.findViewById(R.id.photoset_position_total);
-
         ButterKnife.inject(this, rootView);
         initView();
         requestOurList();
         return rootView;
-    }
-
-    public ImageView getmImageView() {
-        return mImageView;
     }
 
     private void initView() {
@@ -176,7 +172,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
         mSwipeFlingView.setDisplay_big_image_layout(display_big_image_layout);//先setter，再设置点击监听
         mSwipeFlingView.setCardFragment(this);
-
+        mAdapter.setSelfMainView(mImageView);
         mBottomLayout.setOnBottomItemClickListener(this);
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -382,7 +378,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                     break;
                 case MSG_DATA_SUCCESS:
                     updateOurListView(mOurList);
-                    //mSwipeFlingView.setOnItemClickListener(CardFragment.this);
+                    mSwipeFlingView.setOnItemClickListener(CardFragment.this);
                     ++mPageIndex;
                     break;
                 case MSG_FAILURE:
@@ -691,7 +687,27 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             RecommandModel card = mAdapter.getItem(itemPosition);
             String excited = card.getUcFirstimg();
             Log.d("excited", "clicked url :" + excited);
+            display_big_image_layout.setVisibility(View.VISIBLE);
+            imageBigDatas = imageBigDatasList.get(mSwipeFlingView.getmCurPositon());
+            for (int i = 0; i < imageBigDatas.size(); i++) {
+                String url = imageBigDatas.get(i);
+                ImageData imageData = new ImageData(url);
+                imageDatas.add(imageData);
+            }
+            ImageData imageData = imageDatas.get(0);
+            showImagePager(parseBigImgUrl(imageData.getImageUrl()));
         }
+    }
+
+    private String parseBigImgUrl(String imageUrl) {
+        String ret = "";
+        for (int i = 0; i < imageDatas.size(); i++) {
+            if (imageDatas.get(i).getImageUrl().equals(imageUrl)) {
+                ret = imageBigDatas.get(i);
+                break;
+            }
+        }
+        return ret;
     }
 
     @Override

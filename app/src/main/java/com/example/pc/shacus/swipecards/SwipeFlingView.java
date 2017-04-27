@@ -116,7 +116,7 @@ public class SwipeFlingView extends AdapterView {
         this.imageBigDatasList = imageBigDatasList;
     }
 
-    ArrayList<ImageData> imageDatas;
+    ArrayList<ImageData> imageDatas = new ArrayList<>();
 
     public void setImageDatas(ArrayList<ImageData> imageDatas) {
         this.imageDatas = imageDatas;
@@ -127,6 +127,7 @@ public class SwipeFlingView extends AdapterView {
     }
 
     RelativeLayout display_big_image_layout;
+
     public void setDisplay_big_image_layout(RelativeLayout display_big_image_layout) {
         this.display_big_image_layout = display_big_image_layout;
     }
@@ -506,7 +507,7 @@ public class SwipeFlingView extends AdapterView {
 
     /**
      * 返回上一个已经划过去的卡片
-     *
+     * <p>
      * fromLeft true:从左边返回 反之右边返回
      */
    /* public void selectComeBackCard(boolean fromLeft) {
@@ -566,7 +567,6 @@ public class SwipeFlingView extends AdapterView {
         float rotation = fromLeft ? -ROTATION_DEGREES * 2.f : ROTATION_DEGREES * 2.f;
         return rotation;
     }*/
-
     private float getRotationWidthOffset(View frame) {
         return frame.getWidth() / MAX_COS - frame.getWidth();
     }
@@ -625,22 +625,14 @@ public class SwipeFlingView extends AdapterView {
     //点击item
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
-        display_big_image_layout.setVisibility(View.VISIBLE);
-        imageBigDatas = imageBigDatasList.get(mCurPositon);
-        for(int i =0;i<imageBigDatas.size();i++){
-            String url = imageBigDatas.get(i);
-            ImageData imageData = new ImageData(url);
-            imageDatas.add(imageData);
-        }
-        ImageData imageData = imageDatas.get(0);
-        cardFragment.showImagePager(parseBigImgUrl(imageData.getImageUrl()));
     }
 
+
     private String parseBigImgUrl(String imageUrl) {
-        String ret="";
-        for (int i=0;i<imageDatas.size();i++){
-            if (imageDatas.get(i).getImageUrl().equals(imageUrl)){
-                ret= imageBigDatas.get(i);
+        String ret = "";
+        for (int i = 0; i < imageDatas.size(); i++) {
+            if (imageDatas.get(i).getImageUrl().equals(imageUrl)) {
+                ret = imageBigDatas.get(i);
                 break;
             }
         }
