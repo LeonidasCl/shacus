@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
+    android:layout_width="360dp"
     android:layout_height="450dp"
     android:layout_gravity="center_horizontal"
     android:layout_marginLeft="@dimen/card_margin_left_right"
@@ -56,13 +56,14 @@
                     android:orientation="horizontal">
                     <!--性别图片和年龄-->
                     <ImageView
+                        android:id="@+id/item_sex"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="1dp"
-                        android:src="@drawable/sex_man" />
+                        android:background="@drawable/sex_man" />
 
                     <TextView
-                        android:id="@+id/item_sex"
+                        android:id="@+id/item_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -74,7 +75,8 @@
                         android:maxLines="1"
                         android:textColor="#FFCCCCCC"
                         android:textSize="18sp"
-                        tools:text="20" />
+                        tools:text="20"
+                        />
                 </LinearLayout>
 
             </LinearLayout>

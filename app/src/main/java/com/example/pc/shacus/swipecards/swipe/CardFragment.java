@@ -145,6 +145,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     //筛选用
     private boolean[] selector = {true, false,false,true,false,false};
+    ArrayList<RecommandModel> tempList;
 
 
     @Override
@@ -178,7 +179,29 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mBottomLayout.setOnBottomItemClickListener(this);
     }
 
+    private void initView(ArrayList<RecommandModel> tempList) {
+
+        //mAdapter = new UserAdapter(getActivity(), mGrilList);
+        //display_big_image_layout.setVisibility(View.GONE);
+        mAdapter = new UserAdapter(getActivity(), tempList);
+        mSwipeFlingView.setAdapter(mAdapter);
+        mSwipeFlingView.setOnSwipeFlingListener(this);//SimpleOnSwipeListener/OnSwipeListener
+
+        mSwipeFlingView.setDisplay_big_image_layout(display_big_image_layout);//先setter，再设置点击监听
+        mSwipeFlingView.setCardFragment(this);
+
+        mBottomLayout.setOnBottomItemClickListener(this);
+    }
+
     //筛选之后调用这个方法
+    public void updateOurSelectListView(ArrayList<RecommandModel> list) {
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        tempList.addAll(list);
+        mAdapter.notifyDataSetChanged();
+    }
+
     public void updateOurListView(ArrayList<RecommandModel> list) {
         if (list == null || list.size() == 0) {
             return;
@@ -189,28 +212,29 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     //筛选函数
     public ArrayList<RecommandModel> selectMethod(ArrayList<RecommandModel> mOurList, boolean[] selector){
-        ArrayList<RecommandModel> tempList = mOurList;
-        if(selector[1] == true){
-            for(int i = 0; i <mOurList.size(); i++){
-                if(mOurList.get(i).getUserpublish().getSex() == "1") tempList.remove(i);
-            }
-        }
-        else if(selector[2] == true){
-            for(int i = 0; i <mOurList.size(); i++){
+        tempList = mOurList;
+        if(selector[1]){
+            for(int i = 0; i <tempList.size(); i++){
                 if(mOurList.get(i).getUserpublish().getSex() == "0") tempList.remove(i);
             }
         }
+        else if(selector[2]){
+            for(int i = 0; i <tempList.size(); i++){
+                if(mOurList.get(i).getUserpublish().getSex() == "1") tempList.remove(i);
+            }
+        }
 
-        if(selector[4] == true){
-            for(int i = 0; i <mOurList.size(); i++){
+        if(selector[4]){
+            for(int i = 0; i <tempList.size(); i++){
                 if(mOurList.get(i).getUserpublish().getUcategory() == "1") tempList.remove(i);
             }
         }
-        else if(selector[5] == true){
-            for(int i = 0; i <mOurList.size(); i++){
+        else if(selector[5]){
+            for(int i = 0; i <tempList.size(); i++){
                 if(mOurList.get(i).getUserpublish().getUcategory() == "2") tempList.remove(i);
             }
         }
+        initView(tempList);
         return tempList;
     }
 

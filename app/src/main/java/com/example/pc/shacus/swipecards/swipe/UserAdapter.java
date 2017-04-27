@@ -2,8 +2,11 @@ package com.example.pc.shacus.swipecards.swipe;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.support.annotation.DrawableRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,9 @@ import com.example.pc.shacus.swipecards.view.SwipeIndicatorView;
 import java.util.ArrayList;
 import butterknife.ButterKnife;
 import com.example.pc.shacus.R;
+
+import static com.example.pc.shacus.R.drawable.holder;
+import static com.example.pc.shacus.R.drawable.sex_man;
 
 /**
  * card适配器
@@ -68,7 +74,14 @@ public class UserAdapter extends BaseAdapter {
         holder.likeIndicator.reset();
         holder.unLikeIndicator.reset();
         holder.nameView.setText(recommandModel.getUserpublish().getNickName());
-        holder.sexView.setText(recommandModel.getUserpublish().getSex());
+        holder.ageView.setText(recommandModel.getUserpublish().getAge());
+        if(recommandModel.getUserpublish().getSex() == "1"){//女
+            holder.sexView.setBackgroundResource(R.drawable.sex_woman);
+        }
+        else{
+            holder.sexView.setBackgroundResource((R.drawable.sex_man));
+        }
+
 //        Bitmap bitmap = CommonUtils.getHttpBitmap(recommandModel.getHeadimg());
 //        holder.selfMainView.setImageBitmap(bitmap);
         holder.img.reset();
@@ -82,7 +95,8 @@ public class UserAdapter extends BaseAdapter {
         CardLayout cardLayout;
         CardImageView img;
         TextView nameView;
-        TextView sexView;
+        ImageView sexView;
+        TextView ageView;
         SwipeIndicatorView likeIndicator;
         SwipeIndicatorView unLikeIndicator;
 //        TextView mFriendCountTv;
@@ -96,6 +110,7 @@ public class UserAdapter extends BaseAdapter {
             nameView = ButterKnife.findById(rootView, R.id.item_name);
             //这里要改成性别
             sexView = ButterKnife.findById(rootView, R.id.item_sex);
+            ageView = ButterKnife.findById(rootView, R.id.item_age);
             likeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_like_indicator);
             unLikeIndicator = ButterKnife.findById(rootView, R.id.item_swipe_unlike_indicator);
             selfMainView = ButterKnife.findById(rootView, R.id.self_main);

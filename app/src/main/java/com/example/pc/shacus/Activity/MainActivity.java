@@ -152,8 +152,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkbox_people_all = (CheckBox) view.findViewById(R.id.people_all);
                 checkbox_people_photogragher = (CheckBox) view.findViewById(R.id.people_photogragher);
                 checkbox_people_model = (CheckBox) view.findViewById(R.id.people_model);
-                checkbox_people_all.setChecked(true);
-                checkbox_sex_all.setChecked(true);
+                //保存上次所选择的记录
+                if(selector[0]) checkbox_sex_all.setChecked(true);
+                if(selector[1]) checkbox_sex_man.setChecked(true);
+                if(selector[2]) checkbox_sex_woman.setChecked(true);
+                if(selector[3]) checkbox_people_all.setChecked(true);
+                if(selector[4]) checkbox_people_photogragher.setChecked(true);
+                if(selector[5]) checkbox_people_model.setChecked(true);
                 //六个实现每个列表单选的监听方法
                 checkbox_people_all.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -211,23 +216,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                 });
-
+                //确定时保存当前选择状态
                 builder.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (checkbox_sex_all.isChecked()) sex_selector[0] = true;
-                        if (checkbox_sex_man.isChecked()) sex_selector[1] = true;
-                        if (checkbox_sex_woman.isChecked()) sex_selector[2] = true;
+                        if (checkbox_sex_all.isChecked()) {
+                            sex_selector[0] = true;
+                            sex_selector[1] = false;
+                            sex_selector[2] = false;
+                        };
+                        if (checkbox_sex_man.isChecked()) {
+                            sex_selector[0] = false;
+                            sex_selector[1] = true;
+                            sex_selector[2] = false;
+                        }
+                        if (checkbox_sex_woman.isChecked()) {
+                            sex_selector[0] = false;
+                            sex_selector[1] = false;
+                            sex_selector[2] = true;
+                        };
 
-                        if (checkbox_people_all.isChecked()) people_selector[0] = true;
-                        if (checkbox_people_photogragher.isChecked()) people_selector[1] = true;
-                        if (checkbox_people_model.isChecked()) people_selector[2] = true;
-
+                        if (checkbox_people_all.isChecked()) {
+                            people_selector[0] = true;
+                            people_selector[1] = false;
+                            people_selector[2] = false;
+                        }
+                        if (checkbox_people_photogragher.isChecked()) {
+                            people_selector[0] = false;
+                            people_selector[1] = true;
+                            people_selector[2] = false;
+                        };
+                        if (checkbox_people_model.isChecked()) {
+                            people_selector[0] = false;
+                            people_selector[1] = false;
+                            people_selector[2] = true;
+                        };
+                        //转移到一个数组中
                         selector = new boolean[]{sex_selector[0], sex_selector[1], sex_selector[2],
                                 people_selector[0], people_selector[1], people_selector[2]};
 
                         ArrayList<RecommandModel> recommandModel = cardListFragment.getmOurList();
-                        cardListFragment.updateOurListView(cardListFragment.selectMethod(recommandModel, selector));
+                        cardListFragment.updateOurSelectListView(cardListFragment.selectMethod(recommandModel, selector));
                     }
                 });
 
