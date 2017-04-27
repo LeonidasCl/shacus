@@ -155,6 +155,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         display_big_image_layout = (RelativeLayout) rootView.findViewById(R.id.display_recommand_photoset_image);
         image_viewpager=(UploadViewPager)rootView.findViewById(R.id.photoset_detail_viewpager);
         position_in_total=(TextView)rootView.findViewById(R.id.photoset_position_total);
+
         ButterKnife.inject(this, rootView);
         initView();
         requestOurList();
@@ -213,6 +214,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     //筛选函数
     public ArrayList<RecommandModel> selectMethod(ArrayList<RecommandModel> mOurList, boolean[] selector){
         tempList = mOurList;
+        //筛选性别
         if(selector[1]){
             for(int i = 0; i <tempList.size(); i++){
                 if(mOurList.get(i).getUserpublish().getSex() == "0") tempList.remove(i);
@@ -223,7 +225,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                 if(mOurList.get(i).getUserpublish().getSex() == "1") tempList.remove(i);
             }
         }
-
+        //筛选摄影师和模特
         if(selector[4]){
             for(int i = 0; i <tempList.size(); i++){
                 if(mOurList.get(i).getUserpublish().getUcategory() == "1") tempList.remove(i);
@@ -362,6 +364,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                     break;
                 case MSG_DATA_SUCCESS:
                     updateOurListView(mOurList);
+                    //mSwipeFlingView.setOnItemClickListener(this);
                     ++mPageIndex;
                     break;
                 case MSG_FAILURE:
@@ -397,7 +400,6 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                         imageBigDatasList.add(imageBigDatas);
                     }
                     mSwipeFlingView.setImageBigDatasList(imageBigDatasList);
-                    //mSwipeFlingView.setOnItemClickListener(this);
                     Message msg = mHandler.obtainMessage();
                     msg.what = MSG_DATA_SUCCESS;
                     msg.obj = mOurList;

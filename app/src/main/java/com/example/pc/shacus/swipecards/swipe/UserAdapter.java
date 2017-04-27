@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,9 @@ import com.example.pc.shacus.swipecards.view.CardImageView;
 import com.example.pc.shacus.swipecards.view.CardLayout;
 import com.example.pc.shacus.swipecards.view.SwipeIndicatorView;
 import java.util.ArrayList;
+import android.os.Handler;
+import java.util.logging.LogRecord;
+
 import butterknife.ButterKnife;
 import com.example.pc.shacus.R;
 
@@ -39,6 +43,8 @@ public class UserAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private ArrayList<RecommandModel> mList;
+    private Handler mHandler;
+    Bitmap bitmap;
 
     public UserAdapter(Context context, ArrayList<RecommandModel> list) {
         mInflater = LayoutInflater.from(context);
@@ -68,9 +74,10 @@ public class UserAdapter extends BaseAdapter {
             ViewHolder holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        ViewHolder holder = (ViewHolder) convertView.getTag();
+        final ViewHolder holder = (ViewHolder) convertView.getTag();
 
-        RecommandModel recommandModel = ((RecommandModel) getItem(position));
+
+        final RecommandModel recommandModel = ((RecommandModel) getItem(position));
         holder.likeIndicator.reset();
         holder.unLikeIndicator.reset();
         holder.nameView.setText(recommandModel.getUserpublish().getNickName());
@@ -81,6 +88,22 @@ public class UserAdapter extends BaseAdapter {
         else{
             holder.sexView.setBackgroundResource((R.drawable.sex_man));
         }
+        //开启一个线程来获取图像，获取成功之后传到handler中显示UI
+        new Thread(new Runnable(){
+            @Override
+            public void run(){
+                bitmap=CommonUtils.getHttpBitmap(recommandModel.getHeadimg());
+                mHandler.sendEmptyMessage(0);
+            }
+        }).start();
+
+        mHandler = new Handler() {
+
+            public void handleMessage(android.os.Message msg) { //系统容易自动导入java.util.logging.handler
+                holder.selfMainView.setImageBitmap(bitmap);
+            };
+
+        };
 
 //        Bitmap bitmap = CommonUtils.getHttpBitmap(recommandModel.getHeadimg());
 //        holder.selfMainView.setImageBitmap(bitmap);
@@ -90,6 +113,7 @@ public class UserAdapter extends BaseAdapter {
         //ImageLoaderHandler.get().loadCardImage((Activity) mContext, holder.selfMainView, null, recommandModel.getHeadimg(), false);
         return convertView;
     }
+
 
     static class ViewHolder {
         CardLayout cardLayout;

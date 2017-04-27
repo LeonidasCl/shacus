@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textName = (TextView) findViewById(R.id.m_toolbar_title);
         textName.setText("未登录");
 
+
         btnSelect = (Button) findViewById(R.id.m_toolbar_selector);
         //为btnSelect设置监听事件
         btnSelect.setOnClickListener(new View.OnClickListener() {
