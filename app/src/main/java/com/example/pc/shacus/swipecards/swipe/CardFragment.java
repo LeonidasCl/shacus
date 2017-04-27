@@ -178,6 +178,15 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mSwipeFlingView.setCardFragment(this);
 
         mBottomLayout.setOnBottomItemClickListener(this);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                intent.putExtra("id", card.getUserpublish().getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView(ArrayList<RecommandModel> tempList) {
@@ -192,6 +201,15 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mSwipeFlingView.setCardFragment(this);
 
         mBottomLayout.setOnBottomItemClickListener(this);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                intent.putExtra("id", card.getUserpublish().getId());
+                startActivity(intent);
+            }
+        });
     }
 
     //筛选之后调用这个方法
@@ -569,6 +587,16 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             RecommandModel card = mAdapter.getItem(cur);
             String excited = card.getUcFirstimg();
             Log.d("excited", "感兴趣 :" + excited);
+
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                    intent.putExtra("id", card.getUserpublish().getId());
+                    startActivity(intent);
+                }
+            });
         }
         if (triggerByTouchMove)
             mBottomLayout.getLikeView().animateDragAnimation();

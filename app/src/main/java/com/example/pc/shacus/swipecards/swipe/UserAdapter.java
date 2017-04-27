@@ -82,7 +82,7 @@ public class UserAdapter extends BaseAdapter {
         holder.unLikeIndicator.reset();
         holder.nameView.setText(recommandModel.getUserpublish().getNickName());
         holder.ageView.setText(recommandModel.getUserpublish().getAge());
-        if(recommandModel.getUserpublish().getSex() == "1"){//女
+        if(recommandModel.getUserpublish().getSex() == "0"){//女
             holder.sexView.setBackgroundResource(R.drawable.sex_woman);
         }
         else{
