@@ -126,21 +126,6 @@
     <drawable name="followt">#ccE6BF66</drawable>
     <drawable name="followf">#cc000000</drawable>
 
-    <string-array name="yuepai_leixing">
-        <item>写真</item>
-    </string-array>
-
-    <string-array name="yuepai_diqu">
-        <item>江苏南京</item>
-    </string-array>
-
-    <string-array name="yuepai_jiage">
-        <item>希望收费</item>
-        <item>最多付费</item>
-        <item>希望互勉</item>
-        <item>价格商议</item>
-    </string-array>
-
 
     <string-array name="yuepai_leixing">
         <item>写真</item>
