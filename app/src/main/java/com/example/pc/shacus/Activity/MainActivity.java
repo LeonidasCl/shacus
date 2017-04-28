@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean signFlag = false;
     private boolean exitFlag = false;
 
+    //底部栏
+    private View navibar;
+
     //筛选菜单
     private CheckBox checkbox_sex_all;
     private CheckBox checkbox_sex_man;
@@ -134,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textName = (TextView) findViewById(R.id.m_toolbar_title);
         textName.setText("未登录");
-
 
         btnSelect = (Button) findViewById(R.id.m_toolbar_selector);
         //为btnSelect设置监听事件
@@ -537,6 +539,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_yuepai.setOnClickListener(this);
         btn_upload.setOnClickListener(this);
 
+        navibar = (View)findViewById(R.id.fragment_list);
+
     }
 
     @Override
@@ -600,6 +604,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             cardListFragment = new CardFragment();
             //fragmentTrs.commitAllowingStateLoss();
             fragmentTrs.add(R.id.fl_content, cardListFragment);
+            cardListFragment.setNavibar(navibar);   //在initView()之后调用
         } else {
             fragmentTrs.show(cardListFragment);
         }

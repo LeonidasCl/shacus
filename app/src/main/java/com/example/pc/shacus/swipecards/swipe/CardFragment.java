@@ -124,6 +124,9 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private ArrayList<ArrayList<String>> imageBigDatasList = new ArrayList<>();
     private ArrayList<ImageData> imageDatas = new ArrayList<>();
 
+    //底部栏隐藏用
+    private View navibar;
+
     //设置自己是什么身份
     private UserAdapter mAdapter;
     private UserModel userModel;
@@ -141,6 +144,10 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     public ArrayList<RecommandModel> getmOurList() {
         return mOurList;
+    }
+
+    public void setNavibar(View navibar) {
+        this.navibar = navibar;
     }
 
     //筛选用
@@ -695,6 +702,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                 imageDatas.add(imageData);
             }
             ImageData imageData = imageDatas.get(0);
+            navibar.setVisibility(View.GONE);
             showImagePager(parseBigImgUrl(imageData.getImageUrl()));
         }
     }
@@ -718,6 +726,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     @Override
     public void onDismissBigPhoto() {
         display_big_image_layout.setVisibility(View.GONE);
+        navibar.setVisibility(View.VISIBLE);
     }
 
 }
