@@ -1,6 +1,7 @@
 package com.example.pc.shacus.Data.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by licl on 2017/2/12.
@@ -15,6 +16,9 @@ public class PhotosetDetailModel {
     private String UCtitle;
     private ArrayList<String> UCimg;
     private ArrayList<ImageData> UCsimpleimg;
+    private List<UserModel> UserlikeList;
+    private String UserIsLiked;
+    private String UserlikeNum;
 
 
     public String getUCcreateT() {
@@ -71,5 +75,29 @@ public class PhotosetDetailModel {
 
     public void setUCimg(ArrayList<String> UCimg) {
         this.UCimg = UCimg;
+    }
+
+    public List<UserModel> getUserlikeList() {
+        return UserlikeList;
+    }
+
+    public void setUserlikeList(List<UserModel> userlikeList) {
+        UserlikeList = userlikeList;
+    }
+
+    public String getUserIsLiked() {
+        return UserIsLiked;
+    }
+
+    public void setUserIsLiked(String userIsLiked) {
+        UserIsLiked = userIsLiked;
+    }
+
+    public String getUserlikeNum() {
+        return UserlikeNum;
+    }
+
+    public void setUserlikeNum(String userlikeNum) {
+        UserlikeNum = userlikeNum;
     }
 }
