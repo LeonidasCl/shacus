@@ -182,10 +182,7 @@ public class SignupActivity extends AppCompatActivity implements NetworkCallback
         else
             result += "0";
 
-        if (!dataModel.getBirthday().equals(birthday))
-            result += "1";
-        else
-            result += "0";
+        result += "1";
 
         Log.d("CCCCCCCCCCCCCCC", result);
         return result;
@@ -280,12 +277,21 @@ public class SignupActivity extends AppCompatActivity implements NetworkCallback
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         //这里获取到的月份需要加上1哦~
-//                        String result = String.valueOf(year) + "-" + (month + 1) + "-" + dayOfMonth;
-                        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
-                        Date date = new Date(Integer.valueOf(year),Integer.valueOf(month+1),Integer.valueOf(dayOfMonth));
-                        Log.d("CCCCCCCCCCCCCCCCC",dateFormater.format(date));
-                        birthday = dateFormater.format(date);
-                        sign_userbirth.setText(dateFormater.format(date));
+                        String m = null;
+                        String d = null;
+                        if(month+1 < 10) {
+                            m = "0" + (month + 1);
+                        }else
+                            m = String.valueOf(month + 1);
+
+                        if (dayOfMonth < 10){
+                            d = "0" + dayOfMonth;
+                        }else
+                            d = String.valueOf(dayOfMonth);
+                        String result = String.valueOf(year) + "-" + m + "-" + d;
+                        Log.d("CCCCCCCCCCCCCCCCC",result);
+                        birthday = result;
+                        sign_userbirth.setText(result);
 //                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                     }
                 }

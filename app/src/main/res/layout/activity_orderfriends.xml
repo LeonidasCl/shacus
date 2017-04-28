@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pc.shacus.Activity.OrderfriendsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/orderfriends_toolbar_layout"
+            android:id="@+id/orderfriends_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"/>
+
+        <com.example.pc.shacus.View.RefreshView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/orderfriends_swiperefresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ListView
+                android:id="@+id/orderfriends_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/rc_conversation_list_divider_color"
+                android:dividerHeight="10dp"
+                android:footerDividersEnabled="true" />
+        </com.example.pc.shacus.View.RefreshView>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

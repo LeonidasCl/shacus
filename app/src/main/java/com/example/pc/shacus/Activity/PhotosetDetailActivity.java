@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Adapter.FluidGridAdapter;
 import com.example.pc.shacus.Adapter.ImagePagerAdapter;
+import com.example.pc.shacus.Adapter.JoinUserGridAdapter;
 import com.example.pc.shacus.Adapter.PhotoViewAttacher;
 import com.example.pc.shacus.Adapter.UploadViewPager;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -47,7 +48,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -82,6 +87,11 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
     private TextView describtion;
     private TextView time;
 
+    private HorizontalScrollView photoset_like_user_scroll;
+    private GridView photoset_grid_join_user_scroll;
+    private TextView btn_photoset_likecount;
+    private ImageButton btn_photoset_addlike;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +114,12 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         display_big_image_layout=(RelativeLayout)findViewById(R.id.display_photoset_image);
         describtion=(TextView)findViewById(R.id.photoset_detail_describtion);
         time=(TextView)findViewById(R.id.photoset_detail_time);
+
+        photoset_like_user_scroll=(HorizontalScrollView)findViewById(R.id.photoset_like_user_scroll);
+        photoset_like_user_scroll.setHorizontalScrollBarEnabled(false);// 隐藏滚动条
+        photoset_grid_join_user_scroll=(GridView)findViewById(R.id.photoset_grid_join_user_scroll);
+        btn_photoset_likecount=(TextView)findViewById(R.id.btn_photoset_likecount);
+        btn_photoset_addlike=(ImageButton)findViewById(R.id.btn_photoset_addlike);
 
         handler=new Handler(){
             @Override
@@ -300,6 +316,81 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                         edit.setVisibility(View.INVISIBLE);
                         edit.setClickable(false);
                     }
+
+                    //处理点赞逻辑
+                    String isLiked=detailData.getUserIsLiked();
+                    if (isLiked.equals("1"))
+                        btn_photoset_addlike.setSelected(true);
+                    else
+                        btn_photoset_addlike.setSelected(false);
+                    btn_photoset_addlike.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v){
+                            //发起点赞请求
+                            NetRequest netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
+                                @Override
+                                public void requestFinish(String result, String requestUrl) throws JSONException {
+                                    if (requestUrl.equals(CommonUrl.praisePhotoset)) {
+                                        JSONObject object = new JSONObject(result);
+                                        int code = Integer.valueOf(object.getString("code"));
+                                        if (code == StatusCode.PRAISE_PHOTOSET) {
+                                            detailData.setUserIsLiked("1");
+                                            Message msg=handler.obtainMessage();
+                                            msg.what= StatusCode.PRAISE_PHOTOSET;
+                                            detailData.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) + 1 + "");
+
+                                            handler.sendMessage(msg);
+                                            return;
+                                        }
+                                        if (code == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                                            detailData.setUserIsLiked("0");
+                                            Message msg=handler.obtainMessage();
+                                            msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET;
+                                            detailData.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) - 1 + "");
+                                            handler.sendMessage(msg);
+                                            return;
+                                        }
+                                        if (code==StatusCode.FAIL_PRAISE_PHOTOSET){
+                                            Message msg=handler.obtainMessage();
+                                            msg.what= StatusCode.FAIL_PRAISE_PHOTOSET;
+                                            handler.sendMessage(msg);
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void exception(IOException e, String requestUrl) {}
+                            }, PhotosetDetailActivity.this);
+
+                            Map map = new HashMap();
+                            if (detailData.getUserIsLiked().equals("1"))
+                                map.put("type", StatusCode.CANCEL_PRAISE_PHOTOSET);
+                            else
+                                map.put("type", StatusCode.PRAISE_PHOTOSET);
+                            ACache cache = ACache.get(PhotosetDetailActivity.this);
+                            LoginDataModel model = (LoginDataModel) cache.getAsObject("loginModel");
+                            map.put("ucid", detailData.getUCid());
+                            map.put("authkey", model.getUserModel().getAuth_key());
+                            netRequest.httpRequest(map, CommonUrl.praisePhotoset);
+
+                        }
+                    });
+                    //处理点赞人水平滚动条
+                    List<UserModel> userlike=detailData.getUserlikeList();
+                    JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, userlike,true);
+                    photoset_grid_join_user_scroll.setAdapter(adapter);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    photoset_grid_join_user_scroll.setLayoutParams(params);
+                    photoset_grid_join_user_scroll.setColumnWidth(100);
+                    photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
+                    int itemCount = adapter.getCount();
+                    photoset_grid_join_user_scroll.setNumColumns(itemCount);
+                    //处理点赞人数量
+                    int likeCount=detailData.getUserlikeList().size();
+                    String likeStr="共"+String.valueOf(likeCount)+"赞";
+                    btn_photoset_likecount.setText(likeStr);
+
                     //加载图片列表视图
                     setupFluidGrid();
                     return;
@@ -307,6 +398,17 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                 if (msg.what== StatusCode.UPDATE_DELETE_SETIMG){
                     CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
                     return;
+                }
+                if (msg.what== StatusCode.PRAISE_PHOTOSET){
+                    btn_photoset_addlike.setSelected(true);
+                    btn_photoset_likecount.setText(detailData.getUserlikeNum());
+                }
+                if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                    btn_photoset_addlike.setSelected(false);
+                    btn_photoset_likecount.setText(detailData.getUserlikeNum());
+                }
+                if (msg.what == StatusCode.FAIL_PRAISE_PHOTOSET){
+                    CommonUtils.getUtilInstance().showToast(APP.context,"点赞失败");
                 }
 
             }
@@ -360,6 +462,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
             }
         };
         ListView listview = (ListView)findViewById(R.id.fluid_list);
+        fluidGridAdapter.setBuiltType(3);
         listview.setAdapter(fluidGridAdapter);
     }
 

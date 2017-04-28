@@ -314,6 +314,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
             }
         };
         ListView listview = (ListView)findViewById(R.id.fluid_list);
+        fluidGridAdapter.setBuiltType(1);
         listview.setAdapter(fluidGridAdapter);
     }
 

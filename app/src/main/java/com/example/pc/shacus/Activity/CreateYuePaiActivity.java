@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.example.pc.shacus.Fragment.FragmentCreateYuePaiA;
+import com.example.pc.shacus.Fragment.FragmentCreateYuePaiA_new;
 import com.example.pc.shacus.Fragment.FragmentCreateYuePaiB;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
@@ -17,6 +17,9 @@ import com.example.pc.shacus.Util.CommonUtils;
  * 创建约拍和活动的界面
  * Created by pc on 2016/8/28.
  */
+
+//隐藏掉发活动
+
 public class CreateYuePaiActivity extends AppCompatActivity implements
         ActionBar.TabListener {
     private Fragment fragment;
@@ -33,8 +36,9 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         // 依次添加三个Tab页，并为三个Tab标签添加事件监听器
         actionBar.addTab(actionBar.newTab().setText("约模特").setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("约摄影师").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("发起活动").setTabListener(this));
-        actionBar.setTitle("发起约拍/创建活动");
+//        actionBar.addTab(actionBar.newTab().setText("发起活动").setTabListener(this));
+//        actionBar.setTitle("发起约拍/创建活动");
+        actionBar.setTitle("发起约拍");
     }
 
     @Override
@@ -53,7 +57,7 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         boolean state;
         switch (position){
             case 0:
-                FragmentCreateYuePaiA fraga=(FragmentCreateYuePaiA)fragment;
+                FragmentCreateYuePaiA_new fraga= (FragmentCreateYuePaiA_new) fragment;
                 state=fraga.getEdit_big_photo_layout().getVisibility()==View.GONE&&fraga.getdisplay_big_img().getVisibility()==View.GONE;
                 if (state)
                     finish();
@@ -61,21 +65,21 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
                     fraga.hideBigPhotoLayout();
                 break;
             case 1:
-                FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
+                FragmentCreateYuePaiA_new frag= (FragmentCreateYuePaiA_new) fragment;
                 state=frag.getEdit_big_photo_layout().getVisibility()==View.GONE&&frag.getdisplay_big_img().getVisibility()==View.GONE;
                 if (state)
                     finish();
                 else
                     frag.hideBigPhotoLayout();
                 break;
-            case 2:
+            /*case 2:
                 FragmentCreateYuePaiB fragc=(FragmentCreateYuePaiB)fragment;
                 state=fragc.getEdit_big_photo_layout().getVisibility()==View.GONE&&fragc.getdisplay_big_img().getVisibility()==View.GONE;
                 if (state)
                     finish();
                 else
                     fragc.hideBigPhotoLayout();
-                break;
+                break;*/
         }
 
     }
@@ -94,18 +98,18 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         position=tab.getPosition();
         switch (position){
             case 0:
-                fragment = new FragmentCreateYuePaiA();
-                FragmentCreateYuePaiA yuepeifrag1=(FragmentCreateYuePaiA)fragment;
+                fragment = new FragmentCreateYuePaiA_new();
+                FragmentCreateYuePaiA_new yuepeifrag1=(FragmentCreateYuePaiA_new)fragment;
                 yuepeifrag1.setYUEPAI_TYPE(1);
                 break;
             case 1:
-                fragment=new FragmentCreateYuePaiA();
-                FragmentCreateYuePaiA yuepeifrag2=(FragmentCreateYuePaiA)fragment;
-                yuepeifrag2.setYUEPAI_TYPE(2);
+                fragment=new FragmentCreateYuePaiA_new();
+                FragmentCreateYuePaiA_new yuepeifrag2=(FragmentCreateYuePaiA_new)fragment;
+                yuepeifrag2.setYUEPAI_TYPE(0);
                 break;
-            case 2:
+            /*case 2:
                 fragment=new FragmentCreateYuePaiB();
-                break;
+                break;*/
         }
         // 创建一个Bundle对象，用于向Fragment传入参数
         //Bundle args = new Bundle();
@@ -134,8 +138,8 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
         String type=intent.getStringExtra("type");
         if (type.equals("tagAdd1")){
             String tag=intent.getStringExtra("tag");
-            FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
-            frag.addTag(tag);
+            /*FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
+            frag.addTag(tag);*/
         }
         if (type.equals("tagAdd2")){
             String tag=intent.getStringExtra("tag");

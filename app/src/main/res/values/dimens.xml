@@ -21,5 +21,6 @@
     <dimen name="default_padding">5dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="dp_150">150dp</dimen>
 
 </resources>

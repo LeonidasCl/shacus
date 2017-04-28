@@ -50,6 +50,7 @@ public interface StatusCode {
 
     //请求关注
     int REQUEST_FOLLOW_USER = 10401;
+    int RESPONSE_ALREADY_FOLLOW_USER = 10410;
     int REQUEST_FOLLOW_SUCCESS = 10411; //请求关注成功
     int REQUEST_FOLLOWER_NONE = 10441;//没有粉丝
 
@@ -258,4 +259,5 @@ public interface StatusCode {
     int RECOMMAND_PHOTOGRAPHER_MODEL_LIST = 10850;//推荐摄影师和模特列表
     int RETURN_SET_CATEGORY = 10851;//服务器返回设置摄影师类型
     int CHANGE_USER_CATEGORY = 10852;//修改用户类型是摄影师还是模特
+    int FAIL_PRAISE_PHOTOSET=10843;//作品集点赞失败
 }

@@ -45,6 +45,8 @@ public class CommonUrl {
 
 	public static String userImage = url + "Userinfo/imghandler"; //个人照片及作品集
 
+	public static String companionList = url + "appointment/companion";//约拍伴侣
+
 	public static String requestModel = url + "recommend/reclist"; //推荐摄影师和模特列表
 
 }

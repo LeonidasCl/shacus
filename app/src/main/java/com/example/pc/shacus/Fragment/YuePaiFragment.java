@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.OrderfriendsActivity;
 import com.example.pc.shacus.Activity.WantToPhotographActivity;
 import com.example.pc.shacus.Activity.WantBePhotographActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -139,6 +140,8 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
                 fragmentTrs.replace(R.id.fl_content, yuepaiFragment);
                 fragmentTrs.addToBackStack(null);
                 fragmentTrs.commit();*/
+                Intent intent=new Intent(getActivity(),OrderfriendsActivity.class);
+                startActivity(intent);
             }
         });
 

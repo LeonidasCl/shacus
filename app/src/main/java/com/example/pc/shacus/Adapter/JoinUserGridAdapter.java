@@ -75,7 +75,7 @@ public class JoinUserGridAdapter extends BaseAdapter {
         Glide.with(context)
                 .load(usrlist.get(position).getHeadImage()).centerCrop()
 //                .placeholder(R.drawable.user_image)
-                .error(R.drawable.user_image)
+                .error(R.drawable.avatarholder)
                 .into(holder.ibv);
         holder.ibv.setOnClickListener(new View.OnClickListener() {
             @Override

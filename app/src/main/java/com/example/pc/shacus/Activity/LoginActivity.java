@@ -320,6 +320,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     verifycode.setHint("请设置密码");
                     btn_login.setText("  注   册");
                 }
+                if (msg.what == 10008){
+                    loginProgressDlg.cancel();
+                    CommonUtils.getUtilInstance().showToast(APP.context, "该昵称已被使用");
+                }
             }
         };
 
@@ -406,7 +410,14 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         return;
                     }
                     loginProgressDlg.dismiss();//进度条取消
-                }else{
+                }else if (code == 10008){
+                    eventFlag=4;
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= 10008;
+                    mHandler.sendMessage(msg);
+                    return;
+                }
+                else{
                     if (eventFlag!=5)
                         eventFlag=3;
                     else

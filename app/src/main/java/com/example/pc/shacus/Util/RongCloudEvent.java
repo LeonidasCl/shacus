@@ -89,7 +89,7 @@ public final class RongCloudEvent implements  RongIM.LocationProvider{
 
     /**
      * 位置信息提供者:LocationProvider 的回调方法，打开第三方地图页面。
-     *
+     * 这里是发送位置消息的回调
      * @param context  上下文
      * @param callback 回调
      */

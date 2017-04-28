@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -38,6 +39,7 @@ public class FluidGridAdapter extends BaseAdapter {
     private int desiredRowHeight = 200;
     private int initialCellPadding = 5;
     private int cellBackgroundColor = 0;
+    private int builtType=-1;//这个适配器是被用于哪个页面。1是个人照片，2是作品集列表，3是作品集详情
 
     public FluidGridAdapter(Context context, ArrayList<PhotosetModel> photoSets,ArrayList<ImageData> imageDatas){
         this(context, photoSets,imageDatas, -1);
@@ -111,6 +113,10 @@ public class FluidGridAdapter extends BaseAdapter {
                 TextView phootoset_title=(TextView)singleCell.findViewById(R.id.tv_phptoset_overview_title);
                 TextView photoset_time=(TextView)singleCell.findViewById(R.id.tv_phptoset_overview_time);
 
+                FrameLayout fmll=(FrameLayout)singleCell.findViewById(R.id.frame_photoset_block);
+                if(builtType==2)
+                    fmll.setVisibility(View.GONE);
+
                 //如果是可选的（编辑状态），将勾选设置为可见
                 if(getItem(position).getImageDatas().get(i).isCheckable())
                     photoCheck.setVisibility(View.VISIBLE);
@@ -121,7 +127,7 @@ public class FluidGridAdapter extends BaseAdapter {
 
                 ArrayList<String> titles=getItem(position).getTitles();
                 ArrayList<String> times=getItem(position).getContents();
-                if (titles.size()!=0&&times.size()!=0){
+                if (titles.size()!=0&&times.size()!=0&&builtType!=2){
                     phootoset_title.setText(titles.get(i));
                     photoset_time.setText(times.get(i));
                 }
@@ -190,6 +196,14 @@ public class FluidGridAdapter extends BaseAdapter {
                 getItem(i).getImageDatas().get(j).setCheckable(checkable);
             }
         }
+    }
+
+    public int getBuiltType() {
+        return builtType;
+    }
+
+    public void setBuiltType(int builtType) {
+        this.builtType = builtType;
     }
 
     static class RowHolder {

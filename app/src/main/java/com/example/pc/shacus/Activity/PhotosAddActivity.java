@@ -5,7 +5,7 @@ package com.example.pc.shacus.Activity;
  * 添加图片Activity
  * 可以给个人照片、作品集添加图片，可以发布新的作品集
  * 需要intent传入：首先传入type
- * 类型1添加个人照片：不需要
+ * 类型添加个人照片：不需要
  * 类型二发布新作品集：不需要
  * 类型三给作品集添加图片：对应的作品集ucid、title、content
  */
