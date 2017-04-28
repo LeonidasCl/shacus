@@ -114,6 +114,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private Handler handler;
 
     private int type=-1;//类型 1为上传个人照片 2为发布作品集 3为给作品集添加图片
+    private TextView back,title;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -130,7 +131,21 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         type=typo;
 
 
-        setTitle("上传新图片");
+        back=(TextView) findViewById(R.id.photoset_toolbar_back);
+        back.setText("＜返回");
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
+            }
+        });
+        title=(TextView)findViewById(R.id.photoset_toolbar_title);
+        if (type==1)
+            title.setText("添加个人照片");
+        else if (type==2)
+            title.setText("发布作品集");
+        else if (type==3)
+            title.setText("为作品集添加照片");
 
         edit_photo_fullscreen_layout=(FrameLayout)findViewById(R.id.edit_photo_fullscreen_layout);
         edit_photo_fullscreen_layout.setOnClickListener(new View.OnClickListener(){

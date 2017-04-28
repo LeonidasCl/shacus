@@ -114,7 +114,7 @@ public class FluidGridAdapter extends BaseAdapter {
                 TextView photoset_time=(TextView)singleCell.findViewById(R.id.tv_phptoset_overview_time);
 
                 FrameLayout fmll=(FrameLayout)singleCell.findViewById(R.id.frame_photoset_block);
-                if(builtType==2)
+                if(builtType!=2)
                     fmll.setVisibility(View.GONE);
 
                 //如果是可选的（编辑状态），将勾选设置为可见
@@ -127,7 +127,7 @@ public class FluidGridAdapter extends BaseAdapter {
 
                 ArrayList<String> titles=getItem(position).getTitles();
                 ArrayList<String> times=getItem(position).getContents();
-                if (titles.size()!=0&&times.size()!=0&&builtType!=2){
+                if (titles.size()!=0&&times.size()!=0&&builtType==2){
                     phootoset_title.setText(titles.get(i));
                     photoset_time.setText(times.get(i));
                 }

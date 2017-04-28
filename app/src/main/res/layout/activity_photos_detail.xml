@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,8 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_150"
-        android:padding="5dp"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,10 +95,18 @@
 
     <ListView
         android:id="@+id/fluid_list"
-        android:layout_marginTop="200dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:id="@+id/btn_add_photo"
+        android:layout_gravity="bottom"
+        android:src="@mipmap/theme_add_picture_icon"/>
 
     <!-- 底部菜单（仅在编辑模式显示） -->
     <FrameLayout
@@ -168,4 +175,4 @@
         </RelativeLayout>
     </RelativeLayout>
 
-</FrameLayout>
+</LinearLayout>
