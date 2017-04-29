@@ -555,18 +555,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.button_main:
                 btn_main.setSelected(true);
+                btnSelect.setVisibility(View.VISIBLE);
                 toMain();
                 break;
             case R.id.button_find:
                 btn_course.setSelected(true);
+                btnSelect.setVisibility(View.GONE);
                 toMine();
                 break;
             case R.id.button_yuepai:
                 btn_yuepai.setSelected(true);
+                btnSelect.setVisibility(View.GONE);
                 toYuePai();
                 break;
             case R.id.button_user:
                 btn_user.setSelected(true);
+                btnSelect.setVisibility(View.GONE);
                 toUser();
                 break;
         }
