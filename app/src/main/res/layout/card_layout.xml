@@ -22,25 +22,6 @@
         android:clipChildren="false"
         app:rotation_degrees="12" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_above="@+id/swipe_fling_bottom"
-        android:layout_centerHorizontal="true">
-
-        <com.example.pc.shacus.View.Custom.RoundImageView
-            android:id="@+id/self_main"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_launcher" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/self_main" />
-    </LinearLayout>
 
     <!-- 点开已添加的图片查看大图 -->
     <RelativeLayout

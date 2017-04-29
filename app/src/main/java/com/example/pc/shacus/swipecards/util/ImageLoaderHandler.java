@@ -13,6 +13,9 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 
 import java.util.WeakHashMap;
+import com.example.pc.shacus.Util.GlideRoundTransform;
+
+import static com.example.pc.shacus.swipecards.util.RetrofitHelper.context;
 
 /**
  * 图片加载帮助类
@@ -34,6 +37,50 @@ public class ImageLoaderHandler {
             sInstance = new ImageLoaderHandler();
         }
         return sInstance;
+    }
+
+    public void loadCardRoundedImage(Activity activity, ImageView iv, final View loadingView, final String url, final boolean isShowLoadWhenStarted) {
+        Glide.with(activity)
+                .load(url)
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transform(new GlideRoundTransform(context, 50))
+                .into(new ImageViewTarget<GlideDrawable>(iv) {
+
+                    @Override
+                    public void onLoadStarted(Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        if (isShowLoadWhenStarted && loadingView != null) {
+                            loadingView.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        if (loadingView != null) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadCleared(Drawable placeholder) {
+                        super.onLoadCleared(placeholder);
+                    }
+
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        super.onResourceReady(resource, glideAnimation);
+                        if (loadingView != null) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    protected void setResource(GlideDrawable resource) {
+                        getView().setImageDrawable(resource);
+                    }
+                });
     }
 
     public void loadCardImage(Activity activity, ImageView iv, final View loadingView, final String url, final boolean isShowLoadWhenStarted) {
@@ -78,5 +125,4 @@ public class ImageLoaderHandler {
                     }
                 });
     }
-
 }

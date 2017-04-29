@@ -9,9 +9,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/item_float_menu_bg"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/selectsex"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,9 +59,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/item_float_menu_bg"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/selectpeople"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
