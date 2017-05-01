@@ -28,6 +28,7 @@ import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ItemModel;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Data.Model.YuePaiDataModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -61,13 +62,13 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
 
     private RecyclerView recyclerView1;
     private RecyclerViewAdapter recyclerViewAdapter1;
-    List<ItemModel> favorItemList1;
+    List<YuePaiDataModel> favorItemList1;
     RecyclerView.LayoutManager layoutManager1;
 
 
     private RecyclerView recyclerView2;
     private RecyclerViewAdapter recyclerViewAdapter2;
-    List<ItemModel> favorItemList2;
+    List<YuePaiDataModel> favorItemList2;
     RecyclerView.LayoutManager layoutManager2;
 
     private ACache aCache;
@@ -361,7 +362,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             map.put("uid", userId);
             map.put("authkey", authkey);
 
-            if(index == StatusCode.REQUEST_FAVOR_YUEPAI){
+            /*if(index == StatusCode.REQUEST_FAVOR_YUEPAI){
                 if(favorItemList1.get(tag).getType().equals("yuepai")){
                     //取消收藏的约拍
                     map.put("type", StatusCode.REQUEST_CANCEL_FAVORYUEPAI);
@@ -382,7 +383,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                 netRequest.httpRequest(map, CommonUrl.aboutFavorDongTai);
                 favorItemList2.remove(tag);
                 recyclerViewAdapter2.notifyDataSetChanged();
-            }
+            }*/
         }
     }
 
@@ -422,7 +423,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
             Log.d("sssssssssssssss",object.toString());
-            switch (code) {
+           /* switch (code) {
                 case StatusCode.REQUEST_FAVORYUEPAI_SUCCESS://请求收藏的约拍成功
                 {
                     JSONArray content = object.getJSONArray("contents");
@@ -471,13 +472,13 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     handler.sendMessage(msg);
                     break;
                 }
-            }
+            }*/
 
         } else if (requestUrl.equals(CommonUrl.aboutFavorDongTai)) {
             JSONObject object = new JSONObject(result);
             Log.d("ooooooooooooo",object.toString());
             int code = Integer.valueOf(object.getString("code"));
-            switch (code) {
+            /*switch (code) {
                 case StatusCode.REQUEST_FAVOR_DONGTAI_SUCCESS: {
                     JSONArray content = object.getJSONArray("contents");
                     if (content.length() != 0) {
@@ -513,7 +514,7 @@ public class FavoritemActivity extends AppCompatActivity implements  NetworkCall
                     handler.sendMessage(msg);
                     break;
                 }
-            }
+            }*/
 
         }
     }

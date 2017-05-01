@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.shacus.Data.Model.ItemModel;
+import com.example.pc.shacus.Data.Model.YuePaiDataModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.R;
 
@@ -26,11 +27,11 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerHolderView>{
 
 
-    private List<ItemModel> itemModelList;
+    private List<YuePaiDataModel> itemModelList;
     private Context context;
     private NetRequest netRequest;
 
-    public RecyclerViewAdapter(List<ItemModel> list, Activity activity){
+    public RecyclerViewAdapter(List<YuePaiDataModel> list, Activity activity){
         itemModelList = list;
         this.context = activity;
     }
@@ -45,15 +46,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerHolderView holder, int position) {
-        Glide.with(context)
-                .load(itemModelList.get(position).getImage()).fitCenter()
-                .placeholder(R.drawable.holder).dontAnimate().dontTransform()
-                .error(R.drawable.holder)
-                .into(holder.imageView);
-        holder.title.setText(itemModelList.get(position).getTitle());
-        holder.time.setText(itemModelList.get(position).getStartTime());
-        holder.like.setText(Integer.toString(itemModelList.get(position).getLikeNum()));
-        holder.regist.setText(Integer.toString(itemModelList.get(position).getRegistNum()));
+        if(itemModelList.get(position).getAPimgurl().size() == 0){
+            Glide.with(context)
+                    .load(R.drawable.holdernone).fitCenter()
+                    .placeholder(R.drawable.holdernone).dontAnimate().dontTransform()
+                    .into(holder.imageView);
+        }else{
+            Glide.with(context)
+                    .load(itemModelList.get(position).getAPimgurl().get(0)).fitCenter()
+                    .placeholder(R.drawable.holder).dontAnimate().dontTransform()
+                    .error(R.drawable.holder)
+                    .into(holder.imageView);
+        }
+//        holder.title.setText(itemModelList.get(position).getAPcontent());
+        holder.time.setText(itemModelList.get(position).getAPcontent());
+        holder.like.setText(Integer.toString(itemModelList.get(position).getAPlikeN()));
+//        holder.regist.setText(Integer.toString(itemModelList.get(position).getRegistNum()));
         List list1 = new ArrayList();
         list1.add(1);
         list1.add(position);

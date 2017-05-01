@@ -131,7 +131,11 @@
 
 
     <string-array name="yuepai_leixing">
-        <item>写真</item>
+        <item>写真客片</item>
+        <item>记录随拍</item>
+        <item>练手互勉</item>
+        <item>活动跟拍</item>
+        <item>商业跟拍</item>
     </string-array>
 
     <string-array name="yuepai_diqu">

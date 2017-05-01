@@ -31,5 +31,5 @@
     <color name="hint">#999999</color>
     <color name="main_green">#ABC236</color>
     <color name="content_gray">#757575</color>
-
+    <color name="star_color">#F4CE02</color>
 </resources>
