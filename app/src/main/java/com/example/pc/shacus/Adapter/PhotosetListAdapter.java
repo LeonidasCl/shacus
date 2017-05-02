@@ -155,11 +155,34 @@ public class PhotosetListAdapter extends BaseAdapter {
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
 
-                    if (msg.what== StatusCode.PRAISE_PHOTOSET){
+                    if (msg.what== StatusCode.PRAISE_PHOTOSET_SUCCESS){
+
+                        List<UserModel> userlike=item.getUserlikeList();
+                        userlike.add(userModel);
+                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
+                        photoset_grid_join_user_scroll.setAdapter(adapter);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        photoset_grid_join_user_scroll.setLayoutParams(params);
+                        photoset_grid_join_user_scroll.setColumnWidth(100);
+                        photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
+                        int itemCount = adapter.getCount();
+                        photoset_grid_join_user_scroll.setNumColumns(itemCount);
+
                         btn_photoset_addlike.setSelected(true);
                         btn_photoset_likecount.setText(item.getUserlikeNum());
                     }
-                    if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                    if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
+                        //photoset_grid_join_user_scroll.removeAllViews();
+                        List<UserModel> userlike=item.getUserlikeList();
+                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
+                        photoset_grid_join_user_scroll.setAdapter(adapter);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        photoset_grid_join_user_scroll.setLayoutParams(params);
+                        photoset_grid_join_user_scroll.setColumnWidth(100);
+                        photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
+                        int itemCount = adapter.getCount();
+                        photoset_grid_join_user_scroll.setNumColumns(itemCount);
+
                         btn_photoset_addlike.setSelected(false);
                         btn_photoset_likecount.setText(item.getUserlikeNum());
                     }
@@ -322,20 +345,21 @@ public class PhotosetListAdapter extends BaseAdapter {
                             if (requestUrl.equals(CommonUrl.praisePhotoset)) {
                                 JSONObject object = new JSONObject(result);
                                 int code = Integer.valueOf(object.getString("code"));
-                                if (code == StatusCode.PRAISE_PHOTOSET) {
+                                if (code == StatusCode.PRAISE_PHOTOSET_SUCCESS) {
                                     item.setUserIsLiked("1");
                                     Message msg=handler.obtainMessage();
-                                    msg.what= StatusCode.PRAISE_PHOTOSET;
-                                    item.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) + 1 + "");
-
+                                    msg.what= StatusCode.PRAISE_PHOTOSET_SUCCESS;
+                                    //item.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) + 1 + "");
+                                    item.setUserlikeNum(Integer.valueOf(item.getUserlikeNum())+1+"");
                                     handler.sendMessage(msg);
                                     return;
                                 }
-                                if (code == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                                if (code == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
                                     item.setUserIsLiked("0");
                                     Message msg=handler.obtainMessage();
-                                    msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET;
-                                    item.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) - 1 + "");
+                                    msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS;
+                                    //item.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) - 1 + "");
+                                    item.setUserlikeNum(Integer.valueOf(item.getUserlikeNum())-1+"");
                                     handler.sendMessage(msg);
                                     return;
                                 }
@@ -376,9 +400,8 @@ public class PhotosetListAdapter extends BaseAdapter {
             int itemCount = adapter.getCount();
             photoset_grid_join_user_scroll.setNumColumns(itemCount);
             //处理点赞人数量
-            int likeCount=item.getUserlikeList().size();
-            String likeStr="共"+String.valueOf(likeCount)+"赞";
-            btn_photoset_likecount.setText(likeStr);
+            String likeCount="共"+item.getUserlikeNum()+"赞";
+            btn_photoset_likecount.setText(likeCount);
 
         }
     }

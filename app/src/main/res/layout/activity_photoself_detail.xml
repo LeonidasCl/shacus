@@ -42,7 +42,7 @@
             <Button
                 android:id="@+id/photoset_delete"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/rc_draft_color"
                 android:text="@string/photoset_delete"
                 android:textColor="#ffffff"
@@ -50,7 +50,7 @@
             <Button
                 android:id="@+id/photoset_upload"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/main_green"
                 android:text="@string/photoset_upload"
                 android:textColor="#ffffff"
