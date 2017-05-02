@@ -195,25 +195,34 @@ public class YuePaiAdapter_new  extends BaseAdapter {
             //用户相册
             List<String> imgs = item.getAPimgurl();
             int imgsSize = imgs.size();
-            for(int i = 0; i < 3;i++){
+            /*for(int i = 0; i < imgsSize;i++){
                 Glide.with(activity)
                         .load((imgs.get(i)))
                         .placeholder(R.drawable.holder)
                         .error(R.drawable.loading_error)
                         .into(photoset_img_list.get(i));
-            }
+            }*/
             if (imgsSize>=3){//图片大于三张，正常显示
                 none_jp.setVisibility(View.GONE);
                 photoset_img_list.get(0).setVisibility(View.VISIBLE);
                 photoset_img_list.get(1).setVisibility(View.VISIBLE);
                 photoset_img_list.get(2).setVisibility(View.VISIBLE);
                 photoset_img_frame.setVisibility(View.VISIBLE);
-                photoset_img_count.setVisibility(View.VISIBLE);
+                photoset_img_count.setVisibility(View.INVISIBLE);
                 if (imgsSize > 3)
                 {
                     photoset_img_count.setVisibility(View.VISIBLE);
                     photoset_img_count.setText(String.valueOf(imgsSize - 3));
                 }
+
+                for(int i = 0; i < 3;i++){
+                    Glide.with(activity)
+                            .load((imgs.get(i)))
+                            .placeholder(R.drawable.holder)
+                            .error(R.drawable.loading_error)
+                            .into(photoset_img_list.get(i));
+                }
+
             }else if(imgsSize==2){
                 none_jp.setVisibility(View.GONE);
                 photoset_img_list.get(0).setVisibility(View.VISIBLE);
@@ -289,8 +298,8 @@ public class YuePaiAdapter_new  extends BaseAdapter {
                 yuepai_jiage.setText(pricetype.get(pricet));
             }
 
-            //感兴趣
-//            interestcount.setText(item.getAPlikeN());
+//            感兴趣
+            interestcount.setText(String.valueOf(item.getAPlikeN()));
         }
     }
 }

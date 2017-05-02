@@ -18,7 +18,7 @@ public class YuePaiDataModel implements Serializable {
     private int Userliked;
     private int AP_issponsor;//自己是否为发起者  0为不是  1为是
     private int AC_issponsor;//自己是否为发起者  0为不是  1为是
-    private int APstatus;//1是报名中 2是选择完成 3是已结束
+    private int APstatus;//0是报名中 1是选择完成 2是结束了但是两方都没有评价 3是结束了一方给出了评价 4是两方都评价了
     private int ACstatus;//0为报名中 1是进行中 2为完成
     private String APcontent;
     private int APlikeN;
@@ -34,6 +34,7 @@ public class YuePaiDataModel implements Serializable {
     private int ACsponsorid;//发起者id
     private List<UserModel> APregisters;
     private List<UserModel> ACregister;
+    private List<CommentModel> comment;
     private String ACprice;
     private String ACtag;
     private List<String> APimgurl;
@@ -62,7 +63,8 @@ public class YuePaiDataModel implements Serializable {
     private String Userimg;
     private String Userage;
     private String Usex;
-    private int Userregistd;
+    private int Useregistd;
+    private int Usercommented; //0是没有评价，1是已经评价
 
     public YuePaiDataModel() {
     }
@@ -529,11 +531,27 @@ public class YuePaiDataModel implements Serializable {
         Usex = usex;
     }
 
-    public int getUserregistd() {
-        return Userregistd;
+    public int getUseregistd() {
+        return Useregistd;
     }
 
-    public void setUserregistd(int userregistd) {
-        Userregistd = userregistd;
+    public void setUseregistd(int useregistd) {
+        Useregistd = useregistd;
+    }
+
+    public List<CommentModel> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<CommentModel> comment) {
+        this.comment = comment;
+    }
+
+    public int getUsercommented() {
+        return Usercommented;
+    }
+
+    public void setUsercommented(int usercommented) {
+        Usercommented = usercommented;
     }
 }

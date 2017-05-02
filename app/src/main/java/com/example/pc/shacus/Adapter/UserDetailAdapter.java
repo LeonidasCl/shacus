@@ -111,6 +111,16 @@ public class UserDetailAdapter extends BaseAdapter{
                                             dialog.dismiss();
                                             viewHolder.baoming.setText("已选择");
                                             netRequest.httpRequest(map, CommonUrl.getOrdersInfo);
+
+                                            map = new HashMap();
+                                            map.put("authkey",authkey);
+                                            map.put("userid", myid);
+                                            map.put("fromuserid", myid);
+                                            map.put("touserid", userModelList.get(position).getId());
+                                            map.put("appid", ap);
+                                            map.put("type", 11524);
+                                            netRequest.httpRequest(map,CommonUrl.sendInfo);
+
                                         }
                                     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override

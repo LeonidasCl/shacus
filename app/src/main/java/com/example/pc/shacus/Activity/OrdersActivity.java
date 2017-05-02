@@ -28,6 +28,7 @@ import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.ItemModel;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.UserModel;
+import com.example.pc.shacus.Data.Model.YuePaiDataModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -60,17 +61,17 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
     private TabWidget mTabWidget = null;
     private RecyclerView recyclerView1;
     private RecyclerViewAdapter recyclerViewAdapter1;
-    List<ItemModel> ordersItemList1;
+    List<YuePaiDataModel> ordersItemList1;
     RecyclerView.LayoutManager layoutManager1;
 
     private RecyclerView recyclerView2;
     private RecyclerViewAdapter recyclerViewAdapter2;
-    List<ItemModel> ordersItemList2;
+    List<YuePaiDataModel> ordersItemList2;
     RecyclerView.LayoutManager layoutManager2;
 
     private RecyclerView recyclerView3;
     private RecyclerViewAdapter recyclerViewAdapter3;
-    List<ItemModel> ordersItemList3;
+    List<YuePaiDataModel> ordersItemList3;
     RecyclerView.LayoutManager layoutManager3;
 
     private ACache aCache;
@@ -399,16 +400,26 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
         int i = (int) list.get(0);
         if( i == 2){
             int position = (int) list.get(1);
-            Intent intent = new Intent(OrdersActivity.this,YuePaiDetailActivity.class);
+            Intent intent = new Intent(OrdersActivity.this,YuePaiDetailActivity_new.class);
+            /*
+            * Intent intent = new Intent(activity, YuePaiDetailActivity_new.class);
+                    intent.putExtra("detail",String.valueOf(item.getAPid()));
+                    intent.putExtra("type", "yuepai");
+                    intent.putExtra("group", String.valueOf(item.getAPgroup()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    activity.startActivity(intent);*/
             if(index == StatusCode.REQUEST_REGIST_ORDER) {
-                intent.putExtra("detail", String.valueOf(ordersItemList1.get(position).getId()));
-                intent.putExtra("type",ordersItemList1.get(position).getType());
+                intent.putExtra("detail", String.valueOf(ordersItemList1.get(position).getAPid()));
+                intent.putExtra("type", "yuepai");
+                intent.putExtra("group",String.valueOf(ordersItemList1.get(position).getAPgroup()));
             } else if(index == StatusCode.REQUEST_DOING_ORDER){
-                intent.putExtra("detail",String.valueOf(ordersItemList2.get(position).getId()));
-                intent.putExtra("type",ordersItemList2.get(position).getType());
+                intent.putExtra("detail",String.valueOf(ordersItemList2.get(position).getAPid()));
+                intent.putExtra("type", "yuepai");
+                intent.putExtra("group",String.valueOf(ordersItemList2.get(position).getAPgroup()));
             } else if(index == StatusCode.REQUEST_DONE_ORDER){
-                intent.putExtra("detail",String.valueOf(ordersItemList3.get(position).getId()));
-                intent.putExtra("type",ordersItemList3.get(position).getType());
+                intent.putExtra("detail",String.valueOf(ordersItemList3.get(position).getAPid()));
+                intent.putExtra("type", "yuepai");
+                intent.putExtra("group",String.valueOf(ordersItemList3.get(position).getAPgroup()));
             }
             startActivity(intent);
         }
@@ -447,6 +458,7 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
     public void requestFinish(String result, String requestUrl) throws JSONException {
         if(requestUrl.equals(CommonUrl.getOrdersInfo)){//返回订单信息
             JSONObject object = new JSONObject(result);
+            Log.d("======================",object.toString());
             int code = Integer.valueOf(object.getString("code"));
             Message msg = new Message();
 
@@ -460,15 +472,21 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                         JSONArray jsonArray1 = jsonObject.getJSONArray("myappointment");
                         for (int i = 0; i < jsonArray1.length();i++){
                             JSONObject myat = jsonArray1.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("APtitle"));
-                            ordersModel.setId(myat.getInt("APid"));
-                            ordersModel.setImage(myat.getString("APimgurl"));
-                            ordersModel.setStartTime(myat.getString("APstartT"));
-                            ordersModel.setLikeNum(myat.getInt("APlikeN"));
-                            ordersModel.setUserImage(myat.getString("Userimg"));
-                            ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType("yuepai");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????",jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList1.add(ordersModel);
                         }
                     }else{
@@ -479,38 +497,52 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                         JSONArray jsonArray2 = jsonObject.getJSONArray("entryappointment");
                         for (int i = 0; i < jsonArray2.length();i++){
                             JSONObject myat = jsonArray2.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("APtitle"));
-                            ordersModel.setId(myat.getInt("APid"));
-                            ordersModel.setImage(myat.getString("APimgurl"));
-                            ordersModel.setStartTime(myat.getString("APstartT"));
-                            ordersModel.setLikeNum(myat.getInt("APlikeN"));
-                            ordersModel.setUserImage(myat.getString("Userimg"));
-                            ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType("yuepai");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList1.add(ordersModel);
                         }
                     }else{
                         index++;
                     }
 
-                    if(jsonObject.getJSONArray("activity").length() != 0){
+/*                    if(jsonObject.getJSONArray("activity").length() != 0){
                         JSONArray jsonArray3 = jsonObject.getJSONArray("activity");
                         for (int i = 0; i < jsonArray3.length();i++){
                             JSONObject myat = jsonArray3.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("ACtitle"));
-                            ordersModel.setId(myat.getInt("ACid"));
-                            ordersModel.setImage(myat.getString("ACimgurl"));
-                            ordersModel.setStartTime(myat.getString("ACstartT"));
-                            ordersModel.setLikeNum(myat.getInt("AClikeN"));
-                            ordersModel.setRegistNum(myat.getInt("ACregistN"));
-                            ordersModel.setType("huodong");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("ACid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("AClikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList1.add(ordersModel);
                         }
                     }else{
                         index++;
-                    }
+                    }*/
+                    index++;
 
                     if(index != 3){
                         Log.d("aaaaaaaa",ordersItemList1.toString());
@@ -531,17 +563,23 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                     JSONObject jsonObject = object.getJSONObject("contents");
                     if(jsonObject.getJSONArray("myappointment").length() != 0){
                         JSONArray jsonArray1 = jsonObject.getJSONArray("myappointment");
-                        for (int i = 0; i < jsonArray1.length();i++) {
+                        for (int i = 0; i < jsonArray1.length();i++){
                             JSONObject myat = jsonArray1.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("APtitle"));
-                            ordersModel.setId(myat.getInt("APid"));
-                            ordersModel.setImage(myat.getString("APimgurl"));
-                            ordersModel.setStartTime(myat.getString("APstartT"));
-                            ordersModel.setLikeNum(myat.getInt("APlikeN"));
-                            ordersModel.setUserImage(myat.getString("Userimg"));
-                            ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType("yuepai");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList2.add(ordersModel);
                         }
                     }else index++;
@@ -550,34 +588,48 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                         JSONArray jsonArray2 = jsonObject.getJSONArray("entryappointment");
                         for (int i = 0; i < jsonArray2.length();i++){
                             JSONObject myat = jsonArray2.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("APtitle"));
-                            ordersModel.setId(myat.getInt("APid"));
-                            ordersModel.setImage(myat.getString("APimgurl"));
-                            ordersModel.setStartTime(myat.getString("APstartT"));
-                            ordersModel.setLikeNum(myat.getInt("APlikeN"));
-                            ordersModel.setUserImage(myat.getString("Userimg"));
-                            ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType("yuepai");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList2.add(ordersModel);
                         }
                     }else index++;
 
-                    if(jsonObject.getJSONArray("activity").length() != 0){
+/*                    if(jsonObject.getJSONArray("activity").length() != 0){
                         JSONArray jsonArray3 = jsonObject.getJSONArray("activity");
                         for (int i = 0; i < jsonArray3.length();i++){
                             JSONObject myat = jsonArray3.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("ACtitle"));
-                            ordersModel.setId(myat.getInt("ACid"));
-                            ordersModel.setImage(myat.getString("ACimgurl"));
-                            ordersModel.setStartTime(myat.getString("ACstartT"));
-                            ordersModel.setLikeNum(myat.getInt("AClikeN"));
-                            ordersModel.setRegistNum(myat.getInt("ACregistN"));
-                            ordersModel.setType("huodong");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList2.add(ordersModel);
                         }
-                    }else index++;
+                    }else index++;*/
+                    index++;
                     if(index != 3){
                         msg.what = StatusCode.REQUEST_DOING_SUCCESS;
                         handler.sendMessage(msg);
@@ -598,15 +650,21 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                         JSONArray jsonArray1 = jsonObject.getJSONArray("myappointment");
                         for (int i = 0; i < jsonArray1.length();i++){
                             JSONObject myat = jsonArray1.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("APtitle"));
-                            ordersModel.setId(myat.getInt("APid"));
-                            ordersModel.setImage(myat.getString("APimgurl"));
-                            ordersModel.setStartTime(myat.getString("APstartT"));
-                            ordersModel.setLikeNum(myat.getInt("APlikeN"));
-                            ordersModel.setUserImage(myat.getString("Userimg"));
-                            ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType("yuepai");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList3.add(ordersModel);
                         }
                     }else index++;
@@ -615,35 +673,49 @@ public class OrdersActivity extends AppCompatActivity implements  NetworkCallbac
                         JSONArray jsonArray2 = jsonObject.getJSONArray("entryappointment");
                         for (int i = 0; i < jsonArray2.length();i++){
                             JSONObject myat = jsonArray2.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("APtitle"));
-                            ordersModel.setId(myat.getInt("APid"));
-                            ordersModel.setImage(myat.getString("APimgurl"));
-                            ordersModel.setStartTime(myat.getString("APstartT"));
-                            ordersModel.setLikeNum(myat.getInt("APlikeN"));
-                            ordersModel.setUserImage(myat.getString("Userimg"));
-                            ordersModel.setRegistNum(myat.getInt("APregistN"));
-                            ordersModel.setType("yuepai");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList3.add(ordersModel);
                         }
 
                     }else index++;
 
-                    if(jsonObject.getJSONArray("activity").length() != 0){
+/*                    if(jsonObject.getJSONArray("activity").length() != 0){
                         JSONArray jsonArray3 = jsonObject.getJSONArray("activity");
                         for (int i = 0; i < jsonArray3.length();i++){
                             JSONObject myat = jsonArray3.getJSONObject(i);
-                            ItemModel ordersModel = new ItemModel();
-                            ordersModel.setTitle(myat.getString("ACtitle"));
-                            ordersModel.setId(myat.getInt("ACid"));
-                            ordersModel.setImage(myat.getString("ACimgurl"));
-                            ordersModel.setStartTime(myat.getString("ACstartT"));
-                            ordersModel.setLikeNum(myat.getInt("AClikeN"));
-                            ordersModel.setRegistNum(myat.getInt("ACregistN"));
-                            ordersModel.setType("huodong");
+                            YuePaiDataModel ordersModel = new YuePaiDataModel();
+//                            ordersModel.setTitle(myat.getString("APtitle"));
+                            ordersModel.setAPid(myat.getInt("APid"));
+//                            ordersModel.setStartTime(myat.getString("APstartT"));
+                            ordersModel.setAPlikeN(myat.getInt("APlikeN"));
+                            ordersModel.setUserimg(myat.getString("Userimg"));
+//                            ordersModel.setRegistNum(myat.getInt("APregistN"));
+                            ordersModel.setAPcontent(myat.getString("APcontent"));
+                            List<String>  list = new ArrayList<String>();
+                            JSONArray jsonArray = myat.getJSONArray("APimgurl");
+//                            Log.d("?????????????", jsonArray.toString());
+                            for (int j = 0; j < jsonArray.length();j++){
+                                list.add(jsonArray.getString(j));
+                            }
+                            ordersModel.setAPimgurl(list);
                             ordersItemList3.add(ordersModel);
                         }
-                    }else index++;
+                    }else index++;*/
+                    index++;
                     if(index!=3) {
                         msg.what = StatusCode.REQUEST_DONE_SUCCESS;
                         handler.sendMessage(msg);

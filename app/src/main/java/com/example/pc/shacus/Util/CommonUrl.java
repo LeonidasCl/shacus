@@ -49,4 +49,8 @@ public class CommonUrl {
 
 	public static String requestModel = url + "recommend/reclist"; //推荐摄影师和模特列表
 
+	public static String commentAp = url + "user/indent"; //约拍评价
+
+	public static String sendInfo = url + "sysmessage";// 报名后发送消息
+
 }
