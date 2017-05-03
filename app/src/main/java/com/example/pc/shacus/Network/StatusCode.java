@@ -249,17 +249,17 @@ public interface StatusCode {
     int WANT_BE_PHOTOGRAPH_MORE=10244;//获取指定id后更多-模特发布的约拍
 
     int REQUEST_FAVOR_PHOTOSET_LIST = 10830;//请求好友的作品集
-    int REQUESTRECOMMENDED_PHOTOSET_LIST = 10824;//请求推荐的作品集
+    int REQUESTRECOMMENDED_PHOTOSET_LIST = 10834;//请求推荐的作品集
     int RETURN_FAVOR_PHOTOSET_LIST = 10832;//返回码-请求更多好友的作品集
-    int RETURN_RECOMMENDED_PHOTOSET_LIST = 10826;//返回码-请求更多推荐的作品集
     int REQUEST_MORE_FAVOR_PHOTOSET_LIST = 10832;//请求更多好友的作品集
-    int REQUEST_MORE_RECOMMENDED_PHOTOSET_LIST = 10826;//请求更多推荐的作品集
+    int RETURN_RECOMMENDED_PHOTOSET_LIST = 10836;//返回码-请求更多推荐的作品集
+    int REQUEST_MORE_RECOMMENDED_PHOTOSET_LIST = 10836;//请求更多推荐的作品集
+
     int PRAISE_PHOTOSET = 10840;//作品集点赞
     int CANCEL_PRAISE_PHOTOSET=10841;//作品集取消点赞
     int RECOMMAND_PHOTOGRAPHER_MODEL_LIST = 10850;//推荐摄影师和模特列表
     int RETURN_SET_CATEGORY = 10851;//服务器返回设置摄影师类型
     int CHANGE_USER_CATEGORY = 10852;//修改用户类型是摄影师还是模特
-    int FAIL_PRAISE_PHOTOSET=10843;//作品集点赞失败
     int PRAISE_PHOTOSET_SUCCESS = 10842;//作品集点赞成功
     int CANCEL_PRAISE_PHOTOSET_SUCCESS = 10843;//作品集取消赞成功
 }

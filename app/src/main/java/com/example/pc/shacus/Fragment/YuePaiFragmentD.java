@@ -372,6 +372,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                     Map<String, Object> map = new HashMap<>();
                     map.put("type", StatusCode.REQUEST_MORE_RECOMMENDED_PHOTOSET_LIST);
                     map.put("authkey", data.getAuth_key());
+                    map.put("uid", data.getId());
                     map.put("index", personAdapter.getItem(bootCounter - 1).getUCid());
                     requestFragment.httpRequest(map, CommonUrl.imgSelfAndSets);
                 }
