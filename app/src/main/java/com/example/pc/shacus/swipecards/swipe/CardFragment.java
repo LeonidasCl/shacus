@@ -48,6 +48,7 @@ import com.example.pc.shacus.swipecards.test.TestData;
 import com.example.pc.shacus.swipecards.util.BaseModel;
 import com.example.pc.shacus.swipecards.util.CardEntity;
 import com.example.pc.shacus.swipecards.util.RetrofitHelper;
+import com.example.pc.shacus.swipecards.view.CardImageView;
 import com.example.pc.shacus.swipecards.view.SwipeFlingBottomLayout;
 
 import java.io.IOException;
@@ -106,8 +107,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     @InjectView(R.id.frame)
     SwipeFlingView mSwipeFlingView;
 
-    @InjectView(R.id.self_main)
-    RoundImageView mImageView;
+//    @InjectView(R.id.self_main)
+//    RoundImageView mImageView;
 
     @InjectView(R.id.swipe_fling_bottom)
     SwipeFlingBottomLayout mBottomLayout;
@@ -115,6 +116,9 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     //点击frame进行轮播
     //@InjectView(R.id.display_photoset_image)
     RelativeLayout display_big_image_layout;
+
+    //个人主页按钮点击
+    //CardImageView selfMainView;
 
     //进行蒙层图片轮播
     private UploadViewPager image_viewpager;
@@ -179,17 +183,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
         mSwipeFlingView.setDisplay_big_image_layout(display_big_image_layout);//先setter，再设置点击监听
         mSwipeFlingView.setCardFragment(this);
-        mAdapter.setSelfMainView(mImageView);
+        //mAdapter.setSelfMainView(mImageView);
         mBottomLayout.setOnBottomItemClickListener(this);
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-                intent.putExtra("id", card.getUserpublish().getId());
-                startActivity(intent);
-            }
-        });
     }
 
     private void initView(ArrayList<RecommandModel> tempList) {
@@ -199,20 +194,19 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mAdapter = new UserAdapter(getActivity(), tempList);
         mSwipeFlingView.setAdapter(mAdapter);
         mSwipeFlingView.setOnSwipeFlingListener(this);//SimpleOnSwipeListener/OnSwipeListener
-
         mSwipeFlingView.setDisplay_big_image_layout(display_big_image_layout);//先setter，再设置点击监听
         mSwipeFlingView.setCardFragment(this);
 
         mBottomLayout.setOnBottomItemClickListener(this);
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-                intent.putExtra("id", card.getUserpublish().getId());
-                startActivity(intent);
-            }
-        });
+//        mImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+//                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+//                intent.putExtra("id", card.getUserpublish().getId());
+//                startActivity(intent);
+//            }
+//        });
     }
 
     //筛选之后调用这个方法
@@ -565,15 +559,15 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             Log.d("excited", "不喜欢 :" + excited);
 
             //每次切换之后要重置listener
-            mImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-                    intent.putExtra("id", card.getUserpublish().getId());
-                    startActivity(intent);
-                }
-            });
+//            mImageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+//                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+//                    intent.putExtra("id", card.getUserpublish().getId());
+//                    startActivity(intent);
+//                }
+//            });
         }
         if (triggerByTouchMove)
             mBottomLayout.getUnLikeView().animateDragAnimation();
@@ -591,15 +585,15 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             String excited = card.getUcFirstimg();
             Log.d("excited", "感兴趣 :" + excited);
 
-            mImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-                    intent.putExtra("id", card.getUserpublish().getId());
-                    startActivity(intent);
-                }
-            });
+//            mImageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+//                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+//                    intent.putExtra("id", card.getUserpublish().getId());
+//                    startActivity(intent);
+//                }
+//            });
         }
         if (triggerByTouchMove)
             mBottomLayout.getLikeView().animateDragAnimation();

@@ -11,6 +11,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+
 /**
  * 
  * @author Dean.Ding
@@ -83,4 +85,6 @@ public class RoundImageView extends ImageView {
             // canvas.drawRoundRect(rect, xRadius, yRadius / 2, paint);
         }
     }
+
+
 }
