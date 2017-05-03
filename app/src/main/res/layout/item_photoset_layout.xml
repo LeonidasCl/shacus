@@ -194,11 +194,11 @@
 
         <ImageButton
             android:id="@+id/btn_photoset_addlike"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginRight="10dp"
             android:visibility="visible"
-            android:padding="3dp"
+            android:padding="5dp"
             android:background="@drawable/btn_praise_selector"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />

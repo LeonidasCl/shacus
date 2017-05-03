@@ -66,6 +66,8 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
     private int isself=1;//是否为自己，默认不是自己
     private int uid=-1;//当前这个用户的id
 
+    private ImageView theme_add_picture_icon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         title=(TextView)findViewById(R.id.photoset_toolbar_title);
         title.setText("作品集列表");
         edit=(TextView)findViewById(R.id.photoset_toolbar_edit);
+
+        theme_add_picture_icon=(ImageView)findViewById(R.id.btn_add_photo);
 
         handler=new Handler(){
             @Override
@@ -218,7 +222,18 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                             }
                         });
 
+                        theme_add_picture_icon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                                intent.putExtra("type",2);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+
                     }else{//不是自己的作品集，不能编辑
+                        theme_add_picture_icon.setVisibility(View.GONE);
                         edit.setVisibility(View.INVISIBLE);
                         edit.setClickable(false);
                     }

@@ -92,6 +92,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
     private TextView btn_photoset_likecount;
     private ImageButton btn_photoset_addlike;
 
+    private ImageView theme_add_picture_icon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +107,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                 finish();
             }
         });
+
+        theme_add_picture_icon=(ImageView)findViewById(R.id.btn_add_photo);
 
         title=(TextView)findViewById(R.id.photoset_toolbar_title);
         title.setText("作品集标题");
@@ -312,7 +316,22 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                             }
                         });
 
+                        theme_add_picture_icon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // 添加新图片
+                                Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                                intent.putExtra("type",3);
+                                intent.putExtra("content",detailData.getUCcontent());
+                                intent.putExtra("title",detailData.getTitle());
+                                intent.putExtra("ucid",detailData.getUCid());
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+
                     }else{//不是自己的作品集，不能编辑
+                        theme_add_picture_icon.setVisibility(View.GONE);
                         edit.setVisibility(View.INVISIBLE);
                         edit.setClickable(false);
                     }

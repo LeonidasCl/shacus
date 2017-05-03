@@ -28,6 +28,7 @@
                 android:id="@+id/item_img"
                 android:adjustViewBounds="true" />
             <TextView
+                android:visibility="gone"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/zero_black"
@@ -37,6 +38,8 @@
                 android:textSize="16sp"
                 android:text="啊啊啊" />
             <TextView
+                android:maxLines="1"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/zero_black"
@@ -83,6 +86,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:visibility="invisible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="0dp"

@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:paddingBottom="@dimen/activity_horizontal_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_horizontal_margin">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_horizontal_margin">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_height="40dp">
 
         <TextView
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="评分"
             android:id="@+id/starTextView"
             android:textSize="18sp"
-            android:gravity="center_vertical"/>
+            android:layout_centerVertical="true"/>
 
-            <RatingBar
+            <!--<RatingBar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ratingBar"
                 android:numStars="5"
-                style="@style/appRatingBar" />
+                style="@style/appRatingBar" />-->
 
-    </LinearLayout>
+        <com.example.pc.shacus.View.RatingBar
+            android:layout_toRightOf="@id/starTextView"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:id="@+id/rb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:starCount="5"
+            app:starHalf="@drawable/rating_half"
+            app:starEmpty="@drawable/rating_bg"
+            app:starFill="@drawable/rating_litup"
+            app:starImageSize="30dp"
+            app:starPadding="5dp"
+            app:starStep="4.5"
+            app:stepSize="Half">
+        </com.example.pc.shacus.View.RatingBar>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

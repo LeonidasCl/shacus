@@ -77,6 +77,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
     private ArrayList<String> imageBigDatas;
     private ArrayList<String> imgToDelete=new ArrayList<>();
     private int isself=1;//是否为自己，默认不是自己
+    private ImageView theme_add_picture_icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -98,6 +99,8 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         edit=(TextView)findViewById(R.id.photoset_toolbar_edit);
         position_in_total=(TextView)findViewById(R.id.photoset_position_total);
         display_big_image_layout=(RelativeLayout)findViewById(R.id.display_photoset_image);
+        theme_add_picture_icon=(ImageView)findViewById(R.id.btn_add_photo);
+
 
         handler=new Handler(){
             @Override
@@ -249,7 +252,18 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
                             }
                         });
 
+                        theme_add_picture_icon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                                intent.putExtra("type",1);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+
                     }else{//不是自己的作品集，不能编辑
+                        theme_add_picture_icon.setVisibility(View.GONE);
                         edit.setVisibility(View.INVISIBLE);
                         edit.setClickable(false);
                     }

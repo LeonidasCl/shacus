@@ -44,6 +44,7 @@ import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.View.FloatMenu.FilterMenu;
 import com.example.pc.shacus.View.FloatMenu.FilterMenuLayout;
+import com.example.pc.shacus.View.RatingBar;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -100,7 +101,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     }
                 }*/
                 if (isSponsor==0){//是别人发布的
-                    if (Userregistd==0){
+                    if (Useregistd==0){
                         //报名
                         Map map=new HashMap();
                         map.put("authkey",userModel.getAuth_key());
@@ -109,7 +110,17 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                         map.put("apid",data.getAPid());
                         map.put("message","aaaa");
                         request.httpRequest(map,CommonUrl.joinYuepai);
-                    }if (Userregistd==1){
+
+                        if(data.getUserliked() == 0){
+                            map = new HashMap();
+                            map.put("type", StatusCode.PRAISE_YUEPAI);
+                            map.put("typeid", data.getAPid());
+                            //ACache cache = ACache.get(APP.context);
+                            map.put("uid", userModel.getId());
+                            map.put("authkey",userModel.getAuth_key());
+                            request.httpRequest(map, CommonUrl.praiseAppointment);
+                        }
+                    }if (Useregistd==1){
                         //取消报名
                         Map map=new HashMap();
                         map.put("authkey",userModel.getAuth_key());
@@ -154,10 +165,13 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
     private TextView title;
     private ImageButton backbtn;
 
+    private LinearLayout baominguser;
+
     private Handler handler;
     private FrameLayout loading;
     private YuePaiDataModel data;
     private Button selectJoinUser;
+//    private Button selectNew;
 
     private TextView baoming;
     private TextView chat;
@@ -165,7 +179,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
 
     private String typo;
     private int isSponsor;
-    private int Userregistd;
+    private int Useregistd;
     private UserModel userModel;
     private int viewpagerPosition;
     private TextView position_in_total;
@@ -181,7 +195,17 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
     private TextView user_age;
     private ImageView user_sex;
     private TextView user_local;
+    TextView interestcount;
 
+    private LinearLayout pingjia;
+    private ImageView oneimage;
+    private TextView onename;
+    private RatingBar onerb;
+    private TextView onepj;
+    private ImageView twoimage;
+    private TextView twoname;
+    private RatingBar tworb;
+    private TextView twopj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -226,6 +250,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
         position_in_total=(TextView)findViewById(R.id.position_total);
         image_viewpager=(UploadViewPager)findViewById(R.id.image_detail_viewpager);
 
+        baominguser = (LinearLayout) findViewById(R.id.baominguser);
+        interestcount = (TextView) findViewById(R.id.interestcount);
         backbtn = (ImageButton) findViewById(R.id.backbtn);
         title=(TextView)findViewById(R.id.title);
         title.setText("约拍详情");
@@ -236,6 +262,16 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
             }
         });
 
+
+        pingjia = (LinearLayout) findViewById(R.id.pingjia);
+        oneimage = (ImageView) findViewById(R.id.oneimage);
+        onepj = (TextView) findViewById(R.id.onepj);
+        onerb = (RatingBar) findViewById(R.id.onerb);
+        onename = (TextView) findViewById(R.id.onename);
+        twoimage = (ImageView) findViewById(R.id.twoimage);
+        twopj = (TextView) findViewById(R.id.twopj);
+        twoname = (TextView) findViewById(R.id.twoname);
+        tworb = (RatingBar) findViewById(R.id.tworb);
 
         if (typo.equals("yuepai"))
             request.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -257,6 +293,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     CommonUtils.getUtilInstance().showLongToast(APP.context, "约拍完成！请给对方作出评价！");
                     finish();
                     Intent intent = new Intent(YuePaiDetailActivity_new.this, RateActivity.class);
+                    intent.putExtra("apid",data.getAPid());
                     startActivity(intent);
                     return;
                 }
@@ -299,14 +336,21 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                 if (msg.what== StatusCode.CANCEL_JOIN_YUEPAI_SUCCESS){//取消约拍报名
                     CommonUtils.getUtilInstance().showToast(APP.context, "取消报名成功");
                     baoming.setText("报名");
-                    Userregistd = 0;
+                    Useregistd = 0;
                     return;
                 }
 
+                if(msg.what == StatusCode.PRAISE_YUEPAI_SUCCESS){//感兴趣
+                    int i = Integer.valueOf(interestcount.getText().toString());
+                    interestcount.setText(String.valueOf(i+1));
+                    Log.d("AAAAAAAAAAAAAA", "感兴趣成功");
+                }
+
                 if (msg.what == StatusCode.REQUEST_JOIN_YUEPAI_SUCCESS){
+                    Log.d("AAAAAAAAAAAAAAAAAA","baoming");
                     CommonUtils.getUtilInstance().showToast(APP.context, "报名成功");
                     baoming.setText("取消报名");
-                    Userregistd = 1;
+                    Useregistd = 1;
                     Map map=new HashMap();
                     map.put("authkey",userModel.getAuth_key());
                     map.put("userid", userModel.getId());
@@ -314,7 +358,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     map.put("touserid",data.getAPsponsorid());
                     map.put("appid", data.getAPid());
                     map.put("type", 11524);
-                    request.httpRequest(map,"http://114.215.16.151:81/sysmessage");
+                    request.httpRequest(map,CommonUrl.sendInfo);
                     return;
                 }
 
@@ -322,6 +366,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                 if (msg.what==StatusCode.REQUEST_YUEPAI_DETAIL_SUCCESS){
 
                     data=(YuePaiDataModel)msg.obj;
+                    interestcount = (TextView) findViewById(R.id.interestcount);
+                    interestcount.setText(String.valueOf(data.getAPlikeN()));
                     user_age = (TextView) findViewById(R.id.user_age);
                     user_name = (TextView) findViewById(R.id.user_name);
                     user_sex = (ImageView) findViewById(R.id.user_sex);
@@ -344,7 +390,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     tv_content= (EditText) findViewById(R.id.detail_dd_content);
                     tv_location=(TextView)findViewById(R.id.detail_dd_location);
                     isSponsor=data.getAP_issponsor();
-                    Userregistd = data.getUserregistd();
+                    Useregistd = data.getUseregistd();
 
                     selectJoinUser=(Button)findViewById(R.id.btn_select_join);
                     tv_content.setText(data.getAPcontent()+"");
@@ -352,6 +398,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     tv_time.setText(data.getAPtime()+"");
                     tv_price.setText(price(data.getAPpricetag()) + data.getAPprice() + "");
                     if (isSponsor==1){
+                        baominguser.setVisibility(View.VISIBLE);
                         if (data.getAPstatus()==0){//0:报名中
                         selectJoinUser.setOnClickListener(new View.OnClickListener(){
                             @Override
@@ -361,7 +408,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                                 {
                                     intent.putExtra("apid",data.getAPid());
                                     intent.putExtra("type","yuepai");
-                                    intent.putExtra("title",data.getAPtitle());
+                                    intent.putExtra("title",data.getUseralais()+"的约拍");
+                                    intent.putExtra("group",String.valueOf(data.getAPgroup()));
                                 }
                                 else {
                                     intent.putExtra("acid",data.getACid());
@@ -406,28 +454,190 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                             });
                             selectJoinUser.setText("完成约拍");
                         }
-                        if (data.getAPstatus()==2){//1:已正常结束
-                            selectJoinUser.setVisibility(View.GONE);
+                        if (data.getAPstatus()==2){//1:已正常结束,双方都没有评价
+                            selectJoinUser.setText("约拍评价");
+                            selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+//                                    finish();
+                                    Intent intent = new Intent(YuePaiDetailActivity_new.this, RateActivity.class);
+                                    intent.putExtra("apid",data.getAPid());
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        }
+                        if (data.getAPstatus() == 3){//3是结束了,一方给出了评价
+                            if (data.getUsercommented() == 1)
+                                selectJoinUser.setVisibility(View.GONE);
+                            else{
+                                baominguser.setVisibility(View.VISIBLE);
+                                selectJoinUser.setVisibility(View.VISIBLE);
+                                selectJoinUser.setText("约拍评价");
+                                selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(YuePaiDetailActivity_new.this, RateActivity.class);
+                                        intent.putExtra("apid", data.getAPid());
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                            }
+
+                        }
+                        if (data.getAPstatus() == 4){//4是两方都评价了,显示评价
+                            baominguser.setVisibility(View.GONE);
+                            pingjia.setVisibility(View.VISIBLE);
+                            Log.d("TTTTTTTTTTTTTTT1", data.getComment().get(0).getUheadimage().toString());
+                            Glide.with(YuePaiDetailActivity_new.this)
+                                    .load(data.getComment().get(0).getUheadimage().toString())
+                                    .error(R.drawable.loading_error)
+                                    .into(oneimage);
+                            onename.setText(data.getComment().get(0).getUalias().toString());
+                            onepj.setText(data.getComment().get(0).getUcomment().toString());
+                            onerb.setStar((float) data.getComment().get(0).getUscore());
+                            onerb.setClickable(false);
+                            Log.d("TTTTTTTTTTTTTTT2", data.getComment().get(1).getUheadimage().toString());
+                            Glide.with(YuePaiDetailActivity_new.this)
+                                    .load(data.getComment().get(1).getUheadimage().toString())
+                                    .error(R.drawable.loading_error)
+                                    .into(twoimage);
+                            twoname.setText(data.getComment().get(1).getUalias().toString());
+                            twopj.setText(data.getComment().get(1).getUcomment().toString());
+                            tworb.setStar((float) data.getComment().get(1).getUscore());
+                            tworb.setClickable(false);
                         }
                     }
                     if (isSponsor==0){
-
+                        baominguser.setVisibility(View.GONE);
                         baoming = (TextView) findViewById(R.id.btn_baoming);
-                        if (data.getUserregistd()== 0){
-                            baoming.setText("报名");
-                        }else
-                            baoming.setText("取消报名");
-                        baoming.setOnClickListener(new baoming());
-                        chat=(TextView)findViewById(R.id.btn_chat);
-                        RelativeLayout chatlayout=(RelativeLayout)findViewById(R.id.layout_chat);
-                        chatlayout.setVisibility(View.VISIBLE);
-                        chat.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                RongIM.getInstance().startPrivateChat(actvt, String.valueOf(data.getAPsponsorid()), "约拍咨询");
+                        if (data.getAPstatus() == 0){
+                            if (data.getUseregistd()== 0){
+                                baoming.setText("报名");
+                            }else
+                                baoming.setText("取消报名");
+                            baoming.setOnClickListener(new baoming());
+                            chat=(TextView)findViewById(R.id.btn_chat);
+                            RelativeLayout chatlayout=(RelativeLayout)findViewById(R.id.layout_chat);
+                            chatlayout.setVisibility(View.VISIBLE);
+                            chat.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    RongIM.getInstance().startPrivateChat(actvt, String.valueOf(data.getAPsponsorid()), "约拍咨询");
+                                    if(data.getUserliked() == 0){
+                                        Map map = new HashMap();
+                                        map.put("type", StatusCode.PRAISE_YUEPAI);
+                                        map.put("typeid", data.getAPid());
+                                        //ACache cache = ACache.get(APP.context);
+                                        map.put("uid", userModel.getId());
+                                        map.put("authkey",userModel.getAuth_key());
+                                        request.httpRequest(map, CommonUrl.praiseAppointment);
+                                    }
+                                }
+                            });
+                            selectJoinUser.setVisibility(View.GONE);
+                        }
+
+                        if (data.getAPstatus() == 1){
+                            baominguser.setVisibility(View.VISIBLE);
+                            selectJoinUser.setVisibility(View.VISIBLE);
+                            horizontalScrollView = (HorizontalScrollView) findViewById(R.id.join_user_scroll);
+                            horizontalScrollView.setVisibility(View.GONE);
+                            selectJoinUser.setText("完成约拍");
+                            selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    new AlertDialog.Builder(self).setTitle("完成约拍")
+                                            .setMessage("确定完成约拍吗？" + "\n此操作不可撤销！")
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {//确定按钮响应事件
+                                                    ACache aCache = ACache.get(self);
+                                                    LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                                                    UserModel content = loginDataModel.getUserModel();
+                                                    String myid = content.getId();
+                                                    String authkey = content.getAuth_key();
+                                                    int apid = data.getAPid();
+                                                    Map map = new HashMap();
+                                                    map.put("apid", apid);
+                                                    map.put("authkey", authkey);
+                                                    map.put("uid", myid);
+                                                    map.put("type", StatusCode.REQUEST_FINISH_YUEPAI);
+                                                    dialog.dismiss();
+                                                    request.httpRequest(map, CommonUrl.getOrdersInfo);
+                                                }
+                                            }).setNegativeButton("不", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                                }
+                            });
+                        }
+
+                        if (data.getAPstatus()==2){//1:已正常结束,双方都没有评价
+                            baominguser.setVisibility(View.VISIBLE);
+                            selectJoinUser.setVisibility(View.VISIBLE);
+                            horizontalScrollView = (HorizontalScrollView) findViewById(R.id.join_user_scroll);
+                            horizontalScrollView.setVisibility(View.GONE);
+                            selectJoinUser.setText("约拍评价");
+                            selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(YuePaiDetailActivity_new.this, RateActivity.class);
+                                    intent.putExtra("apid", data.getAPid());
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        }
+
+                        if (data.getAPstatus() == 3){//3是结束了一方给出了评价
+                            if (data.getUsercommented() == 1)
+                                selectJoinUser.setVisibility(View.GONE);
+                            else{
+                                baominguser.setVisibility(View.VISIBLE);
+                                selectJoinUser.setVisibility(View.VISIBLE);
+                                selectJoinUser.setText("约拍评价");
+                                horizontalScrollView = (HorizontalScrollView) findViewById(R.id.join_user_scroll);
+                                horizontalScrollView.setVisibility(View.GONE);
+                                selectJoinUser.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(YuePaiDetailActivity_new.this, RateActivity.class);
+                                        intent.putExtra("apid", data.getAPid());
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
                             }
-                        });
-                        selectJoinUser.setVisibility(View.GONE);
+
+                        }
+
+                        if (data.getAPstatus() == 4){//4是两方都评价了,显示评价
+                            baominguser.setVisibility(View.GONE);
+                            pingjia.setVisibility(View.VISIBLE);
+                            Log.d("TTTTTTTTTTTTTTT1", data.getComment().get(0).getUheadimage().toString());
+                            Glide.with(YuePaiDetailActivity_new.this)
+                                    .load(data.getComment().get(0).getUheadimage().toString())
+                                    .error(R.drawable.loading_error)
+                                    .into(oneimage);
+                            onename.setText(data.getComment().get(0).getUalias().toString());
+                            onepj.setText(data.getComment().get(0).getUcomment().toString());
+                            onerb.setStar((float) data.getComment().get(0).getUscore());
+                            onerb.setClickable(false);
+                            Glide.with(YuePaiDetailActivity_new.this)
+                                    .load(data.getComment().get(1).getUheadimage().toString())
+                                    .error(R.drawable.loading_error)
+                                    .into(twoimage);
+                            Log.d("TTTTTTTTTTTTTTT2",data.getComment().get(1).getUheadimage().toString());
+                            twoname.setText(data.getComment().get(1).getUalias().toString());
+                            twopj.setText(data.getComment().get(1).getUcomment().toString());
+                            tworb.setStar((float) data.getComment().get(1).getUscore());
+                            tworb.setClickable(false);
+                        }
                     }
 
 
@@ -438,7 +648,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     setUserValue(data.getAPregisters());
 
                     if ( null == data.getAPimgurl() ||data.getAPimgurl().isEmpty()){
-                        mSideZoomBanner.setVisibility(View.INVISIBLE);
+                        mSideZoomBanner.setVisibility(View.GONE);
                     }else{
                         mSideZoomBanner.setVisibility(View.VISIBLE);
                         mSideZoomBanner.setViews(getPics(data.getAPimgurl().size(), data.getAPimgurl()));
@@ -566,7 +776,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                                 {
                                     intent.putExtra("apid",data.getAPid());
                                     intent.putExtra("type","yuepai");
-                                    intent.putExtra("title",data.getAPtitle());
+                                    intent.putExtra("group",String.valueOf(data.getAPgroup()));
+                                    intent.putExtra("title",data.getUseralais()+"的约拍");
                                 }
                                 else {
                                     intent.putExtra("acid",data.getACid());
@@ -753,6 +964,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
     public void requestFinish(String result, String requestUrl) throws JSONException {
         if (requestUrl.equals(CommonUrl.getYuePaiInfo)){
             JSONObject object = new JSONObject(result);
+            Log.d("EEEEEEEEEEEEEEEEEEEEE",object.toString());
             int code = Integer.valueOf(object.getString("code"));
             if (code==StatusCode.REQUEST_YUEPAI_DETAIL_SUCCESS){
                 JSONObject content=object.getJSONObject("contents");
@@ -794,11 +1006,24 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
             }
         }
 
-        if(requestUrl.equals("http://114.215.16.151:81/sysmessage")){
+        if(requestUrl.equals(CommonUrl.sendInfo)){
             JSONObject object = new JSONObject(result);
             int code = Integer.valueOf(object.getString("code"));
             if (code == 11524)
                 Log.d("AAAAAAAAAAAAAA","发送消息成功");
+        }
+
+        if (requestUrl.equals(CommonUrl.praiseAppointment)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code == StatusCode.PRAISE_YUEPAI_SUCCESS){
+                /*int i = Integer.valueOf(interestcount.getText().toString());
+                interestcount.setText(String.valueOf(i+1));
+                Log.d("AAAAAAAAAAAAAA", "感兴趣成功");*/
+                Message message = handler.obtainMessage();
+                message.what = StatusCode.PRAISE_YUEPAI_SUCCESS;
+                handler.sendMessage(message);
+            }
         }
 
         if (requestUrl.equals(CommonUrl.joinYuepai)){

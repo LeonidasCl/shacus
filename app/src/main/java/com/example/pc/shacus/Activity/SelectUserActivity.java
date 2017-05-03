@@ -49,6 +49,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
     private UserDetailAdapter userDetailAdapter;
 
     String type = null;
+    String group = null;
     Boolean successd = false;
 
     int id = -1;
@@ -74,6 +75,8 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
 
         Intent intent = getIntent();
         String t  = intent.getStringExtra("title");
+        group = intent.getStringExtra("group");
+        Log.d("AAAAAAAAAAAAAAAGROUP",group);
         title.setText(t);
         type = intent.getStringExtra("type");
         if(type.equals("yuepai")){
@@ -114,6 +117,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         String userId = content.getId();
         String authkey = content.getAuth_key();
 
+        map.put("group",group);
         map.put("uid", userId);
         map.put("authkey", authkey);
         if(index == StatusCode.REQUEST_BAOMING_YUEPAI_USER){
@@ -143,10 +147,14 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                 {
                     CommonUtils.getUtilInstance().showToast(APP.context, "已成功选择");
                     /*发intent*/
-                    Intent intent = new Intent(SelectUserActivity.this, YuePaiDetailActivity.class);
+                    /*Intent intent = new Intent(SelectUserActivity.this, YuePaiDetailActivity_new.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     intent.putExtra("type","yuepai");
-                    intent.putExtra("detail",String.valueOf(id));
+                    intent.putExtra("detail", String.valueOf(id));
+                    finish();
+                    startActivity(intent);*/
+                    Intent intent=new Intent(getApplicationContext(),OrdersActivity.class);
+                    intent.putExtra("page", "2");
                     finish();
                     startActivity(intent);
                 }
@@ -165,6 +173,7 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
         Message msg = new Message();
         if(requestUrl.equals(CommonUrl.askYuepai)){
             JSONObject object = new JSONObject(result);
+            Log.d("AAAAAAAAAAAAAAA",object.toString());
             int code  = Integer.valueOf(object.getString("code"));
             switch (code){
                 case StatusCode.REQUEST_BAOMING_YUEPAI_USERSUCCESS: //成功返回报名人列表
@@ -231,6 +240,11 @@ public class SelectUserActivity extends AppCompatActivity implements NetworkCall
                     break;
                 }
             }
+        }else if(requestUrl.equals(CommonUrl.sendInfo)){
+            JSONObject object = new JSONObject(result);
+            int code = Integer.valueOf(object.getString("code"));
+            if (code == 11524)
+                Log.d("AAAAAAAAAAAAAA","发送消息成功");
         }
     }
 

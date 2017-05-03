@@ -260,4 +260,6 @@ public interface StatusCode {
     int RETURN_SET_CATEGORY = 10851;//服务器返回设置摄影师类型
     int CHANGE_USER_CATEGORY = 10852;//修改用户类型是摄影师还是模特
     int FAIL_PRAISE_PHOTOSET=10843;//作品集点赞失败
+    int PRAISE_PHOTOSET_SUCCESS = 10842;//作品集点赞成功
+    int CANCEL_PRAISE_PHOTOSET_SUCCESS = 10843;//作品集取消赞成功
 }
