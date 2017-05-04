@@ -156,7 +156,6 @@ public class PhotosetListAdapter extends BaseAdapter {
                     super.handleMessage(msg);
 
                     if (msg.what== StatusCode.PRAISE_PHOTOSET_SUCCESS){
-
                         List<UserModel> userlike=item.getUserlikeList();
                         userlike.add(userModel);
                         JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
@@ -172,7 +171,6 @@ public class PhotosetListAdapter extends BaseAdapter {
                         btn_photoset_likecount.setText(item.getUserlikeNum());
                     }
                     if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
-                        //photoset_grid_join_user_scroll.removeAllViews();
                         List<UserModel> userlike=item.getUserlikeList();
                         JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
                         photoset_grid_join_user_scroll.setAdapter(adapter);
@@ -193,9 +191,6 @@ public class PhotosetListAdapter extends BaseAdapter {
                     if (msg.what == StatusCode.RESPONSE_ALREADY_FOLLOW_USER){
                         btn_add_favor.setVisibility(View.GONE);
                         CommonUtils.getUtilInstance().showToast(APP.context,"您已经关注过此用户");
-                    }
-                    if (msg.what == StatusCode.FAIL_PRAISE_PHOTOSET){
-                        CommonUtils.getUtilInstance().showToast(APP.context,"点赞失败");
                     }
                 }
             };
@@ -358,14 +353,15 @@ public class PhotosetListAdapter extends BaseAdapter {
                                     item.setUserIsLiked("0");
                                     Message msg=handler.obtainMessage();
                                     msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS;
-                                    //item.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) - 1 + "");
+                                    List<UserModel> list=item.getUserlikeList();
+                                    for (int i=0;i<list.size();i++){
+                                        UserModel model=list.get(i);
+                                        if (model.getId().equals(userModel.getId())){
+                                            list.remove(i);
+                                            break;
+                                        }
+                                    }
                                     item.setUserlikeNum(Integer.valueOf(item.getUserlikeNum())-1+"");
-                                    handler.sendMessage(msg);
-                                    return;
-                                }
-                                if (code==StatusCode.FAIL_PRAISE_PHOTOSET){
-                                    Message msg=handler.obtainMessage();
-                                    msg.what= StatusCode.FAIL_PRAISE_PHOTOSET;
                                     handler.sendMessage(msg);
                                     return;
                                 }

@@ -369,12 +369,6 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                             handler.sendMessage(msg);
                                             return;
                                         }
-                                        if (code==StatusCode.FAIL_PRAISE_PHOTOSET){
-                                            Message msg=handler.obtainMessage();
-                                            msg.what= StatusCode.FAIL_PRAISE_PHOTOSET;
-                                            handler.sendMessage(msg);
-                                            return;
-                                        }
                                     }
                                 }
 
@@ -426,10 +420,6 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     btn_photoset_addlike.setSelected(false);
                     btn_photoset_likecount.setText(detailData.getUserlikeNum());
                 }
-                if (msg.what == StatusCode.FAIL_PRAISE_PHOTOSET){
-                    CommonUtils.getUtilInstance().showToast(APP.context,"点赞失败");
-                }
-
             }
         };
 
