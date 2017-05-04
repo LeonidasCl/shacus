@@ -198,15 +198,6 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         mSwipeFlingView.setCardFragment(this);
 
         mBottomLayout.setOnBottomItemClickListener(this);
-//        mImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-//                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-//                intent.putExtra("id", card.getUserpublish().getId());
-//                startActivity(intent);
-//            }
-//        });
     }
 
     //筛选之后调用这个方法
@@ -557,17 +548,6 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             RecommandModel card = mAdapter.getItem(cur);
             String excited = card.getUcFirstimg();
             Log.d("excited", "不喜欢 :" + excited);
-
-            //每次切换之后要重置listener
-//            mImageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-//                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-//                    intent.putExtra("id", card.getUserpublish().getId());
-//                    startActivity(intent);
-//                }
-//            });
         }
         if (triggerByTouchMove)
             mBottomLayout.getUnLikeView().animateDragAnimation();
@@ -584,16 +564,6 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             RecommandModel card = mAdapter.getItem(cur);
             String excited = card.getUcFirstimg();
             Log.d("excited", "感兴趣 :" + excited);
-
-//            mImageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-//                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
-//                    intent.putExtra("id", card.getUserpublish().getId());
-//                    startActivity(intent);
-//                }
-//            });
         }
         if (triggerByTouchMove)
             mBottomLayout.getLikeView().animateDragAnimation();
@@ -660,9 +630,10 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 //        mSwipeFlingView.selectSuperLike(false);
         //int cur = Integer.valueOf(dataObject.toString());
         RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
-        Intent intent = new Intent(getActivity(), OtherUserDisplayActivity.class);
-        intent.putExtra("id",card.getUserpublish().getId());
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), ConversationDynamicFragment.class);
+//        intent.putExtra("id",card.getUserpublish().getId());
+//        startActivity(intent);
+        RongIM.getInstance().startPrivateChat(getContext(), card.getUserpublish().getId(), "title");
     }
 
     @Override
@@ -689,7 +660,11 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             String excited = card.getUcFirstimg();
             Log.d("excited", "clicked url :" + excited);
             display_big_image_layout.setVisibility(View.VISIBLE);
-            imageBigDatas = imageBigDatasList.get(mSwipeFlingView.getmCurPositon());
+            int mCurPosition = mSwipeFlingView.getmCurPositon();
+            if(mSwipeFlingView.getmCurPositon() > imageBigDatasList.size()){
+                mCurPosition = mSwipeFlingView.getmCurPositon() % imageBigDatasList.size();
+            }
+            imageBigDatas = imageBigDatasList.get(mCurPosition);
             for (int i = 0; i < imageBigDatas.size(); i++) {
                 String url = imageBigDatas.get(i);
                 ImageData imageData = new ImageData(url);

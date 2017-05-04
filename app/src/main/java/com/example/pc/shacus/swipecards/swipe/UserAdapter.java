@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pc.shacus.Activity.OtherUserActivity;
+import com.example.pc.shacus.Activity.OtherUserDisplayActivity;
 import com.example.pc.shacus.Data.Model.RecommandModel;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.example.pc.shacus.View.Custom.RoundImageView;
@@ -124,7 +125,7 @@ public class UserAdapter extends BaseAdapter {
         holder.selfMainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, OtherUserActivity.class);
+                Intent intent = new Intent(mContext, OtherUserDisplayActivity.class);
                 intent.putExtra("id", recommandModel.getUserpublish().getId());
                 mContext.startActivity(intent);
             }
