@@ -429,8 +429,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        int uid=getIntent().getIntExtra("uid",-1);
-        ucid=getIntent().getIntExtra("ucid",-1);
+        int uid=Integer.valueOf(getIntent().getStringExtra("uid"));
+        ucid=Integer.valueOf(getIntent().getStringExtra("ucid"));
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);

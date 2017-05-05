@@ -31,9 +31,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -124,6 +127,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean[] sex_selector = {true, false, false};
     private boolean[] people_selector = {true, false, false};
     private boolean[] selector = {true, false, false, true, false, false};
+
+    //底部弹出菜单
+    private FrameLayout bottomMenu;
+    private Animation get_photo_layout_in_from_down;
+    private Button button_create_yuepai;
+    private Button button_create_photoset;
+    private Button button_cancel_create;
+    private boolean uploadMenuIsOpen=false;
 
 
     @Override
@@ -349,6 +360,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(intent);
                 }
 
+            }
+        });
+
+        bottomMenu=(FrameLayout)findViewById(R.id.upload_bottom_entry);
+        button_create_yuepai=(Button)findViewById(R.id.create_yuepai);
+        button_create_photoset=(Button)findViewById(R.id.create_photoset);
+        button_cancel_create=(Button)findViewById(R.id.upload_cancel);
+        button_cancel_create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomMenu.setVisibility(View.GONE);
+                uploadMenuIsOpen=false;
+            }
+        });
+        button_create_yuepai.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                bottomMenu.setVisibility(View.GONE);
+                uploadMenuIsOpen=false;
+                startActivity(new Intent(MainActivity.this, CreateYuePaiActivity.class));
+            }
+        });
+        button_create_photoset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomMenu.setVisibility(View.GONE);
+                uploadMenuIsOpen=false;
+                Intent intent=new Intent(getApplicationContext(),PhotosAddActivity.class);
+                intent.putExtra("type",2);
+                startActivity(intent);
             }
         });
 
@@ -599,7 +640,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void toUpload() {
-        startActivity(new Intent(this, CreateYuePaiActivity.class));
+        uploadMenuIsOpen=true;
+        bottomMenu.setVisibility(View.VISIBLE);
+        get_photo_layout_in_from_down = AnimationUtils.loadAnimation(MainActivity.this, R.anim.search_layout_in_from_down);
+        bottomMenu.startAnimation(get_photo_layout_in_from_down);
     }
 
     Handler handler = new Handler();
@@ -613,6 +657,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
+        if (uploadMenuIsOpen){
+            uploadMenuIsOpen=false;
+            bottomMenu.setVisibility(View.GONE);
+            return;
+        }
         if (!exitFlag) {
             exitFlag = true;
             CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
@@ -746,11 +795,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (id == R.id.debug_photoset_detail) {//临时作品集入口
             Intent intent = new Intent(getApplicationContext(), PhotosetOverviewActivity.class);
-            intent.putExtra("uid", Integer.valueOf(user.getId()));
+            intent.putExtra("uid", user.getId());
             startActivity(intent);
         } else if (id == R.id.debug_photos_detail) {//临时个人照片入口
             Intent intent = new Intent(getApplicationContext(), PhotoselfDetailActivity.class);
-            intent.putExtra("uid", Integer.valueOf(user.getId()));
+            intent.putExtra("uid", user.getId());
             startActivity(intent);
         } else if (id == R.id.nav_Logout) {
             //登出请求

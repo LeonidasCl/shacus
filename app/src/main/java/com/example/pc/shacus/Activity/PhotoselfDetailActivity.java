@@ -287,7 +287,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        int uid=getIntent().getIntExtra("uid",-1);
+        int uid=Integer.valueOf(getIntent().getStringExtra("uid"));
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);

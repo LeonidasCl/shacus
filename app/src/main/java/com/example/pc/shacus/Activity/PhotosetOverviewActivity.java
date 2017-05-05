@@ -261,7 +261,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        uid=getIntent().getIntExtra("uid",-1);
+        uid=Integer.valueOf(getIntent().getStringExtra("uid"));
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
@@ -300,8 +300,8 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                         }
                     }
                     Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
-                    intent.putExtra("ucid",id);
-                    intent.putExtra("uid",uid);
+                    intent.putExtra("ucid",String.valueOf(id));
+                    intent.putExtra("uid",String.valueOf(uid));
                     startActivity(intent);
                 }
 
