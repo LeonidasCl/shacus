@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.pc.shacus.Activity.WebviewActivity;
 import com.example.pc.shacus.Data.Model.OrderFriendsModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
 import com.example.pc.shacus.R;
@@ -86,6 +88,7 @@ public class OrderFriendsAdapter extends BaseAdapter {
         String OFurl;
         String OFid;
 
+
         public ViewHolder(View view){
             OFTitle =(TextView)view.findViewById(R.id.orderfriends_title);
             OFContent =(TextView)view.findViewById(R.id.orderfriends_content);
@@ -108,39 +111,44 @@ public class OrderFriendsAdapter extends BaseAdapter {
             singleItem.setOnClickListener(new LinearLayout.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent= new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse(OFurl);
-                    intent.setData(content_url);
-                    try {
-                        activity.startActivity(intent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Intent intent=new Intent(activity,WebviewActivity.class);
+                    intent.putExtra("Url",OFurl);
+                    activity.startActivity(intent);
+//                    Intent intent= new Intent();
+//                    intent.setAction("android.intent.action.VIEW");
+//                    Uri content_url = Uri.parse(OFurl);
+//                    intent.setData(content_url);
+//                    try {
+//                        activity.startActivity(intent);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                 }
             });
 
-            Glide.with(activity)
-                    .load(picList.get(0))
-                    .placeholder(R.drawable.holder)
-                    .centerCrop()
-                    .dontAnimate()
-                    .error(R.drawable.loading_error)
-                    .into(Pic_1);
-            Glide.with(activity)
-                    .load(picList.get(1))
-                    .placeholder(R.drawable.holder)
-                    .centerCrop()
-                    .dontAnimate()
-                    .error(R.drawable.loading_error)
-                    .into(Pic_2);
-            Glide.with(activity)
-                    .load(picList.get(2))
-                    .placeholder(R.drawable.holder)
-                    .centerCrop()
-                    .dontAnimate()
-                    .error(R.drawable.loading_error)
-                    .into(Pic_3);
+            if(!picList.isEmpty()) {
+                Glide.with(activity)
+                        .load(picList.get(0))
+                        .placeholder(R.drawable.holder)
+                        .centerCrop()
+                        .dontAnimate()
+                        .error(R.drawable.loading_error)
+                        .into(Pic_1);
+                Glide.with(activity)
+                        .load(picList.get(1))
+                        .placeholder(R.drawable.holder)
+                        .centerCrop()
+                        .dontAnimate()
+                        .error(R.drawable.loading_error)
+                        .into(Pic_2);
+                Glide.with(activity)
+                        .load(picList.get(2))
+                        .placeholder(R.drawable.holder)
+                        .centerCrop()
+                        .dontAnimate()
+                        .error(R.drawable.loading_error)
+                        .into(Pic_3);
+            }
         }
     }
 }

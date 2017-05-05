@@ -244,10 +244,11 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="561cae6ae0f55abd990035bf"></meta-data>
+            android:value="561cae6ae0f55abd990035bf" />
 
-        <activity android:name=".Activity.OrderfriendsActivity"></activity>
-        <activity android:name=".Activity.YuePaiDetailActivity_new"/>
+        <activity android:name=".Activity.OrderfriendsActivity" />
+        <activity android:name=".Activity.YuePaiDetailActivity_new" />
+        <activity android:name=".Activity.WebviewActivity"></activity>
     </application>
 
 </manifest>
