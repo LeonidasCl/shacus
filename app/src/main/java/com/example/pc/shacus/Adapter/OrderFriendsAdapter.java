@@ -127,27 +127,31 @@ public class OrderFriendsAdapter extends BaseAdapter {
             });
 
             if(!picList.isEmpty()) {
-                Glide.with(activity)
-                        .load(picList.get(0))
-                        .placeholder(R.drawable.holder)
-                        .centerCrop()
-                        .dontAnimate()
-                        .error(R.drawable.loading_error)
-                        .into(Pic_1);
-                Glide.with(activity)
-                        .load(picList.get(1))
-                        .placeholder(R.drawable.holder)
-                        .centerCrop()
-                        .dontAnimate()
-                        .error(R.drawable.loading_error)
-                        .into(Pic_2);
-                Glide.with(activity)
-                        .load(picList.get(2))
-                        .placeholder(R.drawable.holder)
-                        .centerCrop()
-                        .dontAnimate()
-                        .error(R.drawable.loading_error)
-                        .into(Pic_3);
+                try {
+                    Glide.with(activity)
+                            .load(picList.get(0))
+                            .placeholder(R.drawable.holder)
+                            .centerCrop()
+                            .dontAnimate()
+                            .error(R.drawable.loading_error)
+                            .into(Pic_1);
+                    Glide.with(activity)
+                            .load(picList.get(1))
+                            .placeholder(R.drawable.holder)
+                            .centerCrop()
+                            .dontAnimate()
+                            .error(R.drawable.loading_error)
+                            .into(Pic_2);
+                    Glide.with(activity)
+                            .load(picList.get(2))
+                            .placeholder(R.drawable.holder)
+                            .centerCrop()
+                            .dontAnimate()
+                            .error(R.drawable.loading_error)
+                            .into(Pic_3);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
