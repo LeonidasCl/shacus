@@ -26,7 +26,7 @@ public class WebviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
 
         back=(TextView) findViewById(R.id.orderfriends_toolbar_back);
-        back.setText("×");
+        back.setText("╳");
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
