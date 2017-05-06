@@ -24,6 +24,7 @@ import com.example.pc.shacus.Activity.YuePaiDetailActivity_new;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.PhotographerModel;
+import com.example.pc.shacus.Data.Model.UserModel;
 import com.example.pc.shacus.Network.NetRequest;
 import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
@@ -155,13 +156,21 @@ public class YuePaiAdapter_new  extends BaseAdapter {
             String userheadimg = item.getUserModel().getHeadImage();
             Glide.with(activity)
                     .load(userheadimg)
+                    .asBitmap()
+                    .centerCrop()
                     .into(user_image);
             user_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent in = new Intent(activity, OtherUserDisplayActivity.class);
-                    in.putExtra("id", item.getUserModel().getId());
-                    activity.startActivity(in);
+                    ACache cache=ACache.get(activity);
+                    LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
+                    UserModel userModel=loginModel.getUserModel();
+                    if (! userModel.getId().equals(item.getUserModel().getId())){
+                        Intent in = new Intent(activity, OtherUserDisplayActivity.class);
+                        in.putExtra("id", item.getUserModel().getId());
+                        activity.startActivity(in);
+                    }
+
                 }
             });
             //用户昵称
@@ -218,6 +227,8 @@ public class YuePaiAdapter_new  extends BaseAdapter {
                 for(int i = 0; i < 3;i++){
                     Glide.with(activity)
                             .load((imgs.get(i)))
+                            .asBitmap()
+                            .centerCrop()
                             .placeholder(R.drawable.holder)
                             .error(R.drawable.loading_error)
                             .into(photoset_img_list.get(i));
@@ -232,11 +243,15 @@ public class YuePaiAdapter_new  extends BaseAdapter {
                 photoset_img_count.setVisibility(View.INVISIBLE);
                 Glide.with(activity)
                         .load((imgs.get(0)))
+                        .asBitmap()
+                        .centerCrop()
                         .placeholder(R.drawable.holder)
                         .error(R.drawable.loading_error)
                         .into(photoset_img_list.get(0));
                 Glide.with(activity)
                         .load((imgs.get(1)))
+                        .asBitmap()
+                        .centerCrop()
                         .placeholder(R.drawable.holder)
                         .error(R.drawable.loading_error)
                         .into(photoset_img_list.get(1));
@@ -249,6 +264,8 @@ public class YuePaiAdapter_new  extends BaseAdapter {
                 photoset_img_count.setVisibility(View.INVISIBLE);
                 Glide.with(activity)
                         .load((imgs.get(0)))
+                        .asBitmap()
+                        .centerCrop()
                         .placeholder(R.drawable.holder)
                         .error(R.drawable.loading_error)
                         .into(photoset_img_list.get(0));

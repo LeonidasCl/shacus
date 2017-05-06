@@ -5,10 +5,32 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:background="#00000000">
+
+    <LinearLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/invis"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:background="#AA000000"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:textColor="@color/ff_white"
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="返回顶部"
+            android:textSize="@dimen/sp_14"/>
+    </LinearLayout>
+
 <android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recyclerView"
+    android:layout_below="@id/invis"
     android:scrollbars="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
