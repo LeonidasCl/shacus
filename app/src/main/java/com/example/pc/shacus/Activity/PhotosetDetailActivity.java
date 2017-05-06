@@ -352,19 +352,19 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     if (requestUrl.equals(CommonUrl.praisePhotoset)) {
                                         JSONObject object = new JSONObject(result);
                                         int code = Integer.valueOf(object.getString("code"));
-                                        if (code == StatusCode.PRAISE_PHOTOSET) {
+                                        if (code == StatusCode.PRAISE_PHOTOSET_SUCCESS) {
                                             detailData.setUserIsLiked("1");
                                             Message msg=handler.obtainMessage();
-                                            msg.what= StatusCode.PRAISE_PHOTOSET;
-                                            detailData.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) + 1 + "");
+                                            msg.what= StatusCode.PRAISE_PHOTOSET_SUCCESS;
+                                            detailData.setUserlikeNum(Integer.valueOf(detailData.getUserlikeNum()) + 1 + "");
                                             handler.sendMessage(msg);
                                             return;
                                         }
-                                        if (code == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                                        if (code == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
                                             detailData.setUserIsLiked("0");
                                             Message msg=handler.obtainMessage();
-                                            msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET;
-                                            detailData.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) - 1 + "");
+                                            msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS;
+                                            detailData.setUserlikeNum(Integer.valueOf(detailData.getUserlikeNum()) - 1 + "");
                                             handler.sendMessage(msg);
                                             return;
                                         }
@@ -411,13 +411,35 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
                     return;
                 }
-                if (msg.what== StatusCode.PRAISE_PHOTOSET){
+                if (msg.what== StatusCode.PRAISE_PHOTOSET_SUCCESS){
                     btn_photoset_addlike.setClickable(true);
                     btn_photoset_addlike.setSelected(true);
                     btn_photoset_likecount.setText(detailData.getUserlikeNum());
+                    JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
+                    photoset_grid_join_user_scroll.setAdapter(adapter);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    photoset_grid_join_user_scroll.setLayoutParams(params);
+                    photoset_grid_join_user_scroll.setColumnWidth(130);
+                    photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
+                    int itemCount = adapter.getCount();
+                    photoset_grid_join_user_scroll.setNumColumns(itemCount);
+
+                    btn_photoset_addlike.setSelected(false);
+                    btn_photoset_likecount.setText(detailData.getUserlikeNum());
                 }
-                if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
                     btn_photoset_addlike.setClickable(true);
+                    btn_photoset_addlike.setSelected(false);
+                    btn_photoset_likecount.setText(detailData.getUserlikeNum());
+                    JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
+                    photoset_grid_join_user_scroll.setAdapter(adapter);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    photoset_grid_join_user_scroll.setLayoutParams(params);
+                    photoset_grid_join_user_scroll.setColumnWidth(130);
+                    photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
+                    int itemCount = adapter.getCount();
+                    photoset_grid_join_user_scroll.setNumColumns(itemCount);
+
                     btn_photoset_addlike.setSelected(false);
                     btn_photoset_likecount.setText(detailData.getUserlikeNum());
                 }

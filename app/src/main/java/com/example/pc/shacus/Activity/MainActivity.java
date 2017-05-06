@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button_create_yuepai=(Button)findViewById(R.id.create_yuepai);
         button_create_photoset=(Button)findViewById(R.id.create_photoset);
         button_cancel_create=(Button)findViewById(R.id.upload_cancel);
-        button_cancel_create.setOnClickListener(new View.OnClickListener() {
+        button_cancel_create.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 bottomMenu.setVisibility(View.GONE);
