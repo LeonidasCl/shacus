@@ -147,6 +147,28 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         editinfo.setText("关注");
 
 
+        LinearLayout grzp = (LinearLayout) findViewById(R.id.grzp);
+        LinearLayout zpj = (LinearLayout) findViewById(R.id.zpj);
+
+        grzp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OtherUserDisplayActivity.this,PhotoselfDetailActivity.class);
+                intent.putExtra("uid",otherId);
+                startActivity(intent);
+            }
+        });
+
+
+        zpj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OtherUserDisplayActivity.this,PhotosetOverviewActivity.class);
+                intent.putExtra("uid",otherId);
+                startActivity(intent);
+            }
+        });
+
         grzp_i1 = (ImageView) findViewById(R.id.grzp_i1);
         grzp_i2 = (ImageView) findViewById(R.id.grzp_i2);
 //        grzp_i3 = (ImageView) findViewById(R.id.grzp_i3);
@@ -530,6 +552,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         Message message = new Message();
         if (requestUrl.equals(CommonUrl.otherUserInfo)){
             JSONObject object = new JSONObject(result);
+            Log.d("PPPPPPPPPPPPPPPPP",object.toString());
             int code = Integer.valueOf(object.getString("code"));
             if (code == StatusCode.RECIEVE_VISIT_SUCCESS) {
                 JSONObject object1 = object.getJSONObject("contents");

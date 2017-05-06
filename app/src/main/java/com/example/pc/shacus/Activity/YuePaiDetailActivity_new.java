@@ -207,6 +207,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
     private RatingBar tworb;
     private TextView twopj;
 
+    private LinearLayout waitotherpj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -227,7 +229,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        String uid=userModel.getId();
+        final String uid=userModel.getId();
 
         self=this;
 
@@ -272,6 +274,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
         twopj = (TextView) findViewById(R.id.twopj);
         twoname = (TextView) findViewById(R.id.twoname);
         tworb = (RatingBar) findViewById(R.id.tworb);
+        waitotherpj = (LinearLayout) findViewById(R.id.waitotherpj);
 
         if (typo.equals("yuepai"))
             request.httpRequest(map, CommonUrl.getYuePaiInfo);
@@ -378,7 +381,21 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     user_name.setText(data.getUseralais());
                     Glide.with(YuePaiDetailActivity_new.this)
                             .load(data.getUserimg())
+                            .asBitmap()
+                            .centerCrop()
                             .into(userImage);
+
+
+                    userImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (! String.valueOf(data.getAPsponsorid()).equals(uid)){
+                                Intent in = new Intent(YuePaiDetailActivity_new.this, OtherUserDisplayActivity.class);
+                                in.putExtra("id", String.valueOf(data.getAPsponsorid()));
+                                startActivity(in);
+                            }
+                        }
+                    });
 
                     String sexual = data.getUsex();
                     if (sexual.equals("男"))
@@ -468,8 +485,10 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                             });
                         }
                         if (data.getAPstatus() == 3){//3是结束了,一方给出了评价
-                            if (data.getUsercommented() == 1)
+                            if (data.getUsercommented() == 1){
                                 selectJoinUser.setVisibility(View.GONE);
+                                waitotherpj.setVisibility(View.VISIBLE);
+                            }
                             else{
                                 baominguser.setVisibility(View.VISIBLE);
                                 selectJoinUser.setVisibility(View.VISIBLE);
@@ -595,8 +614,10 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                         }
 
                         if (data.getAPstatus() == 3){//3是结束了一方给出了评价
-                            if (data.getUsercommented() == 1)
+                            if (data.getUsercommented() == 1){
                                 selectJoinUser.setVisibility(View.GONE);
+                                waitotherpj.setVisibility(View.VISIBLE);
+                            }
                             else{
                                 baominguser.setVisibility(View.VISIBLE);
                                 selectJoinUser.setVisibility(View.VISIBLE);
@@ -622,6 +643,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                             Log.d("TTTTTTTTTTTTTTT1", data.getComment().get(0).getUheadimage().toString());
                             Glide.with(YuePaiDetailActivity_new.this)
                                     .load(data.getComment().get(0).getUheadimage().toString())
+                                    .asBitmap()
+                                    .centerCrop()
                                     .error(R.drawable.loading_error)
                                     .into(oneimage);
                             onename.setText(data.getComment().get(0).getUalias().toString());
@@ -630,6 +653,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                             onerb.setClickable(false);
                             Glide.with(YuePaiDetailActivity_new.this)
                                     .load(data.getComment().get(1).getUheadimage().toString())
+                                    .asBitmap()
+                                    .centerCrop()
                                     .error(R.drawable.loading_error)
                                     .into(twoimage);
                             Log.d("TTTTTTTTTTTTTTT2",data.getComment().get(1).getUheadimage().toString());
@@ -672,6 +697,8 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     user_name.setText(data.getUseralais());
                     Glide.with(YuePaiDetailActivity_new.this)
                             .load(data.getUserimg())
+                            .asBitmap()
+                            .centerCrop()
                             .placeholder(R.drawable.holder)
                             .error(R.drawable.loading_error)
                             .into(userImage);
@@ -951,7 +978,9 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
             //views.add(BGABannerUtil.getItemImageView(this, R.drawable.holder));
             ImageView imageView=new ImageView(this);
             Glide.with(this)
-                    .load(imgs.get(i)).centerCrop()
+                    .load(imgs.get(i))
+                    .asBitmap()
+                    .centerCrop()
                     .placeholder(R.drawable.huodong_loading)
                             //.error(R.drawable.loading_error)
                     .into(imageView);

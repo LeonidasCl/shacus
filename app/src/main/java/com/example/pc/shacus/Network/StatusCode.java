@@ -69,6 +69,9 @@ public interface StatusCode {
     int REQUEST_DONE_ORDER = 10903; //请求用户所有的已完成的约拍和活动
     int REQUEST_DONE_SUCCESS = 10394; //请求已完成成功
 
+    int REQUEST_PJ_DONE_ORDER = 10909;
+    int REQUEST_PJ_DONE_SUCCESS = 10395;
+
     int REQUEST_FAVOR_YUEPAI = 10541; //请求所有收藏的约拍
     int REQUEST_FAVOR_HUODONG = 10542; //请求所有收藏的活动
 

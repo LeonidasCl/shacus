@@ -446,6 +446,26 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:id="@+id/waitotherpj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/banner_detail_zoom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@color/hint"
+                    android:textSize="@dimen/sp_16"
+                    android:text= "等待对方评价"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/baominguser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -543,11 +563,12 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:visibility="gone"
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/loading_bg"
-        android:visibility="gone">
+        android:background="@drawable/loading_bg">
+
         <com.example.pc.shacus.View.Custom.LoadingRotate
             android:layout_width="100dp"
             android:layout_height="100dp"

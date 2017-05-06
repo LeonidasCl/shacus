@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -135,6 +136,8 @@ public class WantBePhotographActivity extends AppCompatActivity {
         private NetRequest requestFragment;
         List<PhotographerModel> yuepaiList = new ArrayList<>();
         private boolean isloading=false;
+        private LinearLayout invis;
+
         private Handler handler=new Handler(){
             @Override
             public void handleMessage(Message msg){
@@ -176,7 +179,10 @@ public class WantBePhotographActivity extends AppCompatActivity {
             personAdapter = new YuePaiAdapter_new(getActivity(),subList);
             listView = (ListView) rootView.findViewById(R.id.person_list);
             refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+            refreshLayout.setEnabled(false);
             listView.setAdapter(personAdapter);
+
+            invis = (LinearLayout) rootView.findViewById(R.id.invis);
 
             ACache cache=ACache.get(getActivity());
             userModel = (LoginDataModel) cache.getAsObject("loginModel");
@@ -191,6 +197,14 @@ public class WantBePhotographActivity extends AppCompatActivity {
 
             onScrollListener();
             onRefreshListener();
+
+            invis.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    personAdapter.notifyDataSetChanged();
+                    listView.setSelection(0);
+                }
+            });
             return rootView;
         }
 
@@ -199,7 +213,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
             map.put("type", WANT_BE_PHOTOGRAPH);//10235想被拍的约拍列表（模特发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
-            map.put("group",type);
+            map.put("group", type);
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
         }
 
@@ -246,6 +260,18 @@ public class WantBePhotographActivity extends AppCompatActivity {
                     if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords){
                         doLoadmore();
                     }
+
+                    if (firstVisibleItem >= 1){
+                        invis.setVisibility(View.VISIBLE);
+                    } else{
+                        invis.setVisibility(View.GONE);
+                    }
+
+                    if(firstVisibleItem == 0){
+                        refreshLayout.setEnabled(true);
+                    }else{
+                        refreshLayout.setEnabled(false);
+                    }
                 }
             });
         }
@@ -265,6 +291,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
                     yuepaiList.add(photo);*/
                     PhotographerModel photographerModel = new PhotographerModel();
                     UserModel userModel = new UserModel();
+                    userModel.setId(String.valueOf(info.get("sponsorid")));
                     userModel.setLocation(info.getString("Userlocation"));
                     userModel.setNickName(info.getString("Useralais"));
                     userModel.setAge(info.getString("Userage"));
@@ -308,6 +335,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
                     addList.add(photo);*/
                     PhotographerModel photographerModel = new PhotographerModel();
                     UserModel userModel = new UserModel();
+                    userModel.setId(String.valueOf(info.get("sponsorid")));
                     userModel.setLocation(info.getString("Userlocation"));
                     userModel.setNickName(info.getString("Useralais"));
                     userModel.setAge(info.getString("Userage"));
