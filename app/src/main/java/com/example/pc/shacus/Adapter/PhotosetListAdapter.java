@@ -157,9 +157,17 @@ public class PhotosetListAdapter extends BaseAdapter {
 
                     if (msg.what== StatusCode.PRAISE_PHOTOSET_SUCCESS){
                         btn_photoset_addlike.setClickable(true);
-                        List<UserModel> userlike=item.getUserlikeList();
-                        userlike.add(userModel);
-                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
+                        List<UserModel> list=item.getUserlikeList();
+                        boolean add=true;
+                        for (int i=0;i<list.size();i++){
+                            UserModel model=list.get(i);
+                            if (model.getId().equals(userModel.getId())){
+                                add=false;
+                            }
+                        }
+                        if (add)
+                            item.getUserlikeList().add(userModel);
+                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, item.getUserlikeList(),true);
                         photoset_grid_join_user_scroll.setAdapter(adapter);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
                         photoset_grid_join_user_scroll.setLayoutParams(params);
@@ -173,8 +181,7 @@ public class PhotosetListAdapter extends BaseAdapter {
                     }
                     if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
                         btn_photoset_addlike.setClickable(true);
-                        List<UserModel> userlike=item.getUserlikeList();
-                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
+                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, item.getUserlikeList(),true);
                         photoset_grid_join_user_scroll.setAdapter(adapter);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
                         photoset_grid_join_user_scroll.setLayoutParams(params);
@@ -362,9 +369,9 @@ public class PhotosetListAdapter extends BaseAdapter {
                                         UserModel model=list.get(i);
                                         if (model.getId().equals(userModel.getId())){
                                             list.remove(i);
-                                            break;
                                         }
                                     }
+                                    item.setUserlikeList(list);
                                     item.setUserlikeNum(Integer.valueOf(item.getUserlikeNum())-1+"");
                                     handler.sendMessage(msg);
                                     return;

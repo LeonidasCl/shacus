@@ -338,10 +338,12 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
                     //处理点赞逻辑
                     String isLiked=detailData.getUserIsLiked();
-                    if (isLiked.equals("1"))
+                    if (isLiked.equals("1")){
                         btn_photoset_addlike.setSelected(true);
-                    else
+                    }
+                    else{
                         btn_photoset_addlike.setSelected(false);
+                    }
                     btn_photoset_addlike.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v){
@@ -362,6 +364,14 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                         }
                                         if (code == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
                                             detailData.setUserIsLiked("0");
+                                            List<UserModel> list=detailData.getUserlikeList();
+                                            for (int i=0;i<list.size();i++){
+                                                UserModel model=list.get(i);
+                                                if (model.getId().equals(userModel.getId())){
+                                                    list.remove(i);
+                                                }
+                                            }
+                                            detailData.setUserlikeList(list);
                                             Message msg=handler.obtainMessage();
                                             msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS;
                                             detailData.setUserlikeNum(Integer.valueOf(detailData.getUserlikeNum()) - 1 + "");
@@ -413,8 +423,16 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                 }
                 if (msg.what== StatusCode.PRAISE_PHOTOSET_SUCCESS){
                     btn_photoset_addlike.setClickable(true);
-                    btn_photoset_addlike.setSelected(true);
-                    btn_photoset_likecount.setText(detailData.getUserlikeNum());
+                    List<UserModel> list=detailData.getUserlikeList();
+                    boolean add=true;
+                    for (int i=0;i<list.size();i++){
+                        UserModel model=list.get(i);
+                        if (model.getId().equals(userModel.getId())){
+                            add=false;
+                        }
+                    }
+                    if (add)
+                        detailData.getUserlikeList().add(userModel);
                     JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
                     photoset_grid_join_user_scroll.setAdapter(adapter);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -424,13 +442,11 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     int itemCount = adapter.getCount();
                     photoset_grid_join_user_scroll.setNumColumns(itemCount);
 
-                    btn_photoset_addlike.setSelected(false);
+                    btn_photoset_addlike.setSelected(true);
                     btn_photoset_likecount.setText(detailData.getUserlikeNum());
                 }
                 if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
                     btn_photoset_addlike.setClickable(true);
-                    btn_photoset_addlike.setSelected(false);
-                    btn_photoset_likecount.setText(detailData.getUserlikeNum());
                     JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
                     photoset_grid_join_user_scroll.setAdapter(adapter);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
