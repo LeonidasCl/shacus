@@ -84,9 +84,6 @@ public class PhotosetItemModel implements Serializable{
         return UserPublish;
     }
 
-    public void setUserHeadimg(UserModel userHeadimg) {
-        UserPublish = userHeadimg;
-    }
 
     public List<ImageData> getUCsimpleimg() {
         return UCsimpleimg;
@@ -134,5 +131,9 @@ public class PhotosetItemModel implements Serializable{
 
     public void setUserIsLiked(String userIsLiked) {
         UserIsLiked = userIsLiked;
+    }
+
+    public void setUserPublish(UserModel userPublish) {
+        UserPublish = userPublish;
     }
 }

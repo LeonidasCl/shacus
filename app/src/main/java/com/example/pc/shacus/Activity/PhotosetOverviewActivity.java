@@ -301,7 +301,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                     }
                     Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
                     intent.putExtra("ucid",String.valueOf(id));
-                    intent.putExtra("uid",String.valueOf(uid));
+                    intent.putExtra("uid",uid);
                     startActivity(intent);
                 }
 

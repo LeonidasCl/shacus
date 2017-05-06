@@ -297,7 +297,7 @@ public class PhotosetListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, PhotosetDetailActivity.class);
                     intent.putExtra("ucid",String.valueOf(item.getUCid()));
-                    intent.putExtra("uid",userModel.getId());
+                    intent.putExtra("uid",item.getUserHeadimg().getId());
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     activity.startActivity(intent);
                 }
