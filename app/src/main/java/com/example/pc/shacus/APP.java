@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,9 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -35,7 +39,9 @@ import com.umeng.socialize.UMShareAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +68,23 @@ public class APP extends MultiDexApplication {
         super.onCreate();
         context = this;
         applicationContext = this;
+
+        //腾讯bugly设置为调试模式，crash立即上报
+        Context context = getApplicationContext();
+        // 获取当前包名
+        String packageName = context.getPackageName();
+        // 获取当前进程名
+        String processName = getProcessName(android.os.Process.myPid());
+        // 设置是否为上报进程
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+        //版本号
+        strategy.setAppVersion("2.0.3");
+        // 初始化Bugly
+        //CrashReport.initCrashReport(context, "1400014460", true, strategy);
+        Beta.initDelay = 15 * 1000;
+        Bugly.init(getApplicationContext(), "1400014460", true, strategy);
+
         getScreenDimension();
         initImageLoader(this);
         /*当前版本不做推送服务
@@ -73,6 +96,7 @@ public class APP extends MultiDexApplication {
         } catch (RongException e) {
             e.printStackTrace();
         }*/
+
         Config.DEBUG = true;
         UMShareAPI.get(this);
         RongIM.init(this);
@@ -280,6 +304,35 @@ public class APP extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    /**
+     * 获取进程号对应的进程名
+     *
+     * @param pid 进程号
+     * @return 进程名
+     */
+    private static String getProcessName(int pid) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String processName = reader.readLine();
+            if (!TextUtils.isEmpty(processName)) {
+                processName = processName.trim();
+            }
+            return processName;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return null;
     }
 
 }

@@ -28,6 +28,8 @@ import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.google.gson.Gson;
+import com.tencent.bugly.crashreport.CrashReport;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -269,6 +271,10 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         //获取作品集列表
         request.httpRequest(map, CommonUrl.imgSelfAndSets);
 
+        //测试崩溃点
+        //不要取消注释！！！
+        //CrashReport.testJavaCrash();
+
     }
 
     private void setupFluidGrid(){
@@ -301,7 +307,7 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                     }
                     Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
                     intent.putExtra("ucid",String.valueOf(id));
-                    intent.putExtra("uid",uid);
+                    intent.putExtra("uid",String.valueOf(uid));
                     startActivity(intent);
                 }
 

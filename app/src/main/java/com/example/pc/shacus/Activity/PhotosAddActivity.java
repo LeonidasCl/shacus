@@ -244,8 +244,8 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                     case StatusCode.PHOTOSET_ADD_IMGS_2:
                         CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"作品集更新成功");
                         Intent intnt3=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
-                        intnt3.putExtra("uid",Integer.valueOf(user.getId()));
-                        intnt3.putExtra("ucid",apId);
+                        intnt3.putExtra("uid",user.getId());
+                        intnt3.putExtra("ucid",String.valueOf(apId));
                         startActivity(intnt3);
                         finish();
                         break;

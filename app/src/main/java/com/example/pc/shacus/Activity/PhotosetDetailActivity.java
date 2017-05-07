@@ -94,6 +94,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
     private ImageView theme_add_picture_icon;
 
+    private boolean isBigImageShowing=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -534,6 +536,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
     }
 
     private void showImagePager(String startPositionUrl) {
+        isBigImageShowing=true;
         int position=-1;
         final int size=imageBigDatas.size();
         for (int index=0;index<size;index++){
@@ -566,7 +569,16 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
     @Override
     public void onDismissBigPhoto() {
+        isBigImageShowing=false;
         display_big_image_layout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isBigImageShowing)
+            onDismissBigPhoto();
+        else
+            finish();
     }
 
     @Override

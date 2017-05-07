@@ -3,6 +3,7 @@
     package="com.example.pc.shacus">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -49,10 +50,25 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.pc.shacus.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <!-- SOSO 地图位置 -->
         <activity
             android:name=".Activity.SOSOLocationActivity"
             android:screenOrientation="portrait" />
+        <!--bugly升级提示框-->
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent"/>
         <activity
             android:name=".Activity.GuideActivity"
             android:label="@string/app_name"

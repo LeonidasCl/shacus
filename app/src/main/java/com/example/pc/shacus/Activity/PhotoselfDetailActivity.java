@@ -78,6 +78,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
     private ArrayList<String> imgToDelete=new ArrayList<>();
     private int isself=1;//是否为自己，默认不是自己
     private ImageView theme_add_picture_icon;
+    private boolean isBigImageShowing=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -352,6 +353,7 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
     }
 
     private void showImagePager(String startPositionUrl){
+        isBigImageShowing=true;
         int position=-1;
         final int size=imageBigDatas.size();
         for (int index=0;index<size;index++){
@@ -384,7 +386,16 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
 
     @Override
     public void onDismissBigPhoto() {
+        isBigImageShowing=false;
         display_big_image_layout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isBigImageShowing)
+            onDismissBigPhoto();
+        else
+            finish();
     }
 
     @Override

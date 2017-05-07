@@ -9,10 +9,14 @@ android {
         applicationId "com.example.pc.shacus"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "2.0.3"
         multiDexEnabled true
         //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
     buildTypes {
         release {
@@ -77,4 +81,9 @@ dependencies {
 
     //用于解决multidex问题
     compile 'com.android.support:multidex:1.0.1'
+
+    //腾讯bugly框架
+    //compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
 }
