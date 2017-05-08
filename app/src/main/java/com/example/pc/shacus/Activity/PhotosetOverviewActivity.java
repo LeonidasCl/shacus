@@ -28,6 +28,8 @@ import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
 import com.google.gson.Gson;
+import com.tencent.bugly.crashreport.CrashReport;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -261,13 +263,17 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        uid=getIntent().getIntExtra("uid",-1);
+        uid=Integer.valueOf(getIntent().getStringExtra("uid"));
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
         map.put("type",StatusCode.PHOTOSET_BIGIMG);
         //获取作品集列表
         request.httpRequest(map, CommonUrl.imgSelfAndSets);
+
+        //测试崩溃点
+        //不要取消注释！！！
+        //CrashReport.testJavaCrash();
 
     }
 
@@ -300,8 +306,8 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
                         }
                     }
                     Intent intent=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
-                    intent.putExtra("ucid",id);
-                    intent.putExtra("uid",uid);
+                    intent.putExtra("ucid",String.valueOf(id));
+                    intent.putExtra("uid",String.valueOf(uid));
                     startActivity(intent);
                 }
 

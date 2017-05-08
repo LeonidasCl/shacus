@@ -63,7 +63,7 @@ public class OrderfriendsActivity extends AppCompatActivity implements NetworkCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderfriends);
 
-        back=(TextView) findViewById(R.id.photoset_toolbar_back);
+        back=(TextView) findViewById(R.id.orderfriends_toolbar_back);
         back.setText("＜返回");
         back.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -72,7 +72,7 @@ public class OrderfriendsActivity extends AppCompatActivity implements NetworkCa
             }
         });
 
-        title=(TextView)findViewById(R.id.photoset_toolbar_title);
+        title=(TextView)findViewById(R.id.orderfriends_toolbar_title);
         title.setText("约拍伴侣");
 
         refreshLayout = (RefreshView) findViewById(R.id.orderfriends_swiperefresh_layout);

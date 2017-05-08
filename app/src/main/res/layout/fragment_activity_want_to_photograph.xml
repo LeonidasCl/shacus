@@ -9,20 +9,46 @@
     tools:context="com.example.pc.shacus.Activity.WantBePhotographActivity$PlaceholderFragment">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.example.pc.shacus.View.SimpleSwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ListView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="5dp"
-            android:layout_below="@+id/title_person_list"
-            android:id="@+id/person_list"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/invis"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="#AAABC236"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/top"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="返回顶部"
+                    android:textSize="@dimen/sp_14"/>
+            </LinearLayout>
+
+            <ListView
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="5dp"
+                android:id="@+id/person_list" />
+
+        </LinearLayout>
+
+
+    </com.example.pc.shacus.View.SimpleSwipeRefreshLayout>
 
 </RelativeLayout>

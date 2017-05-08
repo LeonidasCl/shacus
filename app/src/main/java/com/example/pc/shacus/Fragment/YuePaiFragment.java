@@ -20,6 +20,7 @@ import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.OrderfriendsActivity;
 import com.example.pc.shacus.Activity.WantToPhotographActivity;
 import com.example.pc.shacus.Activity.WantBePhotographActivity;
+import com.example.pc.shacus.Activity.WebviewActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.LoginDataModel;
 import com.example.pc.shacus.Data.Model.NavigationModel;
@@ -238,15 +239,27 @@ public class YuePaiFragment extends android.support.v4.app.Fragment implements N
             public void onClickBannerItem(int position) {
 
                 if (position==0){
+                    Intent intent=new Intent(getActivity(),WebviewActivity.class);
+                    intent.putExtra("Url",navigationBar.get(0).getWeburl());
+                    startActivity(intent);
                 }
 
                 if (position==1){
+                    Intent intent=new Intent(getActivity(),WebviewActivity.class);
+                    intent.putExtra("Url",navigationBar.get(1).getWeburl());
+                    startActivity(intent);
                 }
 
                if(position==2) {
+                   Intent intent=new Intent(getActivity(),WebviewActivity.class);
+                   intent.putExtra("Url",navigationBar.get(2).getWeburl());
+                   startActivity(intent);
                }
 
                 if (position==3){
+                    Intent intent=new Intent(getActivity(),WebviewActivity.class);
+                    intent.putExtra("Url",navigationBar.get(3).getWeburl());
+                    startActivity(intent);
                 }
             }
         });

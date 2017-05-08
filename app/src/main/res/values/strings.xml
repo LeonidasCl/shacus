@@ -126,6 +126,9 @@
     <string name="strholder_photoset1">作品集的标题</string>
     <string name="strholder_photoset2">作品集的内容描述内容描述内容描述</string>
     <string name="self_main">个人主页</string>
+    <string name="create_yuepai_entry">发起约拍</string>
+    <string name="create_photoset_entry">发布作品集</string>
+    <string name="upload_cancel">取消</string>
     <drawable name="followt">#ccE6BF66</drawable>
     <drawable name="followf">#cc000000</drawable>
 

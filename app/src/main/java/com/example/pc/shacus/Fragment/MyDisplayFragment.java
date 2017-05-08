@@ -310,7 +310,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(),PhotoselfDetailActivity.class);
-                intent.putExtra("uid",Integer.valueOf(model.getUserModel().getId()));
+                intent.putExtra("uid",model.getUserModel().getId());
                 startActivity(intent);
             }
         });
@@ -320,7 +320,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(),PhotosetOverviewActivity.class);
-                intent.putExtra("uid",Integer.valueOf(model.getUserModel().getId()));
+                intent.putExtra("uid",model.getUserModel().getId());
                 startActivity(intent);
             }
         });

@@ -19,6 +19,46 @@
         android:layout_height="?attr/actionBarSize"
         android:gravity="center"/>
     <include layout="@layout/content_main" />
+
+    <!-- 底部菜单 -->
+    <FrameLayout
+        android:id="@+id/upload_bottom_entry"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#ccE6BF66">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/create_yuepai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/rc_draft_color"
+                android:text="@string/create_yuepai_entry"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/create_photoset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/main_green"
+                android:text="@string/create_photoset_entry"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/upload_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ff_white"
+                android:text="@string/upload_cancel"
+                android:textColor="@color/zero_black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </FrameLayout>
+
 </android.support.design.widget.CoordinatorLayout>
 
     <!--侧滑菜单-->

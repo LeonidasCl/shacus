@@ -228,7 +228,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                     case StatusCode.PHOTOSELF_ADD_IMGS_2:
                         CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"上传成功");
                         Intent intnt1=new Intent(getApplicationContext(),PhotoselfDetailActivity.class);
-                        intnt1.putExtra("uid",Integer.valueOf(user.getId()));
+                        intnt1.putExtra("uid",user.getId());
                         startActivity(intnt1);
                         finish();
                         break;
@@ -236,7 +236,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                     case StatusCode.PHOTOSET_ADD_SETS_2:
                         CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"作品集发布成功");
                         Intent intnt2=new Intent(getApplicationContext(),PhotosetOverviewActivity.class);
-                        intnt2.putExtra("uid",Integer.valueOf(user.getId()));
+                        intnt2.putExtra("uid",user.getId());
                         startActivity(intnt2);
                         finish();
                         break;
@@ -244,8 +244,8 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
                     case StatusCode.PHOTOSET_ADD_IMGS_2:
                         CommonUtils.getUtilInstance().showToast(PhotosAddActivity.this,"作品集更新成功");
                         Intent intnt3=new Intent(getApplicationContext(),PhotosetDetailActivity.class);
-                        intnt3.putExtra("uid",Integer.valueOf(user.getId()));
-                        intnt3.putExtra("ucid",apId);
+                        intnt3.putExtra("uid",user.getId());
+                        intnt3.putExtra("ucid",String.valueOf(apId));
                         startActivity(intnt3);
                         finish();
                         break;

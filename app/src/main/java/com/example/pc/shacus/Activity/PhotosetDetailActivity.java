@@ -94,6 +94,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
     private ImageView theme_add_picture_icon;
 
+    private boolean isBigImageShowing=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -338,10 +340,12 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
                     //处理点赞逻辑
                     String isLiked=detailData.getUserIsLiked();
-                    if (isLiked.equals("1"))
+                    if (isLiked.equals("1")){
                         btn_photoset_addlike.setSelected(true);
-                    else
+                    }
+                    else{
                         btn_photoset_addlike.setSelected(false);
+                    }
                     btn_photoset_addlike.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v){
@@ -352,20 +356,27 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                     if (requestUrl.equals(CommonUrl.praisePhotoset)) {
                                         JSONObject object = new JSONObject(result);
                                         int code = Integer.valueOf(object.getString("code"));
-                                        if (code == StatusCode.PRAISE_PHOTOSET) {
+                                        if (code == StatusCode.PRAISE_PHOTOSET_SUCCESS) {
                                             detailData.setUserIsLiked("1");
                                             Message msg=handler.obtainMessage();
-                                            msg.what= StatusCode.PRAISE_PHOTOSET;
-                                            detailData.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) + 1 + "");
-
+                                            msg.what= StatusCode.PRAISE_PHOTOSET_SUCCESS;
+                                            detailData.setUserlikeNum(Integer.valueOf(detailData.getUserlikeNum()) + 1 + "");
                                             handler.sendMessage(msg);
                                             return;
                                         }
-                                        if (code == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                                        if (code == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
                                             detailData.setUserIsLiked("0");
+                                            List<UserModel> list=detailData.getUserlikeList();
+                                            for (int i=0;i<list.size();i++){
+                                                UserModel model=list.get(i);
+                                                if (model.getId().equals(userModel.getId())){
+                                                    list.remove(i);
+                                                }
+                                            }
+                                            detailData.setUserlikeList(list);
                                             Message msg=handler.obtainMessage();
-                                            msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET;
-                                            detailData.setUserlikeNum(Integer.valueOf(btn_photoset_likecount.getText().toString()) - 1 + "");
+                                            msg.what= StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS;
+                                            detailData.setUserlikeNum(Integer.valueOf(detailData.getUserlikeNum()) - 1 + "");
                                             handler.sendMessage(msg);
                                             return;
                                         }
@@ -375,7 +386,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                                 @Override
                                 public void exception(IOException e, String requestUrl) {}
                             }, PhotosetDetailActivity.this);
-
+                            btn_photoset_addlike.setClickable(false);
                             Map map = new HashMap();
                             if (detailData.getUserIsLiked().equals("1"))
                                 map.put("type", StatusCode.CANCEL_PRAISE_PHOTOSET);
@@ -393,9 +404,9 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     List<UserModel> userlike=detailData.getUserlikeList();
                     JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, userlike,true);
                     photoset_grid_join_user_scroll.setAdapter(adapter);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
                     photoset_grid_join_user_scroll.setLayoutParams(params);
-                    photoset_grid_join_user_scroll.setColumnWidth(100);
+                    photoset_grid_join_user_scroll.setColumnWidth(130);
                     photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                     int itemCount = adapter.getCount();
                     photoset_grid_join_user_scroll.setNumColumns(itemCount);
@@ -412,11 +423,41 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     CommonUtils.getUtilInstance().showToast(APP.context, msg.obj.toString());
                     return;
                 }
-                if (msg.what== StatusCode.PRAISE_PHOTOSET){
+                if (msg.what== StatusCode.PRAISE_PHOTOSET_SUCCESS){
+                    btn_photoset_addlike.setClickable(true);
+                    List<UserModel> list=detailData.getUserlikeList();
+                    boolean add=true;
+                    for (int i=0;i<list.size();i++){
+                        UserModel model=list.get(i);
+                        if (model.getId().equals(userModel.getId())){
+                            add=false;
+                        }
+                    }
+                    if (add)
+                        detailData.getUserlikeList().add(userModel);
+                    JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
+                    photoset_grid_join_user_scroll.setAdapter(adapter);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    photoset_grid_join_user_scroll.setLayoutParams(params);
+                    photoset_grid_join_user_scroll.setColumnWidth(130);
+                    photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
+                    int itemCount = adapter.getCount();
+                    photoset_grid_join_user_scroll.setNumColumns(itemCount);
+
                     btn_photoset_addlike.setSelected(true);
                     btn_photoset_likecount.setText(detailData.getUserlikeNum());
                 }
-                if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET){
+                if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
+                    btn_photoset_addlike.setClickable(true);
+                    JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
+                    photoset_grid_join_user_scroll.setAdapter(adapter);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    photoset_grid_join_user_scroll.setLayoutParams(params);
+                    photoset_grid_join_user_scroll.setColumnWidth(130);
+                    photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
+                    int itemCount = adapter.getCount();
+                    photoset_grid_join_user_scroll.setNumColumns(itemCount);
+
                     btn_photoset_addlike.setSelected(false);
                     btn_photoset_likecount.setText(detailData.getUserlikeNum());
                 }
@@ -428,8 +469,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         LoginDataModel loginModel=(LoginDataModel)cache.getAsObject("loginModel");
         userModel=loginModel.getUserModel();
         String authKey=userModel.getAuth_key();
-        int uid=getIntent().getIntExtra("uid",-1);
-        ucid=getIntent().getIntExtra("ucid",-1);
+        int uid=Integer.valueOf(getIntent().getStringExtra("uid"));
+        ucid=Integer.valueOf(getIntent().getStringExtra("ucid"));
         Map map=new HashMap();
         map.put("authkey", authKey);
         map.put("uid",uid);
@@ -495,6 +536,7 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
     }
 
     private void showImagePager(String startPositionUrl) {
+        isBigImageShowing=true;
         int position=-1;
         final int size=imageBigDatas.size();
         for (int index=0;index<size;index++){
@@ -527,7 +569,16 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
 
     @Override
     public void onDismissBigPhoto() {
+        isBigImageShowing=false;
         display_big_image_layout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isBigImageShowing)
+            onDismissBigPhoto();
+        else
+            finish();
     }
 
     @Override

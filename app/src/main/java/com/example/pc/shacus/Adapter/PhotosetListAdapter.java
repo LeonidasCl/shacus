@@ -156,13 +156,22 @@ public class PhotosetListAdapter extends BaseAdapter {
                     super.handleMessage(msg);
 
                     if (msg.what== StatusCode.PRAISE_PHOTOSET_SUCCESS){
-                        List<UserModel> userlike=item.getUserlikeList();
-                        userlike.add(userModel);
-                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
+                        btn_photoset_addlike.setClickable(true);
+                        List<UserModel> list=item.getUserlikeList();
+                        boolean add=true;
+                        for (int i=0;i<list.size();i++){
+                            UserModel model=list.get(i);
+                            if (model.getId().equals(userModel.getId())){
+                                add=false;
+                            }
+                        }
+                        if (add)
+                            item.getUserlikeList().add(userModel);
+                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, item.getUserlikeList(),true);
                         photoset_grid_join_user_scroll.setAdapter(adapter);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
                         photoset_grid_join_user_scroll.setLayoutParams(params);
-                        photoset_grid_join_user_scroll.setColumnWidth(100);
+                        photoset_grid_join_user_scroll.setColumnWidth(130);
                         photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                         int itemCount = adapter.getCount();
                         photoset_grid_join_user_scroll.setNumColumns(itemCount);
@@ -171,12 +180,12 @@ public class PhotosetListAdapter extends BaseAdapter {
                         btn_photoset_likecount.setText(item.getUserlikeNum());
                     }
                     if (msg.what == StatusCode.CANCEL_PRAISE_PHOTOSET_SUCCESS){
-                        List<UserModel> userlike=item.getUserlikeList();
-                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
+                        btn_photoset_addlike.setClickable(true);
+                        JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, item.getUserlikeList(),true);
                         photoset_grid_join_user_scroll.setAdapter(adapter);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
                         photoset_grid_join_user_scroll.setLayoutParams(params);
-                        photoset_grid_join_user_scroll.setColumnWidth(100);
+                        photoset_grid_join_user_scroll.setColumnWidth(130);
                         photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                         int itemCount = adapter.getCount();
                         photoset_grid_join_user_scroll.setNumColumns(itemCount);
@@ -287,8 +296,8 @@ public class PhotosetListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, PhotosetDetailActivity.class);
-                    intent.putExtra("ucid",item.getUCid());
-                    intent.putExtra("uid",userModel.getId());
+                    intent.putExtra("ucid",String.valueOf(item.getUCid()));
+                    intent.putExtra("uid",item.getUserHeadimg().getId());
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     activity.startActivity(intent);
                 }
@@ -301,6 +310,8 @@ public class PhotosetListAdapter extends BaseAdapter {
             for (int i=0;i<imgsSize;i++) {
                 Glide.with(activity)
                         .load(imgs.get(i).getImageUrl())
+                        .asBitmap()
+                        .centerCrop()
                         .placeholder(R.drawable.holder)
                         .error(R.drawable.loading_error)
                         .into(photoset_img_list.get(i));
@@ -358,9 +369,9 @@ public class PhotosetListAdapter extends BaseAdapter {
                                         UserModel model=list.get(i);
                                         if (model.getId().equals(userModel.getId())){
                                             list.remove(i);
-                                            break;
                                         }
                                     }
+                                    item.setUserlikeList(list);
                                     item.setUserlikeNum(Integer.valueOf(item.getUserlikeNum())-1+"");
                                     handler.sendMessage(msg);
                                     return;
@@ -371,7 +382,7 @@ public class PhotosetListAdapter extends BaseAdapter {
                         @Override
                         public void exception(IOException e, String requestUrl) {}
                     }, activity);
-
+                    btn_photoset_addlike.setClickable(false);
                     Map map = new HashMap();
                     if (item.getUserIsLiked().equals("1"))
                         map.put("type", StatusCode.CANCEL_PRAISE_PHOTOSET);
@@ -389,9 +400,9 @@ public class PhotosetListAdapter extends BaseAdapter {
             List<UserModel> userlike=item.getUserlikeList();
             JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
             photoset_grid_join_user_scroll.setAdapter(adapter);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
             photoset_grid_join_user_scroll.setLayoutParams(params);
-            photoset_grid_join_user_scroll.setColumnWidth(100);
+            photoset_grid_join_user_scroll.setColumnWidth(130);
             photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
             int itemCount = adapter.getCount();
             photoset_grid_join_user_scroll.setNumColumns(itemCount);

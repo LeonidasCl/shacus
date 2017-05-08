@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -96,9 +98,9 @@ public class WantToPhotographActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int position=tab.getPosition();
-                if (position>0)
-                    group_description.setText(apTypes.get(position-1).getDescription());
+                int position = tab.getPosition();
+                if (position > 0)
+                    group_description.setText(apTypes.get(position - 1).getDescription());
                 else
                     group_description.setText("以下是所有分类");
             }
@@ -136,6 +138,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
         private NetRequest requestFragment;
         List<PhotographerModel> yuepaiList = new ArrayList<>();
         private boolean isloading=false;
+        private LinearLayout invis;
         private Handler handler=new Handler(){
             @Override
             public void handleMessage(Message msg){
@@ -176,6 +179,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
             personAdapter = new YuePaiAdapter_new(getActivity(),subList);
             listView = (ListView) rootView.findViewById(R.id.person_list);
+            invis = (LinearLayout) rootView.findViewById(R.id.invis);
             refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
             listView.setAdapter(personAdapter);
 
@@ -192,6 +196,13 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
             onScrollListener();
             onRefreshListener();
+            invis.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    personAdapter.notifyDataSetChanged();
+                    listView.setSelection(0);
+                }
+            });
             return rootView;
         }
 
@@ -200,7 +211,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
             map.put("type", WANT_TO_PHOTOGRAPH);//??10231想拍人的约拍列表（摄影师发布的约拍）
             map.put("authkey", userData.getAuth_key());
             map.put("uid", userData.getId());
-            map.put("group",type);
+            map.put("group", type);
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
         }
 
@@ -244,8 +255,19 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
                 @Override
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if ((firstVisibleItem + visibleItemCount > totalItemCount - 2 )&& (totalItemCount < maxRecords)){
+                    if ((firstVisibleItem + visibleItemCount > totalItemCount - 2) && (totalItemCount < maxRecords)) {
                         doLoadmore();
+                    }
+                    if (firstVisibleItem >= 1){
+                        invis.setVisibility(View.VISIBLE);
+                    } else{
+                        invis.setVisibility(View.GONE);
+                    }
+
+                    if(firstVisibleItem == 0){
+                        refreshLayout.setEnabled(true);
+                    }else{
+                        refreshLayout.setEnabled(false);
                     }
                 }
             });
@@ -267,6 +289,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
                     JSONObject info = array.getJSONObject(i);
                     PhotographerModel photographerModel = new PhotographerModel();
                     UserModel userModel = new UserModel();
+                    userModel.setId(String.valueOf(info.get("sponsorid")));
                     userModel.setLocation(info.getString("Userlocation"));
                     userModel.setNickName(info.getString("Useralais"));
                     userModel.setAge(info.getString("Userage"));
@@ -310,6 +333,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
                     JSONObject info = array.getJSONObject(i);
                     PhotographerModel photographerModel = new PhotographerModel();
                     UserModel userModel = new UserModel();
+                    userModel.setId(String.valueOf(info.get("sponsorid")));
                     userModel.setLocation(info.getString("Userlocation"));
                     userModel.setNickName(info.getString("Useralais"));
                     userModel.setAge(info.getString("Userage"));
