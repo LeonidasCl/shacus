@@ -88,12 +88,12 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         TextView btn_back = (TextView) view.findViewById(R.id.btn_back);
         btn_back.setText("╳");
         View changePassword = view.findViewById(R.id.layout_changePassword);
-        View versionUpdate = view.findViewById(R.id.layout_versionUpdate);
-        View functionIntroduction = view.findViewById(R.id.layout_functionIntroduce);
         View advice = view.findViewById(R.id.layout_advice);
         View personalInfo = view.findViewById(R.id.layout_personalInfo);
         View share = view.findViewById(R.id.layout_share);
         //View cleanCache = view.findViewById(R.id.layout_clearCache);
+        //View versionUpdate = view.findViewById(R.id.layout_versionUpdate);
+        //View functionIntroduction = view.findViewById(R.id.layout_functionIntroduce);
 
         netRequest=new NetRequest(this,this.getActivity());
 
@@ -103,12 +103,12 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         //设置点击事件
         btn_back.setOnClickListener(SetBaseFragment.this);
         changePassword.setOnClickListener(SetBaseFragment.this);
-        versionUpdate.setOnClickListener(SetBaseFragment.this);
-        functionIntroduction.setOnClickListener(SetBaseFragment.this);
         advice.setOnClickListener(SetBaseFragment.this);
         personalInfo.setOnClickListener(SetBaseFragment.this);
         share.setOnClickListener(SetBaseFragment.this);
         //cleanCache.setOnClickListener(SetBaseFragment.this);
+        //versionUpdate.setOnClickListener(SetBaseFragment.this);
+        //functionIntroduction.setOnClickListener(SetBaseFragment.this);
 
         //获取已缓存的配置
         ACache a=ACache.get(this.getActivity());
@@ -130,23 +130,23 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
             case R.id.layout_changePassword:
                 changePasswordDialog(0);
                 break;
-            case R.id.layout_functionIntroduce:
+//            case R.id.layout_functionIntroduce:
 //                SetGeneralFragment generalFragment=new SetGeneralFragment();
 //                FragmentManager fm3=getFragmentManager();
 //                FragmentTransaction tx3=fm3.beginTransaction();
 //                tx3.replace(R.id.frameLayout,generalFragment,"UserManage");
 //                tx3.addToBackStack(null);
 //                tx3.commit();
-                break;
-            case R.id.layout_versionUpdate:
-                SetAboutFragment aboutFragment =new SetAboutFragment();
-                FragmentManager fm4=getFragmentManager();
-                FragmentTransaction tx4=fm4.beginTransaction();
-                tx4.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                tx4.replace(R.id.frameLayout,aboutFragment,"UserManage");
-                tx4.addToBackStack(null);
-                tx4.commit();
-                break;
+//                break;
+//            case R.id.layout_versionUpdate:
+//                SetAboutFragment aboutFragment =new SetAboutFragment();
+//                FragmentManager fm4=getFragmentManager();
+//                FragmentTransaction tx4=fm4.beginTransaction();
+//                tx4.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                tx4.replace(R.id.frameLayout,aboutFragment,"UserManage");
+//                tx4.addToBackStack(null);
+//                tx4.commit();
+//                break;
             case R.id.layout_advice:
                 SetAdviceFragment adviceFragment=new SetAdviceFragment();
                 FragmentManager fm5=getFragmentManager();
