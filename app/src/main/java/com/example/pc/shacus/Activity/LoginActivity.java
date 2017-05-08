@@ -278,7 +278,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
         });
         //if (eventFlag==1)
         //  signup.performClick();
-        timeCount=new CountDownTimer(60000,1000){
+        timeCount=new CountDownTimer(120000,1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 //btn_verifycode.setBackgroundColor(getResources().getColor(R.drawable.shape_verifycode));

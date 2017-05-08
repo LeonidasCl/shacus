@@ -659,23 +659,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        display_big_image_layout = cardListFragment.getDisplay_big_image_layout();
-        if(display_big_image_layout.getVisibility() == View.VISIBLE){
-            display_big_image_layout.setVisibility(View.GONE);
-            navibar.setVisibility(View.VISIBLE);
-        }
-        else {
-            if (uploadMenuIsOpen) {
-                uploadMenuIsOpen = false;
-                bottomMenu.setVisibility(View.GONE);
-                return;
+        if(btn_main.isSelected()){
+            display_big_image_layout = cardListFragment.getDisplay_big_image_layout();
+            if(display_big_image_layout.getVisibility() == View.VISIBLE){
+                display_big_image_layout.setVisibility(View.GONE);
+                navibar.setVisibility(View.VISIBLE);
             }
-            if (!exitFlag) {
-                exitFlag = true;
-                CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
-                handler.postDelayed(runnable, 3000);
-            } else {
-                finish();
+            else {
+                if (uploadMenuIsOpen) {
+                    uploadMenuIsOpen = false;
+                    bottomMenu.setVisibility(View.GONE);
+                    return;
+                }
+                if (!exitFlag) {
+                    exitFlag = true;
+                    CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
+                    handler.postDelayed(runnable, 3000);
+                } else {
+                    finish();
+                }
+            }
+        }else if(btn_course.isSelected()){
+            display_big_image_layout = mydisplay.getDisplay_big_image_layout();
+            if(display_big_image_layout.getVisibility() == View.VISIBLE){
+                display_big_image_layout.setVisibility(View.GONE);
+            }
+            else {
+                if (uploadMenuIsOpen) {
+                    uploadMenuIsOpen = false;
+                    bottomMenu.setVisibility(View.GONE);
+                    return;
+                }
+                if (!exitFlag) {
+                    exitFlag = true;
+                    CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
+                    handler.postDelayed(runnable, 3000);
+                } else {
+                    finish();
+                }
             }
         }
     }

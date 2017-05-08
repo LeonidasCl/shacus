@@ -138,8 +138,6 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     TextView zpj_im;
     TextView zpj_n;
 
-
-
     int addTakePicCount=1;
     private Intent intent;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savadInstanceState){
@@ -296,6 +294,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             @Override
             public void onClick(View v) {
                 display_big_image_layout.setVisibility(View.GONE);
+
             }
         });
 
@@ -714,6 +713,9 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     }
 
 
+    public RelativeLayout getDisplay_big_image_layout() {
+        return display_big_image_layout;
+    }
 
     @Override
     public void requestFinish(String result, String requestUrl) throws JSONException {
