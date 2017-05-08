@@ -22,4 +22,5 @@ public class NetworkCallbackInterface {
     public interface OnSingleTapDismissBigPhotoListener {
         void onDismissBigPhoto();
     }
+
 }

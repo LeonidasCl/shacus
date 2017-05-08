@@ -29,6 +29,7 @@
 package com.example.pc.shacus.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
@@ -38,6 +39,7 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -45,6 +47,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
+import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener;
 import com.example.pc.shacus.View.Custom.Compat;
 import com.example.pc.shacus.View.Custom.IPhotoView;
@@ -58,7 +61,7 @@ import java.lang.ref.WeakReference;
 * 大图处理工具类
 * */
 public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, VersionedGestureDetector.OnGestureListener,
-		GestureDetector.OnDoubleTapListener, ViewTreeObserver.OnGlobalLayoutListener {
+		GestureDetector.OnDoubleTapListener, ViewTreeObserver.OnGlobalLayoutListener, View.OnKeyListener {
 
 	static final String LOG_TAG = "PhotoViewAttacher";
 
@@ -165,6 +168,17 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	private OnPhotoTapListener mPhotoTapListener;
 	private OnViewTapListener mViewTapListener;
 	private OnLongClickListener mLongClickListener;
+	private View.OnKeyListener backListener = new View.OnKeyListener(){
+		@Override
+		public boolean onKey(View view, int i, KeyEvent keyEvent) {
+			if(keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+				if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
+					Log.e(LOG_TAG,"按下back");
+				}
+			}
+			return false;
+		}
+	};
 
 	private int mIvTop, mIvRight, mIvBottom, mIvLeft;
 	private FlingRunnable mCurrentFlingRunnable;
@@ -177,6 +191,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 		mImageView = new WeakReference<>(imageView);
 
 		imageView.setOnTouchListener(this);
+		imageView.setOnKeyListener(backListener);
 
 		mViewTreeObserver = imageView.getViewTreeObserver();
 		mViewTreeObserver.addOnGlobalLayoutListener(this);
@@ -205,6 +220,23 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 			// Finally, update the UI so that we're zoomable
 			setZoomable(true);
 		}
+	}
+
+	@Override
+	public boolean onKey(View view, int i, KeyEvent keyEvent) {
+		switch (i){
+			case KeyEvent.KEYCODE_BACK:
+				// First, disable the Parent from intercepting the touch
+				// event
+				view.getParent().requestDisallowInterceptTouchEvent(true);
+
+				// If we're flinging, and the user presses down, cancel
+				// fling
+				cancelFling();
+				break;
+
+		}
+		return false;
 	}
 
 	@Override
@@ -436,28 +468,28 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
 		if (mZoomEnabled) {
 			switch (ev.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				// First, disable the Parent from intercepting the touch
-				// event
-				v.getParent().requestDisallowInterceptTouchEvent(true);
+				case MotionEvent.ACTION_DOWN:
+					// First, disable the Parent from intercepting the touch
+					// event
+					v.getParent().requestDisallowInterceptTouchEvent(true);
 
-				// If we're flinging, and the user presses down, cancel
-				// fling
-				cancelFling();
-				break;
+					// If we're flinging, and the user presses down, cancel
+					// fling
+					cancelFling();
+					break;
 
-			case MotionEvent.ACTION_CANCEL:
-			case MotionEvent.ACTION_UP:
-				// If the user has zoomed less than min scale, zoom back
-				// to min scale
-				if (getScale() < mMinScale) {
-					RectF rect = getDisplayRect();
-					if (null != rect) {
-						v.post(new AnimatedZoomRunnable(getScale(), mMinScale, rect.centerX(), rect.centerY()));
-						handled = true;
+				case MotionEvent.ACTION_CANCEL:
+				case MotionEvent.ACTION_UP:
+					// If the user has zoomed less than min scale, zoom back
+					// to min scale
+					if (getScale() < mMinScale) {
+						RectF rect = getDisplayRect();
+						if (null != rect) {
+							v.post(new AnimatedZoomRunnable(getScale(), mMinScale, rect.centerX(), rect.centerY()));
+							handled = true;
+						}
 					}
-				}
-				break;
+					break;
 			}
 
 			// Check to see if the user double tapped

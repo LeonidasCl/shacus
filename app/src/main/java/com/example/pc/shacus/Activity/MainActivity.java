@@ -36,6 +36,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean[] people_selector = {true, false, false};
     private boolean[] selector = {true, false, false, true, false, false};
 
+    RelativeLayout display_big_image_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -613,12 +615,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (!exitFlag) {
-            exitFlag = true;
-            CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
-            handler.postDelayed(runnable, 3000);
-        } else {
-            finish();
+        display_big_image_layout = cardListFragment.getDisplay_big_image_layout();
+        if(display_big_image_layout.getVisibility() == View.VISIBLE){
+            display_big_image_layout.setVisibility(View.GONE);
+            navibar.setVisibility(View.VISIBLE);
+        }
+        else{
+            if (!exitFlag) {
+                exitFlag = true;
+                CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
+                handler.postDelayed(runnable, 3000);
+            } else {
+                finish();
+            }
         }
     }
 
