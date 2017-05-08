@@ -14,25 +14,22 @@
             android:layout_height="?actionBarSize"
             android:gravity="start"
             android:background="@color/toolbar_white">
-            <ImageButton
+            <TextView
                 android:id="@+id/btn_back"
-                android:background="@drawable/button_back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_centerVertical="true"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置"
-                android:textColor="#ffffff"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:text="设置"
                 android:textSize="20sp" />
         </RelativeLayout>
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,61 +43,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/zero_black"></LinearLayout>
-
             <RelativeLayout
+                android:id="@+id/layout_personalInfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:id="@+id/layout_phoneVisible"
-                android:gravity="left"
-                android:layout_marginTop="5dp">
+                android:layout_height="50dp"
+                android:gravity="start">
                 <TextView
+                    android:id="@+id/text_personalInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="手机号可见"
-                    android:textSize="@dimen/sp_16"
-                    android:textColor="@color/zero_black"
-                    android:layout_margin="10dp"
-                    android:layout_centerVertical="true"/>
-                <Switch
-                    android:id="@+id/btn_phoneVisible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="5dp"
-                    android:checked="true"
-                    />
-            </RelativeLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/zero_black"></LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:id="@+id/layout_messageInform"
-                android:gravity="left">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="是否接受消息通知"
+                    android:text="个人资料"
                     android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
-                <Switch
-                    android:id="@+id/btn_messageInform"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="5dp"
-                    android:checked="true"
-                    />
             </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -114,26 +71,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改密码"
-                    android:textColor="@color/zero_black"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_margin="10dp"
-                    android:layout_centerVertical="true"/>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/zero_black"></LinearLayout>
-            <RelativeLayout
-                android:id="@+id/layout_versionUpdate"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="start">
-                <TextView
-                    android:id="@+id/text_versionUpdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="版本更新"
                     android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
@@ -159,50 +96,20 @@
                     android:layout_margin="10dp"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/zero_black"></LinearLayout>
             <RelativeLayout
-                android:id="@+id/layout_clearCache"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#ffffff">
-                <TextView
-                    android:id="@+id/text_clearCache"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="清除缓存"
-                    android:textColor="@color/zero_black"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_margin="10dp"
-                    android:layout_centerVertical="true"/>
-                <TextView
-                    android:id="@+id/text_CacheSize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="13.0MB"
-                    android:textSize="@dimen/sp_14"
-                    android:layout_margin="10dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/zero_black"></LinearLayout>
-            <RelativeLayout
-                android:id="@+id/layout_functionIntroduce"
+                android:id="@+id/layout_share"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="start">
                 <TextView
-                    android:id="@+id/text_functionIntroduce"
+                    android:id="@+id/text_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="功能介绍"
+                    android:text="分享"
                     android:textColor="@color/zero_black"
                     android:textSize="@dimen/sp_16"
                     android:layout_margin="10dp"
@@ -212,7 +119,128 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/zero_black"></LinearLayout>
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_functionIntroduce"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:gravity="start">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/text_functionIntroduce"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="功能介绍"-->
+                    <!--android:textColor="@color/zero_black"-->
+                    <!--android:textSize="@dimen/sp_16"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:layout_centerVertical="true"/>-->
+            <!--</RelativeLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/zero_black"></LinearLayout>-->
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_versionUpdate"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:gravity="start">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/text_versionUpdate"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="版本更新"-->
+                    <!--android:textColor="@color/zero_black"-->
+                    <!--android:textSize="@dimen/sp_16"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:layout_centerVertical="true"/>-->
+            <!--</RelativeLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/zero_black"></LinearLayout>-->
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_clearCache"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:background="#ffffff">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/text_clearCache"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="清除缓存"-->
+                    <!--android:textColor="@color/zero_black"-->
+                    <!--android:textSize="@dimen/sp_16"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:layout_centerVertical="true"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/text_CacheSize"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="13.0MB"-->
+                    <!--android:textSize="@dimen/sp_14"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerVertical="true"/>-->
+            <!--</RelativeLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/zero_black"></LinearLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="#ffffff"-->
+                <!--android:id="@+id/layout_phoneVisible"-->
+                <!--android:gravity="left"-->
+                <!--android:layout_marginTop="5dp">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="手机号可见"-->
+                    <!--android:textSize="@dimen/sp_16"-->
+                    <!--android:textColor="@color/zero_black"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:layout_centerVertical="true"/>-->
+                <!--<Switch-->
+                    <!--android:id="@+id/btn_phoneVisible"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:checked="true"-->
+                    <!--/>-->
+            <!--</RelativeLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/zero_black"></LinearLayout>-->
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="#ffffff"-->
+                <!--android:id="@+id/layout_messageInform"-->
+                <!--android:gravity="left">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="是否接受消息通知"-->
+                    <!--android:textColor="@color/zero_black"-->
+                    <!--android:textSize="@dimen/sp_16"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:layout_centerVertical="true"/>-->
+                <!--<Switch-->
+                    <!--android:id="@+id/btn_messageInform"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:checked="true"-->
+                    <!--/>-->
+            <!--</RelativeLayout>-->
         </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>
