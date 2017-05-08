@@ -659,12 +659,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        display_big_image_layout = cardListFragment.getDisplay_big_image_layout();
-        if(display_big_image_layout.getVisibility() == View.VISIBLE){
-            display_big_image_layout.setVisibility(View.GONE);
-            navibar.setVisibility(View.VISIBLE);
+        if(cardListFragment!=null) {
+            display_big_image_layout = cardListFragment.getDisplay_big_image_layout();
+            if(display_big_image_layout.getVisibility() == View.VISIBLE){
+                display_big_image_layout.setVisibility(View.GONE);
+                navibar.setVisibility(View.VISIBLE);
+            }
+            else {
+                if (uploadMenuIsOpen) {
+                    uploadMenuIsOpen = false;
+                    bottomMenu.setVisibility(View.GONE);
+                    return;
+                }
+                if (!exitFlag) {
+                    exitFlag = true;
+                    CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
+                    handler.postDelayed(runnable, 3000);
+                } else {
+                    finish();
+                }
+            }
         }
-        else {
+        if(cardListFragment == null){
             if (uploadMenuIsOpen) {
                 uploadMenuIsOpen = false;
                 bottomMenu.setVisibility(View.GONE);
@@ -678,6 +694,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
             }
         }
+
     }
 
     private void toMain() {
