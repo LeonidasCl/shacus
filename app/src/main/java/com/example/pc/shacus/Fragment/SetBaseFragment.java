@@ -3,6 +3,7 @@ package com.example.pc.shacus.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,10 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pc.shacus.Activity.PersonalInfoActivity;
+import com.example.pc.shacus.Activity.ShareActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
 import com.example.pc.shacus.Data.Model.SettingDataModel;
 import com.example.pc.shacus.Network.NetRequest;
@@ -80,15 +82,18 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
 
     private void initData(View view) {
         //初始化各部件
-        Switch phoneVisible = (Switch) view.findViewById(R.id.btn_phoneVisible);
-        Switch messageInform = (Switch) view.findViewById(R.id.btn_messageInform);
+        //Switch phoneVisible = (Switch) view.findViewById(R.id.btn_phoneVisible);
+        //Switch messageInform = (Switch) view.findViewById(R.id.btn_messageInform);
 
-        ImageButton btn_back = (ImageButton) view.findViewById(R.id.btn_back);
+        TextView btn_back = (TextView) view.findViewById(R.id.btn_back);
+        btn_back.setText("╳");
         View changePassword = view.findViewById(R.id.layout_changePassword);
         View versionUpdate = view.findViewById(R.id.layout_versionUpdate);
         View functionIntroduction = view.findViewById(R.id.layout_functionIntroduce);
         View advice = view.findViewById(R.id.layout_advice);
-        View cleanCache = view.findViewById(R.id.layout_clearCache);
+        View personalInfo = view.findViewById(R.id.layout_personalInfo);
+        View share = view.findViewById(R.id.layout_share);
+        //View cleanCache = view.findViewById(R.id.layout_clearCache);
 
         netRequest=new NetRequest(this,this.getActivity());
 
@@ -101,19 +106,22 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         versionUpdate.setOnClickListener(SetBaseFragment.this);
         functionIntroduction.setOnClickListener(SetBaseFragment.this);
         advice.setOnClickListener(SetBaseFragment.this);
-        cleanCache.setOnClickListener(SetBaseFragment.this);
+        personalInfo.setOnClickListener(SetBaseFragment.this);
+        share.setOnClickListener(SetBaseFragment.this);
+        //cleanCache.setOnClickListener(SetBaseFragment.this);
 
         //获取已缓存的配置
         ACache a=ACache.get(this.getActivity());
         SettingDataModel setModel= (SettingDataModel) a.getAsObject("settingModel");
-        phoneVisible.setChecked(setModel.isPhoneVisible());
-        messageInform.setChecked(setModel.isMessageInform());
+        //phoneVisible.setChecked(setModel.isPhoneVisible());
+        //messageInform.setChecked(setModel.isMessageInform());
     }
 
 
     @Override
     public void onClick(View v) {
         //跳转至各个Fragment
+        Intent intent;
         switch (v.getId()){
             case R.id.btn_back:
                 Log.d("LQQQQQQQ", "toast");
@@ -148,8 +156,16 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                 tx5.addToBackStack(null);
                 tx5.commit();
                 break;
-            case R.id.layout_clearCache:
+            case R.id.layout_personalInfo:
+                intent = new Intent(getActivity(),PersonalInfoActivity.class);
+                startActivity(intent);
                 break;
+            case R.id.layout_share:
+                intent = new Intent(getActivity(), ShareActivity.class);
+                startActivity(intent);
+                break;
+//            case R.id.layout_clearCache:
+//                break;
         }
     }
 
