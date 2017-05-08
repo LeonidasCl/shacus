@@ -42,6 +42,7 @@ import com.example.pc.shacus.Network.NetworkCallbackInterface;
 import com.example.pc.shacus.Network.StatusCode;
 import com.example.pc.shacus.Util.CommonUrl;
 import com.example.pc.shacus.Util.CommonUtils;
+import com.example.pc.shacus.View.Custom.PhotoView;
 import com.example.pc.shacus.View.Custom.RoundImageView;
 import com.example.pc.shacus.swipecards.SwipeFlingView;
 import com.example.pc.shacus.swipecards.test.TestData;
@@ -84,7 +85,7 @@ import static com.example.pc.shacus.APP.context;
  */
 public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlingListener,
         SwipeFlingBottomLayout.OnBottomItemClickListener, SwipeFlingView.OnItemClickListener,
-        NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener {
+        NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
     private final static String TAG = CardFragment.class.getSimpleName();
     private final static boolean DEBUG = true;
@@ -427,6 +428,9 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         }
     }
 
+    public RelativeLayout getDisplay_big_image_layout() {
+        return display_big_image_layout;
+    }
 
     public void showImagePager(String startPositionUrl){
         int position=-1;
@@ -453,9 +457,12 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                 position_in_total.setText((position + 1) + "/" + size);
             }
 
+
+
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
+
         PhotoViewAttacher.setOnSingleTapToPhotoViewListener(this);
     }
 
