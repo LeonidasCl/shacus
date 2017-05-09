@@ -698,6 +698,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     finish();
                 }
             }
+        }else {
+            if (uploadMenuIsOpen) {
+                uploadMenuIsOpen = false;
+                bottomMenu.setVisibility(View.GONE);
+                return;
+            }
+            if (!exitFlag) {
+                exitFlag = true;
+                CommonUtils.getUtilInstance().showToast(this, "再点击一次返回键退出应用");
+                handler.postDelayed(runnable, 3000);
+            } else {
+                finish();
+            }
         }
     }
 
