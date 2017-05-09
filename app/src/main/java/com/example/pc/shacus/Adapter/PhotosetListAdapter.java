@@ -294,6 +294,16 @@ public class PhotosetListAdapter extends BaseAdapter {
             else
                 tv_photoset_content.setText("加载中");
             //点击整个略缩图布局都是进入作品集详情
+            ll_photoset_square_imgs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, PhotosetDetailActivity.class);
+                    intent.putExtra("ucid",String.valueOf(item.getUCid()));
+                    intent.putExtra("uid",item.getUserHeadimg().getId());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    activity.startActivity(intent);
+                }
+            });
             ll_item_detail__layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
