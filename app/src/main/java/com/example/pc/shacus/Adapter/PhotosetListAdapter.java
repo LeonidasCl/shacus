@@ -125,6 +125,7 @@ public class PhotosetListAdapter extends BaseAdapter {
         FrameLayout photoset_img_frame;
         TextView photoset_img_count;
         TextView btn_photoset_likecount;
+        LinearLayout ll_item_detail__layout;
 
         public ViewHolder(View view){
             photoset_grid_join_user_scroll=(GridView)view.findViewById(R.id.photoset_grid_join_user_scroll);
@@ -146,6 +147,7 @@ public class PhotosetListAdapter extends BaseAdapter {
             photoset_img_frame=(FrameLayout)view.findViewById(R.id.photoset_img_frame);
             photoset_img_count=(TextView)view.findViewById(R.id.photoset_img_count);
             btn_photoset_likecount=(TextView)view.findViewById(R.id.btn_photoset_likecount);
+            ll_item_detail__layout=(LinearLayout)view.findViewById(R.id.ll_item_detail__layout);
         }
 
         void setValues(final PhotosetItemModel item){
@@ -292,7 +294,7 @@ public class PhotosetListAdapter extends BaseAdapter {
             else
                 tv_photoset_content.setText("加载中");
             //点击整个略缩图布局都是进入作品集详情
-            ll_photoset_square_imgs.setOnClickListener(new View.OnClickListener() {
+            ll_item_detail__layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, PhotosetDetailActivity.class);

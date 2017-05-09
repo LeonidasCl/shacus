@@ -78,6 +78,12 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_item_detail__layout"
+        android:orientation="vertical">
+
     <TextView
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
@@ -104,6 +110,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:id="@+id/ll_photoset_square_imgs"
         android:orientation="horizontal">
 
@@ -152,6 +159,8 @@
                 android:text="..."/>
 
         </FrameLayout>
+
+    </LinearLayout>
 
     </LinearLayout>
 
