@@ -78,6 +78,12 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_item_detail__layout"
+        android:orientation="vertical">
+
     <TextView
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
@@ -100,10 +106,12 @@
         android:textColor="@color/content_gray"
         android:maxLines="1"
         android:text="@string/strholder_photoset2"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:id="@+id/ll_photoset_square_imgs"
         android:orientation="horizontal">
 
@@ -136,9 +144,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/photoset_img_3"
                 android:src="@drawable/holder_square"
-
-                android:scaleType="centerCrop"
-                />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -194,11 +200,10 @@
 
         <ImageButton
             android:id="@+id/btn_photoset_addlike"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
             android:visibility="visible"
-            android:padding="5dp"
             android:background="@drawable/btn_praise_selector"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />
