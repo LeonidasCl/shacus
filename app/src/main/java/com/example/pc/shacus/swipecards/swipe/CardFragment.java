@@ -671,7 +671,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             Log.d("excited", "clicked url :" + excited);
             display_big_image_layout.setVisibility(View.VISIBLE);
             int mCurPosition = mSwipeFlingView.getmCurPositon();
-            if(mSwipeFlingView.getmCurPositon() > imageBigDatasList.size()){
+            if(mSwipeFlingView.getmCurPositon() >= imageBigDatasList.size()) {
                 mCurPosition = mSwipeFlingView.getmCurPositon() % imageBigDatasList.size();
             }
             imageBigDatas = imageBigDatasList.get(mCurPosition);
