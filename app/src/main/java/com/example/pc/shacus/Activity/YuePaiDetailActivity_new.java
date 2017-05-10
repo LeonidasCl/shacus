@@ -948,9 +948,9 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
         JoinUserGridAdapter adapter = new JoinUserGridAdapter(this, list,true);
 
         gridView.setAdapter(adapter);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * width, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 150, LinearLayout.LayoutParams.WRAP_CONTENT);
         gridView.setLayoutParams(params);
-        gridView.setColumnWidth(100);
+        gridView.setColumnWidth(130);
         gridView.setStretchMode(GridView.NO_STRETCH);
         int count = adapter.getCount();
         gridView.setNumColumns(count);

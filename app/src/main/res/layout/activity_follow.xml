@@ -19,7 +19,7 @@
             android:id="@+id/follow"
             android:textSize="20dp"
             android:text="follow"
-            android:textColor="@color/four_black"
+            android:textColor="@color/zero_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"/>
@@ -28,11 +28,11 @@
         <ImageButton
             android:id="@+id/backbtn"
             android:background="@color/toolbar_white"
-            android:src="@drawable/button_back"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:src="@drawable/button_back2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"/>
 
 
         <ImageButton

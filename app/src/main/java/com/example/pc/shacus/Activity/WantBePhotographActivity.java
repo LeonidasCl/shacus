@@ -223,6 +223,7 @@ public class WantBePhotographActivity extends AppCompatActivity {
         private void doLoadmore(){
             if (bootCounter<6||isloading||personAdapter.getCount()==0)//如果数据小于五说明是初始化，不读加载更多
                 return;
+            isloading=true;
             Map<String, Object> map = new HashMap<>();
             map.put("type", WANT_BE_PHOTOGRAPH_MORE);
             map.put("authkey", userData.getAuth_key());
@@ -230,7 +231,8 @@ public class WantBePhotographActivity extends AppCompatActivity {
             map.put("group",type);
             map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
-            isloading=true;
+            Log.d("=======================", String.valueOf(bootCounter));
+            Log.d("=======================", String.valueOf(personAdapter.getItem(bootCounter - 1).getAPid()));
         }
 
         private void onRefreshListener(){
@@ -260,19 +262,19 @@ public class WantBePhotographActivity extends AppCompatActivity {
 
                 @Override
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords){
+                    /*if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && totalItemCount < maxRecords){
                         doLoadmore();
-                    }
+                    }*/
 
-                    if (firstVisibleItem >= 1){
+                    if (firstVisibleItem >= 1) {
                         invis.setVisibility(View.VISIBLE);
-                    } else{
+                    } else {
                         invis.setVisibility(View.GONE);
                     }
 
-                    if(firstVisibleItem == 0){
+                    if (firstVisibleItem == 0) {
                         refreshLayout.setEnabled(true);
-                    }else{
+                    } else {
                         refreshLayout.setEnabled(false);
                     }
                 }
@@ -303,12 +305,11 @@ public class WantBePhotographActivity extends AppCompatActivity {
                     photographerModel.setUserModel(userModel);
                     List<String>  list = new ArrayList<String>();
                     JSONArray jsonArray = info.getJSONArray("APimgurl");
-                    Log.d("?????????????",jsonArray.toString());
                     for (int j = 0; j < jsonArray.length();j++){
                         list.add(jsonArray.getString(j));
                     }
                     photographerModel.setAPimgurl(list);
-
+                    photographerModel.setAPgroup(info.getInt("APgroup"));
                     photographerModel.setAPcontent(info.getString("APcontent"));
                     photographerModel.setAPtime(info.getString("APtime"));
                     photographerModel.setAPstartT(info.getString("APcreatetime"));

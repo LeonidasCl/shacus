@@ -23,13 +23,13 @@
 
 
         <ImageButton
+            android:layout_centerVertical="true"
             android:id="@+id/orders_backbtn"
             android:background="@color/toolbar_white"
-            android:src="@drawable/button_back"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:src="@drawable/button_back2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/dp_10"/>
 
 
         <ImageButton

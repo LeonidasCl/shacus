@@ -308,7 +308,7 @@ public class YuePaiAdapter_new  extends BaseAdapter {
             pricetype.add("价格商议");
             //价格描述
             int pricet = item.getAPpricetype();
-            if (pricet==0&&pricet==1){
+            if (pricet==0 || pricet==1){
                 yuepai_jiage.setText(pricetype.get(pricet) + item.getAPprice());
             }
             else{

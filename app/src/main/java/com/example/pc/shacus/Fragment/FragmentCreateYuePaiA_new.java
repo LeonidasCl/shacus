@@ -114,7 +114,7 @@ public class FragmentCreateYuePaiA_new extends Fragment implements View.OnClickL
     private UploadViewPager image_viewpager;
     private boolean isBigImageShow=false,isShowUploadPic=false,addPic=false,clearFormerUploadUrlList=true;
     private int YUEPAI_TYPE=1;//约拍的种类，0为约模特，1为约摄影师
-    private int YUEPAI_LEIXING=0;//APgroup，0为写真客片，1为记录随拍，2为练手互勉，3为活动跟拍，4为商业跟拍
+    private int YUEPAI_LEIXING=0;//APgroup，1为写真客片，2为记录随拍，3为练手互勉，4为活动跟拍，5为商业跟拍
     private String YUEPAI_LOCATION="江苏南京";//
     private int YUEPAI_JIAGE=0;//APpricetag,0为希望收费，1为最多付费，2为希望互勉，3为价格商议
     private UserModel user;
@@ -564,7 +564,7 @@ public class FragmentCreateYuePaiA_new extends Fragment implements View.OnClickL
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            YUEPAI_LEIXING = position;
+            YUEPAI_LEIXING = position + 1;
             String selected = parent.getItemAtPosition(position).toString();
             Log.d("CCCCCCCCCCCC",selected);
         }

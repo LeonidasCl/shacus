@@ -228,6 +228,8 @@ public class WantToPhotographActivity extends AppCompatActivity {
             map.put("uid", userData.getId());
             map.put("offsetapid", personAdapter.getItem(bootCounter - 1).getAPid());
             requestFragment.httpRequest(map, CommonUrl.getYuePaiInfo);
+            Log.d("=======================", String.valueOf(bootCounter));
+            Log.d("=======================", String.valueOf(personAdapter.getItem(bootCounter - 1).getAPid()));
         }
 
         private void onRefreshListener(){
@@ -257,9 +259,9 @@ public class WantToPhotographActivity extends AppCompatActivity {
 
                 @Override
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if ((firstVisibleItem + visibleItemCount > totalItemCount - 2) && (totalItemCount < maxRecords)) {
+                    /*if ((firstVisibleItem + visibleItemCount > totalItemCount - 2) && (totalItemCount < maxRecords)) {
                         doLoadmore();
-                    }
+                    }*/
                     if (firstVisibleItem >= 1){
                         invis.setVisibility(View.VISIBLE);
                     } else{
@@ -344,7 +346,6 @@ public class WantToPhotographActivity extends AppCompatActivity {
                     photographerModel.setUserModel(userModel);
                     List<String>  list = new ArrayList<String>();
                     JSONArray jsonArray = info.getJSONArray("APimgurl");
-                    Log.d("?????????????",jsonArray.toString());
                     for (int j = 0; j < jsonArray.length();j++){
                         list.add(jsonArray.getString(j));
                     }
@@ -387,6 +388,8 @@ public class WantToPhotographActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             PlaceholderFragment frag=PlaceholderFragment.newInstance(position);
             frag.type=position;
+            if (position!=0)
+                group_description.setText(apTypes.get(position-1).getDescription());
             return frag;
         }
 
