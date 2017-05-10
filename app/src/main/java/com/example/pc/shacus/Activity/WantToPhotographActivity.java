@@ -150,6 +150,8 @@ public class WantToPhotographActivity extends AppCompatActivity {
                         refreshLayout.setRefreshing(false);
                         break;
                     case StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS:
+                        List<PhotographerModel> addList= (List<PhotographerModel>) msg.obj;
+                        personAdapter.add(addList);
                         personAdapter.notifyDataSetChanged();
                         isloading=false;
                         break;
@@ -359,9 +361,10 @@ public class WantToPhotographActivity extends AppCompatActivity {
                     addList.add(photographerModel);
                 }
                 bootCounter += array.length();
-                personAdapter.add(addList);
+                //personAdapter.add(addList);
                 Message msg = handler.obtainMessage();
                 msg.what = StatusCode.REQUEST_YUEPAI_MORE_GRAPH_LIST_SUCCESS;
+                msg.obj=addList;
                 handler.sendMessage(msg);
             }
         }
