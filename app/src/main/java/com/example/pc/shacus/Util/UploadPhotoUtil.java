@@ -153,7 +153,7 @@ public class UploadPhotoUtil<MultipartEntity> {
         if (tmp!=null)
             cameraBitmap=tmp;
         else
-            cameraBitmap = BitmapFactory.decodeFile(url, options);
+            cameraBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         Bitmap photo = rotaingImageView(degree, cameraBitmap);
         if (is != null) {
             try {
