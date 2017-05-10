@@ -636,6 +636,9 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 //        }
 //        mSwipeFlingView.selectSuperLike(false);
         //int cur = Integer.valueOf(dataObject.toString());
+        if(mAdapter.getCount() == 0){
+            return;
+        }
         RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
 //        Intent intent = new Intent(getActivity(), ConversationDynamicFragment.class);
 //        intent.putExtra("id",card.getUserpublish().getId());
