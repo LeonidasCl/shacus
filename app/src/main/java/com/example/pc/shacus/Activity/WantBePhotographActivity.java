@@ -149,6 +149,9 @@ public class WantBePhotographActivity extends AppCompatActivity {
                         refreshLayout.setRefreshing(false);
                         break;
                     case StatusCode.REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS:
+                        List<PhotographerModel> addList;
+                        addList= (List<PhotographerModel>) msg.obj;
+                        personAdapter.add(addList);
                         personAdapter.notifyDataSetChanged();
                         isloading=false;
                         break;
@@ -361,9 +364,11 @@ public class WantBePhotographActivity extends AppCompatActivity {
                 }
                 bootCounter += array.length();
                 isloading = false;
-                personAdapter.add(addList);
+                //personAdapter.add(addList);
+                //personAdapter.notifyDataSetChanged();
                 Message msg = handler.obtainMessage();
                 msg.what = StatusCode.REQUEST_YUEPAI_MORE_MODEL_LIST_SUCCESS;
+                msg.obj=addList;
                 handler.sendMessage(msg);
             }
         }

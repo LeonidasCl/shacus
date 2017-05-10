@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.APP;
 
+import com.example.pc.shacus.Util.CommonUtils;
 import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
@@ -98,6 +99,8 @@ public class SOSOLocationActivity extends MapActivity implements
             mMapView.setOnTouchListener(this);
             TencentLocationRequest request = TencentLocationRequest.create();
             int error=TencentLocationManager.getInstance(this).requestLocationUpdates(request, this);
+            if (error!=0)
+                CommonUtils.getUtilInstance().showToast(SOSOLocationActivity.this,"获取当前位置失败，请手动选择");
             //TencentLocationRequest request2 = TencentLocationRequest.create();
 
         } else {
@@ -139,7 +142,7 @@ public class SOSOLocationActivity extends MapActivity implements
             Uri uri = Uri
                     .parse("http://apis.map.qq.com/ws/staticmap/v2").buildUpon()
                     .appendQueryParameter("size", "240*240")
-                    .appendQueryParameter("key", "7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU")
+                    .appendQueryParameter("key", "JVYBZ-S7J3F-H2GJN-JD5YW-G3CDO-WTB7Z")
                     .appendQueryParameter("zoom", "16")
                     .appendQueryParameter("center", poiItem.getLat() / 1E6
                             + ","
