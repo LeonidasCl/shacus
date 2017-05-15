@@ -197,7 +197,7 @@ public class YuePaiAdapter_new  extends BaseAdapter {
             //用户年龄
             String age = item.getUserModel().getAge();
             if (!age.equals(""))
-                user_age.setText(age);
+                user_age.setText(String.valueOf(age));
             else
                 user_age.setText("");
 
@@ -309,10 +309,10 @@ public class YuePaiAdapter_new  extends BaseAdapter {
             //价格描述
             int pricet = item.getAPpricetype();
             if (pricet==0 || pricet==1){
-                yuepai_jiage.setText(pricetype.get(pricet) + item.getAPprice());
+                yuepai_jiage.setText(String.valueOf(pricetype.get(pricet) + item.getAPprice()));
             }
             else{
-                yuepai_jiage.setText(pricetype.get(pricet));
+                yuepai_jiage.setText(String.valueOf(pricetype.get(pricet)));
             }
 
 //            感兴趣

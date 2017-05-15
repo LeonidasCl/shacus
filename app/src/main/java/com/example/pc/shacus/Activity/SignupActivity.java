@@ -241,7 +241,9 @@ public class SignupActivity extends AppCompatActivity implements NetworkCallback
                     dataModel.setSign(sign_usersign.getText().toString());
                     break;
                 case 66666:
-                    progressDlg.dismiss();
+                    Message message = new Message();
+                    message.what = 66666;
+                    handler.sendMessage(message);
                     String url = jsonObject.getString("contents");
                     dataModel.setHeadImage(url);
                     imagefinish = true;
@@ -539,6 +541,10 @@ public class SignupActivity extends AppCompatActivity implements NetworkCallback
                             }, null));
 
                     break;
+                case 66666:{
+                    progressDlg.dismiss();
+                    break;
+                }
             }
         }
     };
