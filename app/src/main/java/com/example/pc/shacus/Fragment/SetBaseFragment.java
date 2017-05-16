@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pc.shacus.APP;
+import com.example.pc.shacus.Activity.LoginActivity;
 import com.example.pc.shacus.Activity.PersonalInfoActivity;
 import com.example.pc.shacus.Activity.ShareActivity;
 import com.example.pc.shacus.Data.Cache.ACache;
@@ -91,6 +93,7 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         View advice = view.findViewById(R.id.layout_advice);
         View personalInfo = view.findViewById(R.id.layout_personalInfo);
         View share = view.findViewById(R.id.layout_share);
+        View logout = view.findViewById(R.id.layout_logout);
         //View cleanCache = view.findViewById(R.id.layout_clearCache);
         //View versionUpdate = view.findViewById(R.id.layout_versionUpdate);
         //View functionIntroduction = view.findViewById(R.id.layout_functionIntroduce);
@@ -106,6 +109,7 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
         advice.setOnClickListener(SetBaseFragment.this);
         personalInfo.setOnClickListener(SetBaseFragment.this);
         share.setOnClickListener(SetBaseFragment.this);
+        logout.setOnClickListener(SetBaseFragment.this);
         //cleanCache.setOnClickListener(SetBaseFragment.this);
         //versionUpdate.setOnClickListener(SetBaseFragment.this);
         //functionIntroduction.setOnClickListener(SetBaseFragment.this);
@@ -163,6 +167,13 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
             case R.id.layout_share:
                 intent = new Intent(getActivity(), ShareActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.layout_logout:
+                ACache cache = ACache.get(APP.context);
+                cache.clear();
+                intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
                 break;
 //            case R.id.layout_clearCache:
 //                break;
