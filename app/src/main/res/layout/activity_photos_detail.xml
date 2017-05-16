@@ -128,7 +128,7 @@
                 android:id="@+id/photoset_delete"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/main_green"
+                android:background="@color/rc_draft_color"
                 android:text="@string/photoset_delete"
                 android:textColor="@color/ff_white"
                 android:textSize="14sp" />

@@ -8,7 +8,7 @@
     <string name="title_activity_login">登录</string>
     <string name="forget_password">忘记密码了</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">邮箱/手机号</string>
+    <string name="prompt_email">手机号</string>
     <string name="prompt_password">密码</string>
     <string name="register_code">验证码</string>
     <string name="action_sign_in">注册或登录</string>

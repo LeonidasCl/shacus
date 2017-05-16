@@ -120,14 +120,14 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     //检查输入格式，发弹窗请求到handler，并发网络请求
                     String usrnm = username.getText().toString();
                     String pwd = password.getText().toString();
-                    if (!usrnm.equals("") && !pwd.equals("")){
+                    if (!usrnm.equals("") && !pwd.equals("")&&judgeNameAndPwd(usrnm,pwd)){
                         map.put("phone", usrnm);
                         map.put("password", pwd);
                         map.put("askCode", StatusCode.REQUEST_LOGIN);
                         loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
                         requestFragment.httpRequest(map, CommonUrl.loginAccount);
                     }else {
-                        CommonUtils.getUtilInstance().showToast(LoginActivity.this, "用户名和密码不能为空");
+                        CommonUtils.getUtilInstance().showToast(LoginActivity.this, "请规范用户名和密码：用户名为手机号，密码至少六位");
                         return;
                     }
                 }
@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 if (eventFlag==4){
                     String nickName=username.getText().toString();
                     String password=verifycode.getText().toString();
-                    if (!password.equals("")&&!nickName.equals("")&&!phone.equals("")){
+                    if (!password.equals("")&&!nickName.equals("")&&!phone.equals("")&&judgeNameAndPwd(phone,password)){
                         eventFlag=5;
                         //提交注册信息
                         map.put("phone",phone);
@@ -300,19 +300,16 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             @Override
             public void handleMessage(Message msg){
                 if (msg.what==StatusCode.REQUEST_FAILURE){
-                    //Looper.prepare();
                     loginProgressDlg.cancel();
                     CommonUtils.getUtilInstance().showToast(APP.context, (String)msg.obj);
-                    //Looper.loop();
-                    //finish();
                     return;
                 }
                 if (msg.what==StatusCode.RECIEVE_REGISTER_SUCCESS){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "验证成功!请设置昵称和密码!");
                     view1.setVisibility(View.VISIBLE);
                     view2.setVisibility(View.GONE);
                     btn_verifycode.setVisibility(View.GONE);
-//                  forgotpassword.setVisibility(View.INVISIBLE);
-//                  signup.setVisibility(View.INVISIBLE);
                     username.setText("");
                     verifycode.setText("");
                     username.setHint("请指定昵称");
@@ -324,6 +321,27 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     loginProgressDlg.cancel();
                     CommonUtils.getUtilInstance().showToast(APP.context, "该昵称已被使用");
                 }
+                if (msg.what == 20010){
+                    loginProgressDlg.cancel();//进度条取消
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("result", "登录成功");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    finish();
+                }
+                if (msg.what == 20015){
+                    loginProgressDlg.cancel();//进度条取消
+                    Intent intent = new Intent(getApplicationContext(),SignupActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                if (msg.what == 20013){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "验证码短信已发送");
+                }
+                if (msg.what == 20017){
+                    loginProgressDlg.dismiss();//进度条取消
+                }
             }
         };
 
@@ -331,6 +349,15 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             eventFlag=666;
             signup.performClick();
         }
+    }
+
+    private boolean judgeNameAndPwd(String usrnm, String pwd) {
+        for (int i = usrnm.length();--i>=0;){
+            if (!Character.isDigit(usrnm.charAt(i))){
+                return false;
+            }
+        }
+        return !(usrnm.length() != 11 || pwd.length() < 6);
     }
 
     @Override
@@ -356,12 +383,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 return;
             }
 
-            loginProgressDlg.cancel();//进度条取消
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("result", "登录成功");
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
-            finish();
+            Message msg=mHandler.obtainMessage();
+            msg.what= 20010;
+            mHandler.sendMessage(msg);
+
             return;
         }
 
@@ -375,41 +400,37 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 {
                     if (eventFlag==5)
                     {
-                        loginProgressDlg.cancel();//进度条取消
+
                         Gson gson=new Gson();
                         LoginDataModel loginModel = gson.fromJson(object.getJSONArray("contents").getJSONObject(0).toString(),LoginDataModel.class);
                         ACache cache=ACache.get(LoginActivity.this);
                         cache.put("loginModel", loginModel, ACache.TIME_WEEK * 2);
-                        /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("result","注册成功");
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivity(intent);*/
-                        Intent intent = new Intent(getApplicationContext(),SignupActivity.class);
-                        startActivity(intent);
-
-                        finish();
+                        Message msg=mHandler.obtainMessage();
+                        msg.what= 20015;
+                        mHandler.sendMessage(msg);
                         return;
                     }
 
                     if (eventFlag==3){
-                        loginProgressDlg.cancel();//进度条取消
-                        Looper.prepare();
-                        CommonUtils.getUtilInstance().showToast(APP.context, "验证码短信已发送");
-                        Looper.loop();
+                        Message msg=mHandler.obtainMessage();
+                        msg.what= 20013;
+                        mHandler.sendMessage(msg);
                         return;
                     }
 
                     if (eventFlag==4) {
-                        loginProgressDlg.cancel();//进度条取消
+
                         Message msg=new Message();
                         msg.what=StatusCode.RECIEVE_REGISTER_SUCCESS;
                         mHandler.sendMessage(msg);
-                        Looper.prepare();
-                        CommonUtils.getUtilInstance().showToast(APP.context, "验证成功!请设置昵称和密码!");
-                        Looper.loop();
+
                         return;
                     }
-                    loginProgressDlg.dismiss();//进度条取消
+
+                    Message msg=new Message();
+                    msg.what=20017;
+                    mHandler.sendMessage(msg);
+
                 }else if (code == 10008){
                     eventFlag=4;
                     Message msg=mHandler.obtainMessage();

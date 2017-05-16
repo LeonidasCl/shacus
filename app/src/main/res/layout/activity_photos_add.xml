@@ -169,7 +169,7 @@
             android:id="@+id/upload"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/toolbar_white"
+            android:background="@color/main_green"
             android:text="@string/upload"
             android:textColor="@color/zero_black"
             android:textSize="14sp" />

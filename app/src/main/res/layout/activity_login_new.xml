@@ -255,7 +255,7 @@
 
         </LinearLayout>
 
-        <TextView
+        <!--<TextView
             android:layout_marginBottom="30dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -263,7 +263,7 @@
             android:layout_height="wrap_content"
             android:text="随便看看"
             android:textSize="10sp"
-            android:textColor="@color/ff_white"/>
+            android:textColor="@color/ff_white"/>-->
 
         <!--<View
             android:layout_width="200dp"

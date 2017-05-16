@@ -546,7 +546,7 @@
                 android:id="@+id/btn_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main_green"
+                android:background="@color/rc_voice_color"
                 android:text="私信"
                 android:textColor="#ffffff"/>
 
