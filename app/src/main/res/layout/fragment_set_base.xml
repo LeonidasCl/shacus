@@ -119,6 +119,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/zero_black"></LinearLayout>
+            <RelativeLayout
+                android:id="@+id/layout_logout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start">
+                <TextView
+                    android:id="@+id/text_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="退出登陆"
+                    android:textColor="@color/zero_black"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_margin="10dp"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/zero_black"></LinearLayout>
             <!--<RelativeLayout-->
                 <!--android:id="@+id/layout_functionIntroduce"-->
                 <!--android:layout_width="match_parent"-->
