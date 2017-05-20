@@ -68,7 +68,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     private RelativeLayout button_favor;
     private RelativeLayout button_recommand;
-    boolean isFavor;//是否显示摄影师
+    boolean isFavor=true;//是否显示摄影师
 
     boolean refreshing=false;
     private SwipeRefreshLayout refreshLayout;
@@ -84,6 +84,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
 
     private boolean isFavorEnd=false;
     private boolean isRecommandEnd=false;
+    private boolean isFirstTimeOpen=true;
 
 
     View rankView;
@@ -122,6 +123,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     public void onResume() {
         super.onResume();
         bootData(isFavor ? FAVOR : RECOMMEND);
+        isFirstTimeOpen=false;
         refreshLayout.setRefreshing(true);
         bootCounter = 0;
         personAdapter.refresh(new ArrayList<PhotosetItemModel>());
@@ -385,12 +387,16 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
     private List<PhotosetItemModel> bootData(int type){
         if(type==INIT){
             if(isFavor){
+                if (isFirstTimeOpen){
                 LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
                 List<PhotosetItemModel> persons=null;
                 persons =model.getCollectionList();
                 bootCounter+=persons.size();
                 getYuePaiFlag=true;
                 return persons;
+                }else {
+                    type=FAVOR;
+                }
             } else if(!isFavor){
                 type= RECOMMEND;
                 /*LoginDataModel model=(LoginDataModel)cache.getAsObject("loginModel");
@@ -418,6 +424,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 if (code.equals(String.valueOf(REQUEST_FAVOR_PHOTOSET_LIST))) {
                     if (array.length()<5)
                         isFavorEnd=true;
+                    list.clear();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();
@@ -437,6 +444,7 @@ public class YuePaiFragmentD extends android.support.v4.app.Fragment{
                 }else if (code.equals(String.valueOf(REQUESTRECOMMENDED_PHOTOSET_LIST))) {
                     if (array.length()<5)
                         isRecommandEnd=true;
+                    list.clear();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject info = array.getJSONObject(i);
                         Gson gson = new Gson();

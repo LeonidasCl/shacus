@@ -41,7 +41,7 @@
                 android:id="@+id/ll_favor_photoset"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="3dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -49,6 +49,13 @@
                 android:background="@color/main_green"></LinearLayout>
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="2dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/content_gray"
+            android:layout_weight="0"></LinearLayout>
 
 
         <RelativeLayout
@@ -74,7 +81,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="3dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
