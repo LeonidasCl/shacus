@@ -619,11 +619,157 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_main:
                 btn_main.setSelected(true);
                 btnSelect.setVisibility(View.VISIBLE);
+                btnSelect.setBackgroundResource(R.drawable.toolbar_selector);
+                //为btnSelect设置监听事件
+                btnSelect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialog).create();
+                        // 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
+                        view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_selector_layout, null);
+                        // 设置我们自己定义的布局文件作为弹出框的Content
+                        builder.setView(view);
+                        //要调用顶部的view，这样才会从顶部的view开始搜索
+                        checkbox_sex_all = (CheckBox) view.findViewById(R.id.sex_all);
+                        checkbox_sex_man = (CheckBox) view.findViewById(R.id.sex_man);
+                        checkbox_sex_woman = (CheckBox) view.findViewById(R.id.sex_woman);
+                        checkbox_people_all = (CheckBox) view.findViewById(R.id.people_all);
+                        checkbox_people_photogragher = (CheckBox) view.findViewById(R.id.people_photogragher);
+                        checkbox_people_model = (CheckBox) view.findViewById(R.id.people_model);
+                        //保存上次所选择的记录
+                        if (selector[0]) checkbox_sex_all.setChecked(true);
+                        if (selector[1]) checkbox_sex_man.setChecked(true);
+                        if (selector[2]) checkbox_sex_woman.setChecked(true);
+                        if (selector[3]) checkbox_people_all.setChecked(true);
+                        if (selector[4]) checkbox_people_photogragher.setChecked(true);
+                        if (selector[5]) checkbox_people_model.setChecked(true);
+                        //六个实现每个列表单选的监听方法
+                        checkbox_people_all.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (checkbox_people_model.isChecked())
+                                    checkbox_people_model.setChecked(false);
+                                if (checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
+                                        .setChecked(false);
+                            }
+
+                        });
+                        checkbox_people_photogragher.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                                if (checkbox_people_model.isChecked()) checkbox_people_model
+                                        .setChecked(false);
+                            }
+
+                        });
+
+                        checkbox_people_model.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (checkbox_people_all.isChecked()) checkbox_people_all.setChecked(false);
+                                if (checkbox_people_photogragher.isChecked()) checkbox_people_photogragher
+                                        .setChecked(false);
+                            }
+
+                        });
+                        checkbox_sex_woman.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
+                                if (checkbox_sex_man.isChecked()) checkbox_sex_man
+                                        .setChecked(false);
+                            }
+
+                        });
+                        checkbox_sex_man.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (checkbox_sex_all.isChecked()) checkbox_sex_all.setChecked(false);
+                                if (checkbox_sex_woman.isChecked()) checkbox_sex_woman
+                                        .setChecked(false);
+                            }
+
+                        });
+                        checkbox_sex_all.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (checkbox_sex_woman.isChecked()) checkbox_sex_woman.setChecked(false);
+                                if (checkbox_sex_man.isChecked()) checkbox_sex_man
+                                        .setChecked(false);
+                            }
+
+                        });
+                        //确定时保存当前选择状态
+                        builder.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (checkbox_sex_all.isChecked()) {
+                                    sex_selector[0] = true;
+                                    sex_selector[1] = false;
+                                    sex_selector[2] = false;
+                                }
+                                ;
+                                if (checkbox_sex_man.isChecked()) {
+                                    sex_selector[0] = false;
+                                    sex_selector[1] = true;
+                                    sex_selector[2] = false;
+                                }
+                                if (checkbox_sex_woman.isChecked()) {
+                                    sex_selector[0] = false;
+                                    sex_selector[1] = false;
+                                    sex_selector[2] = true;
+                                }
+                                ;
+
+                                if (checkbox_people_all.isChecked()) {
+                                    people_selector[0] = true;
+                                    people_selector[1] = false;
+                                    people_selector[2] = false;
+                                }
+                                if (checkbox_people_photogragher.isChecked()) {
+                                    people_selector[0] = false;
+                                    people_selector[1] = true;
+                                    people_selector[2] = false;
+                                }
+                                ;
+                                if (checkbox_people_model.isChecked()) {
+                                    people_selector[0] = false;
+                                    people_selector[1] = false;
+                                    people_selector[2] = true;
+                                }
+                                ;
+                                //转移到一个数组中
+                                selector = new boolean[]{sex_selector[0], sex_selector[1], sex_selector[2],
+                                        people_selector[0], people_selector[1], people_selector[2]};
+
+                                ArrayList<RecommandModel> recommandModel = cardListFragment.getmOurList();
+                                cardListFragment.updateOurSelectListView(cardListFragment.selectMethod(recommandModel, selector));
+                            }
+                        });
+
+                        builder.show();
+                        Button btnPositive =
+                                builder.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+                        btnPositive.setTextColor(getResources().getColor(R.color.ff_white));
+                        btnPositive.setTextSize(15);
+
+                    }
+                });
                 toMain();
                 break;
             case R.id.button_find:
                 btn_course.setSelected(true);
-                btnSelect.setVisibility(View.GONE);
+                btnSelect.setVisibility(View.VISIBLE);
+                btnSelect.setBackgroundResource(R.drawable.setting);
+                btnSelect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(APP.context, SettingsActivity.class);
+                        startActivity(intent);
+                    }
+                });
                 toMine();
                 break;
             case R.id.button_yuepai:

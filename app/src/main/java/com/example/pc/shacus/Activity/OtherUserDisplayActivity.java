@@ -77,6 +77,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
     String local = null;
     String himage = null;
     String bimage = null;
+    String sex = null;
     int following = 0;
     int follower = 0;
     int yuepai = 0;
@@ -109,6 +110,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
     NetRequest requestOthers;
 
     Boolean followor;
+    ImageView btnsex;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -145,7 +147,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
         editinfo = (Button) findViewById(R.id.addfollow);
 //        editinfo = (Button) findViewById(R.id.edit_info);
         editinfo.setText("关注");
-
+        btnsex = (ImageView) findViewById(R.id.sex);
 
         LinearLayout grzp = (LinearLayout) findViewById(R.id.grzp);
         LinearLayout zpj = (LinearLayout) findViewById(R.id.zpj);
@@ -346,6 +348,12 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
             editinfo.setText("关注");
         }else {
             editinfo.setText("已关注");
+        }
+
+        if(sex.equals("false")){
+            btnsex.setImageResource(R.drawable.female);
+        } else if(sex.equals("true")){
+            btnsex.setImageResource(R.drawable.male);
         }
     }
 
@@ -565,6 +573,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                 follower = object2.getInt("ulikedN");
                 yuepai = object2.getInt("uapN");
                 followor = object1.getBoolean("follow");
+                sex = String.valueOf(object2.get("usex"));
 
                 message.what = StatusCode.RECIEVE_VISIT_SUCCESS;
                 myHandler.sendMessage(message);
