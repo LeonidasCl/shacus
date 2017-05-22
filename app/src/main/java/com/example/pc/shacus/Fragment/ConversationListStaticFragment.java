@@ -43,6 +43,10 @@ public class ConversationListStaticFragment extends Fragment {
                 .build();
 
         fragment.setUri(uri);
+        //RongIM.getConversationList();
+        //RongIM.getHistoryMessages(Conversation.ConversationType.PRIVATE,);
+
     }
+
 
 }
