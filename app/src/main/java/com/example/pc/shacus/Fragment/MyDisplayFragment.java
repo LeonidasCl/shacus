@@ -86,6 +86,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //    ImageView bigimageview;
     ImageButton settingbtn;
 
+    ImageView btnsex;
     TextView username;
     TextView usersign;
     TextView userlocal;
@@ -115,6 +116,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
     String local = null;
     String himage = null;
     String bimage = null;
+    String sex = null;
     int following = 0;
     int follower = 0;
     int yuepai = 0;
@@ -164,6 +166,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         settingbtn = (ImageButton) view.findViewById(R.id.settingbtn);
         age = (TextView) view.findViewById(R.id.textData_UserAge);
 //        editinfo = (Button) view.findViewById(R.id.edit_info);
+        btnsex = (ImageView) view.findViewById(R.id.sex);
 
         grzp_i1 = (ImageView) view.findViewById(R.id.grzp_i1);
         grzp_i2 = (ImageView) view.findViewById(R.id.grzp_i2);
@@ -199,7 +202,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         });
 
         RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.relativeLayout);
-        relativeLayout.setBackgroundColor(00000000);
+        relativeLayout.setVisibility(View.GONE);
         ImageButton imageButton = (ImageButton) view.findViewById(R.id.backbtn);
         imageButton.setVisibility(View.INVISIBLE);
         TextView textView = (TextView) view.findViewById(R.id.othername);
@@ -393,6 +396,12 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             Glide.with(APP.context)
                     .load(himage)
                     .into(headimage);
+        }
+
+        if(sex.equals("false")){
+            btnsex.setImageResource(R.drawable.female);
+        } else if(sex.equals("true")){
+            btnsex.setImageResource(R.drawable.male);
         }
     }
 
@@ -735,6 +744,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                 following = object2.getInt("ulikeN");
                 follower = object2.getInt("ulikedN");
                 yuepai = object2.getInt("uapN");
+                sex = String.valueOf(object2.get("usex"));
 
                 message.what = StatusCode.RECIEVE_VISIT_SUCCESS;
                 myHandler.sendMessage(message);

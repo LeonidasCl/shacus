@@ -26,14 +26,6 @@
             android:src="@drawable/huodong_loading"
             android:id="@+id/bigimageView" />-->
 
-        <com.example.pc.shacus.View.CircleImageView
-            android:layout_marginTop="50dp"
-            android:id="@+id/imageData_UserImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@mipmap/ic_launcher"
-            android:layout_centerHorizontal="true" />
-
         <!--<Button
             android:id="@+id/edit_info"
             android:layout_width="70dp"
@@ -63,6 +55,7 @@
                 android:layout_centerVertical="true"
                 android:textSize="20sp" />
             <ImageButton
+                android:visibility="gone"
                 android:id="@+id/settingbtn"
                 android:background="@drawable/setting"
                 android:layout_margin="5dp"
@@ -82,6 +75,15 @@
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
+
+        <com.example.pc.shacus.View.CircleImageView
+            android:layout_below="@id/relativeLayout"
+            android:layout_marginTop="10dp"
+            android:id="@+id/imageData_UserImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
@@ -115,9 +117,9 @@
             android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/textData_UserName"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/rank1"/>
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@drawable/female"/>
 
         <TextView
             android:id="@+id/textData_UserAge"
