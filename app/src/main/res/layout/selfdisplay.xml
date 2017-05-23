@@ -106,7 +106,6 @@
             android:id="@+id/textData_UserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/blank"
             android:textSize="@dimen/sp_16"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
@@ -125,7 +124,6 @@
             android:id="@+id/textData_UserAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/blank"
             android:textSize="@dimen/sp_14"
             android:layout_toRightOf="@id/sex"
             android:textColor="@color/zero_black"
@@ -411,7 +409,6 @@
     <LinearLayout
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_above="@id/layout_otheruser_chat"
         android:id="@+id/zpj"
         android:orientation="vertical"
         android:layout_width="match_parent"

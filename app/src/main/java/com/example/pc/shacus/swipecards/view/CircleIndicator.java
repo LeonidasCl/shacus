@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import com.example.pc.shacus.R;
-
+@SuppressWarnings("ResourceType")
 public class CircleIndicator extends LinearLayout {
 
     private final static int DEFAULT_INDICATOR_WIDTH = 5;

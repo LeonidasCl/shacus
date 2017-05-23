@@ -36,6 +36,9 @@
         <meta-data
             android:name="TencentMapSDK"
             android:value="JVYBZ-S7J3F-H2GJN-JD5YW-G3CDO-WTB7Z" />
+        <meta-data
+            android:name="shacus"
+            android:value="22" />
 
         <activity
             android:name=".Activity.MainActivity"

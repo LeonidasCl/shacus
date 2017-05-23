@@ -42,6 +42,7 @@ import java.lang.reflect.Method;
  * translucent system UI modes.
  * 李嘉文 引入
  */
+@SuppressWarnings("ResourceType")
 public class SystemBarTintManager {
 
     static {
