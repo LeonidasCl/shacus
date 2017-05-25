@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton btn_upload;
     private android.support.v7.app.ActionBar actbar;
     private ACache cache;
-    private CircleImageView btnAvartar;
+    //private CircleImageView btnAvartar;
     private TextView textName;
     private Button btnSelect;
     private EditText userSign;
@@ -348,8 +348,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //为侧边栏设置监听，由于此Activity已实现OnNavigationItemSelectedListener接口，可以传this
         navigationView.setNavigationItemSelectedListener(this);
         //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
-        btnAvartar = (CircleImageView) findViewById(R.id.toolbar_btn_avatar);
-        btnAvartar.setOnClickListener(new View.OnClickListener() {
+        //btnAvartar = (CircleImageView) findViewById(R.id.toolbar_btn_avatar);
+        /*btnAvartar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isLogin) {
@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             }
-        });
+        });*/
 
         bottomMenu=(FrameLayout)findViewById(R.id.upload_bottom_entry);
         button_create_yuepai=(Button)findViewById(R.id.create_yuepai);
@@ -445,11 +445,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .error(R.drawable.loading_error)
                     .into(userImage);
 
-            Glide.with(this)
+            /*Glide.with(this)
                     .load(user.getHeadImage()).centerCrop()
 //                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
-                    .into(btnAvartar);
+                    .into(btnAvartar);*/
             //签名
             netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
                 @Override

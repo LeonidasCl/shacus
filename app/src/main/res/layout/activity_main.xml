@@ -20,7 +20,7 @@
         android:gravity="center"/>
     <include layout="@layout/content_main" />
 
-    <!-- 底部菜单 -->
+    <!-- 底部弹出菜单 -->
     <FrameLayout
         android:id="@+id/upload_bottom_entry"
         android:visibility="gone"

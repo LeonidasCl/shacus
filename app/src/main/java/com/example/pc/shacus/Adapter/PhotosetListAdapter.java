@@ -125,6 +125,7 @@ public class PhotosetListAdapter extends BaseAdapter {
         FrameLayout photoset_img_frame;
         TextView photoset_img_count;
         TextView btn_photoset_likecount;
+        TextView tv_create_time;
         LinearLayout ll_item_detail__layout;
 
         public ViewHolder(View view){
@@ -148,6 +149,7 @@ public class PhotosetListAdapter extends BaseAdapter {
             photoset_img_count=(TextView)view.findViewById(R.id.photoset_img_count);
             btn_photoset_likecount=(TextView)view.findViewById(R.id.btn_photoset_likecount);
             ll_item_detail__layout=(LinearLayout)view.findViewById(R.id.ll_item_detail__layout);
+            tv_create_time=(TextView)view.findViewById(R.id.tv_create_time);
         }
 
         void setValues(final PhotosetItemModel item){
@@ -205,7 +207,10 @@ public class PhotosetListAdapter extends BaseAdapter {
                     }
                 }
             };
-
+            //创建时间
+            String createTime=item.getUCcreateT();
+            if (!createTime.equals("")&&!createTime.equals("null"))
+                tv_create_time.setText(createTime);
             //用户头像
             String user_avatar=item.getUserHeadimg().getHeadImage();
             Glide.with(activity)

@@ -12,7 +12,7 @@
     android:layout_width="wrap_content"
     background="@color/toolbar_white">
 
-    <com.example.pc.shacus.View.CircleImageView
+    <!--<com.example.pc.shacus.View.CircleImageView
         android:contentDescription="@string/app_name"
         android:id="@+id/toolbar_btn_avatar"
         android:layout_width="40dp"
@@ -20,7 +20,7 @@
         android:background="@drawable/shape_round"
         android:src="@drawable/holder"
         android:layout_gravity="start|top"
-        app:border_color="#00000000"/>
+        app:border_color="#00000000"/>-->
 
     <TextView
         android:id="@+id/m_toolbar_title"
