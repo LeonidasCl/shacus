@@ -981,7 +981,7 @@ public class YuePaiDetailActivity_new extends AppCompatActivity implements Netwo
                     .load(imgs.get(i))
                     .asBitmap()
                     .centerCrop()
-                    .placeholder(R.drawable.huodong_loading)
+                    .placeholder(R.drawable.holder_horizental)
                             //.error(R.drawable.loading_error)
                     .into(imageView);
             views.add(imageView);

@@ -196,6 +196,8 @@
             </LinearLayout>
         </HorizontalScrollView>
 
+
+
         <TextView
             android:id="@+id/btn_photoset_likecount"
             android:layout_width="wrap_content"
@@ -218,6 +220,7 @@
             android:background="@drawable/btn_praise_selector"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />
+
 
     </RelativeLayout>
 

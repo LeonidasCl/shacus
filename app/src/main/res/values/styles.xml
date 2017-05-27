@@ -187,7 +187,7 @@
         <!-- 页码切换过程的时间长度 -->
         <item name="banner_pageChangeDuration">800</item>
         <!-- 加载网络数据时覆盖在BGABanner最上层的占位图 -->
-        <item name="banner_placeholderDrawable">@drawable/holder</item>
+        <item name="banner_placeholderDrawable">@drawable/holder_horizental</item>
     </style>
 
     <style name="Vita.ActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

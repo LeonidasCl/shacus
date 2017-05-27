@@ -141,7 +141,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:hint="请描述费用"
+                        android:hint="费用描述(仅限数字金额)"
                         android:textColorHint="@color/hint"
                         android:textColor="@color/zero_black"
                         android:layout_marginLeft="10dp"
