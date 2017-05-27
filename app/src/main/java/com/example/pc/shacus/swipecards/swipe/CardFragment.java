@@ -159,6 +159,11 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private boolean[] selector = {true, false,false,true,false,false};
     ArrayList<RecommandModel> tempList;
 
+    //like and unlike
+    UserModel content;
+    LoginDataModel loginModel;
+    ACache aCache;
+    String myid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,6 +173,14 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         display_big_image_layout.setVisibility(View.GONE);
         image_viewpager=(UploadViewPager)rootView.findViewById(R.id.photoset_detail_viewpager);
         position_in_total=(TextView)rootView.findViewById(R.id.photoset_position_total);
+
+        aCache=ACache.get(getActivity());
+        loginModel = (LoginDataModel)aCache.getAsObject("loginModel");
+        content = loginModel.getUserModel();
+        myid = content.getId();
+        authkey = content.getAuth_key();
+
+
         ButterKnife.inject(this, rootView);
         initView();
         requestOurList();
@@ -652,6 +665,22 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             return;
         }
         mSwipeFlingView.selectRight(false);
+
+        NetRequest request1 = new NetRequest(CardFragment.this, getActivity());
+        Map map1=new HashMap();
+        map1.put("uid", myid);
+        map1.put("authkey", authkey);
+
+        RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+
+        map1.put("followerid", card.getUserpublish().getId());
+
+
+        map1.put("type", StatusCode.REQUEST_FOLLOW_USER);
+
+//        map1.put("type",StatusCode.REQUEST_CANCEL_FOLLOWING);
+
+        request1.httpRequest(map1, CommonUrl.getFollowInfo);
     }
 
     @Override
@@ -660,6 +689,22 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             return;
         }
         mSwipeFlingView.selectLeft(false);
+
+        NetRequest request1 = new NetRequest(CardFragment.this, getActivity());
+        Map map1=new HashMap();
+        map1.put("uid", myid);
+        map1.put("authkey", authkey);
+
+        RecommandModel card = mAdapter.getItem(mSwipeFlingView.getmCurPositon());
+
+        map1.put("followerid", card.getUserpublish().getId());
+
+
+//        map1.put("type", StatusCode.REQUEST_FOLLOW_USER);
+
+        map1.put("type",StatusCode.REQUEST_CANCEL_FOLLOWING);
+
+        request1.httpRequest(map1, CommonUrl.getFollowInfo);
     }
 
     @Override
