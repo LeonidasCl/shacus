@@ -9,7 +9,7 @@ android {
         applicationId "com.example.pc.shacus"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 25
+        versionCode 26
         versionName "2.0.3"
         multiDexEnabled true
         //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -56,6 +56,7 @@ dependencies {
     //图片加载
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile files('src/main/libs/universal-image-loader-1.9.5.jar')
     //网络框架
     compile 'com.squareup.okhttp3:okhttp:3.3.1'

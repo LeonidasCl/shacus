@@ -15,6 +15,8 @@ import com.bumptech.glide.request.target.Target;
 import java.util.WeakHashMap;
 import com.example.pc.shacus.Util.GlideRoundTransform;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 import static com.example.pc.shacus.swipecards.util.RetrofitHelper.context;
 
 /**
@@ -43,8 +45,11 @@ public class ImageLoaderHandler {
         Glide.with(activity)
                 .load(url)
                 .dontAnimate()
+//                .centerCrop()
+//                .transform(new GlideRoundTransform(context, 50))
+                .bitmapTransform(new CropCircleTransformation(context))
+                .crossFade(1000)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .transform(new GlideRoundTransform(context, 50))
                 .into(new ImageViewTarget<GlideDrawable>(iv) {
 
                     @Override
