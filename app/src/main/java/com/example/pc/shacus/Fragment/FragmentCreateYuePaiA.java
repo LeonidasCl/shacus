@@ -749,7 +749,10 @@ public class FragmentCreateYuePaiA extends Fragment implements View.OnClickListe
 
     private boolean checkInput() throws ParseException {
 
-
+        if (price_edit.length() > 4) {
+            CommonUtils.getUtilInstance().showLongToast(getActivity(),"价格不能大于9999");
+            return false;
+        }
         if (theme_title_edit.getText().toString().equals("")||theme_title_edit.getText().length()>20){
             CommonUtils.getUtilInstance().showLongToast(getActivity(),"请正确输入标题（20字以内）");
             return false;

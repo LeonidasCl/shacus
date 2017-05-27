@@ -49,6 +49,7 @@
             <HorizontalScrollView
                 android:layout_marginTop="10dp"
                 android:id="@+id/photoset_like_user_scroll"
+                android:layout_marginRight="110dp"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp" >
 
