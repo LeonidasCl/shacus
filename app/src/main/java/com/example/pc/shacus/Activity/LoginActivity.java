@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 if(eventFlag==2){
                     signup.setVisibility(View.VISIBLE);
                     eventFlag=1;
-                    forgotpassword.setText("忘记密码了");
+                    forgotpassword.setText("忘记密码");
                     animationHide.setDuration(500);
                     verifycode.startAnimation(animationHide);
                     verifycode.setVisibility(View.GONE);
@@ -230,7 +230,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     btn_verifycode.setVisibility(View.VISIBLE);
                     view1.setVisibility(View.GONE);
                     view2.setVisibility(View.VISIBLE);
-                    forgotpassword.setText("找回了密码");}
+                    forgotpassword.setText("去登陆");}
                 return;
             }
         });

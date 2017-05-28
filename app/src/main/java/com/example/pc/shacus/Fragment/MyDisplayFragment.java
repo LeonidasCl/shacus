@@ -774,6 +774,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         }*/
         else if(requestUrl.equals(CommonUrl.userImage)){
             JSONObject jsonObject = new JSONObject(result);
+            Log.d("个人照片或作品集", jsonObject.toString());
             int code = Integer.valueOf(jsonObject.getString("code"));
             if(code == StatusCode.REQUEST_USER_GRZP){
                 //个人照片
@@ -782,6 +783,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
                 if(GRZP_NUM != 0){
                     for(int i=0; i < GRZP_NUM; i++){
                         GRZP_URL.add(jsonArray.getString(i));
+                        Log.d("个人照片===",jsonArray.getString(i));
                     }
                 }
                 message.what = GRZP;

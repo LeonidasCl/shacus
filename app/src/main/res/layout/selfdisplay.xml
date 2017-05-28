@@ -319,27 +319,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:weightSum="3">
 
-            <ImageView
-                android:visibility="invisible"
+            <com.example.pc.shacus.View.SquareImageView
+                android:visibility="visible"
                 android:id="@+id/grzp_i1"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/grzp"
                 android:layout_marginRight="5dp" />
-            <ImageView
+            <com.example.pc.shacus.View.SquareImageView
                 android:visibility="invisible"
                 android:id="@+id/grzp_i2"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/grzp"
                 android:layout_marginRight="5dp"/>
@@ -357,22 +357,21 @@
 
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                <ImageView
+                <com.example.pc.shacus.View.SquareImageView
                     android:visibility="invisible"
                     android:background="@color/zero_black"
                     android:id="@+id/grzp_i4"
                     android:layout_width="match_parent"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:src="@drawable/grzp"/>
 
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/grzp_im"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -425,28 +424,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:weightSum="3">
 
-            <ImageView
-                android:visibility="invisible"
+            <com.example.pc.shacus.View.SquareImageView
+                android:visibility="visible"
                 android:id="@+id/zpj_i1"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/grzp"
                 android:layout_marginRight="5dp"/>
 
-            <ImageView
+            <com.example.pc.shacus.View.SquareImageView
                 android:visibility="invisible"
                 android:id="@+id/zpj_i2"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/grzp"
                 android:layout_marginRight="5dp"/>
@@ -462,16 +461,15 @@
                 android:layout_marginRight="5dp"/>-->
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                <ImageView
+                <com.example.pc.shacus.View.SquareImageView
                     android:visibility="invisible"
                     android:id="@+id/zpj_i4"
-                    android:layout_width="match_parent"
-                    android:scaleType="fitCenter"
+                    android:layout_width="wrap_content"
+                    android:scaleType="centerCrop"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:src="@drawable/grzp"/>
 
                 <TextView

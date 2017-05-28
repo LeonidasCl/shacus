@@ -67,7 +67,7 @@ import java.util.regex.Pattern;
 //Time:9.1
 public class PersonalInfoEditActivity extends AppCompatActivity implements View.OnClickListener,NetworkCallbackInterface.NetRequestIterface{
 
-    private EditText userName,userAddress,userPhoneNumber,userEmail;
+    private EditText userName,userSign,userAddress,userPhoneNumber,userEmail;
     private CircleImageView userImage;
     private FrameLayout edit_photo_fullscreen_layout;
     UserModel dataModel;
@@ -179,6 +179,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_back);
         TextView btn_finish = (TextView) findViewById(R.id.btn_finish);
         userName = (EditText) findViewById(R.id.textData_UserName);
+        userSign = (EditText) findViewById(R.id.textData_UserSign);
         userEmail= (EditText) findViewById(R.id.textData_UserEmail);
         userAddress= (EditText) findViewById(R.id.textData_UserAddress);
         userPhoneNumber= (EditText) findViewById(R.id.textData_UserPhoneNumber);
@@ -219,6 +220,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         ACache cache=ACache.get(PersonalInfoEditActivity.this);
         dataModel= ((LoginDataModel) cache.getAsObject("loginModel")).getUserModel();
         getUserName().setText(dataModel.getNickName());
+        getUserSign().setText(dataModel.getSign());
         getUserPhoneNumber().setText(dataModel.getPhone());
         getUserEmail().setText(dataModel.getMailBox());
         getUserAddress().setText(dataModel.getLocation());
@@ -244,6 +246,10 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                 //传入数据
                 if(userName.getText().toString().equals("")) {
                     Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                if(userSign.getText().toString().equals("")) {
+                    Toast.makeText(this, "签名不能为空", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
@@ -283,6 +289,16 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                     map.put("Usermail",getUserEmail().getText().toString());
                     map.put("Userid",dataModel.getId());
                     map.put("type", StatusCode.REQUEST_SETTING_CHANGE_EMAIL);
+                    netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
+                    Log.d("LQQQQQQQ", "Usermail");
+                }
+
+                if(result.charAt(5)=='1'){
+                    HashMap map=new HashMap<>();
+                    map.put("authkey",dataModel.getAuth_key());
+                    map.put("uid",dataModel.getId());
+                    map.put("sign",userSign.getText().toString());
+                    map.put("type", StatusCode.REQUEST_SETTING_CHANGE_SIGN);
                     netRequest.httpRequest(map, CommonUrl.settingChangeNetUrl);
                     Log.d("LQQQQQQQ", "Usermail");
                 }
@@ -344,6 +360,7 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
         if(!dataModel.getPhone().equals(String.valueOf(userPhoneNumber.getText()))){result+="1";}else{result+="0";}
         if(!dataModel.getLocation().equals(String.valueOf(userAddress.getText()))){result+="1";}else{result+="0";}
         if(!dataModel.getMailBox().equals(String.valueOf(userEmail.getText()))){result+="1";}else{result+="0";}
+        if(!dataModel.getSign().equals(String.valueOf(userSign.getText()))){result+="1";}else{result+="0";}
 
         //刷新缓存
         Log.d("LQQQQQQQQQQQ", result);
@@ -353,6 +370,8 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
     public EditText getUserName() {
         return userName;
     }
+
+    public EditText getUserSign(){return userSign;}
 
     public EditText getUserEmail() {
         return userEmail;
@@ -397,6 +416,10 @@ public class PersonalInfoEditActivity extends AppCompatActivity implements View.
                     break;
                 case "10510":
                     Log.d("LQQQQQQQ", "email fail");
+                    break;
+                case "10518":
+                    Log.d("LQQQQQQQ", "sign success");
+                    dataModel.setSign(getUserSign().getText().toString());
                     break;
             }
 

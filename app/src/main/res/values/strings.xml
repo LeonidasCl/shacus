@@ -6,7 +6,7 @@
     <string name="huodong_time">YYYY-MM-DD HH:MM-HH:MM</string>
     <string name="huodong_price">请说明参加活动可能发生的消费</string>
     <string name="title_activity_login">登录</string>
-    <string name="forget_password">忘记密码了</string>
+    <string name="forget_password">忘记密码</string>
     <!-- Strings related to login -->
     <string name="prompt_email">手机号</string>
     <string name="prompt_password">密码</string>
@@ -138,7 +138,7 @@
         <item>记录随拍</item>
         <item>练手互勉</item>
         <item>活动跟拍</item>
-        <item>商业跟拍</item>
+        <item>商业拍摄</item>
     </string-array>
 
     <string-array name="yuepai_diqu">
