@@ -129,6 +129,8 @@
     <string name="create_yuepai_entry">发起约拍</string>
     <string name="create_photoset_entry">发布作品集</string>
     <string name="upload_cancel">取消</string>
+    <string name="photoself_upload">添加个人照片</string>
+    <string name="photoset_overview_upload">添加新作品集</string>
     <drawable name="followt">#ccE6BF66</drawable>
     <drawable name="followf">#cc000000</drawable>
 
