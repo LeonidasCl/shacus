@@ -409,7 +409,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                         grzp_i1.setVisibility(View.VISIBLE);
                         grzp_i2.setVisibility(View.VISIBLE);
 //                        grzp_i3.setVisibility(View.INVISIBLE);
-                        grzp_i4.setVisibility(View.INVISIBLE);
+                        grzp_i4.setVisibility(View.GONE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)
@@ -421,9 +421,9 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                         break;
                     case 1:
                         grzp_i1.setVisibility(View.VISIBLE);
-                        grzp_i2.setVisibility(View.INVISIBLE);
+                        grzp_i2.setVisibility(View.GONE);
 //                        grzp_i3.setVisibility(View.INVISIBLE);
-                        grzp_i4.setVisibility(View.INVISIBLE);
+                        grzp_i4.setVisibility(View.GONE);
                         grzp_im.setVisibility(View.INVISIBLE);
                         grzp_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)
@@ -508,7 +508,7 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                         zpj_i1.setVisibility(View.VISIBLE);
                         zpj_i2.setVisibility(View.VISIBLE);
 //                        zpj_i3.setVisibility(View.INVISIBLE);
-                        zpj_i4.setVisibility(View.INVISIBLE);
+                        zpj_i4.setVisibility(View.GONE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)
@@ -520,9 +520,9 @@ public class OtherUserDisplayActivity extends AppCompatActivity implements  Netw
                         break;
                     case 1:
                         zpj_i1.setVisibility(View.VISIBLE);
-                        zpj_i2.setVisibility(View.INVISIBLE);
+                        zpj_i2.setVisibility(View.GONE);
 //                        zpj_i3.setVisibility(View.INVISIBLE);
-                        zpj_i4.setVisibility(View.INVISIBLE);
+                        zpj_i4.setVisibility(View.GONE);
                         zpj_im.setVisibility(View.INVISIBLE);
                         zpj_n.setVisibility(View.INVISIBLE);
                         Glide.with(APP.context)

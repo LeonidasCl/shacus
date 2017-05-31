@@ -133,6 +133,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
         private int type=0;//0为全部约拍，其它数字为类型
         private int bootCounter=0;
         private int maxRecords = 400;
+        private int last = 6;
         private LoginDataModel userModel;
         private UserModel userData;
         private NetRequest requestFragment;
@@ -145,6 +146,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
                 super.handleMessage(msg);
                 switch(msg.what){
                     case StatusCode.REQUEST_YUEPAI_GRAPH_LIST_SUCCESS:
+                        last = 6;
                         personAdapter.refresh(yuepaiList);
                         personAdapter.notifyDataSetChanged();
                         refreshLayout.setRefreshing(false);
@@ -218,7 +220,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
         }
 
         private void doLoadmore(){
-            if (bootCounter<6||isloading||personAdapter.getCount()==0)//如果数据小于五说明是初始化，不读加载更多
+            if (bootCounter<6||isloading||personAdapter.getCount()==0||last<6)//如果数据小于五说明是初始化，不读加载更多
                 return;
             isloading=true;
             Map<String, Object> map = new HashMap<>();
@@ -248,20 +250,20 @@ public class WantToPhotographActivity extends AppCompatActivity {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                     // 当不滚动时
-                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    /*if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                         // 判断是否滚动到底部
                         if (view.getLastVisiblePosition() == view.getCount() - 1) {
                             doLoadmore();
                             //加载更多功能的代码
                         }
-                    }
+                    }*/
                 }
 
                 @Override
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    /*if ((firstVisibleItem + visibleItemCount > totalItemCount - 2) && (totalItemCount < maxRecords)) {
+                    if ((firstVisibleItem + visibleItemCount > totalItemCount - 2) && (totalItemCount < maxRecords)) {
                         doLoadmore();
-                    }*/
+                    }
                     if (firstVisibleItem >= 1){
                         invis.setVisibility(View.VISIBLE);
                     } else{
@@ -361,6 +363,7 @@ public class WantToPhotographActivity extends AppCompatActivity {
                     yuepaiList.add(photographerModel);
                     addList.add(photographerModel);
                 }
+                last = array.length();
                 bootCounter += array.length();
                 //personAdapter.add(addList);
                 Message msg = handler.obtainMessage();
