@@ -428,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //获取登录状态添加到侧滑栏信息
         if (user != null) {
-            final ACache acache = ACache.get(this);
+            /*final ACache acache = ACache.get(this);
             LoginDataModel model = (LoginDataModel) acache.getAsObject("loginModel");
             user = model.getUserModel();
             ImageView userImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
@@ -445,11 +445,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .error(R.drawable.loading_error)
                     .into(userImage);
 
-            /*Glide.with(this)
+            Glide.with(this)
                     .load(user.getHeadImage()).centerCrop()
 //                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
-                    .into(btnAvartar);*/
+                    .into(btnAvartar);
             //签名
             netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
                 @Override
@@ -539,7 +539,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d("LQQQQQQ", "onEditorAction: ");
                     return false;
                 }
-            });
+            });*/
 
 
             // 和设置缓存中
@@ -548,7 +548,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setModel.setPhoneVisible(false);
             setModel.setUserPhone(user.getPhone());
             setModel.setUserID(user.getId());
-            acache.put("settingModel", setModel);
+            if (cache==null)
+                cache=ACache.get(this);
+            cache.put("settingModel", setModel);
         }
 
     }
@@ -576,7 +578,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private boolean manageLogin() {
-        ACache cache = ACache.get(MainActivity.this);
+        //ACache cache = ACache.get(MainActivity.this);
+        if (cache==null)
+            cache=ACache.get(this);
         LoginDataModel loginModel = (LoginDataModel) cache.getAsObject("loginModel");
         user = loginModel.getUserModel();
         if (user != null) {
