@@ -316,6 +316,17 @@
             android:layout_height="wrap_content"
             android:text="个人照片"/>
 
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/grzp_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/zero_black"
+            android:text="暂无个人照片"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -381,17 +392,6 @@
                     android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
-                <TextView
-                    android:visibility="invisible"
-                    android:id="@+id/grzp_n"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/zero_black"
-                    android:text="暂无个人照片"
-                    android:gravity="center"
-                    android:layout_marginRight="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
 
@@ -420,6 +420,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="作品集"/>
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/zpj_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/zero_black"
+            android:text="暂无作品集"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -483,17 +494,6 @@
                     android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
-                <TextView
-                    android:visibility="invisible"
-                    android:id="@+id/zpj_n"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/zero_black"
-                    android:text="暂无个人照片"
-                    android:gravity="center"
-                    android:layout_marginRight="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
 
         </LinearLayout>
