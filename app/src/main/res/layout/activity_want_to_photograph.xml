@@ -24,6 +24,41 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:popupTheme="@style/Vita.ActionBar.PopupOverlay">
 
+            <RelativeLayout
+                android:id="@+id/t"
+                android:background="@color/toolbar_white"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+
+                <TextView
+                    android:id="@+id/follow"
+                    android:textSize="20dp"
+                    android:text="我想拍模特"
+                    android:textColor="@color/zero_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"/>
+
+
+                <ImageButton
+                    android:id="@+id/backbtn"
+                    android:background="@drawable/backbtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"/>
+
+
+                <ImageButton
+                    android:visibility="invisible"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

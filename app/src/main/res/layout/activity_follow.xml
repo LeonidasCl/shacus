@@ -27,8 +27,7 @@
 
         <ImageButton
             android:id="@+id/backbtn"
-            android:background="@color/toolbar_white"
-            android:src="@drawable/button_back2"
+            android:background="@drawable/backbtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"

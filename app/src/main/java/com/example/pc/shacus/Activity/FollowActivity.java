@@ -246,6 +246,7 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
     public void requestFinish(String result, String requestUrl) throws JSONException {
         if(requestUrl.equals(CommonUrl.getFollowInfo)){//返回我的关注或粉丝信息
             JSONObject object = new JSONObject(result);
+            Log.d("SSSSSSSSSSSSSSS",object.toString());
             int code = Integer.valueOf(object.getString("code"));
             Message msg = new Message();
 

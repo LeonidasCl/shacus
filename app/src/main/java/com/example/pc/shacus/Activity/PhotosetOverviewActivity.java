@@ -42,6 +42,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,7 +53,8 @@ import org.json.JSONObject;
 
 public class PhotosetOverviewActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface{
 
-    private TextView back,title,edit;
+    private TextView title,edit;
+    private ImageButton back;
     private boolean isEditing=false;
     FluidGridAdapter fluidGridAdapter;
     ArrayList<ImageData> imageDatas=new ArrayList<>();
@@ -75,8 +77,8 @@ public class PhotosetOverviewActivity extends AppCompatActivity implements Netwo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos_overview);
         request=new NetRequest(this,this);
-        back=(TextView) findViewById(R.id.photoset_toolbar_back);
-        back.setText("＜返回");
+        back= (ImageButton) findViewById(R.id.photoset_toolbar_back);
+//        back.setText("＜返回");
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
