@@ -78,11 +78,11 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/relativeLayout"
-            android:background="@color/content_cutting_gray_b3"></LinearLayout>
+            android:background="@color/content_cutting_gray_b3"></LinearLayout>-->
 
         <com.example.pc.shacus.View.CircleImageView
             android:layout_below="@id/relativeLayout"
@@ -328,6 +328,7 @@
 
     <LinearLayout
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/grzp"
         android:orientation="vertical"
@@ -339,13 +340,13 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/black_v1_p80"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个人照片"/>
 
         <TextView
-            android:visibility="invisible"
+            android:visibility="gone"
             android:id="@+id/grzp_n"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -361,7 +362,6 @@
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:weightSum="3">
 
             <com.example.pc.shacus.View.SquareImageView
@@ -371,7 +371,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/grzp"
+                android:src="@drawable/holder_square"
                 android:layout_marginRight="5dp" />
 
             <com.example.pc.shacus.View.SquareImageView
@@ -381,7 +381,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/grzp"
+                android:src="@drawable/holder_square"
                 android:layout_marginRight="5dp"/>
 
 
@@ -447,13 +447,13 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/black_v1_p80"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="作品集"/>
 
         <TextView
-            android:visibility="invisible"
+            android:visibility="gone"
             android:id="@+id/zpj_n"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -469,7 +469,6 @@
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:weightSum="3">
 
             <com.example.pc.shacus.View.SquareImageView
@@ -479,7 +478,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/grzp"
+                android:src="@drawable/holder_square"
                 android:layout_marginRight="5dp"/>
 
             <com.example.pc.shacus.View.SquareImageView

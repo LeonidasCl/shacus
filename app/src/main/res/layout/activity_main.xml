@@ -36,7 +36,7 @@
                 android:id="@+id/create_yuepai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/rc_voice_color"
+                android:background="@color/main_green"
                 android:text="@string/create_yuepai_entry"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
@@ -44,7 +44,7 @@
                 android:id="@+id/create_photoset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main_green"
+                android:background="@color/second_green"
                 android:text="@string/create_photoset_entry"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />

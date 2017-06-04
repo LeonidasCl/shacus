@@ -128,9 +128,9 @@
                 android:id="@+id/photoset_delete"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/rc_draft_color"
+                android:background="@color/ff_white"
                 android:text="@string/photoset_delete"
-                android:textColor="@color/ff_white"
+                android:textColor="@color/black_v1_p80"
                 android:textSize="14sp" />
         <Button
             android:id="@+id/photoset_upload"
