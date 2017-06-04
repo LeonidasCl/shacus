@@ -110,14 +110,14 @@
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:textColor="@color/zero_black"
-            android:text="啦啦啦啦"/>
+            android:text="正在加载"/>
         <ImageView
             android:id="@+id/sex"
             android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/textData_UserName"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/female"/>
 
         <TextView
@@ -132,22 +132,38 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textData_UserLocal"
+    <LinearLayout
+        android:id="@+id/local"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@id/info"
-        android:textSize="@dimen/sp_14"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/zero_black"
-        android:text="常住 江苏 南京"/>
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:src="@drawable/localbtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:id="@+id/textData_UserLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/info"
+            android:textSize="@dimen/sp_14"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/zero_black"
+            android:text="江苏 南京"/>
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/textData_UserSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_14"
-        android:layout_below="@id/textData_UserLocal"
+        android:layout_below="@id/local"
         android:layout_centerHorizontal="true"
         android:textColor="@color/zero_black"
         android:text="个人简介--我是追影人"/>

@@ -387,11 +387,12 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
         usersign.setText(sign);
 
         if(local.equals("")){
-            local = "常住--暂无";
-        }else {
+//            local = "常住--暂无";
+            local = "暂无";
+        }/*else {
             String temp = local;
             local = "常住--" + temp;
-        }
+        }*/
         userlocal.setText(local);
 
         myyuepainum.setText(Integer.toString(yuepai));
@@ -785,6 +786,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             if(code == StatusCode.REQUEST_USER_GRZP){
                 //个人照片
                 JSONArray jsonArray = jsonObject.getJSONArray("contents");
+                GRZP_URL= new ArrayList();
                 GRZP_NUM = jsonArray.length();
                 if(GRZP_NUM != 0){
                     for(int i=0; i < GRZP_NUM; i++){
@@ -797,6 +799,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             }else if (code == StatusCode.REQUEST_USER_ZPJ){
                 //作品集
                 JSONArray jsonArray = jsonObject.getJSONArray("contents");
+                ZPJ_URL = new ArrayList<>();
                 ZPJ_NUM = jsonArray.length();
                 if(ZPJ_NUM != 0){
                     for(int i = 0; i < ZPJ_NUM; i++){

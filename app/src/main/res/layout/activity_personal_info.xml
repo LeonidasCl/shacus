@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
+        android:id="@+id/a"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,11 +16,11 @@
 
         <com.example.pc.shacus.View.CircleImageView
             android:id="@+id/imageData_UserImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/user_image"
             android:layout_centerInParent="true"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="100dp"
             android:layout_below="@+id/relativeLayout"
             android:layout_centerHorizontal="true" />
 
@@ -31,10 +32,11 @@
             android:id="@+id/relativeLayout">
             <ImageButton
                 android:id="@+id/btn_back"
-                android:background="@drawable/button_back"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"/>
+                android:background="@drawable/backbtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,6 +46,7 @@
                 android:layout_centerVertical="true"
                 android:textSize="20sp" />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/btn_edit"
                 android:text="编辑"
                 android:textColor="#ffffff"
@@ -69,16 +72,17 @@
 
 
     <RelativeLayout
+        android:id="@+id/b"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_below="@id/textData_UserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/shape_border"
             android:id="@+id/layout_UserSign"
             android:gravity="start">
             <TextView
@@ -90,23 +94,31 @@
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>
             <TextView
+                android:maxLines="1"
                 android:id="@+id/textData_UserSign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123456789@qq.com"
-                android:textColor="#d6d3d3"
+                android:textColor="#88000000"
                 android:textSize="@dimen/sp_14"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="25dp"/>
+
         </RelativeLayout>
 
         <RelativeLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_below="@+id/layout_UserSign"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dip"
+            android:background="#b3b3b3"></RelativeLayout>
+
+        <RelativeLayout
             android:layout_below="@id/layout_UserSign"
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/shape_border"
             android:id="@+id/layout_UserEmail"
             android:gravity="start">
             <TextView
@@ -118,11 +130,12 @@
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>
             <TextView
+                android:maxLines="1"
                 android:id="@+id/textData_UserEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123456789@qq.com"
-                android:textColor="#d6d3d3"
+                android:textColor="#88000000"
                 android:textSize="@dimen/sp_14"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
@@ -130,10 +143,16 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_below="@+id/layout_UserEmail"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dip"
+            android:background="#b3b3b3"></RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/shape_border"
             android:id="@+id/layout_UserAddress"
             android:gravity="start"
             android:layout_below="@id/layout_UserEmail">
@@ -146,22 +165,30 @@
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>
             <TextView
+                android:maxLines="1"
                 android:id="@+id/textData_UserAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="中国 江苏 南京"
-                android:textColor="#d6d3d3"
+                android:textColor="#88000000"
                 android:textSize="@dimen/sp_14"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="25dp"/>
         </RelativeLayout>
+
         <RelativeLayout
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_below="@+id/layout_UserAddress"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dip"
+            android:background="#b3b3b3"></RelativeLayout>
+
+        <RelativeLayout
             android:layout_below="@id/layout_UserAddress"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/shape_border"
             android:id="@+id/layout_UserPhoneNumber"
             android:gravity="start">
             <TextView
@@ -173,11 +200,12 @@
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"/>
             <TextView
+                android:maxLines="1"
                 android:id="@+id/textData_UserPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="111"
-                android:textColor="#d6d3d3"
+                android:textColor="#88000000"
                 android:textSize="@dimen/sp_14"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
@@ -186,11 +214,11 @@
     </RelativeLayout>
 
     <Button
+        android:layout_below="@+id/b"
         android:id="@+id/textData_Edit"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
         android:textSize="@dimen/sp_16"
         android:layout_width="match_parent"
         android:layout_height="40dp"

@@ -38,6 +38,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -114,7 +115,8 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private Handler handler;
 
     private int type=-1;//类型 1为上传个人照片 2为发布作品集 3为给作品集添加图片
-    private TextView back,title;
+    private TextView title;
+    private ImageButton back;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -131,8 +133,7 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         type=typo;
 
 
-        back=(TextView) findViewById(R.id.photoset_toolbar_back);
-        back.setText("＜返回");
+        back= (ImageButton) findViewById(R.id.photoset_toolbar_back);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
