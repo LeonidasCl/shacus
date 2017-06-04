@@ -37,4 +37,5 @@
     <color name="black_v2">#747575</color>
     <color name="black_v3">#b3b3b3</color>
     <color name="content_cutting_gray">#E6E6E6</color>
+    <color name="content_cutting_gray_b3">#B3B3B3</color>
 </resources>
