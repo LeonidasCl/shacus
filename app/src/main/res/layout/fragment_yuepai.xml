@@ -50,7 +50,7 @@
                 android:textSize="12sp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:textColor="@color/zero_black"/>
+                android:textColor="@color/main_green"/>
         </LinearLayout>
     <LinearLayout
         android:layout_height="match_parent"
@@ -76,7 +76,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:textColor="@color/zero_black"/>
+            android:textColor="@color/main_green"/>
     </LinearLayout>
     <LinearLayout
         android:layout_height="match_parent"
@@ -102,7 +102,7 @@
             android:layout_marginTop="5dp"
             android:textSize="12sp"
             android:layout_marginBottom="5dp"
-            android:textColor="@color/zero_black"/>
+            android:textColor="@color/main_green"/>
     </LinearLayout>
 
     <!--<LinearLayout

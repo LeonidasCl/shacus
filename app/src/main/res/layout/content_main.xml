@@ -28,7 +28,7 @@
         navilayout:layout_heightPercent="10%"
         navilayout:layout_widthPercent="100%"
         android:layout_gravity="bottom"
-        android:background="#90000000"
+        android:background="#e8ffffff"
         android:orientation="horizontal">
 
 
@@ -36,6 +36,7 @@
             android:contentDescription="@string/app_name"
             android:id="@+id/button_main"
             android:layout_width="0dp"
+            android:padding="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/btn_main_selector"
@@ -47,6 +48,7 @@
             android:contentDescription="@string/app_name"
             android:id="@+id/button_yuepai"
             android:layout_width="0dp"
+            android:padding="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/btn_yuepai_selector"
@@ -58,6 +60,7 @@
             android:contentDescription="@string/app_name"
             android:id="@+id/button_upload"
             android:layout_width="0dp"
+            android:padding="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/add_before"
@@ -69,6 +72,7 @@
             android:contentDescription="@string/app_name"
             android:id="@+id/button_user"
             android:layout_width="0dp"
+            android:padding="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/btn_user_selector"
@@ -80,6 +84,7 @@
             android:contentDescription="@string/app_name"
             android:id="@+id/button_find"
             android:layout_width="0dp"
+            android:padding="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/btn_find_selector"

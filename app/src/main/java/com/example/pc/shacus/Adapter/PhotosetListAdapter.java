@@ -173,15 +173,15 @@ public class PhotosetListAdapter extends BaseAdapter {
                             item.getUserlikeList().add(userModel);
                         JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, item.getUserlikeList(),true);
                         photoset_grid_join_user_scroll.setAdapter(adapter);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 140, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 130, LinearLayout.LayoutParams.WRAP_CONTENT);
                         photoset_grid_join_user_scroll.setLayoutParams(params);
-                        photoset_grid_join_user_scroll.setColumnWidth(130);
+                        photoset_grid_join_user_scroll.setColumnWidth(120);
                         photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                         int itemCount = adapter.getCount();
                         photoset_grid_join_user_scroll.setNumColumns(itemCount);
 
                         btn_photoset_addlike.setSelected(true);
-                        if (Integer.valueOf(item.getUserlikeNum())>3){
+                        if (Integer.valueOf(item.getUserlikeNum())>6){
                             btn_photoset_likecount.setText("等"+item.getUserlikeNum()+"人赞");
                         }else {
                             String likeCount="共"+item.getUserlikeNum()+"赞";
@@ -192,15 +192,15 @@ public class PhotosetListAdapter extends BaseAdapter {
                         btn_photoset_addlike.setClickable(true);
                         JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, item.getUserlikeList(),true);
                         photoset_grid_join_user_scroll.setAdapter(adapter);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 140, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 130, LinearLayout.LayoutParams.WRAP_CONTENT);
                         photoset_grid_join_user_scroll.setLayoutParams(params);
-                        photoset_grid_join_user_scroll.setColumnWidth(130);
+                        photoset_grid_join_user_scroll.setColumnWidth(120);
                         photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                         int itemCount = adapter.getCount();
                         photoset_grid_join_user_scroll.setNumColumns(itemCount);
 
                         btn_photoset_addlike.setSelected(false);
-                        if (Integer.valueOf(item.getUserlikeNum())>3){
+                        if (Integer.valueOf(item.getUserlikeNum())>6){
                             btn_photoset_likecount.setText("等"+item.getUserlikeNum()+"人赞");
                         }else {
                             String likeCount="共"+item.getUserlikeNum()+"赞";
@@ -427,14 +427,14 @@ public class PhotosetListAdapter extends BaseAdapter {
             List<UserModel> userlike=item.getUserlikeList();
             JoinUserGridAdapter adapter = new JoinUserGridAdapter(activity, userlike,true);
             photoset_grid_join_user_scroll.setAdapter(adapter);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 140, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 130, LinearLayout.LayoutParams.WRAP_CONTENT);
             photoset_grid_join_user_scroll.setLayoutParams(params);
-            photoset_grid_join_user_scroll.setColumnWidth(130);
+            photoset_grid_join_user_scroll.setColumnWidth(120);
             photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
             int itemCount = adapter.getCount();
             photoset_grid_join_user_scroll.setNumColumns(itemCount);
             //处理点赞人数量
-            if (Integer.valueOf(item.getUserlikeNum())>3)
+            if (Integer.valueOf(item.getUserlikeNum())>6)
             {
                 btn_photoset_likecount.setText("等"+item.getUserlikeNum()+"人赞");}
             else {

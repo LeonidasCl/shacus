@@ -61,7 +61,7 @@
 
 </android.support.design.widget.CoordinatorLayout>
 
-    <!--侧滑菜单-->
+    <!--侧滑菜单
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="300dp"
@@ -72,6 +72,6 @@
         app:itemTextColor="@color/ff_white"
         app:itemIconTint="@color/ff_white"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" />-->
 
 </android.support.v4.widget.DrawerLayout>

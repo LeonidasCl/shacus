@@ -7,7 +7,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="1dp"
+        android:background="@color/content_cutting_gray"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_weight="0"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -17,8 +25,6 @@
 
 
         <RelativeLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:orientation="horizontal"
             android:id="@+id/button_favor"
             android:layout_width="0dp"
@@ -32,7 +38,8 @@
                 android:layout_marginTop="5dp"
                 android:id="@+id/btn_favor_photoset"
                 android:text="好友"
-                android:textSize="18sp"
+                android:textColor="@color/black_v3"
+                android:textSize="16sp"
                 android:gravity="center_horizontal"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
@@ -50,17 +57,15 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="2dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:background="@color/content_gray"
-            android:layout_weight="0"></LinearLayout>
+            android:layout_weight="0"></LinearLayout>-->
 
 
         <RelativeLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:id="@+id/button_recommend"
             android:layout_width="0dp"
             android:layout_weight="40"
@@ -74,7 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="精选"
-                android:textSize="18sp"
+                android:textColor="@color/black_v3"
+                android:textSize="16sp"
                 android:gravity="center_horizontal"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
@@ -100,6 +106,19 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/content_cutting_gray"
+        android:layout_weight="0"></LinearLayout>
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="5dp"
+        android:id="@+id/rank_list"
+        android:divider="#ffffff"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -107,12 +126,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="5dp"
-            android:id="@+id/rank_list"
-            android:divider="#ffffff"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -291,12 +291,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED||
-           ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-         ||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-         ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-         ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,
@@ -344,9 +343,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //这个是父布局，也就是这个Activity的根布局
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         //找到侧边栏
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView = (NavigationView) findViewById(R.id.nav_view);
         //为侧边栏设置监听，由于此Activity已实现OnNavigationItemSelectedListener接口，可以传this
-        navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.setNavigationItemSelectedListener(this);
         //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
         //btnAvartar = (CircleImageView) findViewById(R.id.toolbar_btn_avatar);
         /*btnAvartar.setOnClickListener(new View.OnClickListener() {
