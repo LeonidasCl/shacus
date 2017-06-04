@@ -59,14 +59,14 @@
                 android:id="@+id/settingbtn"
                 android:background="@drawable/setting"
                 android:layout_margin="5dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:gravity="center"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"/>
             <ImageButton
                 android:id="@+id/backbtn"
-                android:background="@drawable/button_back"
+                android:background="@drawable/backbtn"
                 android:layout_margin="5dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -133,28 +133,30 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/textData_UserSign"
+        android:id="@+id/textData_UserLocal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/info"
         android:textSize="@dimen/sp_14"
         android:layout_centerHorizontal="true"
         android:textColor="@color/zero_black"
-        android:text="个人简介--我是追影人"/>
+        android:text="常住 江苏 南京"/>
+
     <TextView
-        android:id="@+id/textData_UserLocal"
+        android:id="@+id/textData_UserSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textData_UserSign"
         android:textSize="@dimen/sp_14"
+        android:layout_below="@id/textData_UserLocal"
         android:layout_centerHorizontal="true"
         android:textColor="@color/zero_black"
-        android:text="常住 江苏 南京"/>
+        android:text="个人简介--我是追影人"/>
+
     <TextView
         android:id="@+id/space2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textData_UserLocal"
+        android:layout_below="@id/textData_UserSign"
         android:textSize="5sp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/transparent" />
@@ -316,6 +318,17 @@
             android:layout_height="wrap_content"
             android:text="个人照片"/>
 
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/grzp_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/zero_black"
+            android:text="暂无个人照片"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -381,17 +394,6 @@
                     android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
-                <TextView
-                    android:visibility="invisible"
-                    android:id="@+id/grzp_n"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/zero_black"
-                    android:text="暂无个人照片"
-                    android:gravity="center"
-                    android:layout_marginRight="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
 
@@ -420,6 +422,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="作品集"/>
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/zpj_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/zero_black"
+            android:text="暂无作品集"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -483,17 +496,6 @@
                     android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
-                <TextView
-                    android:visibility="invisible"
-                    android:id="@+id/zpj_n"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/zero_black"
-                    android:text="暂无个人照片"
-                    android:gravity="center"
-                    android:layout_marginRight="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
 
         </LinearLayout>

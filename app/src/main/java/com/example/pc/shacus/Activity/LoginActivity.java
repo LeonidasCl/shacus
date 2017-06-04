@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -59,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     private CountDownTimer timeCount;
     private String phone;
     private int pflag=0;//是否在guide里点击了注册按钮的flag
-    private int eventFlag=1;//1为登录 2为忘记密码 3为验证注册 4为验证注册通过 5为提交注册通过
+    private int eventFlag=1;//1为登录 2为忘记密码 3为验证注册 4为验证注册通过 5为提交注册通过 6为修改密码验证
     TranslateAnimation animationHide=new TranslateAnimation(Animation.RELATIVE_TO_SELF,
             0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
             Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
@@ -77,6 +78,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
 
     View view1;
     View view2;
+    View view111;
+    String trueCODE;
 
     @Override
     protected void onRestart() {
@@ -111,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
 
         view1 = findViewById(R.id.view1);
         view2 = findViewById(R.id.view2);
+        view111 = findViewById(R.id.view111);
 
         btn_login.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -131,10 +135,27 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         return;
                     }
                 }
+                //忘记密码
                 if (eventFlag==2){
-                    return;
+                    String name=username.getText().toString();
+                    String code=verifycode.getText().toString();
+                    trueCODE = code;
+                    if (!code.equals("")&&!name.equals("")){
+                        //验证验证码是否正确
+                        map.put("phone",name);
+                        phone=name;
+                        map.put("code",code);
+                        map.put("type", StatusCode.REQUEST_FORGOTPW_YZ);
+                        requestFragment.httpRequest(map, CommonUrl.forgotpw);
+                        loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
+                        return;
+                    }else {
+                        CommonUtils.getUtilInstance().showToast(LoginActivity.this,"请输入用户名和验证码");
+                        return;
+                    }
                 }
-                if (eventFlag==3){
+
+                if (eventFlag==3 ){
                     String name=username.getText().toString();
                     String code=verifycode.getText().toString();
                     if (!code.equals("")&&!name.equals("")){
@@ -166,7 +187,27 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                         loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
                         return;
                     }else {
-                        CommonUtils.getUtilInstance().showToast(LoginActivity.this,"请完善注册信息");
+                        CommonUtils.getUtilInstance().showToast(LoginActivity.this,"请完善信息");
+                        return;
+                    }
+                }
+
+                if(eventFlag==6){//修改密码
+                    String password=verifycode.getText().toString();
+                    if (!password.equals("")&&!phone.equals("")&&judgeNameAndPwd(phone,password)){
+//                        eventFlag=5;
+                        //提交注册信息
+                        if(!trueCODE.equals("")){
+                            map.put("phone",phone);
+                            map.put("password",password);
+                            map.put("type", StatusCode.REQUEST_FORGOTPW_SET);
+                            map.put("code",trueCODE);
+                            requestFragment.httpRequest(map, CommonUrl.forgotpw);
+                            loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
+                        }
+                        return;
+                    }else {
+                        CommonUtils.getUtilInstance().showToast(LoginActivity.this,"请完善信息");
                         return;
                     }
                 }
@@ -176,19 +217,26 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
         btn_verifycode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map map=new HashMap();
-                if (eventFlag==3){
+                Map map=new HashMap();//忘记密码
+                if (eventFlag==3 || eventFlag == 2){
                     view1.setVisibility(View.GONE);
                     view2.setVisibility(View.VISIBLE);
                     String usrnm=username.getText().toString();
-                    if (!usrnm.equals(""))
+                    if (!usrnm.equals("")&&eventFlag==3)
                     {
                         map.put("phone",usrnm);
                         map.put("type",StatusCode.REQUEST_REGISTER_VERIFYA);
                         requestFragment.httpRequest(map, CommonUrl.registerAccount);
                         loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
                         timeCount.start();
-                    }else {
+                    }else if(!usrnm.equals("")&&eventFlag==2){
+                        map.put("phone",usrnm);
+                        map.put("type",StatusCode.REQUEST_FORGOTPW);
+                        requestFragment.httpRequest(map, CommonUrl.forgotpw);
+                        loginProgressDlg = ProgressDialog.show(LoginActivity.this, "shacus", "处理中", true, false);
+                        timeCount.start();
+                    }
+                    else {
                         CommonUtils.getUtilInstance().showToast(LoginActivity.this,"请输入用户名");
                     }
                 }
@@ -210,15 +258,18 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     verifycode.setVisibility(View.GONE);
                     animationShow.setDuration(500);
                     password.startAnimation(animationShow);
+                    username.setText("");
+                    username.setVisibility(View.VISIBLE);
+                    username.setHint("手机号");
+                    view111.setVisibility(View.VISIBLE);
                     btn_verifycode.setVisibility(View.GONE);
                     view1.setVisibility(View.VISIBLE);
                     view2.setVisibility(View.GONE);
                     password.setVisibility(View.VISIBLE);
+                    btn_login.setText("  登   录");
                     return;
                 }
                 if(eventFlag!=2){
-
-
 //                signup.setVisibility(View.INVISIBLE);
                     eventFlag=2;
                     animationHide.setDuration(500);
@@ -226,11 +277,17 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     password.setVisibility(View.GONE);
                     animationShow.setDuration(500);
                     verifycode.startAnimation(animationShow);
+                    username.setText("");
+                    username.setVisibility(View.VISIBLE);
+                    username.setHint("手机号");
+                    view111.setVisibility(View.VISIBLE);
                     verifycode.setVisibility(View.VISIBLE);
                     btn_verifycode.setVisibility(View.VISIBLE);
                     view1.setVisibility(View.GONE);
                     view2.setVisibility(View.VISIBLE);
-                    forgotpassword.setText("去登陆");}
+                    forgotpassword.setText("去登陆");
+                    btn_login.setText("验证账号");
+                }
                 return;
             }
         });
@@ -246,6 +303,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     animationShow.setDuration(500);
                     verifycode.startAnimation(animationShow);
                     verifycode.setVisibility(View.VISIBLE);
+                    username.setText("");
+                    username.setVisibility(View.VISIBLE);
+                    username.setHint("手机号");
+                    view111.setVisibility(View.VISIBLE);
                     signup.setText("老用户登录");
 //                forgotpassword.setVisibility(View.INVISIBLE);
                     btn_verifycode.setVisibility(View.VISIBLE);
@@ -268,7 +329,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                     btn_verifycode.setVisibility(View.GONE);
                     view2.setVisibility(View.GONE);
                     view1.setVisibility(View.VISIBLE);
-
+                    username.setText("");
+                    username.setVisibility(View.VISIBLE);
+                    username.setHint("手机号");
+                    view111.setVisibility(View.VISIBLE);
 
 //                    forgotpassword.setVisibility(View.VISIBLE);
                     btn_login.setText("  登   录");
@@ -342,6 +406,64 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 if (msg.what == 20017){
                     loginProgressDlg.dismiss();//进度条取消
                 }
+                if (msg.what == StatusCode.REQUEST_FORGOTPW){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "验证码短信已发送");
+                }
+                if (msg.what == StatusCode.REQUEST_FORGOTPW_ERROR){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "服务器错误");
+                }
+                if (msg.what == StatusCode.REQUEST_FORGOTPW_NONE){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "该手机号尚未注册");
+                }
+                if (msg.what == StatusCode.REQUEST_FORGOTPW_YZ){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "验证成功!请重新设置密码!");
+                    eventFlag = 6;
+                    view1.setVisibility(View.VISIBLE);
+                    view111.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
+                    btn_verifycode.setVisibility(View.GONE);
+                    username.setText("");
+                    verifycode.setText("");
+                    username.setVisibility(View.GONE);
+                    verifycode.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    verifycode.setHint("请设置密码");
+                    btn_login.setText("  修改密码");
+                }
+                if (msg.what == StatusCode.REQUEST_FORGOTPW_YZ_ERROR){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "验证码验证失败");
+                    trueCODE = "";
+                }
+                if (msg.what == StatusCode.REQUEST_FORGOTPW_SET){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "修改密码成功，去登陆吧~");
+                    eventFlag = 1;
+                    animationHide.setDuration(500);
+                    verifycode.startAnimation(animationHide);
+                    verifycode.setVisibility(View.GONE);
+                    animationShow.setDuration(500);
+                    password.startAnimation(animationShow);
+                    password.setVisibility(View.VISIBLE);
+                    password.setHint("密码");
+                    password.setText("");
+                    username.setText("");
+                    username.setVisibility(View.VISIBLE);
+                    username.setHint("手机号");
+                    view111.setVisibility(View.VISIBLE);
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.GONE);
+                    signup.setText("新用户注册");
+                    forgotpassword.setText("忘记密码");
+                    btn_login.setText("  登   录");
+                }
+                if (msg.what == StatusCode.REQUEST_FORGOTPW_SET_ERROR){
+                    loginProgressDlg.cancel();//进度条取消
+                    CommonUtils.getUtilInstance().showToast(APP.context, "修改密码失败，请重试");
+                }
             }
         };
 
@@ -390,6 +512,51 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             return;
         }
 
+        if (requestUrl.equals(CommonUrl.forgotpw)){
+            try {
+                JSONObject object = new JSONObject(result);
+                int code = Integer.valueOf(object.getString("code"));
+                if(code == StatusCode.REQUEST_FORGOTPW){//手机号验证成功，发送验证码
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FORGOTPW;
+                    mHandler.sendMessage(msg);
+                    return;
+                }else if(code == StatusCode.REQUEST_FORGOTPW_ERROR){//服务器错误
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FORGOTPW_ERROR;
+                    mHandler.sendMessage(msg);
+                    return;
+                }else if(code == StatusCode.REQUEST_FORGOTPW_NONE){//手机未注册
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FORGOTPW_NONE;
+                    mHandler.sendMessage(msg);
+                    return;
+                }else if(code == StatusCode.REQUEST_FORGOTPW_YZ){
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FORGOTPW_YZ;
+                    mHandler.sendMessage(msg);
+                    return;
+                }else if(code == StatusCode.REQUEST_FORGOTPW_YZ_ERROR){
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FORGOTPW_YZ_ERROR;
+                    mHandler.sendMessage(msg);
+                    return;
+                }else if(code == StatusCode.REQUEST_FORGOTPW_SET){
+
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FORGOTPW_SET;
+                    mHandler.sendMessage(msg);
+                    return;
+                }else if(code == StatusCode.REQUEST_FORGOTPW_SET_ERROR){
+                    Message msg=mHandler.obtainMessage();
+                    msg.what= StatusCode.REQUEST_FORGOTPW_SET_ERROR;
+                    mHandler.sendMessage(msg);
+                    return;
+                }
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (requestUrl.equals(CommonUrl.registerAccount)){//返回了注册请求
             try {

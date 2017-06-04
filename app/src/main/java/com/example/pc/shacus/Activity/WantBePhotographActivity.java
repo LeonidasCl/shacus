@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AbsListView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -95,9 +96,9 @@ public class WantBePhotographActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int position=tab.getPosition();
-                if (position>0)
-                    group_description.setText(apTypes.get(position-1).getDescription());
+                int position = tab.getPosition();
+                if (position > 0)
+                    group_description.setText(apTypes.get(position - 1).getDescription());
                 else
                     group_description.setText("以下是所有分类");
             }
@@ -114,6 +115,14 @@ public class WantBePhotographActivity extends AppCompatActivity {
         });
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(MODE_SCROLLABLE);
+
+        final ImageButton finish = (ImageButton) findViewById(R.id.backbtn);
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

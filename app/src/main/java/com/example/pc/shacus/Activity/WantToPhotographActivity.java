@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -117,6 +118,14 @@ public class WantToPhotographActivity extends AppCompatActivity {
         });
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(MODE_SCROLLABLE);
+
+        final ImageButton finish = (ImageButton) findViewById(R.id.backbtn);
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

@@ -47,6 +47,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -59,7 +60,8 @@ import org.json.JSONObject;
 
 public class PhotoselfDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
-    private TextView back,title,edit;
+    private TextView title,edit;
+    private ImageButton back;
     private boolean isEditing=false;
     FluidGridAdapter fluidGridAdapter;
     ArrayList<ImageData> imageDatas;
@@ -85,8 +87,8 @@ public class PhotoselfDetailActivity extends AppCompatActivity implements Networ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photoself_detail);
         request=new NetRequest(this,this);
-        back=(TextView) findViewById(R.id.photoset_toolbar_back);
-        back.setText("＜返回");
+        back= (ImageButton) findViewById(R.id.photoset_toolbar_back);
+//        back.setText("＜返回");
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

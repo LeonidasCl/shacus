@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -327,7 +328,12 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
             }
         });
 
-
+        zpj_i1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.holder_square));
+        zpj_i2.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.holder_square));
+        zpj_i4.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.holder_square));
+        grzp_i1.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.holder_square));
+        grzp_i2.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.holder_square));
+        grzp_i4.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.holder_square));
         initReq();
         initGRZP();
         initZPJ();

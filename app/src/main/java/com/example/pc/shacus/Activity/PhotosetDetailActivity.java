@@ -64,7 +64,8 @@ import org.json.JSONObject;
 
 public class PhotosetDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
-    private TextView back,title,edit;
+    private TextView title,edit;
+    private ImageButton back;
     private boolean isEditing=false;
     FluidGridAdapter fluidGridAdapter;
     ArrayList<ImageData> imageDatas;
@@ -101,8 +102,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos_detail);
         request=new NetRequest(this,this);
-        back=(TextView) findViewById(R.id.photoset_toolbar_back);
-        back.setText("＜返回");
+        back=(ImageButton) findViewById(R.id.photoset_toolbar_back);
+//        back.setText("＜返回");
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
