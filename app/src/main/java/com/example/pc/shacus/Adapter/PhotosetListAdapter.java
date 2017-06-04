@@ -181,7 +181,7 @@ public class PhotosetListAdapter extends BaseAdapter {
                         photoset_grid_join_user_scroll.setNumColumns(itemCount);
 
                         btn_photoset_addlike.setSelected(true);
-                        if (Integer.valueOf(item.getUserlikeNum())>3){
+                        if (Integer.valueOf(item.getUserlikeNum())>6){
                             btn_photoset_likecount.setText("等"+item.getUserlikeNum()+"人赞");
                         }else {
                             String likeCount="共"+item.getUserlikeNum()+"赞";
@@ -200,7 +200,7 @@ public class PhotosetListAdapter extends BaseAdapter {
                         photoset_grid_join_user_scroll.setNumColumns(itemCount);
 
                         btn_photoset_addlike.setSelected(false);
-                        if (Integer.valueOf(item.getUserlikeNum())>3){
+                        if (Integer.valueOf(item.getUserlikeNum())>6){
                             btn_photoset_likecount.setText("等"+item.getUserlikeNum()+"人赞");
                         }else {
                             String likeCount="共"+item.getUserlikeNum()+"赞";
@@ -434,7 +434,7 @@ public class PhotosetListAdapter extends BaseAdapter {
             int itemCount = adapter.getCount();
             photoset_grid_join_user_scroll.setNumColumns(itemCount);
             //处理点赞人数量
-            if (Integer.valueOf(item.getUserlikeNum())>3)
+            if (Integer.valueOf(item.getUserlikeNum())>6)
             {
                 btn_photoset_likecount.setText("等"+item.getUserlikeNum()+"人赞");}
             else {
