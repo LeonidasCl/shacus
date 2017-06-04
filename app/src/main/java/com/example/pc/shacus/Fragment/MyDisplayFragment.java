@@ -549,7 +549,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                        zpj_i3.setVisibility(View.VISIBLE);
                         zpj_i4.setVisibility(View.VISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
-                        zpj_n.setVisibility(View.INVISIBLE);
+                        zpj_n.setVisibility(View.GONE);
                         Glide.with(APP.context)
                                 .load(ZPJ_URL.get(0))
                                 .into(zpj_i1);
@@ -566,7 +566,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                        zpj_i3.setVisibility(View.INVISIBLE);
                         zpj_i4.setVisibility(View.INVISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
-                        zpj_n.setVisibility(View.INVISIBLE);
+                        zpj_n.setVisibility(View.GONE);
                         Glide.with(APP.context)
                                 .load(ZPJ_URL.get(0))
                                 .into(zpj_i1);
@@ -580,7 +580,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                        zpj_i3.setVisibility(View.INVISIBLE);
                         zpj_i4.setVisibility(View.INVISIBLE);
                         zpj_im.setVisibility(View.INVISIBLE);
-                        zpj_n.setVisibility(View.INVISIBLE);
+                        zpj_n.setVisibility(View.GONE);
                         Glide.with(APP.context)
                                 .load(ZPJ_URL.get(0))
                                 .into(zpj_i1);
@@ -592,7 +592,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                zpj_i3.setVisibility(View.VISIBLE);
                 zpj_i4.setVisibility(View.VISIBLE);
                 zpj_im.setVisibility(View.VISIBLE);
-                zpj_n.setVisibility(View.INVISIBLE);
+                zpj_n.setVisibility(View.GONE);
                 Glide.with(APP.context)
                         .load(ZPJ_URL.get(0))
                         .into(zpj_i1);
@@ -648,7 +648,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                        grzp_i3.setVisibility(View.VISIBLE);
                         grzp_i4.setVisibility(View.VISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
-                        grzp_n.setVisibility(View.INVISIBLE);
+                        grzp_n.setVisibility(View.GONE);
                         Glide.with(APP.context)
                                 .load(GRZP_URL.get(0))
                                 .into(grzp_i1);
@@ -665,7 +665,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                        grzp_i3.setVisibility(View.INVISIBLE);
                         grzp_i4.setVisibility(View.INVISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
-                        grzp_n.setVisibility(View.INVISIBLE);
+                        grzp_n.setVisibility(View.GONE);
                         Glide.with(APP.context)
                                 .load(GRZP_URL.get(0))
                                 .into(grzp_i1);
@@ -679,7 +679,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                        grzp_i3.setVisibility(View.INVISIBLE);
                         grzp_i4.setVisibility(View.INVISIBLE);
                         grzp_im.setVisibility(View.INVISIBLE);
-                        grzp_n.setVisibility(View.INVISIBLE);
+                        grzp_n.setVisibility(View.GONE);
                         Glide.with(APP.context)
                                 .load(GRZP_URL.get(0))
                                 .into(grzp_i1);
@@ -691,7 +691,7 @@ public class MyDisplayFragment extends Fragment implements View.OnClickListener,
 //                grzp_i3.setVisibility(View.VISIBLE);
                 grzp_i4.setVisibility(View.VISIBLE);
                 grzp_im.setVisibility(View.VISIBLE);
-                grzp_n.setVisibility(View.INVISIBLE);
+                grzp_n.setVisibility(View.GONE);
                 Glide.with(APP.context)
                         .load(GRZP_URL.get(0))
                         .into(grzp_i1);
