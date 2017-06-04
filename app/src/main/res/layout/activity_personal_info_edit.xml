@@ -12,7 +12,12 @@
     android:orientation="vertical"
     android:gravity="top">
 
-    <RelativeLayout
+    <include layout="@layout/personinfo_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center"/>
+
+<!--    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:gravity="start"
@@ -43,7 +48,9 @@
             android:gravity="center"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
+
+
 
     <RelativeLayout
         android:layout_marginLeft="15dp"

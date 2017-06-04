@@ -58,6 +58,7 @@
     </ListView>
 
     <TextView
+        android:textColor="@color/black_v2"
         android:textSize="16sp"
         android:gravity="center"
         android:id="@+id/follow_extra"
