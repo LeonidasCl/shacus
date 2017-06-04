@@ -39,13 +39,15 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/publish_user_name"
                     android:paddingRight="3dp"
+                    android:textColor="@color/black_v1_p80"
                     android:textSize="16sp"
                     android:maxLines="1"
                     android:text="用户昵称"/>
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="3dp"
                     android:id="@+id/photoset_publish_user_sex"
                     android:background="@drawable/sel"/>
 
@@ -55,8 +57,8 @@
                     android:id="@+id/photoset_publish_user_age"
                     android:paddingLeft="3dp"
                     android:maxLines="1"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp"
+                    android:textColor="@color/black_v2"
+                    android:textSize="14dp"
                     android:text="0岁"/>
 
             </LinearLayout>
@@ -78,17 +80,6 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_create_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:textSize="12sp"
-        android:layout_marginTop="-10dp"
-        android:layout_marginBottom="-15dp"
-        android:layout_marginRight="15dp"
-        android:text="0000-00-00"/>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,6 +90,7 @@
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:textColor="@color/black_v1_p80"
         android:id="@+id/tv_photoset_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -114,7 +106,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textSize="14sp"
-        android:textColor="@color/content_gray"
+        android:textColor="@color/black_v2"
         android:maxLines="1"
         android:text="@string/strholder_photoset2"/>
     </LinearLayout>
@@ -223,5 +215,19 @@
 
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black_v3"
+        android:textSize="12sp"
+        android:background="@color/transparent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp"
+        android:text="0000-00-00"/>
 
 </LinearLayout>
