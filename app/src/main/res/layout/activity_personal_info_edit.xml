@@ -12,7 +12,6 @@
     android:orientation="vertical"
     android:gravity="top">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -67,9 +66,6 @@
             android:id="@+id/imageData_UserImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/user_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
             android:src="@drawable/personal_default_photo"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
