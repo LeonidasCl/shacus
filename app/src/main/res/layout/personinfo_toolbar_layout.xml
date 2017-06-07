@@ -12,7 +12,7 @@
     background="@color/toolbar_white">
 
     <ImageButton
-        android:id="@+id/photoset_toolbar_back"
+        android:id="@+id/btn_back"
         android:background="@drawable/backbtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -21,6 +21,8 @@
         android:layout_marginLeft="@dimen/dp_10"/>
 
     <TextView
+        android:text="个人资料"
+        android:textSize="18sp"
         android:id="@+id/photoset_toolbar_title"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_width="wrap_content"
@@ -28,7 +30,10 @@
         android:layout_gravity="center"/>
 
     <TextView
-        android:id="@+id/photoset_toolbar_edit"
+        android:text="完成"
+        android:textColor="@color/main_green"
+        android:textSize="16sp"
+        android:id="@+id/btn_finish"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -170,6 +170,7 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                 break;
             case R.id.layout_logout:
                 ACache cache = ACache.get(APP.context);
+                cache.remove("loginModel");
                 cache.clear();
                 intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);

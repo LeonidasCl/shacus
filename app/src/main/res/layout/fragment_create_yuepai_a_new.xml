@@ -134,6 +134,7 @@
                         android:layout_height="wrap_content"></Spinner>
 
                     <EditText
+                        android:maxLength="4"
                         android:inputType="number"
                         android:text=""
                         android:visibility="gone"

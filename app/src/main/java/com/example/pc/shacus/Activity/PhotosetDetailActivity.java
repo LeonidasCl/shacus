@@ -64,7 +64,8 @@ import org.json.JSONObject;
 
 public class PhotosetDetailActivity extends AppCompatActivity implements NetworkCallbackInterface.NetRequestIterface,NetworkCallbackInterface.OnSingleTapDismissBigPhotoListener{
 
-    private TextView back,title,edit;
+    private TextView title,edit;
+    private ImageButton back;
     private boolean isEditing=false;
     FluidGridAdapter fluidGridAdapter;
     ArrayList<ImageData> imageDatas;
@@ -101,8 +102,8 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos_detail);
         request=new NetRequest(this,this);
-        back=(TextView) findViewById(R.id.photoset_toolbar_back);
-        back.setText("＜返回");
+        back=(ImageButton) findViewById(R.id.photoset_toolbar_back);
+//        back.setText("＜返回");
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -404,9 +405,9 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     List<UserModel> userlike=detailData.getUserlikeList();
                     JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, userlike,true);
                     photoset_grid_join_user_scroll.setAdapter(adapter);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 140, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 130, LinearLayout.LayoutParams.WRAP_CONTENT);
                     photoset_grid_join_user_scroll.setLayoutParams(params);
-                    photoset_grid_join_user_scroll.setColumnWidth(130);
+                    photoset_grid_join_user_scroll.setColumnWidth(120);
                     photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                     int itemCount = adapter.getCount();
                     photoset_grid_join_user_scroll.setNumColumns(itemCount);
@@ -437,9 +438,9 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                         detailData.getUserlikeList().add(userModel);
                     JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
                     photoset_grid_join_user_scroll.setAdapter(adapter);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 140, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 130, LinearLayout.LayoutParams.WRAP_CONTENT);
                     photoset_grid_join_user_scroll.setLayoutParams(params);
-                    photoset_grid_join_user_scroll.setColumnWidth(130);
+                    photoset_grid_join_user_scroll.setColumnWidth(120);
                     photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                     int itemCount = adapter.getCount();
                     photoset_grid_join_user_scroll.setNumColumns(itemCount);
@@ -451,9 +452,9 @@ public class PhotosetDetailActivity extends AppCompatActivity implements Network
                     btn_photoset_addlike.setClickable(true);
                     JoinUserGridAdapter adapter = new JoinUserGridAdapter(PhotosetDetailActivity.this, detailData.getUserlikeList(),true);
                     photoset_grid_join_user_scroll.setAdapter(adapter);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 140, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adapter.getCount() * 130, LinearLayout.LayoutParams.WRAP_CONTENT);
                     photoset_grid_join_user_scroll.setLayoutParams(params);
-                    photoset_grid_join_user_scroll.setColumnWidth(130);
+                    photoset_grid_join_user_scroll.setColumnWidth(120);
                     photoset_grid_join_user_scroll.setStretchMode(GridView.NO_STRETCH);
                     int itemCount = adapter.getCount();
                     photoset_grid_join_user_scroll.setNumColumns(itemCount);

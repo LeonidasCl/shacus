@@ -50,16 +50,16 @@
                 android:id="@+id/photoset_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/rc_draft_color"
+                android:background="@color/ff_white"
                 android:text="@string/photoset_delete"
-                android:textColor="#ffffff"
+                android:textColor="@color/black_v1_p80"
                 android:textSize="14sp" />
             <Button
                 android:id="@+id/photoset_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/main_green"
-                android:text="@string/photoset_upload"
+                android:text="@string/photoself_upload"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
         </LinearLayout>

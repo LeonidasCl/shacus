@@ -36,7 +36,7 @@
                 android:id="@+id/create_yuepai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/rc_voice_color"
+                android:background="@color/main_green"
                 android:text="@string/create_yuepai_entry"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
@@ -44,7 +44,7 @@
                 android:id="@+id/create_photoset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main_green"
+                android:background="@color/second_green"
                 android:text="@string/create_photoset_entry"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
@@ -61,7 +61,7 @@
 
 </android.support.design.widget.CoordinatorLayout>
 
-    <!--侧滑菜单-->
+    <!--侧滑菜单
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="300dp"
@@ -72,6 +72,6 @@
         app:itemTextColor="@color/ff_white"
         app:itemIconTint="@color/ff_white"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" />-->
 
 </android.support.v4.widget.DrawerLayout>

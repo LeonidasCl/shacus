@@ -291,12 +291,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED||
-           ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-         ||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-         ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-         ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+          ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,
@@ -344,9 +343,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //这个是父布局，也就是这个Activity的根布局
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         //找到侧边栏
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView = (NavigationView) findViewById(R.id.nav_view);
         //为侧边栏设置监听，由于此Activity已实现OnNavigationItemSelectedListener接口，可以传this
-        navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.setNavigationItemSelectedListener(this);
         //这是左上角一个普通的按钮，除了滑动还可以点击它来打开侧滑菜单
         //btnAvartar = (CircleImageView) findViewById(R.id.toolbar_btn_avatar);
         /*btnAvartar.setOnClickListener(new View.OnClickListener() {
@@ -428,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //获取登录状态添加到侧滑栏信息
         if (user != null) {
-            final ACache acache = ACache.get(this);
+            /*final ACache acache = ACache.get(this);
             LoginDataModel model = (LoginDataModel) acache.getAsObject("loginModel");
             user = model.getUserModel();
             ImageView userImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.image_user);
@@ -445,11 +444,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .error(R.drawable.loading_error)
                     .into(userImage);
 
-            /*Glide.with(this)
+            Glide.with(this)
                     .load(user.getHeadImage()).centerCrop()
 //                    .placeholder(R.drawable.holder)
                     .error(R.drawable.loading_error)
-                    .into(btnAvartar);*/
+                    .into(btnAvartar);
             //签名
             netRequest = new NetRequest(new NetworkCallbackInterface.NetRequestIterface() {
                 @Override
@@ -539,7 +538,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d("LQQQQQQ", "onEditorAction: ");
                     return false;
                 }
-            });
+            });*/
 
 
             // 和设置缓存中
@@ -548,7 +547,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setModel.setPhoneVisible(false);
             setModel.setUserPhone(user.getPhone());
             setModel.setUserID(user.getId());
-            acache.put("settingModel", setModel);
+            if (cache==null)
+                cache=ACache.get(this);
+            cache.put("settingModel", setModel);
         }
 
     }
@@ -576,7 +577,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private boolean manageLogin() {
-        ACache cache = ACache.get(MainActivity.this);
+        //ACache cache = ACache.get(MainActivity.this);
+        if (cache==null)
+            cache=ACache.get(this);
         LoginDataModel loginModel = (LoginDataModel) cache.getAsObject("loginModel");
         user = loginModel.getUserModel();
         if (user != null) {

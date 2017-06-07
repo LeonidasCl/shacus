@@ -43,38 +43,46 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="start"
-            android:background="@color/zero_black"
+            android:background="@color/ff_white"
             android:id="@+id/relativeLayout">
+
             <TextView
                 android:id="@+id/othername"
                 android:text="hhhh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/ff_white"
+                android:textColor="@color/black_v1_p80"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:textSize="20sp" />
+
             <ImageButton
                 android:visibility="gone"
                 android:id="@+id/settingbtn"
                 android:background="@drawable/setting"
                 android:layout_margin="5dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:gravity="center"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"/>
             <ImageButton
                 android:id="@+id/backbtn"
-                android:background="@drawable/button_back"
+                android:background="@drawable/backbtn"
                 android:layout_margin="5dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:gravity="center"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/relativeLayout"
+            android:background="@color/content_cutting_gray_b3"></LinearLayout>-->
 
         <com.example.pc.shacus.View.CircleImageView
             android:layout_below="@id/relativeLayout"
@@ -106,55 +114,73 @@
             android:id="@+id/textData_UserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_16"
+            android:textSize="16sp"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/zero_black"
-            android:text="啦啦啦啦"/>
+            android:textColor="@color/black_v1_p80"
+            android:text="正在加载"/>
         <ImageView
             android:id="@+id/sex"
             android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/textData_UserName"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/female"/>
 
         <TextView
             android:id="@+id/textData_UserAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
+            android:textSize="12sp"
             android:layout_toRightOf="@id/sex"
-            android:textColor="@color/zero_black"
+            android:textColor="@color/black_v2"
             android:layout_centerVertical="true"
             android:text="21岁" />
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/info"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:src="@drawable/localbtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:id="@+id/textData_UserLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/info"
+            android:textSize="@dimen/sp_14"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black_v2"
+            android:text="江苏 南京"/>
+
+    </LinearLayout>
+
+
     <TextView
         android:id="@+id/textData_UserSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/info"
         android:textSize="@dimen/sp_14"
+        android:layout_below="@id/local"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/zero_black"
+        android:textColor="@color/black_v2"
         android:text="个人简介--我是追影人"/>
-    <TextView
-        android:id="@+id/textData_UserLocal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textData_UserSign"
-        android:textSize="@dimen/sp_14"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/zero_black"
-        android:text="常住 江苏 南京"/>
+
     <TextView
         android:id="@+id/space2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textData_UserLocal"
+        android:layout_below="@id/textData_UserSign"
         android:textSize="5sp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/transparent" />
@@ -172,8 +198,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="@color/zero_black"
+            android:layout_height="0.3dip"
+            android:background="@color/content_cutting_gray_b3"
             android:layout_gravity="center_vertical"/>
 
         <LinearLayout
@@ -204,14 +230,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="0"
-                    android:textColor="@color/zero_black"
+                    android:textColor="@color/black_v1_p80"
                     android:id="@+id/myYuepaiNum"
                     android:textSize="14sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="约拍"
-                    android:textColor="@color/zero_black"
+                    android:textColor="@color/black_v2"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:textSize="14sp"/>
@@ -242,14 +268,14 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:text="0"
-                    android:textColor="@color/zero_black"
+                    android:textColor="@color/black_v1_p80"
                     android:id="@+id/followingNum"
                     android:textSize="14sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="关注"
-                    android:textColor="@color/zero_black"
+                    android:textColor="@color/black_v2"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:textSize="14sp"/>
@@ -276,14 +302,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="0"
-                    android:textColor="@color/zero_black"
+                    android:textColor="@color/black_v1_p80"
                     android:id="@+id/followerNum"
                     android:textSize="14sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="粉丝"
-                    android:textColor="@color/zero_black"
+                    android:textColor="@color/black_v2"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:textSize="14sp"/>
@@ -295,13 +321,14 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="@color/zero_black"
+            android:layout_height="0.3dip"
+            android:background="@color/content_cutting_gray_b3"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/grzp"
         android:orientation="vertical"
@@ -312,36 +339,49 @@
         <TextView
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:textColor="@color/black_v1_p80"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个人照片"/>
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/grzp_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/zero_black"
+            android:text="暂无个人照片"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:weightSum="3">
 
-            <ImageView
-                android:visibility="invisible"
+            <com.example.pc.shacus.View.SquareImageView
+                android:visibility="visible"
                 android:id="@+id/grzp_i1"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/grzp"
+                android:src="@drawable/holder_square"
                 android:layout_marginRight="5dp" />
-            <ImageView
+
+            <com.example.pc.shacus.View.SquareImageView
                 android:visibility="invisible"
                 android:id="@+id/grzp_i2"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/grzp"
+                android:src="@drawable/holder_square"
                 android:layout_marginRight="5dp"/>
 
 
@@ -357,22 +397,21 @@
 
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                <ImageView
+                <com.example.pc.shacus.View.SquareImageView
                     android:visibility="invisible"
                     android:background="@color/zero_black"
                     android:id="@+id/grzp_i4"
                     android:layout_width="match_parent"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:src="@drawable/grzp"/>
 
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/grzp_im"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -382,17 +421,6 @@
                     android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
-                <TextView
-                    android:visibility="invisible"
-                    android:id="@+id/grzp_n"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/zero_black"
-                    android:text="暂无个人照片"
-                    android:gravity="center"
-                    android:layout_marginRight="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
 
@@ -418,35 +446,47 @@
         <TextView
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:textColor="@color/black_v1_p80"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="作品集"/>
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/zpj_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/zero_black"
+            android:text="暂无作品集"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:weightSum="3">
 
-            <ImageView
-                android:visibility="invisible"
+            <com.example.pc.shacus.View.SquareImageView
+                android:visibility="visible"
                 android:id="@+id/zpj_i1"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/grzp"
+                android:src="@drawable/holder_square"
                 android:layout_marginRight="5dp"/>
 
-            <ImageView
+            <com.example.pc.shacus.View.SquareImageView
                 android:visibility="invisible"
                 android:id="@+id/zpj_i2"
-                android:scaleType="fitCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/grzp"
                 android:layout_marginRight="5dp"/>
@@ -462,16 +502,15 @@
                 android:layout_marginRight="5dp"/>-->
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                <ImageView
+                <com.example.pc.shacus.View.SquareImageView
                     android:visibility="invisible"
                     android:id="@+id/zpj_i4"
-                    android:layout_width="match_parent"
-                    android:scaleType="fitCenter"
+                    android:layout_width="wrap_content"
+                    android:scaleType="centerCrop"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:src="@drawable/grzp"/>
 
                 <TextView
@@ -485,17 +524,6 @@
                     android:textColor="@color/ff_white"
                     android:background="#55000000"/>
 
-                <TextView
-                    android:visibility="invisible"
-                    android:id="@+id/zpj_n"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/zero_black"
-                    android:text="暂无个人照片"
-                    android:gravity="center"
-                    android:layout_marginRight="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
 
         </LinearLayout>

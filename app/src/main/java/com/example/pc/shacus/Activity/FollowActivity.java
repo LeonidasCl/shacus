@@ -101,6 +101,23 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
             }else if(type.equals("follower")){
                 follow.setText("ta的粉丝");
             }
+            followListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //点击进入其他用户主界面
+                    //传入需要的参数
+
+                    UserModel next = userList.get(position);
+                    LoginDataModel loginDataModel = (LoginDataModel) aCache.getAsObject("loginModel");
+                    UserModel content = null;
+                    content = loginDataModel.getUserModel();
+                    if (!next.getId().equals(content.getId())) {
+                        Intent intent = new Intent(FollowActivity.this, OtherUserDisplayActivity.class);
+                        intent.putExtra("id", next.getId());
+                        startActivity(intent);
+                    }
+                }
+            });
         }
 
         backbtn.setOnClickListener(new BackButton());
@@ -229,6 +246,7 @@ public class FollowActivity extends AppCompatActivity implements  NetworkCallbac
     public void requestFinish(String result, String requestUrl) throws JSONException {
         if(requestUrl.equals(CommonUrl.getFollowInfo)){//返回我的关注或粉丝信息
             JSONObject object = new JSONObject(result);
+            Log.d("SSSSSSSSSSSSSSS",object.toString());
             int code = Integer.valueOf(object.getString("code"));
             Message msg = new Message();
 

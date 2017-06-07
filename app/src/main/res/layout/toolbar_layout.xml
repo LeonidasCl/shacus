@@ -25,7 +25,8 @@
     <TextView
         android:id="@+id/m_toolbar_title"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-        android:textColor="@color/zero_black"
+        android:textColor="@color/black_v1_p80"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>

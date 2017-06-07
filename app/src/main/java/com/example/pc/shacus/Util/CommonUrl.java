@@ -53,4 +53,6 @@ public class CommonUrl {
 
 	public static String sendInfo = url + "sysmessage";// 报名后发送消息
 
+	public static String forgotpw = url + "user/forgotpw"; //用户忘记密码
+
 }

@@ -10,6 +10,7 @@ package com.example.pc.shacus.Activity;
  * 类型三给作品集添加图片：对应的作品集ucid、title、content
  */
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -17,6 +18,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -28,6 +30,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +42,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -114,7 +119,8 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
     private Handler handler;
 
     private int type=-1;//类型 1为上传个人照片 2为发布作品集 3为给作品集添加图片
-    private TextView back,title;
+    private TextView title;
+    private ImageButton back;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -130,9 +136,19 @@ public class PhotosAddActivity extends AppCompatActivity implements View.OnClick
         }
         type=typo;
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-        back=(TextView) findViewById(R.id.photoset_toolbar_back);
-        back.setText("＜返回");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},0);
+        }
+
+        back= (ImageButton) findViewById(R.id.photoset_toolbar_back);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
