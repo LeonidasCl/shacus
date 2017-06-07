@@ -67,7 +67,7 @@ public class UserAdapter extends BaseAdapter {
 
     @Override
     public RecommandModel getItem(int position) {
-        if(position > getCount()) return mList.get(position % getCount());
+        if(position >= getCount()) return mList.get(position % getCount());
         else return mList.get(position);
     }
 
