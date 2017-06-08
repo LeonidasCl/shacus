@@ -12,7 +12,7 @@
             android:id="@+id/image_user"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/user_image"
+            android:src="@drawable/personal_default_photo"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="20dp"/>
 

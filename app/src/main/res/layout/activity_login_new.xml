@@ -25,9 +25,10 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                loginlayout:layout_heightPercent="40%"
-                loginlayout:layout_widthPercent="30%"
+                loginlayout:layout_heightPercent="80%"
+                loginlayout:layout_widthPercent="50%"
                 android:scaleType="centerCrop"
+                android:paddingTop="40dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:gravity="center_horizontal|center_vertical"
                 android:src="@drawable/login_logo"

@@ -1,17 +1,26 @@
 package com.example.pc.shacus.Activity;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.pc.shacus.Fragment.FragmentCreateYuePaiA_new;
 import com.example.pc.shacus.Fragment.FragmentCreateYuePaiB;
 import com.example.pc.shacus.R;
 import com.example.pc.shacus.Util.CommonUtils;
+
+import static android.support.design.widget.TabLayout.MODE_SCROLLABLE;
 
 /**
  * 创建约拍和活动的界面
@@ -20,44 +29,79 @@ import com.example.pc.shacus.Util.CommonUtils;
 
 //隐藏掉发活动
 
-public class CreateYuePaiActivity extends AppCompatActivity implements
-        ActionBar.TabListener {
-    private Fragment fragment;
+public class CreateYuePaiActivity extends AppCompatActivity {
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+    //private Fragment fragment;
     private int position=-1;
-    private static final String SELECTED_ITEM = "selected_item";
+    //private static final String SELECTED_ITEM = "selected_item";
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_yuepai);
-        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        // 设置ActionBar的导航方式：Tab导航
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        // 依次添加三个Tab页，并为三个Tab标签添加事件监听器
-        actionBar.addTab(actionBar.newTab().setText("约模特").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("约摄影师").setTabListener(this));
-//        actionBar.addTab(actionBar.newTab().setText("发起活动").setTabListener(this));
-//        actionBar.setTitle("发起约拍/创建活动");
-        actionBar.setTitle("发起约拍");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_createyuepai);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.zero_black));
+        setSupportActionBar(toolbar);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.container_createyuepai);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_createyuepai);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                switch (position){
+                    /*case 0:
+                        yuepeifrag1 = new FragmentCreateYuePaiA_new();
+                        yuepeifrag1.setYUEPAI_TYPE(1);
+                        break;
+                    case 1:
+                        fragment=new FragmentCreateYuePaiA_new();
+                        FragmentCreateYuePaiA_new yuepeifrag2=(FragmentCreateYuePaiA_new)fragment;
+                        yuepeifrag2.setYUEPAI_TYPE(0);
+                        break;*/
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        tabLayout.setupWithViewPager(mViewPager);
+        //tabLayout.setTabMode(MODE_SCROLLABLE);
+
+        final ImageButton finish = (ImageButton) findViewById(R.id.backbtn_createyuepai);
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        if (savedInstanceState.containsKey(SELECTED_ITEM))
-        {
-            // 选中前面保存的索引对应的Fragment页
-            getActionBar().setSelectedNavigationItem(
-                    savedInstanceState.getInt(SELECTED_ITEM));
-        }
-    }
+    {}
     //监听返回键，有弹出层时关闭弹出层，否则停止activity
     @Override
     public void onBackPressed() {
         boolean state;
         switch (position){
             case 0:
-                FragmentCreateYuePaiA_new fraga= (FragmentCreateYuePaiA_new) fragment;
+                //FragmentCreateYuePaiA_new fraga= (FragmentCreateYuePaiA_new) fragment;
+                FragmentCreateYuePaiA_new fraga=(FragmentCreateYuePaiA_new)mSectionsPagerAdapter.getItem(0);
                 state=fraga.getEdit_big_photo_layout().getVisibility()==View.GONE&&fraga.getdisplay_big_img().getVisibility()==View.GONE;
                 if (state)
                     finish();
@@ -65,90 +109,65 @@ public class CreateYuePaiActivity extends AppCompatActivity implements
                     fraga.hideBigPhotoLayout();
                 break;
             case 1:
-                FragmentCreateYuePaiA_new frag= (FragmentCreateYuePaiA_new) fragment;
+                //FragmentCreateYuePaiA_new frag= (FragmentCreateYuePaiA_new) fragment;
+                FragmentCreateYuePaiA_new frag=(FragmentCreateYuePaiA_new)mSectionsPagerAdapter.getItem(1);
                 state=frag.getEdit_big_photo_layout().getVisibility()==View.GONE&&frag.getdisplay_big_img().getVisibility()==View.GONE;
                 if (state)
                     finish();
                 else
                     frag.hideBigPhotoLayout();
                 break;
-            /*case 2:
-                FragmentCreateYuePaiB fragc=(FragmentCreateYuePaiB)fragment;
-                state=fragc.getEdit_big_photo_layout().getVisibility()==View.GONE&&fragc.getdisplay_big_img().getVisibility()==View.GONE;
-                if (state)
-                    finish();
-                else
-                    fragc.hideBigPhotoLayout();
-                break;*/
         }
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        // 将当前选中的Fragment页的索引保存到Bundle中
-        outState.putInt(SELECTED_ITEM, getSupportActionBar().getSelectedNavigationIndex());
-    }
-
-    // 当指定Tab被选中时激发该方法
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        fragment=null;
-        position=tab.getPosition();
-        switch (position){
-            case 0:
-                fragment = new FragmentCreateYuePaiA_new();
-                FragmentCreateYuePaiA_new yuepeifrag1=(FragmentCreateYuePaiA_new)fragment;
-                yuepeifrag1.setYUEPAI_TYPE(1);
-                break;
-            case 1:
-                fragment=new FragmentCreateYuePaiA_new();
-                FragmentCreateYuePaiA_new yuepeifrag2=(FragmentCreateYuePaiA_new)fragment;
-                yuepeifrag2.setYUEPAI_TYPE(0);
-                break;
-            /*case 2:
-                fragment=new FragmentCreateYuePaiB();
-                break;*/
-        }
-        // 创建一个Bundle对象，用于向Fragment传入参数
-        //Bundle args = new Bundle();
-        // args.putInt(FragmentCreateYuePaiA.ARG_SECTION_NUMBER, tab.getPosition() + 1);
-        // 向fragment传入参数
-        //fragment.setArguments(args);
-        // 获取FragmentTransaction对象
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // 使用fragment代替该Activity中的container组件
-        ft.replace(R.id.container, fragment);
-        // 提交事务
-        ft.commit();
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft){
-    }
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft){
-    }
-
-
-    @Override
+    /*@Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         String type=intent.getStringExtra("type");
         if (type.equals("tagAdd1")){
             String tag=intent.getStringExtra("tag");
-            /*FragmentCreateYuePaiA frag=(FragmentCreateYuePaiA)fragment;
-            frag.addTag(tag);*/
         }
         if (type.equals("tagAdd2")){
             String tag=intent.getStringExtra("tag");
             FragmentCreateYuePaiB frag=(FragmentCreateYuePaiB)fragment;
             frag.addTag(tag);
         }
+    }*/
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            //WantBePhotographActivity.PlaceholderFragment frag= WantBePhotographActivity.PlaceholderFragment.newInstance(position);
+            FragmentCreateYuePaiA_new frag=new FragmentCreateYuePaiA_new();
+            if (position==0)
+                frag.setYUEPAI_TYPE(1);
+            else
+                frag.setYUEPAI_TYPE(0);
+            return frag;
+        }
+
+        @Override
+        public int getCount(){
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position==0)
+                return "约模特";
+            else
+                return "约摄影师";
+        }
     }
 
-    public void toFinish(){
-        finish();
-    }
 }

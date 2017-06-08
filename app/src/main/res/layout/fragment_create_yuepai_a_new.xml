@@ -36,8 +36,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/zero_black"
+                        android:textSize="16sp"
+                        android:textColor="@color/black_v1_p80"
                         android:text="约拍类型"/>
 
                     <Spinner
@@ -62,8 +62,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/zero_black"
+                        android:textSize="16sp"
+                        android:textColor="@color/black_v1_p80"
                         android:text="面向地区"/>
 
                     <Spinner
@@ -88,8 +88,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/zero_black"
+                        android:textSize="16sp"
+                        android:textColor="@color/black_v1_p80"
                         android:text="时间要求"/>
 
                     <EditText
@@ -98,12 +98,12 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="请描述时间信息"
-                        android:textColorHint="@color/hint"
-                        android:textColor="@color/zero_black"
+                        android:textSize="16sp"
+                        android:textColor="@color/black_v1_p80"
+                        android:textColorHint="@color/black_v3"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/comment_edittext_round_corner_bg"
-                        android:padding="5dp"
-                        android:textSize="14sp">
+                        android:padding="5dp">
                         <requestFocus />
                     </EditText>
 
@@ -121,8 +121,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/zero_black"
+                        android:textSize="16sp"
+                        android:textColor="@color/black_v1_p80"
                         android:text="费用说明"/>
 
                     <Spinner
@@ -143,12 +143,12 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="费用描述(仅限数字金额)"
-                        android:textColorHint="@color/hint"
-                        android:textColor="@color/zero_black"
+                        android:textColorHint="@color/black_v3"
+                        android:textColor="@color/black_v1_p80"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/comment_edittext_round_corner_bg"
                         android:padding="5dp"
-                        android:textSize="14sp">
+                        android:textSize="16sp">
                         <requestFocus />
                     </EditText>
 
@@ -159,8 +159,8 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/zero_black"
+                    android:textSize="16sp"
+                    android:textColor="@color/black_v1_p80"
                     android:text="拍拍留言"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -184,7 +184,7 @@
                         android:background="#00000000"
                         android:hint="@string/create_yuepai_describe_new"
                         android:textColor="@color/zero_black"
-                        android:textColorHint="@color/hint"
+                        android:textColorHint="@color/black_v3"
                         android:padding="5dp"
                         android:textSize="14sp"/>
                 </LinearLayout>

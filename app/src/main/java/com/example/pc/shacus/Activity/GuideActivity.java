@@ -24,7 +24,8 @@ import cn.bingoogolapple.bgabanner.BGABannerUtil;
 
 //引导界面
 //黄鑫晨 2016.08.16
-//licl 优化了销毁动画-2016.08.27
+//李嘉文 优化了销毁动画-2016.08.27
+//李嘉文 更换引导图片-2017.06.08
 public class GuideActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView mSkipTv;

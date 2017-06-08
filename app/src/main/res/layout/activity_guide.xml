@@ -8,6 +8,7 @@
         style="@style/MatchMatch"
         app:banner_pageChangeDuration="1000"
         app:banner_pointAutoPlayAble="false"
+        app:banner_pointGravity="top"
         app:banner_pointContainerBackground="@android:color/transparent"
         app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
         app:banner_pointTopBottomMargin="15dp"
@@ -17,36 +18,36 @@
         android:id="@+id/tv_guide_skip"
         style="@style/WrapWrap"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:clickable="true"
         android:padding="4dp"
         android:text="跳过 >"
-        android:textColor="@android:color/white"
+        android:textColor="@color/main_green"
         android:textSize="16sp" />
 
     <Button
-        android:layout_width="240dp"
-        android:layout_height="70dp"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
         android:text="登录"
         android:background="@drawable/shape"
         android:id="@+id/guidebtn_login"
-        android:textSize="36sp"
+        android:textSize="20sp"
+        android:textColor="@color/ff_white"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
     <Button
-        android:layout_width="240dp"
-        android:layout_height="70dp"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
         android:text="注册"
         android:background="@drawable/shape"
+        android:textColor="@color/ff_white"
         android:id="@+id/guidebtn_regist"
-        android:textSize="36sp"
+        android:textSize="20sp"
         android:layout_gravity="center_horizontal"
-
         android:layout_below="@+id/guidebtn_login"
         android:layout_alignStart="@+id/guidebtn_login"
-        android:layout_marginTop="41dp"/>
+        android:layout_marginTop="20dp"/>
 </RelativeLayout>

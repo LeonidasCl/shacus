@@ -311,17 +311,17 @@ public class FragmentCreateYuePaiA_new extends Fragment implements View.OnClickL
         jiage = (Spinner) root.findViewById(R.id.yuepai_jiage);
         diqu = (Spinner) root.findViewById(R.id.yuepai_diqu);
         //初始化几个下拉菜单
-        ArrayAdapter<CharSequence> leixingadapter = ArrayAdapter.createFromResource(this.getActivity(),R.array.yuepai_leixing,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> leixingadapter = ArrayAdapter.createFromResource(this.getActivity(),R.array.yuepai_leixing,R.layout.yuepai_spinner);
         leixingadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         leixing.setAdapter(leixingadapter);
         leixing.setOnItemSelectedListener(new leixingspinnerListener());
 
-        ArrayAdapter<CharSequence> diquadapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.yuepai_diqu, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> diquadapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.yuepai_diqu, R.layout.yuepai_spinner);
         diquadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         diqu.setAdapter(diquadapter);
         diqu.setOnItemSelectedListener(new diquspinnerListener());
 
-        ArrayAdapter<CharSequence> jiageadapter = ArrayAdapter.createFromResource(this.getActivity(),R.array.yuepai_jiage,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> jiageadapter = ArrayAdapter.createFromResource(this.getActivity(),R.array.yuepai_jiage,R.layout.yuepai_spinner);
         jiageadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jiage.setAdapter(jiageadapter);
         jiage.setOnItemSelectedListener(new jiagespinnerListener());
