@@ -331,8 +331,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             window.setStatusBarColor(getResources().getColor(R.color.toolbar_white));
             //设置导航栏颜色
             window.setNavigationBarColor(getResources().getColor(R.color.toolbar_white));
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
         initNetworkData();
