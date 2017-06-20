@@ -79,11 +79,6 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     View view111;
     String trueCODE;
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //finish();  ???此行代码不知道谁写的，今天review注释掉了
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -385,15 +380,15 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 }
                 if (msg.what == 20010){
                     loginProgressDlg.cancel();//进度条取消
-                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);;
                     intent.putExtra("result", 1);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                     finish();
                 }
                 if (msg.what == 20015){
                     loginProgressDlg.cancel();//进度条取消
-                    Intent intent = new Intent(getApplicationContext(),SignupActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),SignupActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);;
                     startActivity(intent);
                     finish();
                 }

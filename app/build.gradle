@@ -9,7 +9,7 @@ android {
         applicationId "com.example.pc.shacus"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 33
+        versionCode 34
         versionName "2.0.3"
         multiDexEnabled true
         //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

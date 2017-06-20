@@ -172,7 +172,7 @@ public class SetBaseFragment extends Fragment implements View.OnClickListener,Ne
                 ACache cache = ACache.get(APP.context);
                 cache.remove("loginModel");
                 cache.clear();
-                intent = new Intent(getActivity(), LoginActivity.class);
+                intent = new Intent(getActivity(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 getActivity().finish();
                 break;
