@@ -256,8 +256,8 @@ public class SignupActivity extends AppCompatActivity implements NetworkCallback
         }
         if (imagefinish)
         {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("result","注册成功");
+            Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+            intent.putExtra("result", 1);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();

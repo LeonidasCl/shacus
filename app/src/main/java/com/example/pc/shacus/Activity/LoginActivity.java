@@ -69,12 +69,10 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
             Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
             -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
 
-//    @Override
-//    public void onBackPressed(){
-//        super.onBackPressed();
-//        //startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//        finish();
-//    }
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 
     View view1;
     View view2;
@@ -84,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
     @Override
     protected void onRestart() {
         super.onRestart();
-        finish();
+        //finish();  ???此行代码不知道谁写的，今天review注释掉了
     }
 
     @Override
@@ -387,8 +385,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkCallbackI
                 }
                 if (msg.what == 20010){
                     loginProgressDlg.cancel();//进度条取消
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("result", "登录成功");
+                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                    intent.putExtra("result", 1);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                     finish();

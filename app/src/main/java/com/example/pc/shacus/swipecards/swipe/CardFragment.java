@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pc.shacus.APP;
 import com.example.pc.shacus.Activity.CoursesActivity;
 import com.example.pc.shacus.Activity.LoginActivity;
 import com.example.pc.shacus.Activity.MainActivity;
@@ -283,9 +284,27 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         }
         mIsRequestGirlList = true;
         if (requestTime == 3 || requestTime == 1) {   //之后的请求次数多，把3放在前面提高效率
+            //先从缓存拿摄影师模特列表
+            ACache cache=ACache.get(APP.context);
+            ArrayList<RecommandModel> data = (ArrayList<RecommandModel>) cache.getAsObject("mOurList");
+            if (data!=null&&data.size()>0){//缓存命中，直接发成功消息到handler
+                for(int i = 0; i< data.size(); i++)
+                    mOurList.add(data.get(i));
+
+                for(int i = 0; i< mOurList.size(); i++){
+                    imageBigDatas = mOurList.get(i).getUcimg();
+                    imageBigDatasList.add(imageBigDatas);
+                }
+                mSwipeFlingView.setImageBigDatasList(imageBigDatasList);
+                Message msg = mHandler.obtainMessage();
+                msg.what = MSG_DATA_SUCCESS;
+                msg.obj = mOurList;
+                mHandler.sendMessage(msg);
+            }else{//缓存没有命中再进行网络请求获取
             map.put("type", StatusCode.RECOMMAND_PHOTOGRAPHER_MODEL_LIST);  //10850
             map.put("authkey", authkey);
             requestFragment.httpRequest(map, CommonUrl.requestModel);
+            }
         }
 //        else if(requestTime == 2){
 //            category = user.getCategory();

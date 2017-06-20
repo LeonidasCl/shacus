@@ -55,6 +55,7 @@ public abstract class BaseSplashActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 Intent intent = new Intent(BaseSplashActivity.this, getNextActivityClass());
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 finish();
             }
