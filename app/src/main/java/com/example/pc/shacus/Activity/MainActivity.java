@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -277,8 +278,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         selector = new boolean[]{sex_selector[0], sex_selector[1], sex_selector[2],
                                 people_selector[0], people_selector[1], people_selector[2]};
 
-                        ArrayList<RecommandModel> recommandModel = cardListFragment.getmOurList();
-                        cardListFragment.updateOurSelectListView(cardListFragment.selectMethod(recommandModel, selector));
+//                        ArrayList<RecommandModel> recommandModel = cardListFragment.getmOurList();
+//                        cardListFragment.updateOurSelectListView(cardListFragment.selectMethod(recommandModel, selector));
                     }
                 });
 
@@ -746,8 +747,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 selector = new boolean[]{sex_selector[0], sex_selector[1], sex_selector[2],
                                         people_selector[0], people_selector[1], people_selector[2]};
 
-                                ArrayList<RecommandModel> recommandModel = cardListFragment.getmOurList();
-                                cardListFragment.updateOurSelectListView(cardListFragment.selectMethod(recommandModel, selector));
+                                //ArrayList<RecommandModel> recommandModel = cardListFragment.getmOurList();
+                                cache = ACache.get(APP.context);
+                                ArrayList<RecommandModel> data = (ArrayList<RecommandModel>) cache.getAsObject("mOurList");
+                                ArrayList<RecommandModel> recommandModel = new ArrayList<>();
+                                if (data!=null&&data.size()>0) {
+                                    recommandModel.clear();
+                                    for (int i = 0; i < data.size(); i++)
+                                        recommandModel.add(data.get(i));
+                                }
+                                ArrayList<RecommandModel> afterSelectRecommandModel = cardListFragment.selectMethod(recommandModel, selector);
+                                if( afterSelectRecommandModel.size() == 0) {
+                                    Toast.makeText(MainActivity.this, "未找到符合条件的用户", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    if(cache.getAsObject("mSelectedList") == null)
+                                        cache.put("mSelectedList",afterSelectRecommandModel,ACache.TIME_HOUR);
+                                    else{
+                                        cache.remove("mSelectedList");
+                                        cache.put("mSelectedList",afterSelectRecommandModel,ACache.TIME_HOUR);
+                                    }
+                                    fragmentTrs.remove(cardListFragment);
+                                    cardListFragment = new CardFragment();
+
+                                    //fragmentTrs.commitAllowingStateLoss();
+
+                                    fragmentTrs.add(R.id.fl_content, cardListFragment);
+
+                                    cardListFragment.setNavibar(navibar);
+                                    fragmentTrs.show(cardListFragment);
+                                }
                             }
                         });
 

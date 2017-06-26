@@ -158,13 +158,15 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
     //筛选用
     private boolean[] selector = {true, false,false,true,false,false};
-    ArrayList<RecommandModel> tempList;
+    ArrayList<RecommandModel> mTempList = new ArrayList<>();
+    ArrayList<RecommandModel> mMainList = new ArrayList<>();
 
     //like and unlike
     UserModel content;
     LoginDataModel loginModel;
     ACache aCache;
     String myid;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -192,6 +194,23 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
         //mAdapter = new UserAdapter(getActivity(), mGrilList);
         //display_big_image_layout.setVisibility(View.GONE);
+        mTempList.clear();
+        mTempList.addAll(mOurList);
+
+        ACache cache=ACache.get(APP.context);
+        ArrayList<RecommandModel> data = (ArrayList<RecommandModel>) cache.getAsObject("mSeletedList");
+
+        if (data!=null&&data.size()>0) {
+            mOurList.clear();
+            for (int i = 0; i < data.size(); i++)
+                mOurList.add(data.get(i));
+
+            for (int i = 0; i < mOurList.size(); i++) {
+                imageBigDatas = mOurList.get(i).getUcimg();
+                imageBigDatasList.add(imageBigDatas);
+            }
+            mSwipeFlingView.setImageBigDatasList(imageBigDatasList);
+        }
         mAdapter = new UserAdapter(getActivity(), mOurList);
         mSwipeFlingView.setAdapter(mAdapter);
         mSwipeFlingView.setOnSwipeFlingListener(this);//SimpleOnSwipeListener/OnSwipeListener
@@ -220,7 +239,8 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
         if (list == null || list.size() == 0) {
             return;
         }
-        tempList.addAll(list);
+        mTempList.clear();
+        mTempList.addAll(list);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -229,36 +249,53 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
             return;
         }
         mOurList.addAll(list);
+        mTempList.clear();
+        mTempList.addAll(mOurList);
         mAdapter.notifyDataSetChanged();
     }
 
     //筛选函数
     public ArrayList<RecommandModel> selectMethod(ArrayList<RecommandModel> mOurList, boolean[] selector){
-        tempList = mOurList;
+        mTempList.clear();
         //筛选性别
-        if(selector[1]){
-            for(int i = 0; i <tempList.size(); i++){
-                if(mOurList.get(i).getUserpublish().getSex() == "0") tempList.remove(i);
+        if (selector[1]) {
+            for (int i = 0; i < mOurList.size(); i++) {
+                if (mOurList.get(i).getUserpublish().getSex().equals("1"))
+                    mTempList.add(mOurList.get(i));
             }
-        }
-        else if(selector[2]){
-            for(int i = 0; i <tempList.size(); i++){
-                if(mOurList.get(i).getUserpublish().getSex() == "1") tempList.remove(i);
+        } else if (selector[2]) {
+            for (int i = 0; i < mOurList.size(); i++) {
+                if (mOurList.get(i).getUserpublish().getSex().equals("0"))
+                    mTempList.add(mOurList.get(i)); //筛选这里不对，remove之后下标也会有变化，然后后面需要进行判断不允许确定按下
             }
         }
         //筛选摄影师和模特
-        if(selector[4]){
-            for(int i = 0; i <tempList.size(); i++){
-                if(mOurList.get(i).getUserpublish().getUcategory() == "1") tempList.remove(i);
+        if (selector[4]) {
+            for (int i = 0; i < mOurList.size(); i++) {
+                if (mOurList.get(i).getUserpublish().getUcategory().equals("1"))
+                    mTempList.add(mOurList.get(i));
+                ;
+            }
+        } else if (selector[5]) {
+            for (int i = 0; i < mOurList.size(); i++) {
+                if (mOurList.get(i).getUserpublish().getUcategory().equals("2"))
+                    mTempList.add(mOurList.get(i));
             }
         }
-        else if(selector[5]){
-            for(int i = 0; i <tempList.size(); i++){
-                if(mOurList.get(i).getUserpublish().getUcategory() == "2") tempList.remove(i);
-            }
+
+        ArrayList<RecommandModel> arrayList = new ArrayList<>();
+        if(selector[0] && selector[3]){
+            arrayList.addAll(mOurList);
+//            updateOurSelectListView(arrayList);
+//            mSwipeFlingView.setOnItemClickListener(CardFragment.this);
         }
-        initView(tempList);
-        return tempList;
+        else{
+            arrayList.addAll(mTempList);
+//            updateOurSelectListView(arrayList);
+//            mSwipeFlingView.setOnItemClickListener(CardFragment.this);
+        }
+//        initView(mTempList);
+        return arrayList;
     }
 
 
@@ -382,9 +419,9 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                 category = userModel.getUcategory();
                 map.put("type", StatusCode.CHANGE_USER_CATEGORY);   //10852
                 map.put("authkey", authkey);
-                if (category == "摄影师") map.put("category", 1);
-                if (category == "模特") map.put("category", 2);
-                if (category == "两者都是") map.put("category", 12);
+                if (category.equals("摄影师")) map.put("category", 1);
+                if (category.equals("模特")) map.put("category", 2);
+                if (category.equals("两者都是")) map.put("category", 12);
                 requestFragment.httpRequest(map, CommonUrl.requestModel); //调试弹框需要注释掉这一句话，否则传到服务器后就不弹了
             }
         });
