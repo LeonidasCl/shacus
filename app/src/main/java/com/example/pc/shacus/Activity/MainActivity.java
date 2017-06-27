@@ -767,15 +767,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         cache.remove("mSelectedList");
                                         cache.put("mSelectedList",afterSelectRecommandModel,ACache.TIME_HOUR);
                                     }
-                                    fragmentTrs.remove(cardListFragment);
-                                    cardListFragment = new CardFragment();
+                                    //fragmentTrs.remove(cardListFragment);
+                                    fragmentTrs = fragmentMgr.beginTransaction();
+                                    CardFragment cardListFragment = new CardFragment();
 
                                     //fragmentTrs.commitAllowingStateLoss();
 
-                                    fragmentTrs.add(R.id.fl_content, cardListFragment);
-
+                                    fragmentTrs.replace(R.id.fl_content, cardListFragment);
+                                    fragmentTrs.commit();
                                     cardListFragment.setNavibar(navibar);
-                                    fragmentTrs.show(cardListFragment);
+                                    //fragmentTrs.show(cardListFragment);
                                 }
                             }
                         });

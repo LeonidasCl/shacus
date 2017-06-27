@@ -160,6 +160,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
     private boolean[] selector = {true, false,false,true,false,false};
     ArrayList<RecommandModel> mTempList = new ArrayList<>();
     ArrayList<RecommandModel> mMainList = new ArrayList<>();
+    ArrayList<RecommandModel> data;
 
     //like and unlike
     UserModel content;
@@ -186,7 +187,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
         ButterKnife.inject(this, rootView);
         initView();
-        requestOurList();
+        //requestOurList();
         return rootView;
     }
 
@@ -194,11 +195,17 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
 
         //mAdapter = new UserAdapter(getActivity(), mGrilList);
         //display_big_image_layout.setVisibility(View.GONE);
-        mTempList.clear();
-        mTempList.addAll(mOurList);
+//        mTempList.clear();
+//        mTempList.addAll(mOurList);
 
         ACache cache=ACache.get(APP.context);
-        ArrayList<RecommandModel> data = (ArrayList<RecommandModel>) cache.getAsObject("mSeletedList");
+        if(cache.getAsObject("mSelectedList") == null) {
+            data = new ArrayList<>();
+            data = (ArrayList<RecommandModel>) cache.getAsObject("mOurList");
+        }else{
+            data = new ArrayList<>();
+            data = (ArrayList<RecommandModel>) cache.getAsObject("mSelectedList");
+        }
 
         if (data!=null&&data.size()>0) {
             mOurList.clear();
@@ -210,6 +217,7 @@ public class CardFragment extends Fragment implements SwipeFlingView.OnSwipeFlin
                 imageBigDatasList.add(imageBigDatas);
             }
             mSwipeFlingView.setImageBigDatasList(imageBigDatasList);
+            mSwipeFlingView.setOnItemClickListener(CardFragment.this);
         }
         mAdapter = new UserAdapter(getActivity(), mOurList);
         mSwipeFlingView.setAdapter(mAdapter);
